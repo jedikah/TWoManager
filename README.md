@@ -1,4 +1,4 @@
-# Quasar App (eot_test)
+# Quasar App (TWO Manager)
 
 A Quasar Framework app
 
