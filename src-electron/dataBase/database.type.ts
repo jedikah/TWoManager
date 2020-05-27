@@ -1,11 +1,11 @@
 import { UserCollection } from './users/user.type';
 import * as RxDB from 'rxdb';
 
-type EotDatabaseCollections = {
+type TWoMDatabaseCollections = {
   user: UserCollection;
 };
 
-type EotDataBase = RxDB.RxDatabase<EotDatabaseCollections>;
+type TWoMDataBase = RxDB.RxDatabase<TWoMDatabaseCollections>;
 
-export default EotDataBase;
-export { EotDatabaseCollections };
+export default TWoMDataBase;
+export { TWoMDatabaseCollections };

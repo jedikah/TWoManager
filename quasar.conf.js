@@ -188,7 +188,7 @@ module.exports = configure(function(ctx) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'eot_test'
+        appId: 'two_manager'
       },
 
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration

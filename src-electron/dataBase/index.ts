@@ -13,7 +13,7 @@ import {
   userStaticMethods,
   userAttachmentDocMethods
 } from './users';
-import EotDatabase, { EotDatabaseCollections } from './database.type';
+import TWoMDatabase, { TWoMDatabaseCollections } from './database.type';
 
 RxDB.addRxPlugin(RxDBMigrationPlugin);
 RxDB.addRxPlugin(queryBuilder);
@@ -26,13 +26,15 @@ RxDB.addRxPlugin(RxDBEncryptionPlugin);
 const leveldown = require('leveldown');
 
 const dataBase = async (path: string) => {
-  const db: EotDatabase = await RxDB.createRxDatabase<EotDatabaseCollections>({
-    name: path + '/eotdb',
-    adapter: leveldown,
-    password: '1e@#/246zf4e8g)tr46',
-    multiInstance: false,
-    ignoreDuplicate: false
-  });
+  const db: TWoMDatabase = await RxDB.createRxDatabase<TWoMDatabaseCollections>(
+    {
+      name: path + '/TWoM',
+      adapter: leveldown,
+      password: '1e@#/246zf4e8g)tr46',
+      multiInstance: false,
+      ignoreDuplicate: false
+    }
+  );
 
   //Ajout de la collection user
   await db.collection({
