@@ -1,4 +1,5 @@
 //userDocType, userDocMethods, userCollectionMethods
+import * as base64 from 'base64-min';
 
 import { RxDocument } from 'rxdb';
 import { RxCollectionBase } from 'rxdb/dist/types/rx-collection';
@@ -14,16 +15,25 @@ type UserStaticMethodType = {
   createUser: (
     user: { IdUser: string; name: string; login: string; password: string },
     pdp?: string
-  ) => Promise<{}>;
-  getAllDocuments: () => Promise<{
-    length: number;
-    all: {
+  ) => Promise<{}> | Promise<string>;
+  getAllFullDocuments: () => Promise<{
+    allUsers: {
       IdUser: string;
       name: string;
       login: string;
       password: string;
     }[];
+    length: number;
   }>;
+  getAllDocuments: () => Promise<{
+    allUsers: {
+      IdUser: string;
+      name: string;
+    }[];
+    length: number;
+  }>;
+  login: (login: string, password: string) => Promise<{}>;
+  fileUploader: (src: string) => Promise<typeof base64>;
 };
 
 type UserSimpleMethodType = {

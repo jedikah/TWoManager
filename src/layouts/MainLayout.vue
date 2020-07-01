@@ -1,35 +1,26 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+  <q-layout view="lHh LpR fFf">
+    <q-header elevated class="bg-primary text-white">
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="leftDrawerOpen = !leftDrawerOpen"
-        />
+        <q-btn dense flat round icon="menu" @click="left = !left" />
 
         <q-toolbar-title>
-          Quasar App
+          <q-avatar>
+            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg" />
+          </q-avatar>
+          Title
         </q-toolbar-title>
 
-        <div>Quasar v{{ $q.version }}</div>
+        <q-btn dense flat round icon="menu" @click="right = !right" />
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-      content-class="bg-grey-1"
-    >
-      <q-list>
-        <q-item-label header class="text-grey-8">
-          Essential Links
-        </q-item-label>
-      </q-list>
+    <q-drawer show-if-above v-model="left" side="left" bordered>
+      <!-- drawer content -->
+    </q-drawer>
+
+    <q-drawer show-if-above v-model="right" side="right" bordered>
+      <!-- drawer content -->
     </q-drawer>
 
     <q-page-container>
@@ -38,16 +29,17 @@
   </q-layout>
 </template>
 
-<script>
-export default {
-  name: 'MainLayout',
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator';
+@Component({
+  name: 'MainLayout'
+})
+export default class MainLayout extends Vue {
+  private left = false;
+  private right = false;
 
-  components: {},
-
-  data() {
-    return {
-      leftDrawerOpen: false
-    };
+  mounted() {
+    console.log(this.left);
   }
-};
+}
 </script>

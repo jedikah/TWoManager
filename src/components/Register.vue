@@ -1,7 +1,12 @@
 <template>
-  <q-card flat bordered class="my-card">
+  <q-card
+    class="my-card"
+    style="height: 100%; background: white;  box-shadow: none"
+  >
     <q-card-section style="height: 50px">
-      <div class="text-h6 text-center">Creation de compte</div>
+      <div class="text-h6 text-center" style="color: #f2c037">
+        Créer un compte
+      </div>
     </q-card-section>
 
     <q-separator inset />
@@ -9,7 +14,7 @@
     <q-card-section>
       <div class="q-pa-md">
         <q-form @submit.prevent="handleSubmit" class="q-gutter-md col">
-          <div class="row">
+          <div class="column">
             <!--
               SECTION PDP
             -->
@@ -32,10 +37,11 @@
               <!--File chooser-->
               <q-file
                 :dense="true"
-                filled
+                outlined
                 bottom-slots
                 v-model="pdpSrc"
-                label="Label"
+                label-color="orange"
+                label="Cliquer pour choisir une photo de profil"
                 accept=".jpg, .png"
                 counter
               >
@@ -53,24 +59,18 @@
                     />
                   </q-avatar>
                 </template>
-
-                <template v-slot:hint>
-                  Field hint
-                </template>
-
-                <template v-slot:after>
-                  <q-btn round dense flat icon="send" />
-                </template>
               </q-file>
             </div>
 
             <!--
               SECTION FORMULAIRE
             -->
-            <div class=" col-8" style="padding-top: 15px">
+            <div class="row col-8">
               <q-input
+                class="col-12"
                 :dense="true"
-                filled
+                outlined
+                label-color="orange"
                 v-model="name"
                 label="Votre nom *"
                 hint="Nom complet"
@@ -81,8 +81,11 @@
               />
 
               <q-input
+                class="col-6"
                 :dense="true"
-                filled
+                outlined
+                color="grey-3"
+                label-color="orange"
                 v-model="login"
                 label="Votre login *"
                 hint="Indentifiant de connexion"
@@ -90,11 +93,17 @@
                 :rules="[
                   val => (val && val.length > 0) || 'Le champ est obligatoir'
                 ]"
-              />
+              >
+                <template v-slot:append>
+                  <q-icon name="account_circle" color="orange" />
+                </template>
+              </q-input>
 
               <q-input
+                class="col-6"
                 :dense="true"
-                filled
+                outlined
+                label-color="orange"
                 lazy-rules
                 label="Mot de passe *"
                 v-model="password"
@@ -107,6 +116,7 @@
                 <template v-slot:append>
                   <q-icon
                     :name="!pwdVisible ? 'visibility_off' : 'visibility'"
+                    color="orange"
                     class="cursor-pointer"
                     @click="pwdVisible = !pwdVisible"
                   />
@@ -115,25 +125,31 @@
             </div>
           </div>
 
-          <div class="row justify-end" style="">
-            <q-btn label="Enregistrer" type="submit" color="primary" />
-            <q-btn
-              flat
-              @click="reset"
-              label="Reset"
-              type="reset"
-              color="primary"
-              class="q-ml-sm"
-            />
+          <div class=" full-width" style="">
+            <q-btn-group
+              class=" full-width"
+              style=" box-shadow: none"
+              spread
+              push
+            >
+              <q-btn
+                color="amber"
+                text-color="black"
+                type="submit"
+                push
+                label="Enregistrer"
+              />
+              <q-btn
+                color="orange"
+                text-color="black"
+                type="reset"
+                @click="reset"
+                push
+                label="Reset"
+              />
+            </q-btn-group>
           </div>
         </q-form>
-        <q-btn
-          no-caps
-          unelevated
-          color="positive"
-          @click="triggerPositive"
-          label="Trigger 'positive'"
-        />
       </div>
     </q-card-section>
   </q-card>
@@ -142,8 +158,6 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import * as base64 from 'base64-min';
-const Store = require('electron-store');
-const store = new Store();
 
 @Component
 export default class Register extends Vue {
@@ -163,15 +177,7 @@ export default class Register extends Vue {
     console.log(this.pdpPath);
   }
   mounted() {
-    const register = store.get('register');
-
-    if (register) {
-      this.name = register.name;
-      this.login = register.login;
-      this.password = register.password;
-    }
-
-    console.log(this.pdpSrc);
+    //
   }
 
   reset() {
@@ -179,16 +185,11 @@ export default class Register extends Vue {
     this.login = '';
     this.password = '';
   }
-  saveAdminInfo() {
-    store.set('register', {
-      name: this.name,
-      login: this.login,
-      password: this.password
-    });
-    if (this.b64) store.set('pdp', this.pdpPath);
+  saveCountInfo() {
+    //
   }
   handleSubmit() {
-    this.saveAdminInfo();
+    this.saveCountInfo();
     this.triggerPositive();
     this.$emit('onSubmit');
   }

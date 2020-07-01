@@ -31,7 +31,6 @@
         <br />
       </q-card-section>
     </q-card>
-    <q-btn @click="del()">delete</q-btn>
   </div>
 </template>
 
@@ -52,12 +51,6 @@ export default class DBPathSelector extends Vue {
 
   mounted() {
     // console.log(store.get('path').replace(/\//g, '\\'));
-  }
-
-  del() {
-    store.delete('path');
-    store.delete('register');
-    store.delete('pdp');
   }
 
   openDirectory() {

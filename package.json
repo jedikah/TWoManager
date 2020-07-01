@@ -27,16 +27,19 @@
     "image-to-base64": "^2.1.0",
     "leveldown": "^5.6.0",
     "node-static": "^0.7.11",
+    "normalizr": "^3.6.0",
     "pouchdb-adapter-leveldb": "^7.2.1",
     "pouchdb-adapter-memory": "^7.2.1",
     "pouchdb-adapter-snappy": "^0.0.2",
+    "qrcode": "^1.4.4",
     "quasar": "^1.9.5",
     "rxdb": "^9.0.0",
     "rxdb-util": "^0.0.1",
     "rxjs": "^6.5.5",
     "vue-class-component": "^7.2.2",
     "vue-i18n": "^8.0.0",
-    "vue-property-decorator": "^8.3.0"
+    "vue-property-decorator": "^8.3.0",
+    "vuex-class": "^0.3.2"
   },
   "devDependencies": {
     "@quasar/app": "^1.6.2",

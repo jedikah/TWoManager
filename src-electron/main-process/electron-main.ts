@@ -62,13 +62,16 @@ function createWindow() {
 
 app.on('ready', () => {
   const path = store.get('path') || null;
-
+  // store.delete('path');
+  // store.delete('register');
+  // store.delete('pdp');
   (async () => {
     if (path) {
       global.db = await dataBase(path); //connection à la base de donnée quand path exist
 
       const register = store.get('register') || null;
       const pdp = store.get('pdp') || null;
+      console.log('register = ', register);
       if (typeof register === typeof Object()) {
         //enregistre l'utilisateur du premier demerrege dans le DB
         console.log('********: ');
@@ -91,6 +94,7 @@ app.on('ready', () => {
         console.log('in statics.method.ts : res = ', res);
         store.set('register', 'finished'); //supprimer
         if (pdp) store.delete('pdp'); //supprimer apres enregistrement
+        console.log('save ok');
       }
     }
 

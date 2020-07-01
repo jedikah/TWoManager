@@ -1,7 +1,10 @@
 <template>
-  <q-card flat bordered class="my-card">
+  <q-card
+    class="my-card"
+    style="height: 100%; background: white; box-shadow: none"
+  >
     <q-card-section style="height: 50px">
-      <div class="text-h6 text-center">Authentification</div>
+      <div class="text-h6 text-center" style="color: #f2c037">S'identifier</div>
     </q-card-section>
 
     <q-separator inset />
@@ -12,10 +15,12 @@
           <!--
               SECTION FORMULAIRE
             -->
-          <div class=" col-8" style="padding-top: 15px">
+          <div class=" col-8" style="padding-top: 15px; margin-">
             <q-input
               :dense="true"
-              filled
+              outlined
+              color="grey-3"
+              label-color="orange"
               v-model="login"
               label="Votre login *"
               hint="Indentifiant de connexion"
@@ -23,11 +28,16 @@
               :rules="[
                 val => (val && val.length > 0) || 'Le champ est obligatoir'
               ]"
-            />
-
+            >
+              <template v-slot:append>
+                <q-icon name="account_circle" color="orange" />
+              </template>
+            </q-input>
             <q-input
               :dense="true"
-              filled
+              outlined
+              color="grey-3"
+              label-color="orange"
               lazy-rules
               label="Mot de passe *"
               v-model="password"
@@ -40,6 +50,7 @@
               <template v-slot:append>
                 <q-icon
                   :name="!pwdVisible ? 'visibility_off' : 'visibility'"
+                  color="orange"
                   class="cursor-pointer"
                   @click="pwdVisible = !pwdVisible"
                 />
@@ -48,7 +59,25 @@
           </div>
 
           <div class="row justify-center" style="">
-            <q-btn label="Valider" type="submit" color="primary" />
+            <q-btn-group
+              class=" full-width"
+              style=" box-shadow: none"
+              spread
+              push
+            >
+              <q-btn
+                label="Valider"
+                type="submit"
+                color="amber"
+                text-color="black"
+              />
+              <q-btn
+                label="Reset"
+                color="orange"
+                text-color="black"
+                @click="reset()"
+              />
+            </q-btn-group>
           </div>
         </q-form>
       </div>
@@ -57,63 +86,67 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator';
-import * as base64 from 'base64-min';
-const Store = require('electron-store');
-const store = new Store();
+import { Component, Vue } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+import { LoginInput } from 'src/store/user/types';
 
-@Component
-export default class Register extends Vue {
-  private name = '';
+import { User } from 'src/models/types';
+import { Session } from 'src/store/user/types';
+
+const user = namespace('user');
+
+@Component({ name: 'Login' })
+export default class Login extends Vue {
   private login = '';
   private password = '';
   private pwdVisible = false;
-  private pdpPath = '';
-  private pdpSrc: { path: string } | null = null;
-  private b64 = null;
 
-  @Watch('pdpSrc')
-  nameChanged(pdpSrc: { path: string }) {
-    this.pdpPath = pdpSrc.path;
+  @user.State
+  public loadingUser: boolean;
 
-    this.b64 = base64.encodeFile(pdpSrc.path);
-    console.log(this.pdpPath);
-  }
+  @user.State
+  public session: Session;
+
+  @user.Getter
+  public users: User[];
+
+  @user.Action
+  public initUsers: () => void;
+
+  @user.Action
+  public loginAct: (loginInput: LoginInput) => Promise<void>;
+
   mounted() {
-    const register = store.get('register');
+    this.initUsers();
 
-    if (register) {
-      this.name = register.name;
-      this.login = register.login;
-      this.password = register.password;
-    }
-
-    console.log(this.pdpSrc);
+    console.log({ loadingUser: this.loadingUser });
   }
 
   reset() {
-    this.name = '';
     this.login = '';
     this.password = '';
   }
-  saveAdminInfo() {
-    store.set('register', {
-      name: this.name,
-      login: this.login,
-      password: this.password
-    });
-    if (this.b64) store.set('pdp', this.pdpPath);
-  }
-  handleSubmit() {
-    this.saveAdminInfo();
-    this.triggerPositive();
+
+  async handleSubmit() {
+    await this.loginAct({ login: this.login, password: this.password });
+    if (this.session.IdUser) {
+      this.triggerPositive();
+      this.$router.push('/main');
+    } else this.triggerNegative();
     this.$emit('onSubmit');
   }
 
   triggerPositive() {
     this.$q.notify({
       type: 'positive',
-      message: 'Enregistrement reussi, vous pouvez terminer'
+      message: 'Login et mot de passe correct!'
+    });
+  }
+
+  triggerNegative() {
+    this.$q.notify({
+      type: 'negative',
+      message: 'Login ou mot de passe incorrect!'
     });
   }
 }
