@@ -3,7 +3,6 @@
   "version": "0.0.1",
   "description": "A Quasar Framework app",
   "productName": "Quasar App",
-  "cordovaId": "org.cordova.quasar.app",
   "capacitorId": "",
   "author": "Jedika <jekjedika@gmail.com>",
   "private": true,
@@ -22,6 +21,8 @@
     "asar": "^3.0.3",
     "base64-min": "^2.0.0",
     "child_process": "^1.0.2",
+    "copy-webpack-plugin": "^6.0.3",
+    "core-js": "3.0.0",
     "electron-store": "^5.1.1",
     "http": "^0.0.1-security",
     "image-to-base64": "^2.1.0",
@@ -32,17 +33,18 @@
     "pouchdb-adapter-memory": "^7.2.1",
     "pouchdb-adapter-snappy": "^0.0.2",
     "qrcode": "^1.4.4",
-    "quasar": "^1.9.5",
+    "quasar": "^1.12.8",
     "rxdb": "^9.0.0",
     "rxdb-util": "^0.0.1",
     "rxjs": "^6.5.5",
     "vue-class-component": "^7.2.2",
     "vue-i18n": "^8.0.0",
     "vue-property-decorator": "^8.3.0",
-    "vuex-class": "^0.3.2"
+    "vuex-class": "^0.3.2",
+    "webpack-html-plugin": "^0.1.1"
   },
   "devDependencies": {
-    "@quasar/app": "^1.6.2",
+    "@quasar/app": "2.0.0",
     "@quasar/quasar-app-extension-typescript": "^1.0.1",
     "@types/node": "^10.17.15",
     "@typescript-eslint/eslint-plugin": "^2.17.0",
@@ -64,9 +66,16 @@
     "yarn": ">= 1.21.1"
   },
   "browserslist": [
-    "last 1 version, not dead, ie >= 11"
+    "last 1 version, not dead, ie >= 11",
+    "last 10 Chrome versions",
+    "last 10 Firefox versions",
+    "last 4 Edge versions",
+    "last 7 Safari versions",
+    "last 8 Android versions",
+    "last 8 ChromeAndroid versions",
+    "last 8 FirefoxAndroid versions",
+    "last 10 iOS versions",
+    "last 5 Opera versions"
   ],
-  "resolutions": {
-    "@babel/parser": "7.7.5"
-  }
+  "resolutions": {}
 }

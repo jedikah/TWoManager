@@ -21,12 +21,12 @@ try {
 } catch (_) {}
 
 /**
- * Set `__statics` path to static files in production;
+ * Set `__` path to static files in production;
  * The reason we are setting it here is that the path needs to be evaluated at runtime
  */
 if (process.env.PROD) {
-  global.__statics = require('path')
-    .join(__dirname, 'statics')
+  global.__ = require('path')
+    .join(__dirname, '')
     .replace(/\\/g, '\\\\');
 }
 
@@ -91,7 +91,7 @@ app.on('ready', () => {
           },
           pdp
         );
-        console.log('in statics.method.ts : res = ', res);
+        console.log('in .method.ts : res = ', res);
         store.set('register', 'finished'); //supprimer
         if (pdp) store.delete('pdp'); //supprimer apres enregistrement
         console.log('save ok');

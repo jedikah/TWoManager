@@ -119,7 +119,7 @@ export default class Login extends Vue {
   mounted() {
     this.initUsers();
 
-    console.log({ loadingUser: this.loadingUser });
+    console.log({ loadingUser: this.loadingUser, session: this.session });
   }
 
   reset() {

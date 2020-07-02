@@ -14,7 +14,7 @@ declare module 'quasar/dist/types/feature-flag' {
 declare global {
   namespace NodeJS {
     interface Global {
-      __statics: NodeRequire;
+      __: NodeRequire;
       db: TWoMDatabase;
       win: BrowserWindow;
     }
