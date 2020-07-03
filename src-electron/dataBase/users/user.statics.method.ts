@@ -50,9 +50,11 @@ const userStaticMethods: UserStaticMethodType = {
     const user = await this.findOne({
       selector: { login: login.toLocaleLowerCase(), password }
     }).exec();
+    let see = { IdUser: null, name: null, login: null, password: null };
 
-    if (user) return user.see();
-    return user || { IdUser: null, name: null, login: null, password: null };
+    if (user) see = user.see();
+
+    return see;
   },
   fileUploader: async (src: string) => {
     const b64 = await Promise.resolve(base64.encodeFile(src));

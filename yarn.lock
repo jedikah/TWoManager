@@ -1725,6 +1725,11 @@ acorn@^7.1.1:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.2.0.tgz#17ea7e40d7c8640ff54a694c889c26f31704effe"
   integrity sha512-apwXVmYVpQ34m/i71vrApRrRKCWQnZZF1+npOD0WV5xZFfwWOmKGQ2RWlfdy9vWITsenisM8M0Qeq8agcFHNiQ==
 
+aes-js@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/aes-js/-/aes-js-3.1.2.tgz#db9aabde85d5caabbfc0d4f2a4446960f627146a"
+  integrity sha512-e5pEa2kBnBOgR4Y/p20pskXI74UEz7de8ZGVo58asOtvSVG5YAbJeELPZxOmt+Bnz3rX753YKhfIn4X4l1PPRQ==
+
 aggregate-error@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/aggregate-error/-/aggregate-error-3.0.1.tgz#db2fe7246e536f40d9b5442a39e117d7dd6a24e0"
@@ -3654,7 +3659,7 @@ debounce-fn@^3.0.1:
   dependencies:
     mimic-fn "^2.1.0"
 
-debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.8, debug@^2.6.9:
+debug@2.6.9, debug@^2.1.3, debug@^2.2.0, debug@^2.3.3, debug@^2.6.8, debug@^2.6.9:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.9.tgz#5d128515df134ff327e90a4c93f4e077a536341f"
   integrity sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==
@@ -4947,6 +4952,18 @@ find-up@^4.0.0, find-up@^4.1.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
+findhit-class@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/findhit-class/-/findhit-class-0.1.1.tgz#1b73a0a9a55eae2ddac766d2197e1606790ac56e"
+  integrity sha1-G3OgqaVeri3ax2bSGX4WBnkKxW4=
+  dependencies:
+    findhit-util ">=0.2.1"
+
+findhit-util@>=0.2.1, findhit-util@^0.2.7:
+  version "0.2.9"
+  resolved "https://registry.yarnpkg.com/findhit-util/-/findhit-util-0.2.9.tgz#b30221eccacb95b0477a326c07c6037f7c06ffaf"
+  integrity sha1-swIh7MrLlbBHejJsB8YDf3wG/68=
+
 findup@^0.1.5:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/findup/-/findup-0.1.5.tgz#8ad929a3393bac627957a7e5de4623b06b0e2ceb"
@@ -5786,6 +5803,11 @@ icss-utils@^4.0.0, icss-utils@^4.1.1:
   dependencies:
     postcss "^7.0.14"
 
+idle-session-timeout@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/idle-session-timeout/-/idle-session-timeout-1.0.1.tgz#011b64b604b3d14688b939135241354f727d494f"
+  integrity sha512-+R15gAepm7sYD3v9kPMmAjZNIyKXBVi8NUsAfhJ6JC2aeoJ60vrNtPm/Yp1Oq+g1NB8E2zBn/IpCFFEoyo0Fdw==
+
 ieee754@^1.1.4:
   version "1.1.13"
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.1.13.tgz#ec168558e95aa181fd87d37f55c32bbcb6708b84"
@@ -6457,6 +6479,11 @@ js-sha3@0.8.0:
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/js-sha3/-/js-sha3-0.8.0.tgz#b9b7a5da73afad7dedd0f8c463954cbde6818840"
   integrity sha512-gF1cRrHhIzNfToc802P800N8PpXS+evLLXfsVpowqmAFR9uwbi89WvXg2QspOmXL8QL86J4T1EpFu+yUkwJY3Q==
+
+js-sha512@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/js-sha512/-/js-sha512-0.8.0.tgz#dd22db8d02756faccf19f218e3ed61ec8249f7d4"
+  integrity sha512-PWsmefG6Jkodqt+ePTvBZCSMFgN7Clckjd0O7su3I0+BW2QWUTJNzjktHsztGLhncP2h8mcF9V9Y2Ha59pAViQ==
 
 "js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
@@ -7855,6 +7882,14 @@ obuf@^1.0.0, obuf@^1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/obuf/-/obuf-1.1.2.tgz#09bea3343d41859ebd446292d11c9d4db619084e"
   integrity sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==
+
+offline-token-generator@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/offline-token-generator/-/offline-token-generator-1.0.2.tgz#f3bd32062657307c4d27e8e6d01decb528380a83"
+  integrity sha512-7fz5bboaAoMdBNlmBr4muijNI0ORWqjUhmBDpZ6mbDqAo3j+D1ip53Ul9NCg3FtOuBksYeXcriPkf7GjSDjVNQ==
+  dependencies:
+    aes-js "^3.1.2"
+    js-sha512 "^0.8.0"
 
 on-finished@~2.3.0:
   version "2.3.0"
@@ -10931,6 +10966,15 @@ toidentifier@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.0.tgz#7e1be3470f1e77948bc43d94a3c8f4d7752ba553"
   integrity sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
+
+token-generator@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/token-generator/-/token-generator-1.0.0.tgz#797da9cd67ad74c53e10530e287cecff85a5305c"
+  integrity sha1-eX2pzWetdMU+EFMOKHzs/4WlMFw=
+  dependencies:
+    debug "^2.1.3"
+    findhit-class "^0.1.1"
+    findhit-util "^0.2.7"
 
 tough-cookie@^2.3.1, tough-cookie@^2.3.3, tough-cookie@~2.5.0:
   version "2.5.0"

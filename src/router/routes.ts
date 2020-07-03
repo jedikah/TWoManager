@@ -3,16 +3,20 @@ import { RouteConfig } from 'vue-router';
 const Store = require('electron-store');
 const store = new Store();
 
-let index;
-console.log('register = ', store.get('register'));
-if (store.get('register') === 'finished')
+let index, simpleLayout;
+
+if (store.get('register') === 'finished') {
   index = () => import('pages/Index.vue');
-else index = () => import('pages/Index0.vue');
+  simpleLayout = () => import('layouts/SimpleLayout.vue');
+} else {
+  index = () => import('pages/Index0.vue');
+  simpleLayout = () => import('layouts/SimpleLayout0.vue');
+}
 
 const routes: RouteConfig[] = [
   {
     path: '/',
-    component: () => import('layouts/SimpleLayout.vue'),
+    component: simpleLayout,
     children: [{ path: '', component: index }]
   },
   {

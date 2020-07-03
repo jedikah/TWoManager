@@ -32,12 +32,25 @@ type UserStaticMethodType = {
     }[];
     length: number;
   }>;
-  login: (login: string, password: string) => Promise<{}>;
+  login: (
+    login: string,
+    password: string
+  ) => Promise<{
+    IdUser: string;
+    name: string;
+    login: string;
+    password: string;
+  } | null>;
   fileUploader: (src: string) => Promise<typeof base64>;
 };
 
 type UserSimpleMethodType = {
-  see: () => {};
+  see: () => {
+    IdUser: string;
+    name: string;
+    login: string;
+    password: string;
+  };
   savePDP: (data: string) => Promise<string>;
 };
 

@@ -91,7 +91,9 @@ import { namespace } from 'vuex-class';
 import { LoginInput } from 'src/store/user/types';
 
 import { User } from 'src/models/types';
+import userQuery from 'src/models/query/user';
 import { Session } from 'src/store/user/types';
+import userSession from 'src/module/session.module';
 
 const user = namespace('user');
 
@@ -100,6 +102,7 @@ export default class Login extends Vue {
   private login = '';
   private password = '';
   private pwdVisible = false;
+  private t: string;
 
   @user.State
   public loadingUser: boolean;
@@ -128,8 +131,21 @@ export default class Login extends Vue {
   }
 
   async handleSubmit() {
-    await this.loginAct({ login: this.login, password: this.password });
-    if (this.session.IdUser) {
+    const { IdUser, name, login, password } = await userQuery.login(
+      this.login,
+      this.password
+    );
+
+    userSession.generateTokenToStore({ IdUser, name, login, password });
+    const isStarted = userSession.start(
+      tokenIsExpired => {},
+      time => {
+        const t = Math.round(time / 1000);
+        if (userSession.isMultipleof30(t)) console.log(t);
+      }
+    );
+
+    if (isStarted) {
       this.triggerPositive();
       this.$router.push('/main');
     } else this.triggerNegative();
