@@ -98,27 +98,23 @@ app.on('ready', () => {
       }
     }
 
-    const isDev = require('electron-is-dev');
     const path = require('path');
+    const isDev = require('electron-is-dev');
+    let file = 'fofifa.asar/index.js';
 
-    let file = '';
+    if (isDev) file = 'fofifa';
 
-    if (isDev) {
-      file = 'fofifa/index.js';
-    } else {
-      file = path.join(__dirname, '/../fofifa/index.js');
-    }
-
-    const fs = require('fs');
-    const out = fs.openSync('./out.log', 'a'),
-      err = fs.openSync('./out.log', 'a');
-
-    const { spawn } = require('child_process');
-    const forked = spawn('node', [file], {
+    const { fork } = require('child_process');
+    const forked = fork(file, [], {
+      cwd: path.join(__dirname, '../backend'),
       shell: true,
-      detached: true,
-      stdio: ['ignore', out, err]
+      stdio: ['inherit', 'inherit', 'inherit', 'ipc']
     });
+
+    forked.send({ port: 4000 });
+    forked.on('message', ({ message }) => console.log(message));
+    forked.unref();
+
     createWindow();
   })();
 });
