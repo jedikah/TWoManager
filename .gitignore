@@ -5,16 +5,16 @@ node_modules
 # Quasar core related directories
 .quasar
 /dist
-/build
-/dist
-/fofifa
-/src-electron/fofifa
-/src-electron/backend/**/*
-# Cordova related directories and files
-/src-cordova/node_modules
-/src-cordova/platforms
-/src-cordova/plugins
-/src-cordova/www
+/src-electron/backend/fofifa.asar
+# /build
+# /fofifa
+# /src-electron/fofifa
+# /src-electron/backend/**/*
+# # Cordova related directories and files
+# /src-cordova/node_modules
+# /src-cordova/platforms
+# /src-cordova/plugins
+# /src-cordova/www
 
 # Capacitor related directories and files
 /src-capacitor/www
