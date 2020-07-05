@@ -137,13 +137,10 @@ export default class Login extends Vue {
     );
 
     userSession.generateTokenToStore({ IdUser, name, login, password });
-    const isStarted = userSession.start(
-      tokenIsExpired => {},
-      time => {
-        const t = Math.round(time / 1000);
-        if (userSession.isMultipleof30(t)) console.log(t);
-      }
-    );
+    const isStarted = userSession.start(time => {
+      const t = Math.round(time / 1000);
+      if (userSession.isMultipleof30(t)) console.log(t);
+    });
 
     if (isStarted) {
       this.triggerPositive();

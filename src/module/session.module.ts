@@ -1,7 +1,6 @@
 import { IdleSessionTimeout } from 'idle-session-timeout';
 
 import OfflineTokenGen from './offlineTokenGen';
-import { time } from 'console';
 
 const Store = require('electron-store');
 const store = new Store();
@@ -65,8 +64,8 @@ const onTimeOut = (callback: (isExpired: boolean) => void) =>
   });
 
 const start = (
-  onTimeOutCallback?: (tokenIsExpired: boolean) => void,
-  onTimeOutChangeCallback?: (time: number) => void
+  onTimeOutChangeCallback?: (time: number) => void,
+  onTimeOutCallback?: (tokenIsExpired: boolean) => void
 ) => {
   const token = store.get('token') || null;
 

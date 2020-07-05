@@ -1,4 +1,4 @@
-import { app, BrowserWindow, nativeTheme } from 'electron';
+import { app, BrowserWindow, nativeTheme, dialog } from 'electron';
 
 import dataBase from '../dataBase';
 
@@ -61,13 +61,13 @@ function createWindow() {
 }
 
 app.on('ready', () => {
-  const path = store.get('path') || null;
-  // store.delete('path');
+  const pathStore = store.get('path') || null;
+  // store.delete('pathStore');
   // store.delete('register');
   // store.delete('pdp');
   (async () => {
-    if (path) {
-      global.db = await dataBase(path); //connection à la base de donnée quand path exist
+    if (pathStore) {
+      global.db = await dataBase(pathStore); //connection à la base de donnée quand path exist
 
       const register = store.get('register') || null;
       const pdp = store.get('pdp') || null;
@@ -98,6 +98,27 @@ app.on('ready', () => {
       }
     }
 
+    const isDev = require('electron-is-dev');
+    const path = require('path');
+
+    let file = '';
+
+    if (isDev) {
+      file = 'fofifa/index.js';
+    } else {
+      file = path.join(__dirname, '/../fofifa/index.js');
+    }
+
+    const fs = require('fs');
+    const out = fs.openSync('./out.log', 'a'),
+      err = fs.openSync('./out.log', 'a');
+
+    const { spawn } = require('child_process');
+    const forked = spawn('node', [file], {
+      shell: true,
+      detached: true,
+      stdio: ['ignore', out, err]
+    });
     createWindow();
   })();
 });

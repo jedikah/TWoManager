@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */ /* eslint-disable
+@typescript-eslint/no-unused-vars */
 <template>
   <div id="q-app">
     <router-view />
@@ -6,7 +8,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import Query from './models/query/user';
+// import Query from './models/query/user';
 
 @Component({ name: 'App' })
 export default class App extends Vue {

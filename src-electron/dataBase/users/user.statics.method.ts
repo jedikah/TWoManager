@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { user } from './../../../src/store/user/index';
 import { UserStaticMethodType, UserCollection } from './user.type';
 import * as base64 from 'base64-min';
