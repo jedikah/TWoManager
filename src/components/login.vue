@@ -86,13 +86,12 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 import { LoginInput } from 'src/store/user/types';
 
 import { User } from 'src/models/types';
 import userQuery from 'src/models/query/user';
-import { Session } from 'src/store/user/types';
 import userSession from 'src/module/session.module';
 
 const user = namespace('user');
@@ -102,27 +101,12 @@ export default class Login extends Vue {
   private login = '';
   private password = '';
   private pwdVisible = false;
-  private t: string;
-
-  @user.State
-  public loadingUser: boolean;
-
-  @user.State
-  public session: Session;
-
-  @user.Getter
-  public users: User[];
 
   @user.Action
-  public initUsers: () => void;
-
-  @user.Action
-  public loginAct: (loginInput: LoginInput) => Promise<void>;
+  public setSession: (session: string) => void;
 
   mounted() {
-    this.initUsers();
-
-    console.log({ loadingUser: this.loadingUser, session: this.session });
+    console.log(this.$route.path);
   }
 
   reset() {
@@ -136,15 +120,18 @@ export default class Login extends Vue {
       this.password
     );
 
-    userSession.generateTokenToStore({ IdUser, name, login, password });
-    const isStarted = userSession.start(time => {
-      const t = Math.round(time / 1000);
-      if (userSession.isMultipleof30(t)) console.log(t);
-    });
+    const isStarted = await Promise.resolve(
+      userSession.start(this, {
+        IdUser,
+        name,
+        login,
+        password
+      })
+    );
 
     if (isStarted) {
       this.triggerPositive();
-      this.$router.push('/main');
+      this.setSession('connected');
     } else this.triggerNegative();
     this.$emit('onSubmit');
   }

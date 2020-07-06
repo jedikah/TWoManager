@@ -5,15 +5,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
+import userSession from 'src/module/session.module';
 
 @Component({
-  name: 'WorkSpace',
-  components: {
-    Login: require('src/components/Login.vue').default,
-    Register: require('src/components/Register.vue').default,
-    fileUploader: require('src/components/FileUploder').default
-  }
+  name: 'WorkSpace'
 })
 export default class WorkSpace extends Vue {}
 </script>

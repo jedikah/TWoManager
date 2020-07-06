@@ -21,9 +21,12 @@ import userSession from 'src/module/session.module';
 })
 export default class SimpleLayout extends Vue {
   mounted() {
-    const check = userSession.start();
-    if (check) this.$router.push('/main');
-    else if (this.$router.currentRoute.path !== '/') this.$router.push('/');
+    userSession.start(this, {
+      IdUser: null,
+      name: null,
+      login: null,
+      password: null
+    });
   }
 }
 </script>

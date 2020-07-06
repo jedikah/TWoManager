@@ -98,27 +98,6 @@ app.on('ready', () => {
       }
     }
 
-    const isDev = require('electron-is-dev');
-    const path = require('path');
-
-    let file = '';
-
-    if (isDev) {
-      file = 'fofifa/index.js';
-    } else {
-      file = path.join(__dirname, '/../fofifa/index.js');
-    }
-
-    const fs = require('fs');
-    const out = fs.openSync('./out.log', 'a'),
-      err = fs.openSync('./out.log', 'a');
-
-    const { spawn } = require('child_process');
-    const forked = spawn('node', [file], {
-      shell: true,
-      detached: true,
-      stdio: ['ignore', out, err]
-    });
     createWindow();
   })();
 });

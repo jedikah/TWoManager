@@ -11,8 +11,12 @@ const store = new Store();
 const session = new IdleSessionTimeout(5 * 60 * 1000);
 const otg = new OfflineTokenGen();
 
+const getTokenStore = () => {
+  return store.get('token') || null;
+};
+
 const getTokenData = (token: string) => {
-  const data = otg.read(token);
+  const data = otg.read(token) || null;
   return data;
 };
 
@@ -22,7 +26,7 @@ const generateTokenToStore = (user: {
   login: string;
   password: string;
 }) => {
-  const getToken = store.get('token');
+  const getToken = getTokenStore();
   let tokenIsValid = false;
 
   if (getToken) {
@@ -41,59 +45,10 @@ const timeOutAt = session.getTimeLeft();
 
 const onTimeOutChange = (callback: (time: number) => void) => {
   session.onTimeLeftChange = timeLeft => {
-    callback(timeLeft);
+    const t = Math.round(timeLeft / 1000);
+
+    callback(t);
   };
-};
-
-const onTimeOut = (callback: (isExpired: boolean) => void) =>
-  (session.onTimeOut = () => {
-    const token = store.get('token');
-    let tokenIsExpired = true;
-
-    if (token) {
-      const check = getTokenData(token);
-      if (check) {
-        tokenIsExpired = false;
-      }
-    } else {
-      console.log('Not have a token');
-    }
-    console.log('time out');
-
-    callback(tokenIsExpired);
-  });
-
-const start = (
-  onTimeOutChangeCallback?: (time: number) => void,
-  onTimeOutCallback?: (tokenIsExpired: boolean) => void
-) => {
-  const token = store.get('token') || null;
-
-  let isStarted = false;
-
-  if (token) {
-    const data = getTokenData(token);
-
-    if (data) {
-      onTimeOut(isExp => {
-        if (isExp) this.$router.push('/');
-        else this.$router.push('/main');
-        if (onTimeOutCallback) onTimeOutCallback(isExp);
-      });
-
-      if (onTimeOutChangeCallback)
-        onTimeOutChange(t => {
-          onTimeOutChangeCallback(t);
-        });
-      session.start();
-      isStarted = true;
-    } else console.log('Expired token!');
-  } else console.log('Not have a token');
-  return isStarted;
-};
-
-const stop = () => {
-  session.dispose();
 };
 
 const isMultipleof30 = (n: number) => {
@@ -104,13 +59,66 @@ const isMultipleof30 = (n: number) => {
   return false;
 };
 
+const stop = () => {
+  session.dispose();
+  store.delete('token');
+};
+
+const start = (
+  { $router, $route },
+  user?: { IdUser: string; name: string; login: string; password: string }
+) => {
+  const token = store.get('token') || null;
+
+  let isStarted = false;
+
+  if (token) {
+    const tokenData = getTokenData(token);
+    isStarted = true;
+
+    if (!tokenData && $route.path !== '/' && user.IdUser) {
+      generateTokenToStore(user);
+      session.dispose();
+    } else if (tokenData && $route.path !== '/') {
+      $router.push('/');
+      session.dispose();
+    } else if (tokenData && $route.path === '/') {
+      $router.push('/main');
+    } else if (!tokenData && $route.path === '/' && user.IdUser) {
+      generateTokenToStore(user);
+      $router.push('/main');
+    } else isStarted = false;
+  } else if (!token && $route.path === '/' && user.IdUser) {
+    generateTokenToStore(user);
+    isStarted = true;
+    $router.push('/main');
+  }
+  if (isStarted) {
+    session.onTimeOut = () => {
+      if (!getTokenData(token)) $router.push('/');
+      isStarted = true;
+      stop();
+    };
+
+    session.onTimeLeftChange = time => {
+      const t = Math.round(time / 1000);
+      if (isMultipleof30(t)) console.log(t);
+    };
+    session.start();
+  }
+
+  console.log('started: ', isStarted);
+  return isStarted;
+};
+
 export default {
+  getTokenStore,
+  onTimeOut: session.onTimeOut,
   isMultipleof30,
   generateTokenToStore,
   start,
   getTokenData,
   onTimeOutChange,
   timeOutAt,
-  onTimeOut,
   stop
 };

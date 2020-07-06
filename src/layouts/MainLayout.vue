@@ -30,7 +30,7 @@
               <q-icon name="inbox" />
             </q-item-section>
 
-            <q-item-section>
+            <q-item-section @click="$router.push('/')">
               Inbox
             </q-item-section>
           </q-item>
@@ -84,31 +84,54 @@
 
     <q-page-container>
       <router-view />
+      <OutSession :countDown="time" :session="sessionStatus" />
     </q-page-container>
   </q-layout>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
+const Store = require('electron-store');
+const store = new Store();
 
 import { User } from 'src/models/types';
-import { Session } from 'src/store/user/types';
+import userSession from 'src/module/session.module';
+import { disconnect } from 'cluster';
 
 const user = namespace('user');
 
 @Component({
-  name: 'MainLayout'
+  name: 'MainLayout',
+  components: {
+    OutSession: require('src/pages/OutSession.vue').default
+  }
 })
 export default class MainLayout extends Vue {
   private left = false;
   private right = false;
+  private time = -1;
 
   @user.State
-  public session: Session;
+  public sessionStatus: string;
+
+  @user.Action
+  public setSession: (session: string) => void;
+
+  @Watch('sessionStatus')
+  changeSessionStatus(newStatus) {
+    this.handleChangeSession();
+  }
+
+  handleChangeSession() {
+    userSession.onTimeOutChange(time => {
+      this.time = time;
+      if (time === 15) this.setSession('disconnected');
+    });
+  }
 
   mounted() {
-    console.log('session: ', this.session);
+    this.handleChangeSession();
   }
 }
 </script>

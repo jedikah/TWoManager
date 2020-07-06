@@ -1,13 +1,13 @@
 import { Module, ActionTree, MutationTree, GetterTree } from 'vuex';
 
 import RootState from '../types';
-import { UserState, LoginInput, LoginOutput } from './types';
+import { UserState, LoginInput } from './types';
 import UsersQuey from '../../models/query/user';
 
 const state: UserState = {
   userById: {},
   userAllIds: [],
-  session: { IdUser: null, name: null, login: null, password: null },
+  sessionStatus: 'disconnected',
   loadingUser: true
 };
 
@@ -25,13 +25,8 @@ const mutations: MutationTree<UserState> = {
     state.userAllIds = payloads.userAllIds;
     state.userById = payloads.userById;
   },
-  loginAct(state, payloads: LoginOutput) {
-    state.session = {
-      IdUser: payloads.IdUser,
-      name: payloads.name,
-      login: payloads.login,
-      password: payloads.password
-    };
+  setSession(state, session: string) {
+    state.sessionStatus = session;
   }
 };
 
@@ -45,14 +40,10 @@ const actions: ActionTree<UserState, RootState> = {
     }, 1500);
   },
 
-  async loginAct({ commit }, loginInput: LoginInput): Promise<void> {
+  setSession({ commit }, session: string) {
     commit('setLoading', true);
-    const loginOutput = await UsersQuey.login(
-      loginInput.login,
-      loginInput.password
-    );
 
-    commit('loginAct', loginOutput);
+    commit('setSession', session);
   }
 };
 
