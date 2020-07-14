@@ -52,19 +52,17 @@ function createWindow() {
 }
 
 app.on('ready', () => {
-  // const path = require('path');
+  const path = require('path');
   // const isDev = require('electron-is-dev');
-  // let file = 'fofifa.asar/index.js';
+  const file = 'index.ts';
 
-  // if (isDev) file = 'fofifa';
-
-  // const { fork } = require('child_process');
-  // const forked = fork(file, [], {
-  //   cwd: path.join(__dirname, '../backend'),
-  //   execArgv: ['-r', 'ts-node/register'],
-  //   shell: true,
-  //   stdio: ['inherit', 'inherit', 'inherit', 'ipc']
-  // });
+  const { fork } = require('child_process');
+  const forked = fork(file, [], {
+    cwd: path.join(__dirname, '/child/release'),
+    execArgv: ['-r', 'ts-node/register'],
+    shell: true,
+    stdio: ['inherit', 'inherit', 'inherit', 'ipc']
+  });
   createWindow();
 });
 

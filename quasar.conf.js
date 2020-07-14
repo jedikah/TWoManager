@@ -73,7 +73,7 @@ module.exports = configure(function(ctx) {
               enforce: 'pre',
               test: /\.(js|vue|ts)$/,
               loader: 'eslint-loader',
-              exclude: /node_modules/
+              exclude: [/node_modules/]
             });
           }
         }

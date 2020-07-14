@@ -14,5 +14,6 @@
     "paths": {
       "*.ts": ["*"]
     }
-  }
+  },
+  "exclude": ["src-electron/main-process/child"]
 }
