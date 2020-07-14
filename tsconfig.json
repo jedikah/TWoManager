@@ -7,10 +7,13 @@
     "allowJs": true,
     "strict": false,
     "removeComments": true,
-    "target": "es6",
+    "target": "es2017",
     "module": "commonjs",
     "typeRoots": ["node_modules/@types"],
     "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "emitDecoratorMetadata": true,
+    "incremental": true,
     "paths": {
       "*.ts": ["*"]
     }
