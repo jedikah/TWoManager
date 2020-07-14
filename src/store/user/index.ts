@@ -1,8 +1,7 @@
 import { Module, ActionTree, MutationTree, GetterTree } from 'vuex';
 
 import RootState from '../types';
-import { UserState, LoginInput } from './types';
-import UsersQuey from '../../models/query/user';
+import { UserState } from './types';
 
 const state: UserState = {
   userById: {},
@@ -31,13 +30,14 @@ const mutations: MutationTree<UserState> = {
 };
 
 const actions: ActionTree<UserState, RootState> = {
-  async initUsers({ commit }) {
-    commit('setLoading', true);
-    const users = await UsersQuey.users();
-    commit('initUsers', { userById: users.byId, userAllIds: users.allIds });
-    setTimeout(function() {
-      commit('setLoading', false);
-    }, 1500);
+  initUsers({ commit }) {
+    commit('');
+    // commit('setLoading', true);
+    // const users = await UsersQuey.users();
+    // commit('initUsers', { userById: users.byId, userAllIds: users.allIds });
+    // setTimeout(function() {
+    //   commit('setLoading', false);
+    // }, 1500);
   },
 
   setSession({ commit }, session: string) {

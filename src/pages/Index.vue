@@ -51,8 +51,7 @@ import './index.css';
   name: 'Index',
   components: {
     Login: require('src/components/Login.vue').default,
-    Register: require('src/components/Register.vue').default,
-    fileUploader: require('src/components/FileUploder').default
+    Register: require('src/components/Register.vue').default
   }
 })
 export default class Index extends Vue {

@@ -86,13 +86,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
-import { LoginInput } from 'src/store/user/types';
+// import { LoginInput } from 'src/store/user/types';
 
-import { User } from 'src/models/types';
-import userQuery from 'src/models/query/user';
-import userSession from 'src/module/session.module';
+// import userSession from 'src/module/session.module';
 
 const user = namespace('user');
 
@@ -115,25 +113,7 @@ export default class Login extends Vue {
   }
 
   async handleSubmit() {
-    const { IdUser, name, login, password } = await userQuery.login(
-      this.login,
-      this.password
-    );
-
-    const isStarted = await Promise.resolve(
-      userSession.start(this, {
-        IdUser,
-        name,
-        login,
-        password
-      })
-    );
-
-    if (isStarted) {
-      this.triggerPositive();
-      this.setSession('connected');
-    } else this.triggerNegative();
-    this.$emit('onSubmit');
+    //
   }
 
   triggerPositive() {

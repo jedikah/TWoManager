@@ -2,7 +2,6 @@
 //  REMOVAL OR CHANGES WILL CAUSE RELATED TYPES TO STOP WORKING
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { BrowserWindow } from 'electron';
-import TWoMDatabase from 'src-electron/dataBase/database.type';
 
 declare module 'quasar/dist/types/feature-flag' {
   interface QuasarFeatureFlags {
@@ -14,7 +13,6 @@ declare global {
   namespace NodeJS {
     interface Global {
       __statics: string;
-      db: TWoMDatabase;
     }
   }
 }

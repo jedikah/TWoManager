@@ -1,12 +1,5 @@
 import { app, BrowserWindow, nativeTheme } from 'electron';
 
-import dataBase from '../dataBase';
-
-const Store = require('electron-store');
-const store = new Store();
-
-global.db;
-
 app.allowRendererProcessReuse = true;
 
 try {
@@ -59,46 +52,7 @@ function createWindow() {
 }
 
 app.on('ready', () => {
-  const pathStore = store.get('path') || null;
-  // store.delete('pathStore');
-  // store.delete('register');
-  // store.delete('pdp');
-  // store.delete('path');
-  console.log({ pathStore });
-  (async () => {
-    if (pathStore) {
-      console.log(pathStore);
-      global.db = await dataBase(pathStore); //connection à la base de donnée quand path exist
-
-      const register = store.get('register') || null;
-      const pdp = store.get('pdp') || null;
-      console.log('register = ', register);
-      if (register !== 'finished') {
-        //enregistre l'utilisateur du premier demerrege dans le DB
-        console.log('********: bla');
-        const name: string = register.name,
-          login: string = register.login,
-          password: string = register.password;
-
-        const user = global.db.user.asRxCollection;
-
-        const res = await user.createUser(
-          {
-            name,
-            login,
-            password
-          },
-          pdp
-        );
-        console.log('in .method.ts : res = ', res);
-        store.set('register', 'finished'); //supprimer
-        if (pdp) store.delete('pdp'); //supprimer apres enregistrement
-        console.log('save ok');
-      }
-    }
-
-    createWindow();
-  })();
+  createWindow();
 });
 
 app.on('window-all-closed', () => {

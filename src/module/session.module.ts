@@ -2,9 +2,6 @@ import { IdleSessionTimeout } from 'idle-session-timeout';
 
 import OfflineTokenGen from './offlineTokenGen';
 
-const Store = require('electron-store');
-const store = new Store();
-
 /**
  * IDLE SESSION TIMEOUT
  */
@@ -12,7 +9,7 @@ const session = new IdleSessionTimeout(5 * 60 * 1000);
 const otg = new OfflineTokenGen();
 
 const getTokenStore = () => {
-  return store.get('token') || null;
+  return localStorage.getItem('token') || null;
 };
 
 const getTokenData = (token: string) => {
@@ -37,7 +34,7 @@ const generateTokenToStore = (user: {
   }
   if (!tokenIsValid) {
     const newToken = otg.generate(user);
-    store.set('token', newToken);
+    localStorage.setItem('token', newToken);
   }
 };
 
@@ -61,14 +58,14 @@ const isMultipleof30 = (n: number) => {
 
 const stop = () => {
   session.dispose();
-  store.delete('token');
+  localStorage.removeItem('token');
 };
 
 const start = (
   { $router, $route },
   user?: { IdUser: string; name: string; login: string; password: string }
 ) => {
-  const token = store.get('token') || null;
+  const token = localStorage.getItem('token') || null;
 
   let isStarted = false;
 

@@ -33,7 +33,6 @@
     "offline-token-generator": "^1.0.2",
     "pouchdb-adapter-node-websql": "^7.0.0",
     "quasar": "^1.9.15",
-    "rxdb": "^9.3.0",
     "rxdb-util": "^0.0.1",
     "rxjs": "^6.6.0",
     "sqlite3": "^5.0.0",

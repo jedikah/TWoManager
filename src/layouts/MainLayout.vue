@@ -92,12 +92,10 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
-const Store = require('electron-store');
-const store = new Store();
 
-import { User } from 'src/models/types';
+// import { User } from 'src/models/types';
 import userSession from 'src/module/session.module';
-import { disconnect } from 'cluster';
+// import { disconnect } from 'cluster';
 
 const user = namespace('user');
 
@@ -119,7 +117,7 @@ export default class MainLayout extends Vue {
   public setSession: (session: string) => void;
 
   @Watch('sessionStatus')
-  changeSessionStatus(newStatus) {
+  changeSessionStatus() {
     this.handleChangeSession();
   }
 
