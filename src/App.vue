@@ -8,13 +8,18 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-// import Query from './models/query/user';
+import isE from 'is-electron';
+const isElectron = isE();
+let remote;
+isElectron ? ({ remote } = require('electron')) : {};
 
 @Component({ name: 'App' })
 export default class App extends Vue {
-  async mounted() {
+  mounted() {
     // console.log('user ***', await Query.login('jedikah', '123'));
     // console.log({ app: await Query.users() });
+    console.log({ 'is electron': isElectron });
+    if (isElectron) console.log(remote);
   }
 }
 </script>

@@ -8,10 +8,10 @@
   "scripts": {
     "lint": "eslint --ext .js,.ts,.vue --ignore-path .gitignore ./",
     "test": "echo \"No test specified\" && exit 0",
-    "rebuild": "electron-rebuild -f -w sqlite3",
-    "postinstall": "electron-builder install-app-deps"
+    "rebuild": "electron-rebuild -f -w sqlite3"
   },
   "dependencies": {
+    "@erdii/caddy-serverless-express": "^0.0.2",
     "@quasar/extras": "^1.0.0",
     "@types/electron-devtools-installer": "^2.2.0",
     "asar": "^3.0.3",
@@ -21,8 +21,10 @@
     "electron-is-dev": "^1.2.0",
     "electron-rebuild": "^1.11.0",
     "electron-store": "^5.2.0",
+    "express": "^4.17.1",
     "gyp": "^0.5.0",
     "idle-session-timeout": "^1.0.1",
+    "is-electron": "^2.2.0",
     "node": "^14.5.0",
     "node-addon-api": "^3.0.0",
     "node-crypt": "^2.0.0",
@@ -31,18 +33,15 @@
     "node-static": "^0.7.11",
     "normalizr": "^3.6.0",
     "offline-token-generator": "^1.0.2",
-    "pouchdb-adapter-node-websql": "^7.0.0",
     "quasar": "^1.9.15",
     "rxdb-util": "^0.0.1",
     "rxjs": "^6.6.0",
-    "sqlite3": "^5.0.0",
     "ts-node": "^8.10.2",
     "vue-class-component": "^7.2.2",
     "vue-i18n": "^8.18.2",
     "vue-property-decorator": "^8.3.0",
     "vuex-class": "^0.3.2",
-    "webpack-html-plugin": "^0.1.1",
-    "websql": "^1.0.0"
+    "webpack-html-plugin": "^0.1.1"
   },
   "devDependencies": {
     "@quasar/app": "^2.0.0",
@@ -54,9 +53,9 @@
     "core-js": "^3.6.5",
     "devtron": "^1.4.0",
     "electron": "^9.0.0",
-    "electron-builder": "^22.7.0",
     "electron-debug": "^3.0.1",
     "electron-devtools-installer": "^3.0.0",
+    "electron-packager": "^14.1.1",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-loader": "^3.0.3",
