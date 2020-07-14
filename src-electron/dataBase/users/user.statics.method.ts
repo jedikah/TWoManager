@@ -1,22 +1,24 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { user } from './../../../src/store/user/index';
 import { UserStaticMethodType, UserCollection } from './user.type';
-import * as base64 from 'base64-min';
+const base64 = require('base64-min');
 
 const userStaticMethods: UserStaticMethodType = {
   createUser: async function(
     this: UserCollection,
-    user: { IdUser: string; name: string; login: string; password: string },
+    user: { name: string; login: string; password: string },
     pdp?: string
   ) {
-    const search = this.findOne({
+    const search = await this.findOne({
       selector: { login: user.login.toLocaleLowerCase() }
     }).exec();
 
-    if ((await search).see())
-      return 'The login ' + user.login + ' is alreeady used !';
+    if (search) {
+      return 'The login ' + search.see().login + ' is alreeady used !';
+    }
+
     const newUser = await this.insert({
-      IdUser: user.IdUser,
+      IdUser: '',
       name: user.name,
       login: user.login.toLocaleLowerCase(),
       password: user.password
@@ -51,7 +53,13 @@ const userStaticMethods: UserStaticMethodType = {
     const user = await this.findOne({
       selector: { login: login.toLocaleLowerCase(), password }
     }).exec();
-    let see = { IdUser: null, name: null, login: null, password: null };
+    let see: { IdUser: string; name: string; login: string; password: string };
+    see = {
+      IdUser: null,
+      name: null,
+      login: null,
+      password: null
+    };
 
     if (user) see = user.see();
 

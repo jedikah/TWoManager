@@ -12,7 +12,7 @@ module.exports = {
     // https://github.com/typescript-eslint/typescript-eslint/tree/master/packages/parser#configuration
     // https://github.com/TypeStrong/fork-ts-checker-webpack-plugin#eslint
     // Needed to make the parser take into account 'vue' files
-    extraFileExtensions: ['.vue'],
+    extraFileExtensions: ['.vue', '.ts'],
     parser: '@typescript-eslint/parser',
     project: resolve(__dirname, './tsconfig.json'),
     tsconfigRootDir: __dirname,
@@ -66,7 +66,7 @@ module.exports = {
   globals: {
     ga: true, // Google Analytics
     cordova: true,
-    __: true,
+    __statics: true,
     process: true,
     Capacitor: true,
     chrome: true
@@ -77,9 +77,11 @@ module.exports = {
     'prefer-promise-reject-errors': 'off',
 
     // TypeScript
-    quotes: ['warn', 'single'],
+    quotes: ['warn', 'single', { avoidEscape: false }],
     '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-var-requires': 0,
+    '@typescript-eslint/allowAsStatement': 0,
 
     // allow debugger during development only
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'

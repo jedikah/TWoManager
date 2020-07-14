@@ -156,8 +156,10 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator';
-import * as base64 from 'base64-min';
+import { Component, Vue } from 'vue-property-decorator';
+import { namespace } from 'vuex-class';
+
+const user = namespace('user');
 
 @Component
 export default class Register extends Vue {
@@ -166,18 +168,12 @@ export default class Register extends Vue {
   private password = '';
   private pwdVisible = false;
   private pdpPath = '';
-  private pdpSrc: { path: string } | null = null;
-  private b64 = null;
 
-  @Watch('pdpSrc')
-  nameChanged(pdpSrc: { path: string }) {
-    this.pdpPath = pdpSrc.path;
+  @user.Action
+  private initUsers: () => void;
 
-    this.b64 = base64.encodeFile(pdpSrc.path);
-    console.log(this.pdpPath);
-  }
   mounted() {
-    //
+    this.initUsers();
   }
 
   reset() {

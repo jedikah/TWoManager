@@ -5,7 +5,10 @@ node_modules
 # Quasar core related directories
 .quasar
 /dist
-/src-electron/backend/fofifa.asar
+/src-electron/backend
+/child
+/build
+/git
 
 # Cordova related directories and files
 /src-cordova/node_modules

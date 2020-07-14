@@ -5,19 +5,22 @@
  *  environment.
  */
 
-// Install `electron-debug` with `devtron`
-require('electron-debug')({ showDevTools: true });
+import electronDebug from 'electron-debug';
+import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
+import { app } from 'electron';
 
-// Install `vue-devtools`
-require('electron').app.on('ready', () => {
-  const installExtension = require('electron-devtools-installer');
-  installExtension
-    .default(installExtension.VUEJS_DEVTOOLS)
-    .then()
-    .catch((err: string) => {
-      console.log('Unable to install `vue-devtools`: \n', err);
+// Install `electron-debug` with `devtron`
+electronDebug({ showDevTools: true });
+
+// Install vuejs devtools
+app.whenReady().then(() => {
+  installExtension(VUEJS_DEVTOOLS)
+    .then(ext => {
+      console.log(`Added Extension: ${ext}`);
+    })
+    .catch(err => {
+      console.log('An error occurred: ', err);
     });
 });
 
-// Require `main` process to boot app
-require('./electron-main');
+require('./electron-main.ts');

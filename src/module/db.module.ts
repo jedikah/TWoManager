@@ -2,11 +2,9 @@ import { UserStaticMethodType } from './../../src-electron/dataBase/users/user.t
 import TWoMDataBase from 'src-electron/dataBase/database.type';
 
 const { getGlobal } = require('electron').remote;
-const Store = require('electron-store');
-const store = new Store();
 
 const DB: TWoMDataBase | null = getGlobal('db') || null;
-let user: UserStaticMethodType = null;
+let user: UserStaticMethodType;
 
 if (DB) user = DB.user.asRxCollection;
 

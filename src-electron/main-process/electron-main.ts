@@ -1,4 +1,4 @@
-import { app, BrowserWindow, nativeTheme, dialog } from 'electron';
+import { app, BrowserWindow, nativeTheme } from 'electron';
 
 import dataBase from '../dataBase';
 
@@ -25,9 +25,7 @@ try {
  * The reason we are setting it here is that the path needs to be evaluated at runtime
  */
 if (process.env.PROD) {
-  global.__ = require('path')
-    .join(__dirname, '')
-    .replace(/\\/g, '\\\\');
+  global.__statics = __dirname;
 }
 
 let mainWindow: BrowserWindow | null;
@@ -65,18 +63,20 @@ app.on('ready', () => {
   // store.delete('pathStore');
   // store.delete('register');
   // store.delete('pdp');
+  // store.delete('path');
+  console.log({ pathStore });
   (async () => {
     if (pathStore) {
+      console.log(pathStore);
       global.db = await dataBase(pathStore); //connection à la base de donnée quand path exist
 
       const register = store.get('register') || null;
       const pdp = store.get('pdp') || null;
       console.log('register = ', register);
-      if (typeof register === typeof Object()) {
+      if (register !== 'finished') {
         //enregistre l'utilisateur du premier demerrege dans le DB
-        console.log('********: ');
-        const IdUser = '1',
-          name: string = register.name,
+        console.log('********: bla');
+        const name: string = register.name,
           login: string = register.login,
           password: string = register.password;
 
@@ -84,7 +84,6 @@ app.on('ready', () => {
 
         const res = await user.createUser(
           {
-            IdUser,
             name,
             login,
             password

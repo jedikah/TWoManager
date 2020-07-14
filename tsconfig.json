@@ -4,8 +4,15 @@
     "baseUrl": ".",
     "experimentalDecorators": true,
     "noEmit": false,
+    "allowJs": true,
     "strict": false,
-    "target": "es5",
-    "module": "commonjs"
+    "removeComments": true,
+    "target": "es6",
+    "module": "commonjs",
+    "typeRoots": ["node_modules/@types"],
+    "moduleResolution": "node",
+    "paths": {
+      "*.ts": ["*"]
+    }
   }
 }

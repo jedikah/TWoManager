@@ -45,6 +45,7 @@ const actions: ActionTree<UserState, RootState> = {
 
     commit('setSession', session);
   }
+  // createUser({ commit }, NewUser: )
 };
 
 const namespaced = true;
