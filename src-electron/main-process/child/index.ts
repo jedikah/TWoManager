@@ -2,7 +2,7 @@
 // const app = express();
 // const path = require('path');
 
-import './two/src/main';
+import './src/main.ts';
 
 // app.get('/app', function(req, res) {
 //   res.sendFile(path.join(__dirname + '/index.html'));

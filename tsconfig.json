@@ -14,6 +14,7 @@
     "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "incremental": true,
+    "declaration": true,
     "paths": {
       "*.ts": ["*"]
     }
