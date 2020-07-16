@@ -3,7 +3,8 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import RepoModule from './repos';
+import Resolvers from './repos/resolver';
+import Services from './repos/services';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -14,9 +15,8 @@ import { AppService } from './app.service';
       playground: true,
       autoSchemaFile: join(process.cwd(), 'src/repos/types/schema.gql'),
     }),
-    ...RepoModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ...Resolvers, ...Services],
 })
 export class AppModule {}

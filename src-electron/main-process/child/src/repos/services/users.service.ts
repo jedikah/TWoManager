@@ -4,4 +4,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '../database/entities/user.entity';
 
 @Injectable()
-export class UsersService {}
+class UsersService {}
+
+export default UsersService;
