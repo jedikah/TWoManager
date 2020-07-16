@@ -58,7 +58,7 @@ app.on('ready', () => {
 
   const { fork } = require('child_process');
   const forked = fork(file, [], {
-    cwd: path.join(__dirname, '/child/release'),
+    cwd: path.join(__dirname, '/child'),
     execArgv: ['-r', 'ts-node/register'],
     shell: true,
     stdio: ['inherit', 'inherit', 'inherit', 'ipc']
