@@ -3,21 +3,13 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
-@Entity({ name: TableName.User })
-export class UserEntity {
+@Entity({ name: TableName.Facture })
+export class FactureEntity {
   @Field()
   @PrimaryGeneratedColumn()
-  userId: number;
+  factureId: number;
 
   @Field()
   @Column()
-  userName: string;
-
-  @Field()
-  @Column()
-  login: string;
-
-  @Field()
-  @Column()
-  password: string;
+  dateFacture: Date;
 }

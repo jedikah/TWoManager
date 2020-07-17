@@ -3,21 +3,21 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
-@Entity({ name: TableName.User })
-export class UserEntity {
+@Entity({ name: TableName.Collaborate })
+export class CollaborateEntity {
   @Field()
   @PrimaryGeneratedColumn()
-  userId: number;
+  clientId: number;
 
   @Field()
   @Column()
-  userName: string;
+  userId: string;
 
   @Field()
   @Column()
-  login: string;
+  createdAt: Date;
 
   @Field()
   @Column()
-  password: string;
+  updatedAt: Date;
 }
