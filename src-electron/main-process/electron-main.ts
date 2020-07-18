@@ -57,12 +57,19 @@ app.on('ready', () => {
   const file = 'index.ts';
 
   const { fork } = require('child_process');
-  const forked = fork(file, [], {
+  const child = fork(file, [], {
     cwd: path.join(__dirname, '/child'),
     execArgv: ['-r', 'ts-node/register'],
     shell: true,
     stdio: ['inherit', 'inherit', 'inherit', 'ipc']
   });
+
+  child.send('azerty');
+
+  child.on('messge', m => {
+    console.log({ m });
+  });
+  child.unref();
   createWindow();
 });
 

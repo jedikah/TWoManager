@@ -7,4 +7,5 @@ async function bootstrap() {
   await app.listen(3000);
   Logger.log('Server start http://localhost:3000/graphql', 'Bootstap');
 }
+process.send({ payloads: true });
 bootstrap();
