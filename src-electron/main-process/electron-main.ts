@@ -1,5 +1,7 @@
 import { app, BrowserWindow, nativeTheme } from 'electron';
 
+import titleCont from './child/child.constant';
+
 app.allowRendererProcessReuse = true;
 
 try {
@@ -53,23 +55,26 @@ function createWindow() {
 
 app.on('ready', () => {
   const path = require('path');
-  // const isDev = require('electron-is-dev');
   const file = 'index.ts';
 
   const { fork } = require('child_process');
   const child = fork(file, [], {
     cwd: path.join(__dirname, '/child'),
-    execArgv: ['-r', 'ts-node/register'],
     shell: true,
+    execArgv: ['-r', 'ts-node/register'],
     stdio: ['inherit', 'inherit', 'inherit', 'ipc']
   });
 
-  child.send('azerty');
+  child.send({ title: titleCont.Child_process_is_started, data: {} });
 
-  child.on('messge', m => {
-    console.log({ m });
+  child.on('message', (payloads: { title: string; data: any }) => {
+    const title = payloads.title,
+      data = payloads.data;
+    if (title === titleCont.start_nest_server) console.log(data.start);
   });
+
   child.unref();
+
   createWindow();
 });
 
