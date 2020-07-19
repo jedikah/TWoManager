@@ -4,5 +4,4 @@
 
 type Query {
   HelloWorld: String!
-  findAll: String!
 }
