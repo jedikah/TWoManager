@@ -10,8 +10,8 @@ class UserService {
     private userRepository: Repository<UserEntity>,
   ) {}
 
-  async findAll(): Promise<UserEntity[]> {
-    return this.userRepository.find();
+  async getUsers(): Promise<UserEntity[]> {
+    return await this.userRepository.find();
   }
 }
 

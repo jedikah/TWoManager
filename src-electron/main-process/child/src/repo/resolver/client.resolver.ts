@@ -12,10 +12,10 @@ class ClientResolver {
     return 'hello';
   }
 
-  @Query(() => String)
-  findAll() {
-    return this.clientService.findAll();
-  }
+  // @Query(() => String)
+  // findAll() {
+  //   return this.clientService.findAll();
+  // }
 }
 
 export default ClientResolver;

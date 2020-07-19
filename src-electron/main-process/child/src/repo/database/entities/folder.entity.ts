@@ -5,6 +5,7 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
 
@@ -16,74 +17,62 @@ import { ConvocationEntity } from './convocation.entity';
 @Entity({ name: TableName.Folder })
 export class FolderEntity {
   @Field()
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ name: 'folder_Id' })
   folderId: number;
 
   @Field()
-  @Column()
+  @Column({ name: 'user_Id' })
   userId: number;
 
   @Field()
-  @Column()
+  @Column({ name: 'client_Id' })
   clientId: number;
 
   @Field()
-  @Column()
+  @Column({ name: 'facture_Id' })
   factureId: number;
 
   @Field()
-  @Column()
-  Register: string;
+  @Column({ name: 'register' })
+  register: string;
 
   @Field()
-  @Column()
+  @Column({ name: 'num_Title' })
   numTitle: string;
 
   @Field()
-  @Column()
+  @Column({ name: 'ground_Name' })
   groundName: string;
 
   @Field()
-  @Column()
+  @Column({ name: 'localisation_Trav' })
   localisationTrav: string;
 
   @Field()
-  @Column()
+  @Column({ name: 'fokontany' })
   fokontany: string;
 
   @Field()
-  @Column()
+  @Column({ name: 'date_Trav' })
   dateTrav: Date;
 
   @Field()
-  @Column()
+  @Column({ name: 'type_Trav' })
   typeTrav: string;
 
   @Field()
-  @Column()
+  @Column({ name: 'price' })
   price: number;
 
-  @ManyToOne(
-    type => UserEntity,
-    user => user.folders,
-  )
+  @ManyToOne(type => UserEntity)
+  @JoinColumn()
   user: UserEntity;
 
-  @ManyToOne(
-    type => ClientEntity,
-    client => client.folders,
-  )
+  @ManyToOne(type => ClientEntity)
+  @JoinColumn()
   client: ClientEntity;
 
-  @ManyToOne(
-    type => FactureEntity,
-    facture => facture.folders,
-  )
+  @ManyToOne(type => FactureEntity)
+  @JoinColumn()
   facture: FactureEntity;
-
-  @OneToMany(
-    type => ConvocationEntity,
-    convocation => convocation.folder,
-  )
-  convovations: ConvocationEntity[];
 }

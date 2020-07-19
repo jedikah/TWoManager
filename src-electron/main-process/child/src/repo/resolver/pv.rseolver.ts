@@ -12,10 +12,10 @@ class PvResolver {
     return 'hello';
   }
 
-  @Query(() => String)
-  findAll() {
-    return this.pvService.findAll();
-  }
+  // @Query(() => String)
+  // findAll() {
+  //   return this.pvService.findAll();
+  // }
 }
 
 export default PvResolver;

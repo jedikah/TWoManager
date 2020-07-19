@@ -10,9 +10,9 @@ class LettreService {
     private letterRepository: Repository<LetterEntity>,
   ) {}
 
-  async findAll(): Promise<LetterEntity[]> {
-    return this.letterRepository.find();
-  }
+  // async findAll(): Promise<LetterEntity[]> {
+  //   return this.letterRepository.find();
+  // }
 }
 
 export default LettreService;

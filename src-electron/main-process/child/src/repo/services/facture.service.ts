@@ -10,9 +10,9 @@ class FactureService {
     private factureRepository: Repository<FactureEntity>,
   ) {}
 
-  async findAll(): Promise<FactureEntity[]> {
-    return this.factureRepository.find();
-  }
+  // async findAll(): Promise<FactureEntity[]> {
+  //   return this.factureRepository.find();
+  // }
 }
 
 export default FactureService;

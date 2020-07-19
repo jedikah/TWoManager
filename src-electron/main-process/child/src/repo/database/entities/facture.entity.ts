@@ -8,16 +8,10 @@ import { FolderEntity } from './folder.entity';
 @Entity({ name: TableName.Facture })
 export class FactureEntity {
   @Field()
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ name: 'facture_Id' })
   factureId: number;
 
   @Field()
-  @Column()
+  @Column({ name: 'date_Facture' })
   dateFacture: Date;
-
-  @OneToMany(
-    type => FolderEntity,
-    folder => folder.facture,
-  )
-  folders: FolderEntity[];
 }

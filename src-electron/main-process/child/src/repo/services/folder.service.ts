@@ -10,9 +10,9 @@ class FolderService {
     private folderRepository: Repository<FolderEntity>,
   ) {}
 
-  async findAll(): Promise<FolderEntity[]> {
-    return this.folderRepository.find();
-  }
+  // async findAll(): Promise<FolderEntity[]> {
+  //   return this.folderRepository.find();
+  // }
 }
 
 export default FolderService;

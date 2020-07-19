@@ -1,31 +1,23 @@
 import { TableName } from '../TableName';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
-
-import { FolderEntity } from './folder.entity';
 
 @ObjectType()
 @Entity({ name: TableName.Client })
 export class ClientEntity {
   @Field()
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ name: 'client_Id' })
   clientId: number;
 
   @Field()
-  @Column()
+  @Column({ name: 'client_Name' })
   clientName: string;
 
   @Field()
-  @Column()
+  @Column({ name: 'domicile' })
   domicile: string;
 
   @Field()
-  @Column()
+  @Column({ name: 'contact' })
   contact: string;
-
-  @OneToMany(
-    type => FolderEntity,
-    folder => folder.client,
-  )
-  folders: FolderEntity[];
 }

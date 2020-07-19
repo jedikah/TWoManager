@@ -8,20 +8,22 @@ export class createTablesForeignKey1595003387087 implements MigrationInterface {
     await queryRunner.createForeignKey(
       TableName.Collaborate,
       new TableForeignKey({
-        columnNames: ['userId'],
-        referencedColumnNames: ['userId'],
+        columnNames: ['user_Id'],
+        referencedColumnNames: ['user_Id'],
         referencedTableName: TableName.User,
         onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       }),
     );
 
     await queryRunner.createForeignKey(
       TableName.Collaborate,
       new TableForeignKey({
-        columnNames: ['clientId'],
-        referencedColumnNames: ['clientId'],
+        columnNames: ['client_Id'],
+        referencedColumnNames: ['client_Id'],
         referencedTableName: TableName.Client,
         onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       }),
     );
 
@@ -29,30 +31,33 @@ export class createTablesForeignKey1595003387087 implements MigrationInterface {
     await queryRunner.createForeignKey(
       TableName.Folder,
       new TableForeignKey({
-        columnNames: ['userId'],
-        referencedColumnNames: ['userId'],
+        columnNames: ['user_Id'],
+        referencedColumnNames: ['user_Id'],
         referencedTableName: TableName.User,
         onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       }),
     );
 
     await queryRunner.createForeignKey(
       TableName.Folder,
       new TableForeignKey({
-        columnNames: ['clientId'],
-        referencedColumnNames: ['clientId'],
+        columnNames: ['client_Id'],
+        referencedColumnNames: ['client_Id'],
         referencedTableName: TableName.Client,
         onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       }),
     );
 
     await queryRunner.createForeignKey(
       TableName.Folder,
       new TableForeignKey({
-        columnNames: ['factureId'],
-        referencedColumnNames: ['factureId'],
+        columnNames: ['facture_Id'],
+        referencedColumnNames: ['facture_Id'],
         referencedTableName: TableName.Facture,
         onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       }),
     );
 
@@ -60,10 +65,11 @@ export class createTablesForeignKey1595003387087 implements MigrationInterface {
     await queryRunner.createForeignKey(
       TableName.Letter,
       new TableForeignKey({
-        columnNames: ['folderId'],
-        referencedColumnNames: ['folderId'],
+        columnNames: ['folder_Id'],
+        referencedColumnNames: ['folder_Id'],
         referencedTableName: TableName.Folder,
         onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       }),
     );
 
@@ -71,18 +77,19 @@ export class createTablesForeignKey1595003387087 implements MigrationInterface {
     await queryRunner.createForeignKey(
       TableName.Convocation,
       new TableForeignKey({
-        columnNames: ['folderId'],
-        referencedColumnNames: ['folderId'],
+        columnNames: ['folder_Id'],
+        referencedColumnNames: ['folder_Id'],
         referencedTableName: TableName.Folder,
         onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       }),
     );
 
     await queryRunner.createForeignKey(
       TableName.Convocation,
       new TableForeignKey({
-        columnNames: ['pvNum'],
-        referencedColumnNames: ['pvNum'],
+        columnNames: ['pv_Num'],
+        referencedColumnNames: ['pv_Num'],
         referencedTableName: TableName.Pv,
         onDelete: 'CASCADE',
       }),
@@ -93,49 +100,49 @@ export class createTablesForeignKey1595003387087 implements MigrationInterface {
     // Collaborate table
     let table = await queryRunner.getTable(TableName.Collaborate);
     let foreignKey = table.foreignKeys.find(
-      fk => fk.columnNames.indexOf('userId') !== -1,
+      fk => fk.columnNames.indexOf('user_Id') !== -1,
     );
     await queryRunner.dropForeignKey(TableName.User, foreignKey);
 
     foreignKey = table.foreignKeys.find(
-      fk => fk.columnNames.indexOf('clientId') !== -1,
+      fk => fk.columnNames.indexOf('client_Id') !== -1,
     );
     await queryRunner.dropForeignKey(TableName.User, foreignKey);
 
     // Folders table
     table = await queryRunner.getTable(TableName.Folder);
     foreignKey = table.foreignKeys.find(
-      fk => fk.columnNames.indexOf('userId') !== -1,
+      fk => fk.columnNames.indexOf('user_Id') !== -1,
     );
     await queryRunner.dropForeignKey(TableName.User, foreignKey);
 
     foreignKey = table.foreignKeys.find(
-      fk => fk.columnNames.indexOf('clientId') !== -1,
+      fk => fk.columnNames.indexOf('client_Id') !== -1,
     );
     await queryRunner.dropForeignKey(TableName.User, foreignKey);
 
     foreignKey = table.foreignKeys.find(
-      fk => fk.columnNames.indexOf('factureId') !== -1,
+      fk => fk.columnNames.indexOf('facture_Id') !== -1,
     );
     await queryRunner.dropForeignKey(TableName.User, foreignKey);
 
     // Letter table
     table = await queryRunner.getTable(TableName.Letter);
     foreignKey = table.foreignKeys.find(
-      fk => fk.columnNames.indexOf('folderId') !== -1,
+      fk => fk.columnNames.indexOf('folder_Id') !== -1,
     );
     await queryRunner.dropForeignKey(TableName.User, foreignKey);
 
     // Convocation table
     table = await queryRunner.getTable(TableName.Convocation);
     foreignKey = table.foreignKeys.find(
-      fk => fk.columnNames.indexOf('folderId') !== -1,
+      fk => fk.columnNames.indexOf('folder_Id') !== -1,
     );
     await queryRunner.dropForeignKey(TableName.User, foreignKey);
 
     table = await queryRunner.getTable(TableName.Convocation);
     foreignKey = table.foreignKeys.find(
-      fk => fk.columnNames.indexOf('pvNum') !== -1,
+      fk => fk.columnNames.indexOf('pv_Num') !== -1,
     );
     await queryRunner.dropForeignKey(TableName.User, foreignKey);
   }

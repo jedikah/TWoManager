@@ -10,9 +10,9 @@ class PvService {
     private pvRepository: Repository<PvEntity>,
   ) {}
 
-  async findAll(): Promise<PvEntity[]> {
-    return this.pvRepository.find();
-  }
+  // async findAll(): Promise<PvEntity[]> {
+  //   return this.pvRepository.find();
+  // }
 }
 
 export default PvService;

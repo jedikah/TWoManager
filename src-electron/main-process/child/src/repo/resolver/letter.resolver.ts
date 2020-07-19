@@ -12,10 +12,10 @@ class LetterResolver {
     return 'hello';
   }
 
-  @Query(() => String)
-  findAll() {
-    return this.letterService.findAll();
-  }
+  // @Query(() => String)
+  // findAll() {
+  //   return this.letterService.findAll();
+  // }
 }
 
 export default LetterResolver;

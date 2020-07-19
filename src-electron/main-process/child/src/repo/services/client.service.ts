@@ -10,9 +10,9 @@ class ClientService {
     private clientRepository: Repository<ClientEntity>,
   ) {}
 
-  async findAll(): Promise<ClientEntity[]> {
-    return this.clientRepository.find();
-  }
+  // async findAll(): Promise<ClientEntity[]> {
+  //   return this.clientRepository.find();
+  // }
 }
 
 export default ClientService;

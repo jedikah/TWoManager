@@ -12,10 +12,10 @@ class convocationResolver {
     return 'hello';
   }
 
-  @Query(() => String)
-  findAll() {
-    return this.convocationService.findAll();
-  }
+  // @Query(() => String)
+  // findAll() {
+  //   return this.convocationService.findAll();
+  // }
 }
 
 export default convocationResolver;

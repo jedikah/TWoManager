@@ -12,10 +12,10 @@ class FolderResolver {
     return 'hello';
   }
 
-  @Query(() => String)
-  findAll() {
-    return this.folderService.findAll();
-  }
+  // @Query(() => String)
+  // findAll() {
+  //   return this.folderService.findAll();
+  // }
 }
 
 export default FolderResolver;

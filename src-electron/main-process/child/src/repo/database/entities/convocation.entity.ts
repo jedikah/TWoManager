@@ -16,41 +16,39 @@ import { PvEntity } from './pv.entity';
 @Entity({ name: TableName.Convocation })
 export class ConvocationEntity {
   @Field()
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ name: 'register_Num' })
   registerNum: number;
 
   @Field()
-  @Column()
+  @Column({ name: 'folder_Id' })
   folderId: number;
 
   @Field()
-  @Column()
+  @Column({ name: 'pv_Num' })
   pvNum: number;
 
   @Field()
-  @Column()
+  @Column({ name: 'nom_Pers_Conv' })
   nomPersConv: string;
 
   @Field()
-  @Column()
+  @Column({ name: 'convoke_On' })
   convokeOn: Date;
 
   @Field()
-  @Column()
-  AtTown: string;
+  @Column({ name: 'at_Town' })
+  atTown: string;
 
   @Field()
-  @Column()
+  @Column({ name: 'at_Time' })
   atTime: string;
 
   @Field()
-  @Column()
+  @Column({ name: 'requisition_Num' })
   requisitionNum: string;
 
-  @ManyToOne(
-    type => FolderEntity,
-    folder => folder.convovations,
-  )
+  @ManyToOne(type => FolderEntity)
+  @JoinColumn()
   folder: FolderEntity;
 
   @OneToOne(type => PvEntity)

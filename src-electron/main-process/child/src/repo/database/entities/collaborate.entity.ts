@@ -6,18 +6,18 @@ import { Field, ObjectType } from '@nestjs/graphql';
 @Entity({ name: TableName.Collaborate })
 export class CollaborateEntity {
   @Field()
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ name: 'client_Id' })
   clientId: number;
 
   @Field()
-  @Column()
+  @Column({ name: 'user_Id' })
   userId: string;
 
   @Field()
-  @Column()
+  @Column({ name: 'created_At' })
   createdAt: Date;
 
   @Field()
-  @Column()
+  @Column({ name: 'updated_At' })
   updatedAt: Date;
 }

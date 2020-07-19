@@ -5,7 +5,7 @@ export const UsersTable: Table = new Table({
   name: TableName.User,
   columns: [
     {
-      name: 'userId',
+      name: 'user_Id',
       type: 'integer',
       isGenerated: true,
       generationStrategy: 'increment',
@@ -13,7 +13,7 @@ export const UsersTable: Table = new Table({
       length: '3',
     },
     {
-      name: 'userName',
+      name: 'user_Name',
       type: 'varchar',
       isNullable: false,
       isUnique: false,
@@ -40,7 +40,7 @@ export const ClientsTable: Table = new Table({
   name: TableName.Client,
   columns: [
     {
-      name: 'clientId',
+      name: 'client_Id',
       type: 'integer',
       isGenerated: true,
       generationStrategy: 'increment',
@@ -48,7 +48,7 @@ export const ClientsTable: Table = new Table({
       length: '7',
     },
     {
-      name: 'clientName',
+      name: 'clien_tName',
       type: 'varchar',
       isNullable: false,
       isUnique: false,
@@ -75,7 +75,7 @@ export const FoldersTable: Table = new Table({
   name: TableName.Folder,
   columns: [
     {
-      name: 'folderId',
+      name: 'folder_Id',
       type: 'integer',
       isGenerated: true,
       generationStrategy: 'increment',
@@ -83,28 +83,28 @@ export const FoldersTable: Table = new Table({
       length: '9',
     },
     {
-      name: 'userId',
+      name: 'user_Id',
       type: 'integer',
       isNullable: false,
       isUnique: false,
       length: '3',
     },
     {
-      name: 'clientId',
+      name: 'client_Id',
       type: 'integer',
       isNullable: false,
       isUnique: false,
       length: '7',
     },
     {
-      name: 'factureId',
+      name: 'facture_Id',
       type: 'integer',
       isNullable: false,
       isUnique: false,
       length: '9',
     },
     {
-      name: 'Register',
+      name: 'register',
       type: 'varchar',
       isNullable: true,
       isUnique: true,
@@ -118,14 +118,14 @@ export const FoldersTable: Table = new Table({
       length: '6',
     },
     {
-      name: 'groundName',
+      name: 'ground_Name',
       type: 'varchar',
       isNullable: true,
       isUnique: false,
       length: '30',
     },
     {
-      name: 'localisationTrav',
+      name: 'localisation_Trav',
       type: 'varchar',
       isNullable: true,
       isUnique: false,
@@ -139,13 +139,13 @@ export const FoldersTable: Table = new Table({
       length: '15',
     },
     {
-      name: 'dateTrav',
+      name: 'date_Trav',
       type: 'date',
       isNullable: true,
       isUnique: false,
     },
     {
-      name: 'typeTrav',
+      name: 'type_Trav',
       type: 'varchar',
       isNullable: true,
       isUnique: false,
@@ -165,7 +165,7 @@ export const FacturesTable: Table = new Table({
   name: TableName.Facture,
   columns: [
     {
-      name: 'factureId',
+      name: 'facture_Id',
       type: 'integer',
       isGenerated: true,
       generationStrategy: 'increment',
@@ -173,7 +173,7 @@ export const FacturesTable: Table = new Table({
       length: '9',
     },
     {
-      name: 'dateFacture',
+      name: 'date_Facture',
       type: 'date',
       isNullable: true,
       isUnique: false,
@@ -185,33 +185,33 @@ export const LettresTable: Table = new Table({
   name: TableName.Letter,
   columns: [
     {
-      name: 'rtxNum',
+      name: 'rtx_Num',
       type: 'integer',
       isPrimary: true,
       length: '7',
     },
     {
-      name: 'folderId',
+      name: 'folder_Id',
       type: 'integer',
       isNullable: true,
       isUnique: false,
       length: '9',
     },
     {
-      name: 'dateRtx',
+      name: 'date_Rtx',
       type: 'date',
       isNullable: true,
       isUnique: false,
     },
     {
-      name: 'letterTown',
+      name: 'letter_Town',
       type: 'varchar',
       isNullable: true,
       isUnique: false,
       length: '15',
     },
     {
-      name: 'createdAt',
+      name: 'created_At',
       type: 'date',
       isNullable: true,
       isUnique: false,
@@ -230,54 +230,54 @@ export const ConvocationsTable: Table = new Table({
   name: TableName.Convocation,
   columns: [
     {
-      name: 'registerNum',
+      name: 'register_Num',
       type: 'integer',
       isPrimary: true,
       length: '6',
     },
     {
-      name: 'folderId',
+      name: 'folder_Id',
       type: 'integer',
       isNullable: false,
       isUnique: true,
       length: '9',
     },
     {
-      name: 'pvNum',
+      name: 'pv_Num',
       type: 'integer',
       isNullable: true,
       isUnique: false,
       length: '9',
     },
     {
-      name: 'nomPersConv',
+      name: 'nomPers_Conv',
       type: 'varchar',
       isNullable: true,
       isUnique: false,
       length: '40',
     },
     {
-      name: 'convokeOn',
+      name: 'convoke_On',
       type: 'date',
       isNullable: true,
       isUnique: false,
     },
     {
-      name: 'AtTown',
+      name: 'at_Town',
       type: 'integer',
       isNullable: true,
       isUnique: false,
       length: '15',
     },
     {
-      name: 'atTime',
+      name: 'at_Time',
       type: 'varchar',
       isNullable: true,
       isUnique: false,
       length: '8',
     },
     {
-      name: 'requisitionNum',
+      name: 'requisition_Num',
       type: 'varchar',
       isNullable: true,
       isUnique: false,
@@ -290,7 +290,7 @@ export const PvsTable: Table = new Table({
   name: TableName.Pv,
   columns: [
     {
-      name: 'pvNum',
+      name: 'pv_Num',
       type: 'integer',
       isGenerated: true,
       generationStrategy: 'increment',
@@ -331,25 +331,25 @@ export const CollaborerTable: Table = new Table({
   name: TableName.Collaborate,
   columns: [
     {
-      name: 'clientId',
+      name: 'client_Id',
       type: 'integer',
       isPrimary: true,
       length: '7',
     },
     {
-      name: 'userId',
+      name: 'user_Id',
       type: 'integer',
       isPrimary: true,
       length: '3',
     },
     {
-      name: 'createdAt',
+      name: 'created_At',
       type: 'date',
       isNullable: true,
       isUnique: false,
     },
     {
-      name: 'updatedAt',
+      name: 'updated_At',
       type: 'date',
       isNullable: true,
       isUnique: false,

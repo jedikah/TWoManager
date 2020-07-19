@@ -14,27 +14,27 @@ import { FolderEntity } from './folder.entity';
 @Entity({ name: TableName.Letter })
 export class LetterEntity {
   @Field()
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ name: 'rtx_Num' })
   rtxNum: number;
 
   @Field()
-  @Column()
+  @Column({ name: 'folder_Id' })
   folderId: number;
 
   @Field()
-  @Column()
+  @Column({ name: 'date_Rtx' })
   dateRtx: Date;
 
   @Field()
-  @Column()
+  @Column({ name: 'letter_Town' })
   letterTown: string;
 
   @Field()
-  @Column()
+  @Column({ name: 'created_At' })
   createdAt: Date;
 
   @Field()
-  @Column()
+  @Column({ name: 'object' })
   object: string;
 
   @OneToOne(type => FolderEntity)

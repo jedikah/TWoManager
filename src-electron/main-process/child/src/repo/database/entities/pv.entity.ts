@@ -6,22 +6,22 @@ import { Field, ObjectType } from '@nestjs/graphql';
 @Entity({ name: TableName.Pv })
 export class PvEntity {
   @Field()
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ name: 'pv_Num' })
   pvNum: number;
 
   @Field()
-  @Column()
+  @Column({ name: 'attachments' })
   attachments: string;
 
   @Field()
-  @Column()
+  @Column({ name: 'commune' })
   commune: string;
 
   @Field()
-  @Column()
+  @Column({ name: 'district' })
   district: string;
 
   @Field()
-  @Column()
+  @Column({ name: 'region' })
   region: string;
 }

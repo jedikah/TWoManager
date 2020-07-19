@@ -16,28 +16,25 @@ import { FolderEntity } from './folder.entity';
 @Entity({ name: TableName.User })
 export class UserEntity {
   @Field()
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn({ name: 'user_Id' })
   userId: number;
 
   @Field()
-  @Column()
+  @Column({ name: 'user_Name' })
   userName: string;
 
   @Field()
-  @Column()
+  @Column({ name: 'login' })
   login: string;
 
   @Field()
-  @Column()
+  @Column({ name: 'password' })
   password: string;
 
   @ManyToMany(type => ClientEntity)
   @JoinTable()
   categories: ClientEntity[];
 
-  @OneToMany(
-    type => FolderEntity,
-    folder => folder.user,
-  )
+  @Field(type => [FolderEntity])
   folders: FolderEntity[];
 }

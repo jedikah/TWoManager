@@ -12,18 +12,19 @@ import { AppService } from './app.service';
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.TYPEORM_HOST,
-      port: parseInt(process.env.TYPEORM_PORT),
+      host: 'localhost',
+      port: 3306,
       username: 'root',
       password: 'root',
       database: 'twomanager',
-      migrationsRun: process.env.TYPEORM_MIGRATIONS_RUN === 'true',
+      migrations: ['src/repo/database/migrations/*.ts'],
+      migrationsRun: true,
       autoLoadEntities: true,
     }),
     RepoModule,
     GraphQLModule.forRoot({
       playground: true,
-      autoSchemaFile: join(process.cwd(), 'src/repos/types/schema.gql'),
+      autoSchemaFile: join(process.cwd(), 'src/repo/types/schema.gql'),
     }),
   ],
   controllers: [AppController],

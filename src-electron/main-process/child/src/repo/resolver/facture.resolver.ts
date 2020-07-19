@@ -12,10 +12,10 @@ class factureResolver {
     return 'hello';
   }
 
-  @Query(() => String)
-  findAll() {
-    return this.factureService.findAll();
-  }
+  // @Query(() => String)
+  // findAll() {
+  //   return this.factureService.findAll();
+  // }
 }
 
 export default factureResolver;

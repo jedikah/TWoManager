@@ -12,10 +12,10 @@ class collaborationResolver {
     return 'hello';
   }
 
-  @Query(() => String)
-  findAll() {
-    return this.collaborationService.findAll();
-  }
+  // @Query(() => String)
+  // findAll() {
+  //   return this.collaborationService.findAll();
+  // }
 }
 
 export default collaborationResolver;

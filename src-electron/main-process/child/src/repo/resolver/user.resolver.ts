@@ -1,6 +1,6 @@
-import { Resolver, Query } from '@nestjs/graphql';
+import { Resolver, Query, ResolveField, Root } from '@nestjs/graphql';
 
-import { UserEntity } from '../database/entities';
+import { UserEntity, FolderEntity } from '../database/entities';
 import { UserService } from '../services';
 
 @Resolver(of => UserEntity)
@@ -12,10 +12,13 @@ class UserResolver {
     return 'hello';
   }
 
-  @Query(() => String)
-  findAll() {
-    return this.usersService.findAll();
+  @Query(() => [UserEntity], { nullable: true })
+  async getUsers() {
+    return await this.usersService.getUsers();
   }
+
+  @ResolveField(() => [FolderEntity])
+  folders(@Root() user: UserEntity) {}
 }
 
 export default UserResolver;

@@ -10,9 +10,9 @@ class CollaborationService {
     private collaborationRepository: Repository<CollaborateEntity>,
   ) {}
 
-  async findAll(): Promise<CollaborateEntity[]> {
-    return this.collaborationRepository.find();
-  }
+  // async findAll(): Promise<CollaborateEntity[]> {
+  //   return this.collaborationRepository.find();
+  // }
 }
 
 export default CollaborationService;

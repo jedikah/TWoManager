@@ -10,9 +10,9 @@ class ConvocationService {
     private convocationRepository: Repository<ConvocationEntity>,
   ) {}
 
-  async findAll(): Promise<ConvocationEntity[]> {
-    return this.convocationRepository.find();
-  }
+  // async findAll(): Promise<ConvocationEntity[]> {
+  //   return this.convocationRepository.find();
+  // }
 }
 
 export default ConvocationService;
