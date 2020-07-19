@@ -1,10 +1,12 @@
 import { TableName } from '../TableName';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
+
+import { FolderEntity } from './folder.entity';
 
 @ObjectType()
 @Entity({ name: TableName.Client })
-export class clientEntity {
+export class ClientEntity {
   @Field()
   @PrimaryGeneratedColumn()
   clientId: number;
@@ -20,4 +22,10 @@ export class clientEntity {
   @Field()
   @Column()
   contact: string;
+
+  @OneToMany(
+    type => FolderEntity,
+    folder => folder.client,
+  )
+  folders: FolderEntity[];
 }

@@ -1,7 +1,17 @@
 import { TableName } from '../TableName';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  ManyToOne,
+} from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
 
+import { ClientEntity } from './client.entity';
+import { UserEntity } from './user.entity';
+import { FactureEntity } from './facture.entity';
+import { ConvocationEntity } from './convocation.entity';
 @ObjectType()
 @Entity({ name: TableName.Folder })
 export class FolderEntity {
@@ -52,4 +62,28 @@ export class FolderEntity {
   @Field()
   @Column()
   price: number;
+
+  @ManyToOne(
+    type => UserEntity,
+    user => user.folders,
+  )
+  user: UserEntity;
+
+  @ManyToOne(
+    type => ClientEntity,
+    client => client.folders,
+  )
+  client: ClientEntity;
+
+  @ManyToOne(
+    type => FactureEntity,
+    facture => facture.folders,
+  )
+  facture: FactureEntity;
+
+  @OneToMany(
+    type => ConvocationEntity,
+    convocation => convocation.folder,
+  )
+  convovations: ConvocationEntity[];
 }

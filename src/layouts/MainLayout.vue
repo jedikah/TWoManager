@@ -109,6 +109,9 @@ export default class MainLayout extends Vue {
   private left = false;
   private right = false;
   private time = -1;
+  constructor(private times) {
+    super();
+  }
 
   @user.State
   public sessionStatus: string;

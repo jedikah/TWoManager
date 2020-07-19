@@ -1,6 +1,8 @@
 import { TableName } from '../TableName';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
+
+import { FolderEntity } from './folder.entity';
 
 @ObjectType()
 @Entity({ name: TableName.Facture })
@@ -12,4 +14,10 @@ export class FactureEntity {
   @Field()
   @Column()
   dateFacture: Date;
+
+  @OneToMany(
+    type => FolderEntity,
+    folder => folder.facture,
+  )
+  folders: FolderEntity[];
 }

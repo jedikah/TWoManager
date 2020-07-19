@@ -8,7 +8,7 @@ import titleConst from './child.constant';
 
 process.on('message', (payloads: { title: string; data: any }) => {
   const title = payloads.title;
-  if (title === titleConst.Child_process_is_started) {
+  if (title === titleConst.ChildProcessIsStarted) {
     console.log('**************', title, '*************');
     require('./src/main.ts');
 

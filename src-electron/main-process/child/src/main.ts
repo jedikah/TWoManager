@@ -7,9 +7,9 @@ import title from '../child.constant';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   await app.listen(3000);
-  Logger.log('Server start http://localhost:3000/graphql', 'Bootstap');
+  // Logger.log('Server start http://localhost:3000/graphql', 'Bootstap');
   process.send({
-    title: title.start_nest_server,
+    title: title.StartNestServer,
     data: {
       start: 'Server start http://localhost:3000/graphql',
     },

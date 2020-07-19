@@ -65,12 +65,12 @@ app.on('ready', () => {
     stdio: ['inherit', 'inherit', 'inherit', 'ipc']
   });
 
-  child.send({ title: titleCont.Child_process_is_started, data: {} });
+  child.send({ title: titleCont.ChildProcessIsStarted, data: {} });
 
   child.on('message', (payloads: { title: string; data: any }) => {
     const title = payloads.title,
       data = payloads.data;
-    if (title === titleCont.start_nest_server) console.log(data.start);
+    if (title === titleCont.StartNestServer) console.log(data.start);
   });
 
   child.unref();

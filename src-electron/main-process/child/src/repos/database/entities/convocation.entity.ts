@@ -1,6 +1,16 @@
 import { TableName } from '../TableName';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
+
+import { FolderEntity } from './folder.entity';
+import { PvEntity } from './pv.entity';
 
 @ObjectType()
 @Entity({ name: TableName.Convocation })
@@ -36,4 +46,14 @@ export class ConvocationEntity {
   @Field()
   @Column()
   requisitionNum: string;
+
+  @ManyToOne(
+    type => FolderEntity,
+    folder => folder.convovations,
+  )
+  folder: FolderEntity;
+
+  @OneToOne(type => PvEntity)
+  @JoinColumn()
+  pv: PvEntity;
 }
