@@ -30,7 +30,28 @@ type UserEntity {
   folders: [FolderEntity!]!
 }
 
+type UserOutput {
+  userId: Float!
+  userName: String!
+  login: String!
+}
+
 type Query {
-  HelloWorld: String!
+  login(input: LoginInput!): String!
   getUsers: [UserEntity!]
+}
+
+input LoginInput {
+  login: String!
+  password: String!
+}
+
+type Mutation {
+  adduser(input: UserInput!): UserOutput!
+}
+
+input UserInput {
+  userName: String!
+  login: String!
+  password: String!
 }

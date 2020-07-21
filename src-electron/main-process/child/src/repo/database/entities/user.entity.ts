@@ -17,7 +17,7 @@ import { FolderEntity } from './folder.entity';
 export class UserEntity {
   @Field()
   @PrimaryGeneratedColumn({ name: 'user_Id' })
-  userId: number;
+  userId?: number;
 
   @Field()
   @Column({ name: 'user_Name' })
@@ -36,5 +36,5 @@ export class UserEntity {
   categories: ClientEntity[];
 
   @Field(type => [FolderEntity])
-  folders: FolderEntity[];
+  folders?: FolderEntity[];
 }

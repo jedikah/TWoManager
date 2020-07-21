@@ -1,15 +1,24 @@
-import { Global, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
+import { PassportModule } from '@nestjs/passport';
+import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import Resolvers from './resolver';
+import { AuthsService } from './auths/auths.service';
+import { jwtConstants } from './auths/constants';
 import Entities from './database/entities';
-import Services from './services';
+import { Resolvers, Services } from '.';
+import { JwtStrategy } from './auths/jwt.strategy';
 
-@Global()
 @Module({
-  imports: [TypeOrmModule.forFeature(Entities)],
-  providers: [...Services, ...Resolvers],
-  exports: [...Services, ...Resolvers],
+  imports: [
+    TypeOrmModule.forFeature(Entities),
+    PassportModule.register({ defaultStrategy: 'jwt' }),
+    JwtModule.register({
+      secret: jwtConstants.secret,
+      signOptions: { expiresIn: jwtConstants.expiresIn },
+    }),
+  ],
+  providers: [AuthsService, ...Resolvers, ...Services, JwtStrategy],
+  exports: [AuthsService],
 })
-class RepoModule {}
-export default RepoModule;
+export class RepoModule {}

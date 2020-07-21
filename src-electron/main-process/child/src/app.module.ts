@@ -3,13 +3,14 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import Resolvers from './repo/resolver';
-import RepoModule from './repo/repo.module';
+import { RepoModule } from './repo/repo.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import Entities from './repo/database/entities';
 
 @Module({
   imports: [
+    RepoModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -17,14 +18,17 @@ import { AppService } from './app.service';
       username: 'root',
       password: 'root',
       database: 'twomanager',
-      migrations: ['src/repo/database/migrations/*.ts'],
-      migrationsRun: true,
+      // migrations: ['src/repo/database/migrations/*.ts'],
+      // migrationsRun: true,
       autoLoadEntities: true,
+      synchronize: false,
     }),
-    RepoModule,
-    GraphQLModule.forRoot({
-      playground: true,
-      autoSchemaFile: join(process.cwd(), 'src/repo/types/schema.gql'),
+    GraphQLModule.forRootAsync({
+      useFactory: () => ({
+        autoSchemaFile: join(process.cwd(), 'src/repo/types/schema.gql'),
+        playground: true,
+        context: ({ req }) => ({ req }),
+      }),
     }),
   ],
   controllers: [AppController],
