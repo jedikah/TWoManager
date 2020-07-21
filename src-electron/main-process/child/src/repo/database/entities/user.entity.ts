@@ -5,9 +5,8 @@ import {
   PrimaryGeneratedColumn,
   ManyToMany,
   JoinTable,
-  OneToMany,
 } from 'typeorm';
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType, ID } from '@nestjs/graphql';
 
 import { ClientEntity } from './client.entity';
 import { FolderEntity } from './folder.entity';
@@ -15,7 +14,7 @@ import { FolderEntity } from './folder.entity';
 @ObjectType()
 @Entity({ name: TableName.User })
 export class UserEntity {
-  @Field()
+  @Field(() => ID)
   @PrimaryGeneratedColumn({ name: 'user_Id' })
   userId?: number;
 
@@ -30,6 +29,14 @@ export class UserEntity {
   @Field()
   @Column({ name: 'password' })
   password: string;
+
+  @Field()
+  @Column({ name: 'type' })
+  type: string;
+
+  @Field()
+  @Column({ name: 'status' })
+  status: boolean;
 
   @ManyToMany(type => ClientEntity)
   @JoinTable()

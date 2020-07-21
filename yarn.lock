@@ -2906,6 +2906,11 @@
   dependencies:
     tslib "^1.9.3"
 
+"@xialvjun/js-utils@^0.3.7":
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/@xialvjun/js-utils/-/js-utils-0.3.7.tgz#1842d4c95f40fe1fa9075b8fe6b7bbbf9c1a4e90"
+  integrity sha512-IUkqFT5x8m0PJOlv08Vm802EsrZDtEoZVKYk8q4NDfeUMhCU7TRhHKrETygEFenCefVPyVq11SKGYO4oDPCuUA==
+
 "@xtuc/ieee754@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@xtuc/ieee754/-/ieee754-1.2.0.tgz#eef014a3145ae477a1cbc00cd1e552336dceb790"
@@ -9824,6 +9829,11 @@ lru-queue@0.1:
   dependencies:
     es5-ext "~0.10.2"
 
+lunr@^2.3.8:
+  version "2.3.8"
+  resolved "https://registry.yarnpkg.com/lunr/-/lunr-2.3.8.tgz#a8b89c31f30b5a044b97d2d28e2da191b6ba2072"
+  integrity sha512-oxMeX/Y35PNFuZoHp+jUj5OSEmLCaIH4KTFJh7a93cHBoFmpw2IoPs22VIz7vyO2YUnx2Tn9dzIwO2P/4quIRg==
+
 macos-release@^2.2.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/macos-release/-/macos-release-2.4.0.tgz#837b39fc01785c3584f103c5599e0f0c8068b49e"
@@ -13091,7 +13101,7 @@ shebang-regex@^3.0.0:
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-3.0.0.tgz#ae16f1644d873ecad843b0307b143362d4c42172"
   integrity sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==
 
-shell-quote@^1.6.1:
+shell-quote@^1.6.1, shell-quote@^1.7.2:
   version "1.7.2"
   resolved "https://registry.yarnpkg.com/shell-quote/-/shell-quote-1.7.2.tgz#67a7d02c76c9da24f99d20808fcaded0e0e04be2"
   integrity sha512-mRz/m/JVscCrkMyPqHc/bczi3OQHkLTqXHEFu0zDhK/qfv3UcOA4SVmRCLmos4bhjr9ekVQubj/R7waKapmiQg==
@@ -14259,6 +14269,18 @@ ts-node@^8.9.1:
     source-map-support "^0.5.17"
     yn "3.1.1"
 
+ts-sql-plugin@^0.8.1:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/ts-sql-plugin/-/ts-sql-plugin-0.8.1.tgz#b6eda60db920d469558d6116a63e3b23983510d8"
+  integrity sha512-sp/UOj91VPF6sve2XBDBukl/cnyE3ncLnHa1pH0opgQdbH0qBiELG7rAn7A8a/g4Pnl8HF1Li5KKsbD+v6eJSg==
+  dependencies:
+    "@xialvjun/js-utils" "^0.3.7"
+    commander "^5.0.0"
+    lunr "^2.3.8"
+    shell-quote "^1.7.2"
+    tslib "^2.0.0"
+    typescript-template-language-service-decorator "^2.2.0"
+
 tsconfig-paths-webpack-plugin@3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/tsconfig-paths-webpack-plugin/-/tsconfig-paths-webpack-plugin-3.2.0.tgz#6e70bd42915ad0efb64d3385163f0c1270f3e04d"
@@ -14423,6 +14445,11 @@ typeorm@^0.2.25:
     xml2js "^0.4.17"
     yargonaut "^1.1.2"
     yargs "^13.2.1"
+
+typescript-template-language-service-decorator@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/typescript-template-language-service-decorator/-/typescript-template-language-service-decorator-2.2.0.tgz#4ee6d580f307fb9239978e69626f2775b8a59b2a"
+  integrity sha512-xiolqt1i7e22rpqMaprPgSFVgU64u3b9n6EJlAaUYE61jumipKAdI1+O5khPlWslpTUj80YzjUKjJ2jxT0D74w==
 
 typescript@3.9.5:
   version "3.9.5"

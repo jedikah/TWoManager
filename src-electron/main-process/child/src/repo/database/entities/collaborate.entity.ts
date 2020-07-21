@@ -1,11 +1,11 @@
 import { TableName } from '../TableName';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType, ID } from '@nestjs/graphql';
 
 @ObjectType()
 @Entity({ name: TableName.Collaborate })
 export class CollaborateEntity {
-  @Field()
+  @Field(() => ID)
   @PrimaryGeneratedColumn({ name: 'client_Id' })
   clientId: number;
 

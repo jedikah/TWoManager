@@ -33,6 +33,20 @@ export const UsersTable: Table = new Table({
       isUnique: false,
       length: '15',
     },
+    {
+      name: 'type',
+      type: 'varchar',
+      isNullable: true,
+      isUnique: false,
+      length: '15',
+    },
+    {
+      name: 'status',
+      type: 'boolean',
+      isNullable: false,
+      isUnique: false,
+      default: false,
+    },
   ],
 });
 

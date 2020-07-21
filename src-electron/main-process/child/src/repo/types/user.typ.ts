@@ -1,4 +1,4 @@
-import { Field, InputType, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType, ID } from '@nestjs/graphql';
 
 @InputType()
 export class UserInput {
@@ -14,7 +14,7 @@ export class UserInput {
 
 @ObjectType()
 export class UserOutput {
-  @Field()
+  @Field(() => ID)
   userId: number;
 
   @Field()
@@ -35,7 +35,7 @@ export class LoginInput {
 
 @ObjectType()
 export class TokenCreator {
-  @Field()
+  @Field(() => ID)
   userId?: number;
 
   @Field()

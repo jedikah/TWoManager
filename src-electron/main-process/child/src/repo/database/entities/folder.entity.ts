@@ -7,16 +7,16 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType, ID } from '@nestjs/graphql';
 
 import { ClientEntity } from './client.entity';
 import { UserEntity } from './user.entity';
 import { FactureEntity } from './facture.entity';
-import { ConvocationEntity } from './convocation.entity';
+
 @ObjectType()
 @Entity({ name: TableName.Folder })
 export class FolderEntity {
-  @Field()
+  @Field(() => ID)
   @PrimaryGeneratedColumn({ name: 'folder_Id' })
   folderId: number;
 
