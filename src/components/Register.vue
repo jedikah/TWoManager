@@ -25,11 +25,11 @@
                 style="background-color: #1976d217; margin-bottom: 15px"
               >
                 <img
-                  v-if="pdpPath !== ''"
+                  v-if="picture !== ''"
                   :src="'data:image/png;base64,' + b64"
                 />
                 <q-icon
-                  v-if="pdpPath === ''"
+                  v-if="picture === ''"
                   name="face"
                   class="cursor-pointer"
                 />
@@ -48,12 +48,12 @@
                 <template v-slot:before>
                   <q-avatar size="40px">
                     <img
-                      v-if="pdpPath !== ''"
+                      v-if="picture !== ''"
                       :src="'data:image/png;base64,' + b64"
                     />
                     <q-icon
                       style="font-size: 2em"
-                      v-if="pdpPath === ''"
+                      v-if="picture === ''"
                       name="face"
                       class="cursor-pointer"
                     />
@@ -159,22 +159,21 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 
+import { RegisterInput } from '../store/user/types';
+
 const user = namespace('user');
 
-@Component
+@Component({ name: 'Register' })
 export default class Register extends Vue {
   private name = '';
   private login = '';
   private password = '';
   private pwdVisible = false;
-  private pdpPath = '';
+  private picture = '';
+  private pdpSrc = null;
 
   @user.Action
-  private initUsers: () => void;
-
-  mounted() {
-    this.initUsers();
-  }
+  private register: (input: RegisterInput) => void;
 
   reset() {
     this.name = '';
@@ -185,16 +184,14 @@ export default class Register extends Vue {
     //
   }
   handleSubmit() {
-    this.saveCountInfo();
-    this.triggerPositive();
-    this.$emit('onSubmit');
-  }
-
-  triggerPositive() {
-    this.$q.notify({
-      type: 'positive',
-      message: 'Enregistrement reussi, vous pouvez terminer'
+    const { notify } = this.$q;
+    this.register({
+      userName: this.name,
+      login: this.login,
+      password: this.password,
+      notify
     });
+    this.$emit('onSubmit');
   }
 }
 </script>

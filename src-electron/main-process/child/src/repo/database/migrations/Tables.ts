@@ -31,7 +31,7 @@ export const UsersTable: Table = new Table({
       type: 'varchar',
       isNullable: false,
       isUnique: false,
-      length: '15',
+      length: '65',
     },
     {
       name: 'type',
@@ -43,7 +43,7 @@ export const UsersTable: Table = new Table({
     {
       name: 'status',
       type: 'boolean',
-      isNullable: false,
+      isNullable: true,
       isUnique: false,
       default: false,
     },

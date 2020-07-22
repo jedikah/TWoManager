@@ -27,8 +27,8 @@ type UserEntity {
   userName: String!
   login: String!
   password: String!
-  type: String!
-  status: Boolean!
+  type: String
+  status: Boolean
   folders: [FolderEntity!]!
 }
 
@@ -36,11 +36,19 @@ type UserOutput {
   userId: ID!
   userName: String!
   login: String!
+  type: String
+  status: Boolean
+}
+
+type LoginOutput {
+  token: String!
+  type: String!
 }
 
 type Query {
-  login(input: LoginInput!): String!
-  getUsers: [UserEntity!]
+  login(input: LoginInput!): LoginOutput!
+  users: [UserEntity!]
+  usersCount: Int!
 }
 
 input LoginInput {

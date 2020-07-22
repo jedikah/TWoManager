@@ -21,7 +21,7 @@
               outlined
               color="grey-3"
               label-color="orange"
-              v-model="login"
+              v-model="userLogin"
               label="Votre login *"
               hint="Indentifiant de connexion"
               lazy-rules
@@ -96,37 +96,35 @@ const user = namespace('user');
 
 @Component({ name: 'Login' })
 export default class Login extends Vue {
-  private login = '';
+  private userLogin = '';
   private password = '';
   private pwdVisible = false;
 
   @user.Action
-  public setSession: (session: string) => void;
+  private setSession: (session: string) => void;
+
+  @user.Action
+  private login: (input: {
+    login: string;
+    password: string;
+    notify: Function;
+  }) => void;
 
   mounted() {
-    console.log(this.$route.path);
+    // console.log(this.$route.path);
   }
 
   reset() {
-    this.login = '';
+    this.userLogin = '';
     this.password = '';
   }
 
-  async handleSubmit() {
-    //
-  }
-
-  triggerPositive() {
-    this.$q.notify({
-      type: 'positive',
-      message: 'Login et mot de passe correct!'
-    });
-  }
-
-  triggerNegative() {
-    this.$q.notify({
-      type: 'negative',
-      message: 'Login ou mot de passe incorrect!'
+  handleSubmit() {
+    const { notify } = this.$q;
+    this.login({
+      login: this.userLogin,
+      password: this.password,
+      notify
     });
   }
 }

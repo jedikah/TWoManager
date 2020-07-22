@@ -30,17 +30,13 @@ export class UserEntity {
   @Column({ name: 'password' })
   password: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Column({ name: 'type' })
-  type: string;
+  type?: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Column({ name: 'status' })
-  status: boolean;
-
-  @ManyToMany(type => ClientEntity)
-  @JoinTable()
-  categories: ClientEntity[];
+  status?: boolean;
 
   @Field(type => [FolderEntity])
   folders?: FolderEntity[];

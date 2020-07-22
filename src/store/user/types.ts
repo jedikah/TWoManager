@@ -9,7 +9,15 @@ export interface UserState {
   loadingUser?: boolean;
 }
 
+export interface RegisterInput {
+  userName: string;
+  login: string;
+  password: string;
+  notify: Function;
+}
+
 export interface LoginInput {
   login: string;
   password: string;
+  notify: Function;
 }
