@@ -18,3 +18,71 @@
 .border-grey {
   border: 1px solid grey;
 }
+
+.form-black {
+  background: #111;
+  width: 300px;
+  margin: 30px auto;
+  border-radius: 0.4em;
+  border: 1px solid #191919;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 5px 10px 5px rgba(0, 0, 0, 0.2);
+}
+
+.form-black:after {
+  content: '';
+  display: block;
+  position: absolute;
+  height: 1px;
+  width: 100px;
+  left: 20%;
+  background: linear-gradient(left, #111, #444, #b6b6b8, #444, #111);
+  top: 0;
+}
+
+.form-black:before {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 8px;
+  height: 5px;
+  border-radius: 50%;
+  left: 34%;
+  top: -7px;
+  box-shadow: 0 0 6px 4px #fff;
+}
+
+.form-black .h1-black {
+  font-size: 18px;
+  text-shadow: 0 1px 0 black;
+  text-align: center;
+  padding: 15px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 1);
+  position: relative;
+}
+
+.form-black .h1-black:after {
+  position: absolute;
+  width: 330px;
+  height: 580px;
+  content: '';
+  display: block;
+  pointer-events: none;
+  top: 0;
+  left: 115px;
+  margin-left: 138px;
+  transform-style: flat;
+  transform: skew(15deg);
+  background: linear-gradient(
+    to bottom,
+    hsla(0, 0%, 100%, 0.233) 0%,
+    hsla(0, 0%, 100%, 0) 100%
+  );
+}
+
+.label-black {
+  color: #666;
+  display: block;
+  padding-bottom: 9px;
+}

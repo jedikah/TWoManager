@@ -31,6 +31,10 @@ export class UserEntity {
   password: string;
 
   @Field({ nullable: true })
+  @Column({ name: 'photo' })
+  photo?: string;
+
+  @Field({ nullable: true })
   @Column({ name: 'type' })
   type?: string;
 

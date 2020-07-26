@@ -25,7 +25,7 @@ module.exports = configure(function(ctx) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://quasar.dev/quasar-cli/boot-files
-    boot: [],
+    boot: ['notify-defaults'],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
     css: ['app.scss'],
@@ -162,7 +162,7 @@ module.exports = configure(function(ctx) {
 
     // Full list of options: https://quasar.dev/quasar-cli/developing-electron-apps/configuring-electron
     electron: {
-      bundler: 'packager', // 'packager' or 'builder'
+      bundler: 'builder', // 'packager' or 'builder'
 
       packager: {
         // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
@@ -176,9 +176,40 @@ module.exports = configure(function(ctx) {
       },
 
       builder: {
+        appId: 'two_manager',
         // https://www.electron.build/configuration/configuration
         compression: 'maximum',
-        appId: 'update_version'
+        appId: 'update_version',
+        directories: {
+          output: 'dist',
+          buildResources: 'build'
+        },
+        files: [
+          {
+            from: '../../../src-electron/main-process/child',
+            to: 'child',
+            filter: [
+              '**/*',
+              '!../../../src-electron/main-process/child/src/**/*'
+            ]
+          },
+          '**/*',
+          '!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}',
+          '!**/node_modules/*/{test,__tests__,tests,powered-test,example,examples}',
+          '!**/node_modules/*.d.ts',
+          '!**/node_modules/.bin',
+          '!**/*.{iml,o,hprof,orig,pyc,pyo,rbc,swp,csproj,sln,xproj}',
+          '!.editorconfig',
+          '!**/._*',
+          '!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}',
+          '!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}',
+          '!**/{appveyor.yml,.travis.yml,circle.yml}',
+          '!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}'
+        ],
+        extraResources: [],
+        win: {
+          icon: 'build/icons/icon.ico'
+        }
       },
 
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration

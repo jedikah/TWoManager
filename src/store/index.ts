@@ -2,7 +2,7 @@ import { store } from 'quasar/wrappers';
 import Vuex from 'vuex';
 
 import RootState from './types';
-import { user } from './user';
+import { user } from './loginPage';
 
 // import example from './module-example';
 // import { ExampleStateInterface } from './module-example/state';

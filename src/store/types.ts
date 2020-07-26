@@ -1,4 +1,4 @@
-import { UserState } from './user/types';
+import { UserState } from './loginPage/types';
 
 export default interface RootState {
   version: string;

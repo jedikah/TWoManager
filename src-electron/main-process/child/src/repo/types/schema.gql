@@ -27,6 +27,7 @@ type UserEntity {
   userName: String!
   login: String!
   password: String!
+  photo: String
   type: String
   status: Boolean
   folders: [FolderEntity!]!
@@ -45,8 +46,19 @@ type LoginOutput {
   type: String!
 }
 
+type VerifyToken {
+  userId: ID!
+  userName: String!
+  login: String!
+  type: String!
+  status: Boolean!
+  iat: Int!
+  exp: Int!
+}
+
 type Query {
   login(input: LoginInput!): LoginOutput!
+  checkToken(input: String!): VerifyToken!
   users: [UserEntity!]
   usersCount: Int!
 }
@@ -58,6 +70,7 @@ input LoginInput {
 
 type Mutation {
   register(input: UserInput!): UserOutput!
+  uploadFile(file: Upload!): Boolean!
 }
 
 input UserInput {
@@ -65,3 +78,6 @@ input UserInput {
   login: String!
   password: String!
 }
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload

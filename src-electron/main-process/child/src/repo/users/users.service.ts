@@ -26,6 +26,7 @@ export class UsersService {
 
     return user[0];
   }
+
   async getUsersCount(): Promise<number> {
     return await this.userRepository.count();
   }

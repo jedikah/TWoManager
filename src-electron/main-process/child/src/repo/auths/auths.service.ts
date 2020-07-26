@@ -14,9 +14,15 @@ export class AuthsService {
       login: user.login,
       userId: user.userId,
       userName: user.userName,
+      type: user.type,
+      status: user.status,
     };
     return {
       access_token: this.jwtService.sign(payload),
     };
+  }
+
+  checkToken(token: string) {
+    return this.jwtService.verify(token);
   }
 }

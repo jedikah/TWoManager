@@ -22,6 +22,8 @@ const Mutations = {
     console.log({ data: response.data });
     return response.data.register;
   }
+
+  // uploadFile: async (File)
 };
 
 export default Mutations;

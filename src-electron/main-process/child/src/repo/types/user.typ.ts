@@ -1,4 +1,4 @@
-import { Field, InputType, ObjectType, ID } from '@nestjs/graphql';
+import { Field, InputType, ObjectType, ID, Int } from '@nestjs/graphql';
 
 @InputType()
 export class UserInput {
@@ -79,4 +79,28 @@ export class LoginOutput {
 
   @Field()
   type: string;
+}
+
+@ObjectType()
+export class VerifyToken {
+  @Field(() => ID)
+  userId: number;
+
+  @Field()
+  userName: string;
+
+  @Field()
+  login: string;
+
+  @Field()
+  type: string;
+
+  @Field()
+  status: boolean;
+
+  @Field(() => Int)
+  iat: number;
+
+  @Field(() => Int)
+  exp: number;
 }

@@ -1,4 +1,4 @@
-import { app, BrowserWindow, nativeTheme } from 'electron';
+import { app, BrowserWindow, nativeTheme, dialog } from 'electron';
 
 import titleCont from './child/child.constant';
 
@@ -55,11 +55,20 @@ function createWindow() {
 
 app.on('ready', () => {
   const path = require('path');
-  const file = 'index.ts';
+  const isDev = require('electron-is-dev');
+  let file = 'app.asar/child/index.ts';
+  let cwd = path.join(__dirname, '..');
 
+  if (isDev) {
+    file = 'index.ts';
+    cwd = path.join(__dirname, 'child');
+  }
+  // dialog.showMessageBox(mainWindow, {
+  //   message: path.join(__dirname)
+  // });
   const { fork } = require('child_process');
   const child = fork(file, [], {
-    cwd: path.join(__dirname, '/child'),
+    cwd,
     shell: true,
     execArgv: ['-r', 'ts-node/register'],
     stdio: ['inherit', 'inherit', 'inherit', 'ipc']

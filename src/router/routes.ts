@@ -4,10 +4,10 @@ const routes: RouteConfig[] = [
   {
     path: '/',
     component: () => import('layouts/SimpleLayout.vue'),
-    children: [{ path: '', component: () => import('pages/Index.vue') }]
+    children: [{ path: '', component: () => import('pages/index1.vue') }]
   },
   {
-    path: '/main',
+    path: '/main/:userId?',
     component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', component: () => import('pages/WorkSpace.vue') }]
   }

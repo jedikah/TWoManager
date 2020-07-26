@@ -1,9 +1,6 @@
 <template>
-  <q-card
-    class="my-card"
-    style="height: 100%; background: white; box-shadow: none"
-  >
-    <q-card-section style="height: 50px">
+  <q-card :class="'my-card ' + myclass.form" style="height: 100%">
+    <q-card-section :class="myclass.h1" style="height: 50px;">
       <div class="text-h6 text-center" style="color: #f2c037">S'identifier</div>
     </q-card-section>
 
@@ -11,12 +8,13 @@
 
     <q-card-section>
       <div class="q-pa-md">
-        <q-form @submit.prevent="handleSubmit" class="q-gutter-md col">
+        <q-form @submit.prevent="handleSubmit" class="q-gutter-md col ">
           <!--
               SECTION FORMULAIRE
             -->
-          <div class=" col-8" style="padding-top: 15px; margin-">
+          <div class=" col-8 q-gutter-lg " style="padding-top: 15px; ">
             <q-input
+              :dark="myclass.dark"
               :dense="true"
               outlined
               color="grey-3"
@@ -34,6 +32,7 @@
               </template>
             </q-input>
             <q-input
+              :dark="myclass.dark"
               :dense="true"
               outlined
               color="grey-3"
@@ -86,7 +85,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 // import { LoginInput } from 'src/store/user/types';
 
@@ -99,6 +98,8 @@ export default class Login extends Vue {
   private userLogin = '';
   private password = '';
   private pwdVisible = false;
+  @Prop({ default: { form: '', h1: '', dark: false } })
+  readonly myclass?: string;
 
   @user.Action
   private setSession: (session: string) => void;
@@ -111,7 +112,9 @@ export default class Login extends Vue {
   }) => void;
 
   mounted() {
-    // console.log(this.$route.path);
+    // console.log(
+    //   this.$router.push({ name: 'main', params: { userId: '2' } })
+    // );
   }
 
   reset() {
@@ -121,6 +124,7 @@ export default class Login extends Vue {
 
   handleSubmit() {
     const { notify } = this.$q;
+
     this.login({
       login: this.userLogin,
       password: this.password,

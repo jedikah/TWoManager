@@ -1,4 +1,4 @@
-import { UsersResolver } from './users/users.resolver';
+import { UsersResolver } from './users/resolvers';
 import { PvsResolver } from './pvs/pvs.resolver';
 import { LettersResolver } from './letters/letters.resolver';
 import { FoldersResolver } from './folders/folders.resolver';
@@ -18,7 +18,7 @@ import { AuthsService } from './auths/auths.service';
 import { UsersService } from './users/users.service';
 
 export const Resolvers = [
-  UsersResolver,
+  ...UsersResolver,
   PvsResolver,
   LettersResolver,
   FoldersResolver,
@@ -39,24 +39,3 @@ export const Services = [
   AuthsService,
   UsersService,
 ];
-
-export {
-  UsersResolver,
-  PvsResolver,
-  LettersResolver,
-  FoldersResolver,
-  FacturesResolver,
-  ConvocationsResolver,
-  CollaborationsResolver,
-  ClientsResolver,
-  //
-  PvsService,
-  LettersService,
-  FoldersService,
-  FacturesService,
-  ConvocationsService,
-  CollaborationsService,
-  ClientsService,
-  AuthsService,
-  UsersService,
-};

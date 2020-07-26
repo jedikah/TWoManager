@@ -34,6 +34,13 @@ export const UsersTable: Table = new Table({
       length: '65',
     },
     {
+      name: 'photo',
+      type: 'varchar',
+      isNullable: true,
+      isUnique: false,
+      length: '15',
+    },
+    {
       name: 'type',
       type: 'varchar',
       isNullable: true,

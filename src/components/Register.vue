@@ -1,9 +1,6 @@
 <template>
-  <q-card
-    class="my-card"
-    style="height: 100%; background: white;  box-shadow: none"
-  >
-    <q-card-section style="height: 50px">
+  <q-card :class="'my-card ' + myclass.form" style="height: 100%;">
+    <q-card-section :class="myclass.h1" style="height: 50px">
       <div class="text-h6 text-center" style="color: #f2c037">
         Créer un compte
       </div>
@@ -13,60 +10,51 @@
 
     <q-card-section>
       <div class="q-pa-md">
-        <q-form @submit.prevent="handleSubmit" class="q-gutter-md col">
-          <div class="column">
+        <q-form @submit.prevent="handleSubmit" class=" col">
+          <div class="column full-width">
             <!--
               SECTION PDP
             -->
-            <div class=" column justify-center items-center col-4">
+            <div
+              class=" row full-width justify-center items-center col-4"
+              style="margin: 0;"
+            >
               <!--Avatar-->
-              <q-avatar
-                size="125px"
-                style="background-color: #1976d217; margin-bottom: 15px"
-              >
-                <img
-                  v-if="picture !== ''"
-                  :src="'data:image/png;base64,' + b64"
-                />
-                <q-icon
-                  v-if="picture === ''"
-                  name="face"
-                  class="cursor-pointer"
-                />
-              </q-avatar>
+              <div class="col-4">
+                <q-avatar
+                  size="125px"
+                  style="background-color: #1976d217; margin-bottom: 15px"
+                >
+                  <q-img v-if="b64 !== ''" :src="b64"></q-img>
+                  <q-icon
+                    v-if="b64 === ''"
+                    name="face"
+                    class="cursor-pointer"
+                  />
+                </q-avatar>
+              </div>
               <!--File chooser-->
               <q-file
+                class="col-8"
+                :dark="myclass.dark"
                 :dense="true"
                 outlined
                 bottom-slots
                 v-model="pdpSrc"
                 label-color="orange"
                 label="Cliquer pour choisir une photo de profil"
-                accept=".jpg, .png"
                 counter
+                accept=".jpg"
               >
-                <template v-slot:before>
-                  <q-avatar size="40px">
-                    <img
-                      v-if="picture !== ''"
-                      :src="'data:image/png;base64,' + b64"
-                    />
-                    <q-icon
-                      style="font-size: 2em"
-                      v-if="picture === ''"
-                      name="face"
-                      class="cursor-pointer"
-                    />
-                  </q-avatar>
-                </template>
               </q-file>
             </div>
 
             <!--
               SECTION FORMULAIRE
             -->
-            <div class="row col-8">
+            <div class="row col-8 q-gutter-lg">
               <q-input
+                :dark="myclass.dark"
                 class="col-12"
                 :dense="true"
                 outlined
@@ -81,6 +69,7 @@
               />
 
               <q-input
+                :dark="myclass.dark"
                 class="col-6"
                 :dense="true"
                 outlined
@@ -100,6 +89,7 @@
               </q-input>
 
               <q-input
+                :dark="myclass.dark"
                 class="col-6"
                 :dense="true"
                 outlined
@@ -124,7 +114,7 @@
               </q-input>
             </div>
           </div>
-
+          <q-btn download="abcd.zip" :href="b64">download</q-btn>
           <div class=" full-width" style="">
             <q-btn-group
               class=" full-width"
@@ -156,12 +146,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
 import { namespace } from 'vuex-class';
 
-import { RegisterInput } from '../store/user/types';
+import { RegisterInput } from '../store/loginPage/types';
+// import { fileToB64 } from '../module/base64';
 
 const user = namespace('user');
+// const base64 = require('base64-min');
 
 @Component({ name: 'Register' })
 export default class Register extends Vue {
@@ -169,8 +161,17 @@ export default class Register extends Vue {
   private login = '';
   private password = '';
   private pwdVisible = false;
-  private picture = '';
+  private b64: string | ArrayBuffer = '';
   private pdpSrc = null;
+  @Prop({ default: { form: '', h1: '', dark: false } })
+  readonly myclass?: string;
+
+  @Watch('pdpSrc')
+  changePdp(src) {
+    // this.b64 = await fileToB64(src);
+    this.b64 = URL.createObjectURL(src);
+    console.log(src);
+  }
 
   @user.Action
   private register: (input: RegisterInput) => void;
@@ -180,9 +181,7 @@ export default class Register extends Vue {
     this.login = '';
     this.password = '';
   }
-  saveCountInfo() {
-    //
-  }
+
   handleSubmit() {
     const { notify } = this.$q;
     this.register({
