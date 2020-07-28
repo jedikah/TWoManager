@@ -6,6 +6,7 @@ import { UserEntity } from '../../database/entities';
 import { createWriteStream } from 'fs';
 import { request } from 'http';
 import * as FormData from 'form-data';
+import axios from 'axios';
 
 @Resolver(of => UserEntity)
 export class UsersUpload {
@@ -22,40 +23,25 @@ export class UsersUpload {
     console.log(f);
 
     return new Promise(async (resolve, reject) => {
-      // const data = await axios({
-      //   method: 'post',
-      //   url: 'http://localhost/Nouveau/index.php',
-      //   data: createReadStream(),
-      //   headers: {
-      //     Accept: 'application/json, text/plain, */*',
-      //     'Content-Type': 'multipart/form-data',
-      //     'User-Agent': 'axios/0.19.2',
-      //   },
-      // });
+      const bodyFormData = new FormData();
+      bodyFormData.append('pdp', createReadStream(), filename);
 
-      const form = new FormData();
-      form.append('pdp', createReadStream(), 'filename.test');
-
-      console.log({ header: form.getHeaders() });
-
-      const req = request(
-        {
-          host: 'localhost',
-          port: '80',
-          path: '/Nouveau/index.php',
-          method: 'POST',
-          headers: form.getHeaders(),
-        },
-        response => {
-          console.log(response.statusCode); // 200
-          response.on('data', data => {
-            console.log(data.toString());
-            resolve(true);
-          });
-        },
-      );
-
-      form.pipe(req);
+      axios({
+        method: 'post',
+        url: 'http://localhost/Nouveau/index.php',
+        data: bodyFormData,
+        headers: bodyFormData.getHeaders(),
+      })
+        .then(function(response) {
+          //handle success
+          console.log(response.data);
+          resolve(true);
+        })
+        .catch(function(response) {
+          //handle error
+          console.log(response);
+          reject(false);
+        });
     });
   }
 }
