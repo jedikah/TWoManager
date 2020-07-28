@@ -1,4 +1,5 @@
 import { Field, InputType, ObjectType, ID, Int } from '@nestjs/graphql';
+import { GraphQLUpload, FileUpload } from 'graphql-upload';
 
 @InputType()
 export class UserInput {
@@ -103,4 +104,13 @@ export class VerifyToken {
 
   @Field(() => Int)
   exp: number;
+}
+
+@InputType()
+export class File {
+  @Field()
+  login: string;
+
+  @Field()
+  password: string;
 }

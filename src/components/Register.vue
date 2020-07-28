@@ -112,6 +112,7 @@
                   />
                 </template>
               </q-input>
+              <input type="file" name="image" @change="onChange" />
             </div>
           </div>
           <q-btn download="abcd.zip" :href="b64">download</q-btn>
@@ -188,9 +189,27 @@ export default class Register extends Vue {
       userName: this.name,
       login: this.login,
       password: this.password,
+      pdpPath: this.pdpSrc,
       notify
     });
     this.$emit('onSubmit');
+  }
+
+  onChange({
+    target: {
+      validity,
+      files: [file]
+    }
+  }) {
+    const { notify } = this.$q;
+    this.register({
+      userName: this.name,
+      login: this.login,
+      password: this.password,
+      pdpPath: file,
+      notify
+    });
+    console.log({ validity, file });
   }
 }
 </script>

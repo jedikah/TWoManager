@@ -24,6 +24,7 @@ export interface RegisterInput {
   userName: string;
   login: string;
   password: string;
+  pdpPath?: string;
   notify: Function;
 }
 

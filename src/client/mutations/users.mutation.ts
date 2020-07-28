@@ -21,9 +21,24 @@ const Mutations = {
     });
     console.log({ data: response.data });
     return response.data.register;
-  }
+  },
 
-  // uploadFile: async (File)
+  uploadPdp: async file => {
+    console.log(file);
+
+    const response = await graphqlClient.mutate({
+      mutation: gql`
+        mutation UploadFile($file: Upload!) {
+          uploadFile(file: $file)
+        }
+      `,
+      variables: { file: file },
+      context: {
+        hasUpload: true
+      }
+    });
+    return response.data.uploadFile;
+  }
 };
 
 export default Mutations;
