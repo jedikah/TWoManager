@@ -14,8 +14,6 @@ import { Component, Vue } from 'vue-property-decorator';
 // import { Session } from 'src/store/user/types';
 import userSession from 'src/module/session.module';
 
-// const user = namespace('user');
-
 @Component({
   name: 'SimpleLayout'
 })

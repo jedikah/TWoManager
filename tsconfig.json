@@ -19,5 +19,6 @@
       "*.ts": ["*"]
     }
   },
-  "exclude": ["src-electron/main-process/child"]
+  "exclude": ["src-electron/main-process/child"],
+  "include": ["src/", "src-electron"]
 }

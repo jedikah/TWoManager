@@ -2,7 +2,7 @@ import { store } from 'quasar/wrappers';
 import Vuex from 'vuex';
 
 import RootState from './types';
-import { user } from './loginPage';
+import { loginPage } from '../pages/loginPage/loginPage.moduleStore';
 
 // import example from './module-example';
 // import { ExampleStateInterface } from './module-example/state';
@@ -20,7 +20,7 @@ export default store(function({ Vue }) {
       version: '1.0.0'
     },
     modules: {
-      user
+      loginPage
     },
 
     // enable strict mode (adds overhead!)

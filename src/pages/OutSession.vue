@@ -23,7 +23,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 @Component({
   name: 'OutSession',
   components: {
-    Login: require('src/components/Login.vue').default
+    Login: require('src/components/login/Login.vue').default
   }
 })
 export default class OutSession extends Vue {

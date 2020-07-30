@@ -97,7 +97,7 @@ import { namespace } from 'vuex-class';
 import userSession from 'src/module/session.module';
 // import { disconnect } from 'cluster';
 
-const user = namespace('user');
+const loginPage = namespace('loginPage');
 
 @Component({
   name: 'MainLayout',
@@ -113,10 +113,10 @@ export default class MainLayout extends Vue {
     super();
   }
 
-  @user.State
+  @loginPage.State
   public sessionStatus: string;
 
-  @user.Action
+  @loginPage.Action
   public setSession: (session: string) => void;
 
   @Watch('sessionStatus')

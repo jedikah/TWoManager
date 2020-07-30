@@ -44,7 +44,6 @@ const notifyThere = (
 
 const Queries = {
   login: async (login: string, password: string, notify?: Function) => {
-    // try {
     const response = await graphqlClient.query({
       query: gql`
         query Login($input: LoginInput!) {
