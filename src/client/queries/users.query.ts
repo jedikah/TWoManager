@@ -1,17 +1,13 @@
 import graphqlClient from '../index';
 import gql from 'graphql-tag';
 import { GraphQLError } from 'graphql/error/GraphQLError';
+import { Notify } from 'quasar';
 
-const notifyThis = (
-  notify: Function,
-  message: string,
-  type = 'warning',
-  position = 'bottom-right'
-) => {
-  notify({
+const notifyThis = (message: string, type = 'warning') => {
+  Notify.create({
     type: type,
     message,
-    position,
+    position: 'bottom-right',
     timeout: 6000,
     multiLine: true,
     progress: true,
@@ -27,44 +23,86 @@ const notifyThis = (
   });
 };
 
-const notifyThere = (
-  notify: Function,
-  errors: readonly GraphQLError[],
-  type = 'warning',
-  position = 'bottom-right'
-) => {
+const notifyThere = (errors: readonly GraphQLError[], type = 'warning') => {
   let i = 0;
   errors.map(err => {
     const time = parseInt(i++ + '000', 10);
     setTimeout(() => {
-      notifyThis(notify, err.message, type, position);
+      notifyThis(err.message, type);
     }, time);
   });
 };
 
 const Queries = {
-  login: async (login: string, password: string, notify?: Function) => {
-    const response = await graphqlClient.query({
-      query: gql`
-        query Login($input: LoginInput!) {
-          login(input: $input) {
-            token
-            type
+  checkToken: async (token?: string) => {
+    if (!token) token = localStorage.getItem('token') || null;
+
+    const message = 'Veuillez vous connecter pour ouvrir une nouvelle session.';
+
+    let response = null;
+    if (token)
+      try {
+        response = await graphqlClient.query({
+          query: gql`
+            query CheckToken($input: String!) {
+              checkToken(input: $input) {
+                userId
+                userName
+                login
+                photo
+                type
+                status
+                iat
+                exp
+              }
+            }
+          `,
+          variables: {
+            input: token
+          },
+          fetchPolicy: 'network-only'
+        });
+
+        if (response.errors) {
+          notifyThere(response.errors);
+          return null;
+        }
+
+        return response.data.checkToken;
+      } catch (err) {
+        console.log('users query, checkToken: ', err);
+      }
+    else notifyThis(message, 'info');
+  },
+  login: async (login: string, password: string) => {
+    try {
+      const response = await graphqlClient.query({
+        query: gql`
+          query Login($input: LoginInput!) {
+            login(input: $input) {
+              token
+              type
+            }
           }
-        }
-      `,
-      variables: {
-        input: {
-          login,
-          password
-        }
-      },
-      errorPolicy: 'all'
-    });
+        `,
+        variables: {
+          input: {
+            login,
+            password
+          }
+        },
+        errorPolicy: 'all'
+      });
 
-    if (response.errors && notify) notifyThere(notify, response.errors);
+      if (response.errors) {
+        notifyThere(response.errors);
+        return null;
+      }
 
-    return response.data.login;
+      return response.data.login;
+    } catch (err) {
+      console.log({ errMezs: err.message });
+    }
   },
 
   getUsers: async () => {
@@ -84,7 +122,7 @@ const Queries = {
     return response.data.users;
   },
 
-  usersCount: async (notify: Function) => {
+  usersCount: async () => {
     const response = await graphqlClient.query({
       query: gql`
         query UsersCount {
@@ -94,38 +132,9 @@ const Queries = {
       errorPolicy: 'all'
     });
 
-    if (response.errors && notify) notifyThere(notify, response.errors);
+    if (response.errors) notifyThere(response.errors);
 
     return response.data.usersCount;
-  },
-
-  checkToken: async (notify: Function, token?: string) => {
-    if (!token) token = localStorage.getItem('token');
-    const message =
-      'Votre dernière session à éxpiré, veuillez vous reconnecter.';
-
-    if (token) {
-      const response = await graphqlClient.query({
-        query: gql`
-          query($input: String!) {
-            checkToken(input: $input) {
-              userId
-              userName
-              login
-              type
-              status
-              iat
-              exp
-            }
-          }
-        `,
-        variables: { input: token },
-        errorPolicy: 'all'
-      });
-      if (response.errors && notify) notifyThere(notify, response.errors);
-
-      return response.data.checkToken;
-    } else notifyThis(notify, message, 'info');
   }
 };
 

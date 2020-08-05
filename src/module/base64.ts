@@ -1,5 +1,5 @@
 export const fileToB64 = async (src: Blob) => {
-  const b64: string | ArrayBuffer = await new Promise((resolve, reject) => {
+  const b64: string | ArrayBuffer = await new Promise(resolve => {
     const reader = new FileReader();
     reader.readAsDataURL(src);
     reader.onload = e => {

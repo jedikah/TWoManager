@@ -1,5 +1,5 @@
 declare enum title {
     ChildProcessIsStarted = "Child process is started",
-    StartNestServer = "start nest server"
+    StartNestServer = "Start nest server"
 }
 export default title;

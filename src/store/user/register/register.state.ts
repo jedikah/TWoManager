@@ -1,13 +1,14 @@
 import { RegisterForm } from './register.types';
 
-export const registerState: {
+export interface RegisterState {
   form: RegisterForm;
-} = {
+}
+
+export const registerState: RegisterState = {
   form: {
     userName: '',
     login: '',
     password: '',
-    pdpFile: null,
-    notify: null
+    pdpFile: null
   }
 };

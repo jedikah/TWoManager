@@ -15165,6 +15165,11 @@ tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
   integrity sha1-WuaBd/GS1EViadEIr6k/+HQ/T2Q=
 
+two-way-decorator@^0.2.2:
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/two-way-decorator/-/two-way-decorator-0.2.2.tgz#2d1e7f2c85d3e5f465ffea29e56b04542738d777"
+  integrity sha512-I1oEcXVQ4AbF3cVE8cbYzB7TB4OASO+XECp5+nU6uwb4rMNzAcU6l4z5BhjSqr2gDtKCXM8rjUlOA2fkQL/qEg==
+
 type-check@~0.3.2:
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/type-check/-/type-check-0.3.2.tgz#5884cab512cf1d355e3fb784f30804b2b520db72"
@@ -15835,6 +15840,16 @@ vuex-class@^0.3.2:
   version "0.3.2"
   resolved "https://registry.yarnpkg.com/vuex-class/-/vuex-class-0.3.2.tgz#c7e96a076c1682137d4d23a8dcfdc63f220e17a8"
   integrity sha512-m0w7/FMsNcwJgunJeM+wcNaHzK2KX1K1rw2WUQf7Q16ndXHo7pflRyOV/E8795JO/7fstyjH3EgqBI4h4n4qXQ==
+
+vuex-map-decorators@^1.2.7:
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/vuex-map-decorators/-/vuex-map-decorators-1.2.7.tgz#feeb965ea5687ee5aae0dda8c933c65f50f78f5e"
+  integrity sha512-0IlSScmYZnWts3D39g8TbhRx3tTRur0/hMveQ+rPjbDEwz71TZXOpgIed42B/3FCAnMUyNMR+g+r0WReM4Cbhg==
+
+vuex-map-fields@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/vuex-map-fields/-/vuex-map-fields-1.4.0.tgz#cb3530a1c153be63bdcf32221defe4a14f8a6ac8"
+  integrity sha512-fwRgCwzgxS2GB3ADbPtO6laDlBVLzu+yV+60yZ6/nqPqbn2Ds5G85NeUZojOVLWcaFIMNpuG0ukZ9KKJXh/95A==
 
 vuex@3.4.0:
   version "3.4.0"

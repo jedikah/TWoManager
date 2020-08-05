@@ -79,12 +79,13 @@ app.on('ready', () => {
   child.on('message', (payloads: { title: string; data: any }) => {
     const title = payloads.title,
       data = payloads.data;
-    if (title === titleCont.StartNestServer) console.log(data.start);
+    if (title === titleCont.StartNestServer) {
+      createWindow();
+      console.log(data.start);
+    }
   });
 
   child.unref();
-
-  createWindow();
 });
 
 app.on('window-all-closed', () => {

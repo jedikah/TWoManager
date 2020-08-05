@@ -72,6 +72,7 @@
     "simple-ajax-uploader": "^2.6.7",
     "sqlite3": "^5.0.0",
     "ts-sql-plugin": "^0.8.1",
+    "two-way-decorator": "^0.2.2",
     "type-graphql": "^1.0.0-rc.3",
     "typeorm": "^0.2.25",
     "urllib": "^2.36.1",
@@ -81,6 +82,8 @@
     "vue-i18n": "^8.18.2",
     "vue-property-decorator": "^8.3.0",
     "vuex-class": "^0.3.2",
+    "vuex-map-decorators": "^1.2.7",
+    "vuex-map-fields": "^1.4.0",
     "webpack-html-plugin": "^0.1.1"
   },
   "devDependencies": {

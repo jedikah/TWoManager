@@ -1,33 +1,44 @@
 <template>
-  <q-page
-    v-if="session === 'disconnected'"
-    class="column fullscreen items-center  justify-center"
-    style="background-color: #2f2d2da3"
+  <q-page-container
+    v-if="!sessionState"
+    class="column fullscreen items-center  justify-center noFilter"
+    style="background-color: #2f2d2da3;"
   >
-    <Login style="height: 300px; height: 300px" />
-    <q-card
-      v-if="countDown <= 15"
-      style="height: 90px; width: 150px; background: none; color: white; opacity: 0.5; line-height: 10px;text-align: center; position: fixed; bottom: 50px"
-    >
-      <p></p>
-      <p>session expiré dans:</p>
-      <p>{{ countDown }}</p>
-      <p>second</p>
-    </q-card>
-  </q-page>
+    <SessionLogin style="height: 300px; height: 400px">
+      <q-btn
+        label="dsfsdf"
+        color="amber"
+        text-color="black"
+        @click="reconnect = true"
+      />
+    </SessionLogin>
+  </q-page-container>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue } from 'vue-property-decorator';
+import { mapFields } from 'vuex-map-fields';
 
 @Component({
   name: 'OutSession',
   components: {
-    Login: require('src/components/login/Login.vue').default
+    SessionLogin: require('src/components/authentification/SessionLogin.vue')
+      .default
+  },
+  computed: {
+    ...mapFields({
+      currentUser: 'usersModule.currentUser',
+      sessionState: 'usersModule.session'
+    })
   }
 })
 export default class OutSession extends Vue {
-  @Prop() readonly countDown: number;
-  @Prop() readonly session: string;
+  private reconnect = false;
+  private currentUser;
+  private sessionState;
+
+  mounted() {
+    // console.log({ cur: this.currentUser });
+  }
 }
 </script>

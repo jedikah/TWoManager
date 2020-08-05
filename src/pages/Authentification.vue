@@ -80,10 +80,10 @@
 import { Component, Vue } from 'vue-property-decorator';
 
 @Component({
-  name: 'index',
+  name: 'Authentification',
   components: {
-    Login: require('src/components/login/Login.vue').default,
-    Register: require('src/components/register/Register.vue').default
+    Login: require('src/components/authentification/Login.vue').default,
+    Register: require('src/components/authentification/Register.vue').default
   }
 })
 export default class Index extends Vue {

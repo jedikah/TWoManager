@@ -10,7 +10,17 @@
 
     <q-card-section>
       <div class="q-pa-md">
-        <q-form @submit.prevent="handleSubmit" class=" col">
+        <q-form
+          @submit.prevent="
+            register({
+              userName,
+              login,
+              password,
+              pdpFile
+            })
+          "
+          class=" col"
+        >
           <div class="column full-width">
             <!--
               SECTION PDP
@@ -25,7 +35,7 @@
                   size="125px"
                   style="background-color: #1976d217; margin-bottom: 15px"
                 >
-                  <q-img v-if="b64 !== ''" :src="b64"></q-img>
+                  <q-img v-if="b64 !== ''" :src="b64" />
                   <q-icon
                     v-if="b64 === ''"
                     name="face"
@@ -42,13 +52,18 @@
                 :dense="true"
                 outlined
                 bottom-slots
-                v-model="pdpSrc"
+                v-model="pdpFileInput"
                 max-file-size="2000048"
                 label-color="orange"
                 label="Poids max (2M)"
                 counter
                 accept=".jpg"
-                @rejected="onRejected"
+                @rejected="
+                  $q.notify({
+                    type: 'negative',
+                    message: 'Votre photo de profile ne doit pas dépasser 2Mo'
+                  })
+                "
               >
               </q-file>
             </div>
@@ -62,7 +77,7 @@
                 :dense="true"
                 outlined
                 label-color="orange"
-                v-model="name"
+                v-model="userName"
                 label="Votre nom *"
                 hint="Nom complet"
                 lazy-rules
@@ -148,8 +163,8 @@
               </div>
               <!-- BOUTON SUBMIT  -->
               <q-btn-group
-                class=" full-width"
-                style=" box-shadow: none"
+                class=" col-12"
+                style=" box-shadow: none; "
                 spread
                 push
               >
@@ -164,7 +179,12 @@
                   color="orange"
                   text-color="black"
                   type="reset"
-                  @click="reset"
+                  @click="
+                    userName = '';
+                    login = '';
+                    password = '';
+                    passwordConfirm = '';
+                  "
                   push
                   label="Reset"
                 />
@@ -179,60 +199,42 @@
 
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
-import { namespace } from 'vuex-class';
+import { mapFields } from 'vuex-map-fields';
+import { mapActions } from 'vuex';
 
-import { RegisterForm } from './register.types';
-// import { fileToB64 } from '../module/base64';
-
-const user = namespace('loginPage');
-// const base64 = require('base64-min');
-
-@Component({ name: 'Register' })
+@Component({
+  name: 'Register',
+  computed: {
+    ...mapFields({
+      login: 'usersModule.registerState.form.login',
+      userName: 'usersModule.registerState.form.userName',
+      password: 'usersModule.registerState.form.password',
+      pdpFile: 'usersModule.registerState.form.pdpSrc'
+    })
+  },
+  methods: {
+    ...mapActions('usersModule', {
+      register: 'register'
+    })
+  }
+})
 export default class Register extends Vue {
-  private name = '';
-  private login = '';
-  private password = '';
+  private pdpFileInput = null;
+
+  private userName: string;
   private passwordConfirm = '';
   private pwdVisible = false;
   private b64: string | ArrayBuffer = '';
-  private pdpSrc = null;
+  private pdpFile?: File | string;
+
   @Prop({ default: { form: '', h1: '', dark: false } })
   readonly myclass?: string;
 
-  @Watch('pdpSrc')
+  @Watch('pdpFileInput')
   changePdp(src) {
     this.b64 = URL.createObjectURL(src);
-  }
-
-  @user.Action
-  private register: (input: RegisterForm) => void;
-
-  reset() {
-    this.name = '';
-    this.login = '';
-    this.password = '';
-    this.passwordConfirm = '';
-  }
-
-  handleSubmit() {
-    const { notify } = this.$q;
-    this.register({
-      userName: this.name,
-      login: this.login,
-      password: this.password,
-      pdpFile: this.pdpSrc,
-      notify
-    });
-    this.$emit('onSubmit');
-  }
-
-  onRejected() {
-    // Notify plugin needs to be installed
-    // https://quasar.dev/quasar-plugins/notify#Installation
-    this.$q.notify({
-      type: 'negative',
-      message: 'Votre photo de profile ne doit pas dépasser 2Mo'
-    });
+    this.pdpFile = src;
+    console.log({ src, b64: this.b64 });
   }
 }
 </script>

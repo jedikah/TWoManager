@@ -1,8 +1,9 @@
 import { store } from 'quasar/wrappers';
 import Vuex from 'vuex';
+import { getField, updateField } from 'vuex-map-fields';
 
 import RootState from './types';
-import { loginPage } from '../pages/loginPage/loginPage.moduleStore';
+import { usersModule } from './user/usersModule.store';
 
 // import example from './module-example';
 // import { ExampleStateInterface } from './module-example/state';
@@ -20,8 +21,11 @@ export default store(function({ Vue }) {
       version: '1.0.0'
     },
     modules: {
-      loginPage
+      usersModule
     },
+    actions: {},
+    getters: { getField },
+    mutations: { updateField },
 
     // enable strict mode (adds overhead!)
     // for dev mode only

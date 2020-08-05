@@ -14,6 +14,7 @@ export class AuthsService {
       login: user.login,
       userId: user.userId,
       userName: user.userName,
+      photo: user.photo,
       type: user.type,
       status: user.status,
     };

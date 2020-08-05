@@ -1,4 +1,4 @@
-import { ApolloClient } from 'apollo-client';
+import { ApolloClient, DefaultOptions } from 'apollo-client';
 import { HttpLink } from 'apollo-link-http';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloLink } from 'apollo-link';
@@ -27,6 +27,13 @@ const httpUploadOptions = {
   // }
 };
 
+const defaultOptions: DefaultOptions = {
+  watchQuery: {},
+  query: {
+    errorPolicy: 'all'
+  }
+};
+
 const httpLink = ApolloLink.split(
   operation => operation.getContext().hasUpload,
   createUploadLink(httpUploadOptions),
@@ -36,8 +43,8 @@ const httpLink = ApolloLink.split(
 // Create the apollo client
 const apolloClient = new ApolloClient({
   link: ApolloLink.from([httpLink]),
-
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
+  defaultOptions
 });
 
 export default apolloClient;

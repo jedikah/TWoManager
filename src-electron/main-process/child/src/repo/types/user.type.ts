@@ -81,10 +81,10 @@ export class User {
 
 @ObjectType()
 export class LoginOutput {
-  @Field()
+  @Field({ nullable: true })
   token: string;
 
-  @Field()
+  @Field({ nullable: true })
   type: string;
 }
 
@@ -98,6 +98,9 @@ export class VerifyToken {
 
   @Field()
   login: string;
+
+  @Field({ nullable: true })
+  photo: string;
 
   @Field()
   type: string;

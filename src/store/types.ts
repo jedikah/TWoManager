@@ -1,6 +1,6 @@
-import { LoginPageState } from '../pages/loginPage/loginPage.types';
+import { UsersState } from './user/users.types';
 
 export default interface RootState {
   version: string;
-  loginPage?: LoginPageState;
+  usersState?: UsersState;
 }

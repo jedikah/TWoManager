@@ -7,24 +7,19 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-// import { namespace } from 'vuex-class';
-
-// import { User } from 'src/models/types';
-// import { Session } from 'src/store/user/types';
-import userSession from 'src/module/session.module';
+import { Component, Vue, Watch } from 'vue-property-decorator';
+import { mapActions } from 'vuex';
+import { mapFields } from 'vuex-map-fields';
 
 @Component({
-  name: 'SimpleLayout'
+  name: 'SimpleLayout',
+  computed: {
+    ...mapFields({
+      sessionState: 'usersModule.session'
+    })
+  }
 })
 export default class SimpleLayout extends Vue {
-  mounted() {
-    userSession.start(this, {
-      IdUser: null,
-      name: null,
-      login: null,
-      password: null
-    });
-  }
+  private sessionState;
 }
 </script>

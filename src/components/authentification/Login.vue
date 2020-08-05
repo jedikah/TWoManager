@@ -8,7 +8,15 @@
 
     <q-card-section>
       <div class="q-pa-md">
-        <q-form @submit.prevent="handleSubmit" class="q-gutter-md col ">
+        <q-form
+          @submit.prevent="
+            loginSubmit({
+              loginState,
+              passwordState
+            })
+          "
+          class="q-gutter-md col "
+        >
           <!--
               SECTION FORMULAIRE
             -->
@@ -19,7 +27,7 @@
               outlined
               color="grey-3"
               label-color="orange"
-              v-model="login"
+              v-model="loginState"
               label="Votre login *"
               hint="Indentifiant de connexion"
               lazy-rules
@@ -39,7 +47,7 @@
               label-color="orange"
               lazy-rules
               label="Mot de passe *"
-              v-model="password"
+              v-model="passwordState"
               :type="!pwdVisible ? 'password' : 'text'"
               :rules="[
                 val => (val && val.length > 0) || 'Le champ est obligatoir'
@@ -55,15 +63,8 @@
                 />
               </template>
             </q-input>
-          </div>
 
-          <div class="row justify-center" style="">
-            <q-btn-group
-              class=" full-width"
-              style=" box-shadow: none"
-              spread
-              push
-            >
+            <q-btn-group class=" col-12" style=" box-shadow: none" spread push>
               <q-btn
                 label="Valider"
                 type="submit"
@@ -74,7 +75,10 @@
                 label="Reset"
                 color="orange"
                 text-color="black"
-                @click="reset()"
+                @click="
+                  login = '';
+                  password = '';
+                "
               />
             </q-btn-group>
           </div>
@@ -86,68 +90,31 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
-import { namespace } from 'vuex-class';
+import { mapFields } from 'vuex-map-fields';
+import { mapActions } from 'vuex';
 
-import { loginState } from './login.state';
-
-const loginPage = namespace('loginPage');
-
-@Component({ name: 'Login' })
+@Component({
+  name: 'Login',
+  computed: {
+    ...mapFields({
+      loginState: 'usersModule.loginState.form.login',
+      passwordState: 'usersModule.loginState.form.password'
+    })
+  },
+  methods: {
+    ...mapActions('usersModule', { loginSubmit: 'loginSubmit' })
+  }
+})
 export default class Login extends Vue {
   //Props
-  @Prop({ default: { form: '', h1: '', dark: false } })
-  readonly myclass?: string;
+  @Prop({
+    required: false,
+    type: Object,
+    default: () => ({ form: '', h1: '', dark: false })
+  })
+  readonly myclass: { from: string; h1: string; dark: boolean };
 
   private pwdVisible = false;
-
-  //state
-  @loginPage.State
-  private loginState: typeof loginState;
-
-  // action
-  @loginPage.Action
-  private setLogin: (login: string) => void;
-
-  @loginPage.Action
-  private setPassword: (password: string) => void;
-
-  @loginPage.Action
-  private loginSubmit: (input: typeof loginState.form) => void;
-  //getter and setter
-  get login() {
-    return this.loginState.form.login;
-  }
-
-  set login(value) {
-    this.setLogin(value);
-  }
-
-  get password() {
-    return this.loginState.form.password;
-  }
-
-  set password(value) {
-    this.setPassword(value);
-  }
-
-  mounted() {
-    // console.log({ state: this.loginState.form.login });
-  }
-
-  reset() {
-    this.setPassword('');
-    this.setLogin('');
-  }
-
-  handleSubmit() {
-    const { notify } = this.$q;
-
-    this.loginSubmit({
-      login: this.login,
-      password: this.password,
-      notify
-    });
-  }
 }
 </script>
 

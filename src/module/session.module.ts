@@ -1,42 +1,9 @@
 import { IdleSessionTimeout } from 'idle-session-timeout';
 
-import OfflineTokenGen from './offlineTokenGen';
-
 /**
  * IDLE SESSION TIMEOUT
  */
-const session = new IdleSessionTimeout(5 * 60 * 1000);
-const otg = new OfflineTokenGen();
-
-const getTokenStore = () => {
-  return localStorage.getItem('token') || null;
-};
-
-const getTokenData = (token: string) => {
-  const data = otg.read(token) || null;
-  return data;
-};
-
-const generateTokenToStore = (user: {
-  IdUser: string;
-  name: string;
-  login: string;
-  password: string;
-}) => {
-  const getToken = getTokenStore();
-  let tokenIsValid = false;
-
-  if (getToken) {
-    const checkValidation = getTokenData(getToken);
-    if (checkValidation) {
-      tokenIsValid = true;
-    }
-  }
-  if (!tokenIsValid) {
-    const newToken = otg.generate(user);
-    localStorage.setItem('token', newToken);
-  }
-};
+const session = new IdleSessionTimeout(30 * 1000);
 
 const timeOutAt = session.getTimeLeft();
 
@@ -58,63 +25,37 @@ const isMultipleof30 = (n: number) => {
 
 const stop = () => {
   session.dispose();
-  localStorage.removeItem('token');
 };
 
-const start = (
-  { $router, $route },
-  user?: { IdUser: string; name: string; login: string; password: string }
-) => {
-  const token = localStorage.getItem('token') || null;
+const start = ({ $router, $route }, currentUserExp) => {
+  session.onTimeOut = () => {
+    const exp =
+      currentUserExp -
+      parseInt(
+        Date.now()
+          .toString(10)
+          .substring(0, 10)
+      );
 
-  let isStarted = false;
-
-  if (token) {
-    const tokenData = getTokenData(token);
-    isStarted = true;
-
-    if (!tokenData && $route.path !== '/' && user.IdUser) {
-      generateTokenToStore(user);
-      session.dispose();
-    } else if (tokenData && $route.path !== '/') {
+    if (exp <= 0) {
       $router.push('/');
-      session.dispose();
-    } else if (tokenData && $route.path === '/') {
-      $router.push('/main');
-    } else if (!tokenData && $route.path === '/' && user.IdUser) {
-      generateTokenToStore(user);
-      $router.push('/main');
-    } else isStarted = false;
-  } else if (!token && $route.path === '/' && user.IdUser) {
-    generateTokenToStore(user);
-    isStarted = true;
-    $router.push('/main');
-  }
-  if (isStarted) {
-    session.onTimeOut = () => {
-      if (!getTokenData(token)) $router.push('/');
-      isStarted = true;
+    }
+    setTimeout(() => {
       stop();
-    };
+    }, 1500);
+  };
 
-    session.onTimeLeftChange = time => {
-      const t = Math.round(time / 1000);
-      if (isMultipleof30(t)) console.log(t);
-    };
-    session.start();
-  }
-
-  console.log('started: ', isStarted);
-  return isStarted;
+  session.onTimeLeftChange = time => {
+    //
+  };
+  session.start();
 };
 
 export default {
-  getTokenStore,
   onTimeOut: session.onTimeOut,
+  sessionRestart: session.start,
   isMultipleof30,
-  generateTokenToStore,
   start,
-  getTokenData,
   onTimeOutChange,
   timeOutAt,
   stop

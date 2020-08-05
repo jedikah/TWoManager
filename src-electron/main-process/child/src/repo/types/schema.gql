@@ -43,14 +43,15 @@ type UserOutput {
 }
 
 type LoginOutput {
-  token: String!
-  type: String!
+  token: String
+  type: String
 }
 
 type VerifyToken {
   userId: ID!
   userName: String!
   login: String!
+  photo: String
   type: String!
   status: Boolean!
   iat: Int!
@@ -59,6 +60,7 @@ type VerifyToken {
 
 type Query {
   login(input: LoginInput!): LoginOutput!
+  loginSession(input: LoginInput!): Boolean!
   checkToken(input: String!): VerifyToken!
   users: [UserEntity!]
   usersCount: Int!

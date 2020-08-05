@@ -20,7 +20,15 @@ export class UsersService {
 
   async getUserByLogin(login: string): Promise<UserEntity> {
     const user = await this.userRepository.find({
-      select: ['userId', 'userName', 'login', 'password', 'type', 'status'],
+      select: [
+        'userId',
+        'userName',
+        'login',
+        'photo',
+        'password',
+        'type',
+        'status',
+      ],
       where: { login: login },
     });
 

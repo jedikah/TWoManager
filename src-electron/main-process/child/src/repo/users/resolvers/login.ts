@@ -15,6 +15,15 @@ export class UsersLogin {
     private authsService: AuthsService,
   ) {}
 
+  async pwdCompare(inputPwd, pwd) {
+    return await new Promise((resolve, reject) => {
+      bcrypt.compare(inputPwd, pwd, (err, result) => {
+        if (!result) resolve(result);
+        else resolve(result);
+      });
+    });
+  }
+
   @Query(() => LoginOutput)
   async login(@Args('input') input: LoginInput) {
     const user = (await this.usersService.getUserByLogin(
@@ -22,12 +31,7 @@ export class UsersLogin {
     )) as User;
 
     if (user) {
-      const isMatch = await new Promise((resolve, reject) => {
-        bcrypt.compare(input.password, user.password, function(err, result) {
-          if (!result) resolve(result);
-          else resolve(result);
-        });
-      });
+      const isMatch = await this.pwdCompare(input.password, user.password);
 
       if (isMatch) {
         if (user.status === true) {
@@ -55,5 +59,14 @@ export class UsersLogin {
       'Ce login ne correspond pas!',
       HttpStatus.NOT_FOUND,
     );
+  }
+
+  @Query(() => Boolean)
+  async loginSession(@Args('input') input: LoginInput) {
+    const user = (await this.usersService.getUserByLogin(
+      input.login.toLocaleLowerCase(),
+    )) as User;
+
+    return await this.pwdCompare(input.password, user.password);
   }
 }
