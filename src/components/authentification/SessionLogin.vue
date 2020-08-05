@@ -90,6 +90,8 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import { mapFields } from 'vuex-map-fields';
 import { mapActions } from 'vuex';
 
+import userSession from 'src/module/session.module.ts';
+
 @Component({
   name: 'Login',
   computed: {

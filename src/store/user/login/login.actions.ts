@@ -47,7 +47,7 @@ export const loginActions: ActionTree<UsersState, RootState> = {
       'setSession',
       await usersQuery.loginSession(loginState, passwordState)
     );
-    // commit('reinitLoginState');
+    commit('reinitLoginState');
   },
 
   async checkTokenSession({}) {

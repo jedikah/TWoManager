@@ -5,10 +5,22 @@ import { UsersState, RegisterForm } from './register.types';
 import RootState from 'src/store/types';
 import usersMutate from 'src/client/mutations/users.mutation';
 
-export const registerUsersMutation: MutationTree<UsersState> = {};
+export const registerUsersMutation: MutationTree<UsersState> = {
+  reinitResgisterState(state) {
+    state.registerState.form = {
+      userName: '',
+      login: '',
+      password: '',
+      pdpFile: null
+    };
+  }
+};
 
 export const registerUserAction: ActionTree<UsersState, RootState> = {
-  async register({}, { login, userName, password, pdpFile }: RegisterForm) {
+  async register(
+    { commit },
+    { login, userName, password, pdpFile }: RegisterForm
+  ) {
     let photo = null;
 
     if (await usersMutate.uploadPdp(pdpFile, login))
@@ -38,5 +50,6 @@ export const registerUserAction: ActionTree<UsersState, RootState> = {
         message: 'Créattion de compte échoué!'
       });
     }
+    this.commit('reinitResgisterState');
   }
 };

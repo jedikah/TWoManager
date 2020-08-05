@@ -112,7 +112,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { Component, Vue, Watch } from 'vue-property-decorator';
 import { mapFields } from 'vuex-map-fields';
 
 import userSession from 'src/module/session.module';
@@ -146,8 +146,14 @@ export default class MainLayout extends Vue {
     exp?: number;
   };
 
-  mounted() {
-    if (this.sessionState === true) {
+  @Watch('sessionState')
+  changeSession(session) {
+    console.log({ session });
+    this.startSession(session);
+  }
+
+  startSession(sessionState) {
+    if (sessionState === true) {
       userSession.start(this, this.currentUserState.exp);
       userSession.onTimeOutChange(t => {
         console.log({ t });
@@ -157,6 +163,10 @@ export default class MainLayout extends Vue {
         if (t === 0) this.sessionState = false;
       });
     }
+  }
+
+  mounted() {
+    this.startSession(this.sessionState);
   }
 }
 </script>
