@@ -2,7 +2,7 @@ import { boot } from 'quasar/wrappers';
 import { Notify } from 'quasar';
 import usersQueries from 'src/client/queries/users.query';
 
-export default boot(({ router, store }) => {
+export default boot(({ router, store, redirect }) => {
   router.beforeEach(async (to, from, next) => {
     try {
       const token = localStorage.getItem('token');
@@ -14,8 +14,6 @@ export default boot(({ router, store }) => {
         console.log({ userData });
 
         if (userData && to.path === '/') {
-          store.commit('usersModule/currentUser', userData);
-          store.commit('usersModule/session', false);
           next('/main');
         }
         if (!userData && to.path !== '/') {
@@ -55,6 +53,7 @@ export default boot(({ router, store }) => {
         };
 
         store.commit('usersModule/currentUser', newUserData);
+        // store.commit('usersModule/session', false);
       }
     } catch (err) {
       console.log('boot guard error: ' + err);

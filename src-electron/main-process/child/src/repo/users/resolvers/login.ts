@@ -1,10 +1,12 @@
 import { Resolver, Query, Args } from '@nestjs/graphql';
-import { HttpException, HttpStatus } from '@nestjs/common';
+import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 
 import { UserEntity } from '../../database/entities';
 import { UsersService } from '../users.service';
-import { LoginInput, User, LoginOutput } from '../../types';
+import { LoginInput, User, LoginOutput, UserOutput } from '../../types';
 import { AuthsService } from '../../auths/auths.service';
+import { CurrentUser } from './users.paramDecorator';
+import { GqlAuthGuard } from '../../auths/jwt-auth.guard';
 
 const bcrypt = require('bcrypt');
 
@@ -15,7 +17,7 @@ export class UsersLogin {
     private authsService: AuthsService,
   ) {}
 
-  async pwdCompare(inputPwd, pwd) {
+  async pwdCompare(inputPwd, pwd): Promise<boolean> {
     return await new Promise((resolve, reject) => {
       bcrypt.compare(inputPwd, pwd, (err, result) => {
         if (!result) resolve(result);
@@ -62,11 +64,19 @@ export class UsersLogin {
   }
 
   @Query(() => Boolean)
-  async loginSession(@Args('input') input: LoginInput) {
-    const user = (await this.usersService.getUserByLogin(
-      input.login.toLocaleLowerCase(),
-    )) as User;
+  @UseGuards(GqlAuthGuard)
+  async loginSession(
+    @CurrentUser() users: UserOutput,
+    @Args('input') input: LoginInput,
+  ) {
+    let response = false;
+    if (users) {
+      const user = (await this.usersService.getUserByLogin(
+        input.login.toLocaleLowerCase(),
+      )) as User;
 
-    return await this.pwdCompare(input.password, user.password);
+      response = await this.pwdCompare(input.password, user.password);
+    }
+    return response;
   }
 }

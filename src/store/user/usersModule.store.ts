@@ -33,6 +33,10 @@ const mutations: MutationTree<UsersState> = {
 
   currentUser(state, currentUser: typeof state.currentUser) {
     state.currentUser = currentUser;
+  },
+
+  setSession(state, session: typeof state.session) {
+    state.session = session;
   }
 };
 

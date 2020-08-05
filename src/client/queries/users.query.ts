@@ -3,6 +3,12 @@ import gql from 'graphql-tag';
 import { GraphQLError } from 'graphql/error/GraphQLError';
 import { Notify } from 'quasar';
 
+const context = () => ({
+  headers: {
+    authorization: `Bearer ${localStorage.getItem('token')}`
+  }
+});
+
 const notifyThis = (message: string, type = 'warning') => {
   Notify.create({
     type: type,
@@ -100,6 +106,35 @@ const Queries = {
       }
 
       return response.data.login;
+    } catch (err) {
+      console.log({ errMezs: err.message });
+    }
+  },
+
+  loginSession: async (login: string, password: string) => {
+    try {
+      const response = await graphqlClient.query({
+        query: gql`
+          query($input: LoginInput!) {
+            loginSession(input: $input)
+          }
+        `,
+        variables: {
+          input: {
+            login,
+            password
+          }
+        },
+        fetchPolicy: 'network-only',
+        context: context()
+      });
+
+      if (response.errors) {
+        notifyThere(response.errors);
+        return null;
+      }
+
+      return response.data.loginSession;
     } catch (err) {
       console.log({ errMezs: err.message });
     }

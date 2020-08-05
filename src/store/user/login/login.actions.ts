@@ -17,10 +17,6 @@ export const loginMutations: MutationTree<UsersState> = {
 
   setPassword(state: UsersState, password: string) {
     state.loginState.form.password = password;
-  },
-
-  setSession(state, session: boolean) {
-    state.session = session;
   }
 };
 
@@ -36,18 +32,31 @@ export const loginActions: ActionTree<UsersState, RootState> = {
       const currentUser = await usersQuery.checkToken(token);
       Notify.create({
         type: 'positive',
-        message: 'Vous êtes connecté en tant que "' + type + '"'
+        message: 'Vous êtes connecté en tant que ' + type
       });
       commit('currentUser', currentUser);
       commit('setSession', true);
       commit('reinitLoginState');
       console.log({ currentUser });
-      Router.push({ path: '/main' });
+      Router.replace('/main');
     }
+  },
+
+  async loginSessionSubmit({ commit }, { loginState, passwordState }) {
+    commit(
+      'setSession',
+      await usersQuery.loginSession(loginState, passwordState)
+    );
+    // commit('reinitLoginState');
+  },
+
+  async checkTokenSession({}) {
+    const token = localStorage.getItem('token');
+
+    if (token && !(await usersQuery.checkToken(token))) {
+      localStorage.removeItem('token');
+      Router.replace('/');
+    }
+    return true;
   }
-
-  // async loginSessionSubmit({ commit }) {
-
-  //   commit('reinitLoginState');
-  // }
 };

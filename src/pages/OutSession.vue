@@ -4,7 +4,7 @@
     class="column fullscreen items-center  justify-center noFilter"
     style="background-color: #2f2d2da3;"
   >
-    <SessionLogin style="height: 300px; height: 400px">
+    <SessionLogin style="width: 300px">
       <q-btn
         label="dsfsdf"
         color="amber"

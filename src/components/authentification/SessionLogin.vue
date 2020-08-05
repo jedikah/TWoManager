@@ -1,36 +1,46 @@
 <template>
-  <q-card
-    :class="'my-card ' + myclass.form"
-    style="height: 100%; background: none"
-  >
+  <q-card :class="'my-card '" :style="'background: none; margin-bottom: 5px;'">
     <div
       class=" full-width full-height"
       style="position: absolute;  background: white; opacity: 0.1 "
     ></div>
-    <q-card-section :class="myclass.h1" style="height: 50px;">
-      <div class="text-h6 text-center" style="color: #f2c037">
-        S'identifier
-      </div>
-    </q-card-section>
 
     <q-separator inset />
 
-    <q-card-section>
-      <div class="q-pa-md">
+    <q-card-section class="column" style="padding: 0; margin: 0">
+      <Avatar :src="currentUserState.photo" :name="currentUserState.userName" />
+      <q-btn
+        label="S'authentifier"
+        type="button"
+        color="amber"
+        text-color="black"
+        @click="
+          checkTokenSession();
+          toLogin = !toLogin;
+        "
+      />
+    </q-card-section>
+
+    <q-card-section
+      v-if="toLogin"
+      style="padding-top: 0; margin-top: 0; background: white"
+    >
+      <div class=" q-gutter-xs">
         <q-form
-          @submit.prevent="loginSessionSubmit(password)"
-          class="q-gutter-md col "
+          @submit.prevent="
+            loginSessionSubmit({
+              loginState: currentUserState.login,
+              passwordState
+            })
+          "
+          class="q-gutter-sx"
         >
           <!--
               SECTION FORMULAIRE
             -->
-          <Avatar
-            :src="currentUserState.photo"
-            :name="currentUserState.userName"
-          />
-          <div class=" col-8 q-gutter-lg " style="padding-top: 15px; ">
+
+          <div class=" col-8 q-gutter-xs " style="padding-top: 15px; ">
             <q-input
-              :dark="myclass.dark"
               :dense="true"
               outlined
               color="grey-3"
@@ -65,7 +75,7 @@
                 label="Reset"
                 color="orange"
                 text-color="black"
-                @click="password = ''"
+                @click="passwordState = ''"
               />
             </q-btn-group>
           </div>
@@ -89,20 +99,14 @@ import { mapActions } from 'vuex';
     })
   },
   methods: {
-    ...mapActions('usersModule', { loginSubmit: 'loginSubmit' })
+    ...mapActions('usersModule', ['loginSessionSubmit', 'checkTokenSession'])
   },
   components: {
     Avatar: require('../templates/Avatar.vue').default
   }
 })
 export default class Login extends Vue {
-  //Props
-  @Prop({
-    required: false,
-    type: Object,
-    default: () => ({ form: '', h1: '', dark: false })
-  })
-  readonly myclass: { from: string; h1: string; dark: boolean };
+  private toLogin = false;
 
   private pwdVisible = false;
 

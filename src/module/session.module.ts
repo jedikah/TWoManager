@@ -3,7 +3,7 @@ import { IdleSessionTimeout } from 'idle-session-timeout';
 /**
  * IDLE SESSION TIMEOUT
  */
-const session = new IdleSessionTimeout(30 * 1000);
+const session = new IdleSessionTimeout(25 * 1000);
 
 const timeOutAt = session.getTimeLeft();
 

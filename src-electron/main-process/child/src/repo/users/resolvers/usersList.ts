@@ -4,7 +4,7 @@ import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 import { UserEntity, FolderEntity } from '../../database/entities';
 import { UsersService } from '../users.service';
 import { UserOutput } from '../../types';
-import { CurrentUser } from '../users.paramDecorator';
+import { CurrentUser } from './users.paramDecorator';
 import { GqlAuthGuard } from '../../auths/jwt-auth.guard';
 
 @Resolver(of => UserEntity)
