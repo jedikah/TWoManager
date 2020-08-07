@@ -112,6 +112,7 @@ const Queries = {
   },
 
   loginSession: async (login: string, password: string) => {
+    console.log({ login, password });
     try {
       const response = await graphqlClient.query({
         query: gql`

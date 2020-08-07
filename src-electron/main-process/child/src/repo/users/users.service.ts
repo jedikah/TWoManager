@@ -2,24 +2,23 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserEntity } from '../database/entities';
-import { LoginInput, UserInput, UserOutput } from '../types';
-import { TableName } from '../database/TableName';
+import { UserOutput } from './users.types';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(UserEntity)
-    private userRepository: Repository<UserEntity>,
+    private usersRepository: Repository<UserEntity>,
   ) {}
 
   // Get
 
   async getUsers(): Promise<UserEntity[]> {
-    return await this.userRepository.find();
+    return await this.usersRepository.find();
   }
 
   async getUserByLogin(login: string): Promise<UserEntity> {
-    const user = await this.userRepository.find({
+    const user = await this.usersRepository.find({
       select: [
         'userId',
         'userName',
@@ -36,13 +35,13 @@ export class UsersService {
   }
 
   async getUsersCount(): Promise<number> {
-    return await this.userRepository.count();
+    return await this.usersRepository.count();
   }
 
   // Add
 
   async setRegister(newUser: UserEntity): Promise<UserOutput> {
-    const user = await this.userRepository.save(newUser);
+    const user = await this.usersRepository.save(newUser);
     const { password, folders, ...userOutput } = user;
     return userOutput as UserOutput;
   }

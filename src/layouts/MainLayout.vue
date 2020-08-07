@@ -1,19 +1,19 @@
 <template>
-  <q-layout view="hHh LpR lfr" class=" fullscreen">
-    <div :class="!sessionState && 'sessionFilter'">
-      <q-header reveal elevated class="text-white" style="background: #505050">
-        <q-toolbar>
+  <q-layout view="lHh LpR lfr" class=" fullscreen">
+    <div :class="!sessionState && 'sessionFilter'" style="padding-top: 10px">
+      <q-header
+        reveal
+        class="text-white"
+        style="background: white; position: absolute; top: 10px; border-radius: 45px 45px 45px 45px; box-shadow: 1px 1px 5px grey"
+      >
+        <q-toolbar class=" full-height" style="min-height: 35px; color: black;">
           <q-btn dense flat round icon="menu" @click="left = !left" />
 
-          <q-toolbar-title>
+          <q-toolbar-title style="font-size: 1em">
             T.Wo.Manager
           </q-toolbar-title>
 
-          <q-btn dense flat round @click="right = !right">
-            <q-avatar>
-              <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg" />
-            </q-avatar>
-          </q-btn>
+          <q-btn dense flat round icon="menu" @click="right = !right" />
         </q-toolbar>
       </q-header>
 
@@ -91,7 +91,7 @@
           style="height: 90px;
         width: 150px;
         background: none;
-        color: white;
+        color: grey;
         opacity: 0.5;
         line-height: 10px;
         text-align: center;
@@ -103,7 +103,6 @@
           <p>session expiré dans:</p>
           <p>{{ countDownState }}</p>
           <p>second</p>
-          <p>{{ sessionState }}</p>
         </q-card>
       </q-page-container>
     </div>
@@ -148,7 +147,6 @@ export default class MainLayout extends Vue {
 
   @Watch('sessionState')
   changeSession(session) {
-    console.log({ session });
     this.startSession(session);
   }
 
@@ -156,7 +154,7 @@ export default class MainLayout extends Vue {
     if (sessionState === true) {
       userSession.start(this, this.currentUserState.exp);
       userSession.onTimeOutChange(t => {
-        console.log({ t });
+        console.log(t);
         if (t <= 15) {
           this.countDownState = t;
         } else this.countDownState = 16;

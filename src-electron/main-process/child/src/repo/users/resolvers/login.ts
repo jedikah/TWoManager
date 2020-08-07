@@ -3,9 +3,9 @@ import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 
 import { UserEntity } from '../../database/entities';
 import { UsersService } from '../users.service';
-import { LoginInput, User, LoginOutput, UserOutput } from '../../types';
+import { LoginInput, User, LoginOutput, UserOutput } from '../users.types';
 import { AuthsService } from '../../auths/auths.service';
-import { CurrentUser } from './users.paramDecorator';
+import { CurrentUser } from '../../auths/currentUser';
 import { GqlAuthGuard } from '../../auths/jwt-auth.guard';
 
 const bcrypt = require('bcrypt');
@@ -17,7 +17,7 @@ export class UsersLogin {
     private authsService: AuthsService,
   ) {}
 
-  async pwdCompare(inputPwd, pwd): Promise<boolean> {
+  async pwdCompare(inputPwd: string, pwd: string): Promise<boolean> {
     return await new Promise((resolve, reject) => {
       bcrypt.compare(inputPwd, pwd, (err, result) => {
         if (!result) resolve(result);
@@ -27,7 +27,7 @@ export class UsersLogin {
   }
 
   @Query(() => LoginOutput)
-  async login(@Args('input') input: LoginInput) {
+  async login(@Args('input') input: LoginInput): Promise<LoginOutput> {
     const user = (await this.usersService.getUserByLogin(
       input.login.toLocaleLowerCase(),
     )) as User;
@@ -68,7 +68,7 @@ export class UsersLogin {
   async loginSession(
     @CurrentUser() users: UserOutput,
     @Args('input') input: LoginInput,
-  ) {
+  ): Promise<boolean> {
     let response = false;
     if (users) {
       const user = (await this.usersService.getUserByLogin(

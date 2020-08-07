@@ -3,7 +3,7 @@ import { Resolver, Mutation, Args } from '@nestjs/graphql';
 import { GraphQLUpload, FileUpload } from 'graphql-upload';
 import * as FormData from 'form-data';
 import axios from 'axios';
-import { createWriteStream } from 'fs';
+// import { createWriteStream } from 'fs';
 
 import { UserEntity } from '../../database/entities';
 
@@ -17,7 +17,7 @@ export class UsersUpload {
     { createReadStream, filename }: FileUpload,
     @Args('login') login: string,
   ): Promise<boolean> {
-    const path = require('path');
+    // const path = require('path');
 
     return new Promise(async (resolve, reject) => {
       const bodyFormData = new FormData();

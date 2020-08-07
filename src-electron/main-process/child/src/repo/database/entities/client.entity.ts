@@ -7,17 +7,17 @@ import { Field, ObjectType, ID } from '@nestjs/graphql';
 export class ClientEntity {
   @Field(() => ID)
   @PrimaryGeneratedColumn({ name: 'client_Id' })
-  clientId: number;
+  clientId?: number;
 
   @Field()
   @Column({ name: 'client_Name' })
   clientName: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Column({ name: 'domicile' })
   domicile: string;
 
-  @Field()
+  @Field({ nullable: true })
   @Column({ name: 'contact' })
   contact: string;
 }

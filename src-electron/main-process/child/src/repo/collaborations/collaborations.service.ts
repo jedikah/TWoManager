@@ -1,4 +1,18 @@
 import { Injectable } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { CollaborateEntity } from '../database/entities';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
-export class CollaborationsService {}
+export class CollaborationsService {
+  constructor(
+    @InjectRepository(CollaborateEntity)
+    private collaborateRepository: Repository<CollaborateEntity>,
+  ) {}
+
+  async addCollaboration(
+    collaborate: CollaborateEntity,
+  ): Promise<CollaborateEntity> {
+    return await this.collaborateRepository.save(collaborate);
+  }
+}

@@ -3,8 +3,8 @@ import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 
 import { UserEntity, FolderEntity } from '../../database/entities';
 import { UsersService } from '../users.service';
-import { UserOutput } from '../../types';
-import { CurrentUser } from './users.paramDecorator';
+import { UserOutput } from '../users.types';
+import { CurrentUser } from '../../auths/currentUser';
 import { GqlAuthGuard } from '../../auths/jwt-auth.guard';
 
 @Resolver(of => UserEntity)
@@ -13,7 +13,7 @@ export class UsersList {
 
   @Query(() => [UserEntity], { nullable: true })
   @UseGuards(GqlAuthGuard)
-  async users(@CurrentUser() users: UserOutput) {
+  async users(@CurrentUser() users: UserOutput): Promise<UserEntity[]> {
     if (users) return await this.usersService.getUsers();
 
     throw new HttpException(
@@ -23,12 +23,13 @@ export class UsersList {
   }
 
   @Query(() => Int)
-  async usersCount() {
+  async usersCount(): Promise<number> {
     return this.usersService.getUsersCount();
   }
 
   @ResolveField(() => [FolderEntity])
-  folders(@Root() user: UserEntity) {
+  folders(@Root() user: UserEntity): Promise<FolderEntity[]> {
     //
+    return Promise.resolve([]);
   }
 }

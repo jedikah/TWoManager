@@ -9,17 +9,15 @@
     "removeComments": true,
     "target": "es2017",
     "module": "commonjs",
-    "typeRoots": ["node_modules/@types"],
+    // "typeRoots": ["node_modules/@types"],
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
-    "emitDecoratorMetadata": true,
-    "incremental": true,
-    "declaration": true,
-    "paths": {
-      "*.ts": ["*"]
-    },
-    "rootDir": "src"
+    "emitDecoratorMetadata": true
+    // "incremental": true,
+    // "declaration": true,
+    // "rootDir": "src",
+    // "outDir": "dist"
   },
-  "exclude": ["src-electron/main-process/child"],
-  "include": ["src/", "src-electron"]
+  "exclude": ["src-electron/main-process/child"]
+  // "include": ["src/", "src-electron"]
 }

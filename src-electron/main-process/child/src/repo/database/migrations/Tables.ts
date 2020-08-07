@@ -69,7 +69,7 @@ export const ClientsTable: Table = new Table({
       length: '7',
     },
     {
-      name: 'clien_tName',
+      name: 'client_Name',
       type: 'varchar',
       isNullable: false,
       isUnique: false,
@@ -78,14 +78,14 @@ export const ClientsTable: Table = new Table({
     {
       name: 'domicile',
       type: 'varchar',
-      isNullable: false,
+      isNullable: true,
       isUnique: false,
       length: '20',
     },
     {
       name: 'contact',
       type: 'varchar',
-      isNullable: false,
+      isNullable: true,
       isUnique: false,
       length: '10',
     },

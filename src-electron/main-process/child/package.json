@@ -23,12 +23,24 @@
     "migration:generate": "npx ts-node ../../../node_modules/typeorm/cli.js migration:generate"
   },
   "dependencies": {
-    "@nestjs/common": "^7.0.0",
+    "@nestjs/common": "^7.4.2",
     "@nestjs/core": "^7.0.0",
+    "@nestjs/graphql": "^7.6.0",
+    "@nestjs/jwt": "^7.1.0",
+    "@nestjs/passport": "^7.1.0",
     "@nestjs/platform-express": "^7.0.0",
+    "@nestjs/typeorm": "^7.1.0",
+    "apollo-server-express": "^2.16.1",
+    "axios": "^0.19.2",
+    "bcrypt": "^5.0.0",
+    "dateformat": "^3.0.3",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
-    "rxjs": "^6.5.4"
+    "rxjs": "^6.5.4",
+    "typeorm": "^0.2.25"
   },
   "devDependencies": {
     "@nestjs/cli": "^7.0.0",
@@ -37,6 +49,8 @@
     "@types/express": "^4.17.3",
     "@types/jest": "25.2.3",
     "@types/node": "^13.9.1",
+    "@types/passport-jwt": "^3.0.3",
+    "@types/passport-local": "^1.0.33",
     "@types/supertest": "^2.0.8",
     "@typescript-eslint/eslint-plugin": "3.0.2",
     "@typescript-eslint/parser": "3.0.2",
@@ -44,6 +58,7 @@
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-import": "^2.20.1",
     "jest": "26.0.1",
+    "mysql": "^2.18.1",
     "prettier": "^1.19.1",
     "supertest": "^4.0.2",
     "ts-jest": "26.1.0",

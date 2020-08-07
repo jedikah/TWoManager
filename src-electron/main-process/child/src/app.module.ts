@@ -3,14 +3,17 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { RepoModule } from './repo/repo.module';
+import { modules } from './repo/modules';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { config } from './ormconfig';
+import { ResolverResolver } from './repo/collaborations/resolver/resolver.resolver';
+import Entity from './repo/database/entities';
 
 @Module({
   imports: [
-    RepoModule,
+    ...modules,
+    TypeOrmModule.forFeature(Entity),
     TypeOrmModule.forRoot({ autoLoadEntities: true, ...config }),
     GraphQLModule.forRootAsync({
       useFactory: () => ({
@@ -21,6 +24,6 @@ import { config } from './ormconfig';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ResolverResolver],
 })
 export class AppModule {}

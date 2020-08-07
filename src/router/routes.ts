@@ -11,7 +11,7 @@ const routes: RouteConfig[] = [
   {
     path: '/main',
     component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/WorkSpace.vue') }]
+    children: [{ path: 'client', component: () => import('pages/Client.vue') }]
   }
 ];
 

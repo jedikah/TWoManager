@@ -2,6 +2,25 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type ClientEntity {
+  clientId: ID!
+  clientName: String!
+  domicile: String
+  contact: String
+}
+
+input ClientInput {
+  clientId: ID
+  clientName: String!
+  domicile: String
+  contact: String
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type FolderEntity {
   folderId: ID!
   userId: Float!
@@ -17,10 +36,32 @@ type FolderEntity {
   price: Float!
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
+input LoginInput {
+  login: String!
+  password: String!
+}
+
+type LoginOutput {
+  token: String
+  type: String
+}
+
+type Mutation {
+  register(input: UserInput!): UserOutput!
+  uploadFile(login: String!, file: Upload!): Boolean!
+  addClientByUser(input: ClientInput!): ClientEntity!
+}
+
+type Query {
+  login(input: LoginInput!): LoginOutput!
+  loginSession(input: LoginInput!): Boolean!
+  checkToken(input: String!): VerifyToken!
+  users: [UserEntity!]
+  usersCount: Int!
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
 
 type UserEntity {
   userId: ID!
@@ -33,6 +74,13 @@ type UserEntity {
   folders: [FolderEntity!]!
 }
 
+input UserInput {
+  userName: String!
+  login: String!
+  password: String!
+  photo: String
+}
+
 type UserOutput {
   userId: ID!
   userName: String!
@@ -40,11 +88,6 @@ type UserOutput {
   photo: String
   type: String
   status: Boolean
-}
-
-type LoginOutput {
-  token: String
-  type: String
 }
 
 type VerifyToken {
@@ -57,31 +100,3 @@ type VerifyToken {
   iat: Int!
   exp: Int!
 }
-
-type Query {
-  login(input: LoginInput!): LoginOutput!
-  loginSession(input: LoginInput!): Boolean!
-  checkToken(input: String!): VerifyToken!
-  users: [UserEntity!]
-  usersCount: Int!
-}
-
-input LoginInput {
-  login: String!
-  password: String!
-}
-
-type Mutation {
-  register(input: UserInput!): UserOutput!
-  uploadFile(login: String!, file: Upload!): Boolean!
-}
-
-input UserInput {
-  userName: String!
-  login: String!
-  password: String!
-  photo: String
-}
-
-"""The `Upload` scalar type represents a file upload."""
-scalar Upload

@@ -49,7 +49,9 @@ export default boot(({ router, store, redirect }) => {
         userData = await usersQueries.checkToken(token);
         const newUserData = {
           ...userData,
-          photo: 'http://localhost:80/TWoM/' + userData.photo
+          photo: userData.photo
+            ? 'http://localhost:80/TWoM/' + userData.photo
+            : ''
         };
 
         store.commit('usersModule/currentUser', newUserData);

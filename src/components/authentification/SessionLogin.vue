@@ -28,10 +28,11 @@
       <div class=" q-gutter-xs">
         <q-form
           @submit.prevent="
+            checkTokenSession();
             loginSessionSubmit({
               loginState: currentUserState.login,
               passwordState
-            })
+            });
           "
           class="q-gutter-sx"
         >
