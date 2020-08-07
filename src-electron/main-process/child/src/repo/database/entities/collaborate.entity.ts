@@ -24,14 +24,14 @@ export class CollaborateEntity {
   updatedAt: Date;
 
   @Field(type => UserEntity)
-  @ManyToOne(type => UserEntity)
+  @ManyToOne(type => UserEntity, { primary: true })
   @JoinColumn({ name: 'user_Id' })
   user: UserEntity;
   @RelationId((collaboration: CollaborateEntity) => collaboration.user)
   userId: number;
 
   @Field(type => ClientEntity)
-  @ManyToOne(type => ClientEntity)
+  @ManyToOne(type => ClientEntity, { primary: true })
   @JoinColumn({ name: 'client_Id' })
   client: ClientEntity;
   @RelationId((collaboration: CollaborateEntity) => collaboration.client)

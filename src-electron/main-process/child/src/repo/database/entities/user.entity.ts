@@ -27,7 +27,7 @@ export class UserEntity {
   login: string;
 
   @Field()
-  @Column({ name: 'password' })
+  @Column({ name: 'password', nullable: true })
   password: string;
 
   @Field({ nullable: true })

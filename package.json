@@ -50,7 +50,7 @@
     "node-static": "^0.7.11",
     "normalizr": "^3.6.0",
     "offline-token-generator": "^1.0.2",
-    "quasar": "^1.9.15",
+    "quasar": "^1.12.13",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxdb-util": "^0.0.1",

@@ -1,7 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ClientEntity, CollaborateEntity } from '../database/entities';
+import {
+  ClientEntity,
+  CollaborateEntity,
+  UserEntity,
+} from '../database/entities';
 import dateNow from '../utils/dateFormat';
 import { UserOutput } from '../users/users.types';
 import { ClientInput } from './client.types';
@@ -24,12 +28,16 @@ export class ClientsService {
 
     console.log({ clientResponse });
     if (clientResponse) {
-      const collaborate = new CollaborateEntity();
-      collaborate.userId = user.userId;
-      collaborate.clientId = clientResponse.clientId;
-      collaborate.createdAt = dateNow();
-      collaborate.updatedAt = dateNow();
-      await this.collaborateService.addCollaboration(collaborate);
+      const newCollaborate = new CollaborateEntity();
+      const newUser = new UserEntity();
+
+      newUser.userId = user.userId;
+
+      newCollaborate.user = newUser;
+      newCollaborate.clientId = clientResponse.clientId;
+      newCollaborate.createdAt = dateNow();
+      newCollaborate.updatedAt = dateNow();
+      await this.collaborateService.addCollaboration(newCollaborate);
     }
 
     return clientResponse;
