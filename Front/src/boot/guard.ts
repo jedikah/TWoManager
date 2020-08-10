@@ -1,6 +1,6 @@
 import { boot } from 'quasar/wrappers';
 import { Notify } from 'quasar';
-import usersQueries from 'src/client/queries/users.query';
+import * as usersQueries from 'src/api/queries/users.query';
 
 export default boot(({ router, store, redirect }) => {
   router.beforeEach(async (to, from, next) => {

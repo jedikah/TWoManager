@@ -87,6 +87,18 @@ module.exports =
 /************************************************************************/
 /******/ ({
 
+/***/ "../Back/child.constant.ts":
+/*!*********************************!*\
+  !*** ../Back/child.constant.ts ***!
+  \*********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nvar title;\r\n(function (title) {\r\n    title[\"ChildProcessIsStarted\"] = \"Child process is started\";\r\n    title[\"StartNestServer\"] = \"Start nest server\";\r\n})(title || (title = {}));\r\nexports.default = title;\r\n\n\n//# sourceURL=webpack:///../Back/child.constant.ts?");
+
+/***/ }),
+
 /***/ "./node_modules/core-util-is/lib/util.js":
 /*!***********************************************!*\
   !*** ./node_modules/core-util-is/lib/util.js ***!
@@ -1160,18 +1172,6 @@ eval("/*\n Yaku v0.16.7\n (c) 2015 Yad Smood. http://ysmood.org\n License MIT\n*
 
 /***/ }),
 
-/***/ "./src-electron/main-process/child/child.constant.ts":
-/*!***********************************************************!*\
-  !*** ./src-electron/main-process/child/child.constant.ts ***!
-  \***********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-eval("\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nvar title;\r\n(function (title) {\r\n    title[\"ChildProcessIsStarted\"] = \"Child process is started\";\r\n    title[\"StartNestServer\"] = \"Start nest server\";\r\n})(title || (title = {}));\r\nexports.default = title;\r\n\n\n//# sourceURL=webpack:///./src-electron/main-process/child/child.constant.ts?");
-
-/***/ }),
-
 /***/ "./src-electron/main-process/electron-main.dev.ts":
 /*!********************************************************!*\
   !*** ./src-electron/main-process/electron-main.dev.ts ***!
@@ -1192,7 +1192,7 @@ eval("\r\nvar __createBinding = (this && this.__createBinding) || (Object.create
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("/* WEBPACK VAR INJECTION */(function(__dirname) {\r\nvar __importDefault = (this && this.__importDefault) || function (mod) {\r\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\r\n};\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst electron_1 = __webpack_require__(/*! electron */ \"electron\");\r\nconst child_constant_1 = __importDefault(__webpack_require__(/*! ./child/child.constant */ \"./src-electron/main-process/child/child.constant.ts\"));\r\nelectron_1.app.allowRendererProcessReuse = true;\r\ntry {\r\n    if (process.platform === 'win32' &&\r\n        electron_1.nativeTheme.shouldUseDarkColors === true) {\r\n        __webpack_require__(/*! fs */ \"fs\").unlinkSync(__webpack_require__(/*! path */ \"path\").join(electron_1.app.getPath('userData'), 'DevTools Extensions'));\r\n    }\r\n}\r\ncatch (_) { }\r\nif (false) {}\r\nlet mainWindow;\r\nfunction createWindow() {\r\n    mainWindow = new electron_1.BrowserWindow({\r\n        width: 1000,\r\n        height: 600,\r\n        useContentSize: true,\r\n        webPreferences: {\r\n            nodeIntegration: true,\r\n            nodeIntegrationInWorker: true\r\n        }\r\n    });\r\n    mainWindow.loadURL(\"http://localhost:8080\" || false);\r\n    mainWindow.on('closed', () => {\r\n        mainWindow = null;\r\n    });\r\n    return mainWindow;\r\n}\r\nelectron_1.app.on('ready', () => {\r\n    const path = __webpack_require__(/*! path */ \"path\");\r\n    const isDev = __webpack_require__(/*! electron-is-dev */ \"electron-is-dev\");\r\n    let file = 'app.asar/child/index.ts';\r\n    let cwd = path.join(__dirname, '..');\r\n    if (isDev) {\r\n        file = 'index.ts';\r\n        cwd = path.join(__dirname, 'child');\r\n    }\r\n    const { fork } = __webpack_require__(/*! child_process */ \"child_process\");\r\n    const child = fork(file, [], {\r\n        cwd,\r\n        shell: true,\r\n        execArgv: ['-r', 'ts-node/register'],\r\n        stdio: ['inherit', 'inherit', 'inherit', 'ipc']\r\n    });\r\n    child.send({ title: child_constant_1.default.ChildProcessIsStarted, data: {} });\r\n    child.on('message', (payloads) => {\r\n        const title = payloads.title, data = payloads.data;\r\n        if (title === child_constant_1.default.StartNestServer) {\r\n            createWindow();\r\n            console.log(data.start);\r\n        }\r\n    });\r\n    child.unref();\r\n});\r\nelectron_1.app.on('window-all-closed', () => {\r\n    if (process.platform !== 'darwin') {\r\n        electron_1.app.quit();\r\n    }\r\n});\r\nelectron_1.app.on('activate', () => {\r\n    if (mainWindow === null) {\r\n        createWindow();\r\n    }\r\n});\r\n\n/* WEBPACK VAR INJECTION */}.call(this, \"src-electron\\\\main-process\"))\n\n//# sourceURL=webpack:///./src-electron/main-process/electron-main.ts?");
+eval("/* WEBPACK VAR INJECTION */(function(__dirname) {\r\nvar __importDefault = (this && this.__importDefault) || function (mod) {\r\n    return (mod && mod.__esModule) ? mod : { \"default\": mod };\r\n};\r\nObject.defineProperty(exports, \"__esModule\", { value: true });\r\nconst electron_1 = __webpack_require__(/*! electron */ \"electron\");\r\nconst child_constant_1 = __importDefault(__webpack_require__(/*! ../../../Back/child.constant */ \"../Back/child.constant.ts\"));\r\nelectron_1.app.allowRendererProcessReuse = true;\r\ntry {\r\n    if (process.platform === 'win32' &&\r\n        electron_1.nativeTheme.shouldUseDarkColors === true) {\r\n        __webpack_require__(/*! fs */ \"fs\").unlinkSync(__webpack_require__(/*! path */ \"path\").join(electron_1.app.getPath('userData'), 'DevTools Extensions'));\r\n    }\r\n}\r\ncatch (_) { }\r\nif (false) {}\r\nlet mainWindow;\r\nfunction createWindow() {\r\n    mainWindow = new electron_1.BrowserWindow({\r\n        width: 1000,\r\n        height: 600,\r\n        useContentSize: true,\r\n        webPreferences: {\r\n            nodeIntegration: true,\r\n            nodeIntegrationInWorker: true\r\n        }\r\n    });\r\n    mainWindow.loadURL(\"http://localhost:8080\" || false);\r\n    mainWindow.on('closed', () => {\r\n        mainWindow = null;\r\n    });\r\n    return mainWindow;\r\n}\r\nelectron_1.app.on('ready', () => {\r\n    const path = __webpack_require__(/*! path */ \"path\");\r\n    const isDev = __webpack_require__(/*! electron-is-dev */ \"electron-is-dev\");\r\n    let file = 'app.asar/child/index.ts';\r\n    let cwd = path.join(__dirname, '..');\r\n    if (isDev) {\r\n        file = 'index.ts';\r\n        cwd = path.join(__dirname, '../../../Back');\r\n    }\r\n    const { fork } = __webpack_require__(/*! child_process */ \"child_process\");\r\n    const child = fork(file, [], {\r\n        cwd,\r\n        shell: true,\r\n        execArgv: ['-r', 'ts-node/register'],\r\n        stdio: ['inherit', 'inherit', 'inherit', 'ipc']\r\n    });\r\n    child.send({ title: child_constant_1.default.ChildProcessIsStarted, data: {} });\r\n    child.on('message', (payloads) => {\r\n        const title = payloads.title, data = payloads.data;\r\n        if (title === child_constant_1.default.StartNestServer) {\r\n            createWindow();\r\n            console.log(data.start);\r\n        }\r\n    });\r\n    child.unref();\r\n});\r\nelectron_1.app.on('window-all-closed', () => {\r\n    if (process.platform !== 'darwin') {\r\n        electron_1.app.quit();\r\n    }\r\n});\r\nelectron_1.app.on('activate', () => {\r\n    if (mainWindow === null) {\r\n        createWindow();\r\n    }\r\n});\r\n\n/* WEBPACK VAR INJECTION */}.call(this, \"src-electron\\\\main-process\"))\n\n//# sourceURL=webpack:///./src-electron/main-process/electron-main.ts?");
 
 /***/ }),
 
@@ -1203,7 +1203,7 @@ eval("/* WEBPACK VAR INJECTION */(function(__dirname) {\r\nvar __importDefault =
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("module.exports = __webpack_require__(/*! D:\\Projet\\Quasar\\TWoManager\\src-electron\\main-process\\electron-main.dev.ts */\"./src-electron/main-process/electron-main.dev.ts\");\n\n\n//# sourceURL=webpack:///multi_./src-electron/main-process/electron-main.dev.ts?");
+eval("module.exports = __webpack_require__(/*! D:\\Projet\\Quasar\\TWoManager\\Front\\src-electron\\main-process\\electron-main.dev.ts */\"./src-electron/main-process/electron-main.dev.ts\");\n\n\n//# sourceURL=webpack:///multi_./src-electron/main-process/electron-main.dev.ts?");
 
 /***/ }),
 

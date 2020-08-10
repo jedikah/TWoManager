@@ -3,7 +3,7 @@ import { Notify } from 'quasar';
 
 import { UsersState, LoginState, LoginForm } from './login.types';
 import RootState from 'src/store/types';
-import usersQuery from 'src/client/queries/users.query';
+import * as usersQuery from 'src/api/queries/users.query';
 import { Router } from 'src/router';
 
 export const loginMutations: MutationTree<UsersState> = {

@@ -7,7 +7,7 @@ import { loginState } from './login/login.state';
 import { registerState } from './register/register.state';
 
 import { usersActions, usersGetters, usersMutations } from './users.exporter';
-import UsersQuery from 'src/client/queries/users.query';
+import * as UsersQuery from 'src/api/queries/users.query';
 
 const state: UsersState = {
   loginState,

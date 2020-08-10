@@ -3,7 +3,7 @@ import { Notify } from 'quasar';
 
 import { UsersState, RegisterForm } from './register.types';
 import RootState from 'src/store/types';
-import usersMutate from 'src/client/mutations/users.mutation';
+import * as usersMutate from 'src/api/mutations/users.mutation';
 
 export const registerUsersMutation: MutationTree<UsersState> = {
   reinitResgisterState(state) {

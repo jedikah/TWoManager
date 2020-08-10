@@ -17,7 +17,5 @@
     // "declaration": true,
     // "rootDir": "src",
     // "outDir": "dist"
-  },
-  "exclude": ["src-electron/main-process/child"]
-  // "include": ["src/", "src-electron"]
+  }
 }

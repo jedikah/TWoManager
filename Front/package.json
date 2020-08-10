@@ -8,7 +8,8 @@
   "scripts": {
     "lint": "eslint --ext .js,.ts,.vue --ignore-path .gitignore ./",
     "test": "echo \"No test specified\" && exit 0",
-    "rebuild": "electron-rebuild -f -w sqlite3"
+    "rebuild": "electron-rebuild -f -w sqlite3",
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@erdii/caddy-serverless-express": "^0.0.2",
@@ -16,6 +17,7 @@
     "@types/dotenv": "^8.2.0",
     "@types/electron-devtools-installer": "^2.2.0",
     "@types/graphql": "^14.5.0",
+    "@vue/apollo-composable": "^4.0.0-alpha.10",
     "@vue/composition-api": "^1.0.0-beta.8",
     "apollo-boost": "^0.4.9",
     "apollo-cache-inmemory": "^1.6.6",
@@ -72,6 +74,11 @@
     "webpack-html-plugin": "^0.1.1"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^1.17.7",
+    "@graphql-codegen/introspection": "^1.17.7",
+    "@graphql-codegen/typescript": "^1.17.7",
+    "@graphql-codegen/typescript-operations": "^1.17.7",
+    "@graphql-codegen/typescript-vue-apollo": "^1.17.7",
     "@nestjs/cli": "^7.0.0",
     "@nestjs/schematics": "^7.0.0",
     "@nestjs/testing": "^7.0.0",

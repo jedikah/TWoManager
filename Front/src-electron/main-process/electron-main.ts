@@ -1,6 +1,6 @@
 import { app, BrowserWindow, nativeTheme, dialog } from 'electron';
 
-import titleCont from './child/child.constant';
+import titleCont from '../../../Back/child.constant';
 
 app.allowRendererProcessReuse = true;
 
