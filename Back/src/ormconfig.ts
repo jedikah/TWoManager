@@ -8,11 +8,11 @@ export const config: ConnectionOptions = {
   username: 'root',
   password: 'root',
   database: 'twomanager',
-  entities: [path.join(__dirname + 'repo/database/entities/*.entity{.ts,.js}')],
-  migrations: [path.join(__dirname, 'repo/database/migrations/*{.ts, .js}')],
+  entities: [path.join(__dirname + 'database/entities/*.entity{.ts,.js}')],
+  migrations: [path.join(__dirname, 'database/migrations/*{.ts, .js}')],
   migrationsRun: true,
   cli: {
-    migrationsDir: path.join(__dirname, 'repo/database/migrations/*{.ts, .js}'),
+    migrationsDir: path.join(__dirname, 'database/migrations/*{.ts, .js}'),
   },
   synchronize: false,
 };

@@ -17,10 +17,7 @@ export const registerUsersMutation: MutationTree<UsersState> = {
 };
 
 export const registerUserAction: ActionTree<UsersState, RootState> = {
-  async register(
-    { commit },
-    { login, userName, password, pdpFile }: RegisterForm
-  ) {
+  async register({}, { login, userName, password, pdpFile }: RegisterForm) {
     let photo = null;
 
     if (await usersMutate.uploadPdp(pdpFile, login))
