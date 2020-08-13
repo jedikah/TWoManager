@@ -20,6 +20,10 @@ export class ClientsService {
     private collaborateService: CollaborationsService,
   ) {}
 
+  getClientById(clientId: number): Promise<ClientEntity> {
+    return this.clientsRepository.findOne(clientId);
+  }
+
   async addClientByUser(
     newClient: ClientInput,
     user: UserOutput,

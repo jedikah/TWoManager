@@ -6,13 +6,13 @@ export const config: ConnectionOptions = {
   host: 'localhost',
   port: 3306,
   username: 'root',
-  password: 'root',
+  password: '',
   database: 'twomanager',
-  entities: [path.join(__dirname + 'database/entities/*.entity{.ts,.js}')],
-  migrations: [path.join(__dirname, 'database/migrations/*{.ts, .js}')],
+  entities: [path.join(__dirname + '/database/entities/*.entity.js')],
+  migrations: [path.join(__dirname, '/database/migrations/*.js')],
   migrationsRun: true,
   cli: {
-    migrationsDir: path.join(__dirname, 'database/migrations/*{.ts, .js}'),
+    migrationsDir: path.join(__dirname, 'database/migrations/*.js'),
   },
   synchronize: false,
 };

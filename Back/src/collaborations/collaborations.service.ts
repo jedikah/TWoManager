@@ -15,4 +15,12 @@ export class CollaborationsService {
   ): Promise<CollaborateEntity> {
     return await this.collaborateRepository.save(collaborate);
   }
+
+  getUserClients(userId: number): Promise<CollaborateEntity[]> {
+    return this.collaborateRepository.find({
+      where: {
+        user: userId,
+      },
+    });
+  }
 }

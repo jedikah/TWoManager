@@ -6,7 +6,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { config } from './ormconfig';
-import { ResolverResolver } from './collaborations/resolver/resolver.resolver';
 import Entity from './database/entities';
 
 import { UsersModule } from './users/users.module';
@@ -30,6 +29,6 @@ const modules = [UsersModule, AuthModule, ClientModule, CollaboratesModule];
     }),
   ],
   controllers: [AppController],
-  providers: [AppService, ResolverResolver],
+  providers: [AppService],
 })
 export class AppModule {}

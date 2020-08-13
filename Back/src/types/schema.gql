@@ -59,6 +59,7 @@ type Query {
   users: [UserEntity!]
   usersCount: Int!
   clientListByUser: [ClientEntity!]!
+  userClients: [ClientEntity!]!
 }
 
 """The `Upload` scalar type represents a file upload."""
