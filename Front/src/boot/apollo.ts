@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import VueApollo from 'vue-apollo';
 import VueCompositionApi from '@vue/composition-api';
 import { boot } from 'quasar/wrappers';
@@ -6,4 +5,6 @@ import { boot } from 'quasar/wrappers';
 export default boot(({ Vue }) => {
   Vue.use(VueCompositionApi);
   Vue.use(VueApollo);
+
+  // console.log({ useLogin: useLogin() });
 });

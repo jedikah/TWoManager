@@ -9,12 +9,12 @@
     "removeComments": true,
     "target": "ESNext",
     "module": "commonjs",
-    // "typeRoots": ["node_modules/@types"],
+    // "typeRoots": ["node_modules/@types", "src"],
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
-    "emitDecoratorMetadata": true
-    // "incremental": true,
-    // "declaration": true,
+    "emitDecoratorMetadata": true,
+    "incremental": true,
+    "declaration": true
     // "rootDir": "src",
     // "outDir": "dist"
   }

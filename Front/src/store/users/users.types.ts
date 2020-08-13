@@ -6,28 +6,24 @@ export interface ListUser {
 }
 
 export interface CurrentUser {
-  login: string;
-  userId: number;
+  userId?: number;
   userName: string;
+  login: string;
+  photo: string;
   type: string;
   status: boolean;
   iat?: number;
   exp?: number;
 }
 
+export type formsRouteType = '' | 'CLIENT' | 'FOLDER';
+
 export interface UsersState {
+  formsRoute: '' | 'CLIENT' | 'FOLDER';
+  formsDrawer: boolean;
   loginState: typeof loginState;
   registerState: typeof registerState;
   session: boolean;
   countDown: number;
-  currentUser: {
-    userId?: number;
-    userName: string;
-    login: string;
-    photo: string;
-    type: string;
-    status: boolean;
-    iat?: number;
-    exp?: number;
-  };
+  currentUser: CurrentUser;
 }

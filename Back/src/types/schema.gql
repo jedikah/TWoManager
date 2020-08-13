@@ -47,17 +47,18 @@ type LoginOutput {
 }
 
 type Mutation {
+  login(input: LoginInput!): LoginOutput!
   register(input: UserInput!): UserOutput!
   uploadFile(login: String!, file: Upload!): Boolean!
   addClientByUser(input: ClientInput!): ClientEntity!
 }
 
 type Query {
-  login(input: LoginInput!): LoginOutput!
   loginSession(input: LoginInput!): Boolean!
   checkToken(input: String!): VerifyToken!
   users: [UserEntity!]
   usersCount: Int!
+  clientListByUser: [ClientEntity!]!
 }
 
 """The `Upload` scalar type represents a file upload."""

@@ -71,9 +71,12 @@
     "vuex-class": "^0.3.2",
     "vuex-map-decorators": "^1.2.7",
     "vuex-map-fields": "^1.4.0",
+    "vuex-persistedstate": "^3.1.0",
     "webpack-html-plugin": "^0.1.1"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/plugin-proposal-decorators": "^7.10.5",
     "@graphql-codegen/cli": "^1.17.7",
     "@graphql-codegen/introspection": "^1.17.7",
     "@graphql-codegen/typescript": "^1.17.7",

@@ -8,7 +8,7 @@
     <q-separator inset />
 
     <q-card-section class="column" style="padding: 0; margin: 0">
-      <Avatar :src="currentUserState.photo" :name="currentUserState.userName" />
+      <Avatar :src="currentUser.photo" :name="currentUser.userName" />
       <q-btn
         label="S'authentifier"
         type="button"
@@ -29,10 +29,7 @@
         <q-form
           @submit.prevent="
             checkTokenSession();
-            loginSessionSubmit({
-              loginState: currentUserState.login,
-              passwordState
-            });
+            loginSessionSubmit();
           "
           class="q-gutter-sx"
         >
@@ -48,7 +45,7 @@
               label-color="orange"
               lazy-rules
               label="Mot de passe *"
-              v-model="passwordState"
+              v-model="password"
               :type="!pwdVisible ? 'password' : 'text'"
               :rules="[
                 val => (val && val.length > 0) || 'Le champ est obligatoir'
@@ -76,7 +73,7 @@
                 label="Reset"
                 color="orange"
                 text-color="black"
-                @click="passwordState = ''"
+                @click="password = ''"
               />
             </q-btn-group>
           </div>
@@ -87,26 +84,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
-import { mapFields } from 'vuex-map-fields';
-import { mapActions } from 'vuex';
+import { Component, Vue, Prop, Mixins } from 'vue-property-decorator';
+import { SessionLoginProperty } from 'src/mixins/sessionLoginProperty';
 
 @Component({
   name: 'Login',
-  computed: {
-    ...mapFields({
-      passwordState: 'usersModule.loginState.form.password',
-      currentUserState: 'usersModule.currentUser'
-    })
-  },
-  methods: {
-    ...mapActions('usersModule', ['loginSessionSubmit', 'checkTokenSession'])
-  },
   components: {
     Avatar: require('../templates/Avatar.vue').default
   }
 })
-export default class Login extends Vue {
+export default class Login extends SessionLoginProperty {
   private toLogin = false;
 
   private pwdVisible = false;

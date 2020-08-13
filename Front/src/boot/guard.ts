@@ -1,6 +1,7 @@
 import { boot } from 'quasar/wrappers';
 import { Notify } from 'quasar';
-import * as usersQueries from 'src/api/queries/users.query';
+
+import { checkToken } from 'src/services/users/checkToken';
 
 export default boot(({ router, store, redirect }) => {
   router.beforeEach(async (to, from, next) => {
@@ -9,7 +10,7 @@ export default boot(({ router, store, redirect }) => {
       let userData = null;
       if (token) {
         console.log('1');
-        userData = await usersQueries.checkToken(token);
+        userData = await checkToken(token);
 
         console.log({ userData });
 
@@ -17,7 +18,7 @@ export default boot(({ router, store, redirect }) => {
           next('/main');
         }
         if (!userData && to.path !== '/') {
-          store.commit('usersModule/currentUser', userData);
+          store.commit('usersModule/setCurrentUser', userData);
           store.commit('usersModule/session', false);
           next('/');
         }
@@ -46,7 +47,7 @@ export default boot(({ router, store, redirect }) => {
     let userData = null;
     try {
       if (token && to.path !== '/') {
-        userData = await usersQueries.checkToken(token);
+        userData = await checkToken(token);
         const newUserData = {
           ...userData,
           photo: userData.photo
@@ -54,8 +55,8 @@ export default boot(({ router, store, redirect }) => {
             : ''
         };
 
-        store.commit('usersModule/currentUser', newUserData);
-        // store.commit('usersModule/session', false);
+        store.commit('usersModule/setCurrentUser', newUserData);
+        store.commit('usersModule/setSession', true);
       }
     } catch (err) {
       console.log('boot guard error: ' + err);

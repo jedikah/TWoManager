@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh LpR lfr" class=" fullscreen">
-    <div :class="!sessionState && 'sessionFilter'" style="padding-top: 10px">
+    <div :class="!session && 'sessionFilter'" style="padding-top: 10px">
       <q-header
         reveal
         class="text-white"
@@ -13,15 +13,19 @@
             T.Wo.Manager
           </q-toolbar-title>
 
-          <q-btn dense flat round icon="menu" @click="right = !right" />
+          <q-btn
+            dense
+            flat
+            label="Client"
+            @click="
+              formsRoute = 'CLIENT';
+              formsDrawer = true;
+            "
+          />
         </q-toolbar>
       </q-header>
 
       <q-drawer v-model="left" side="left" behavior="desktop" bordered>
-        <!-- drawer content -->
-      </q-drawer>
-
-      <q-drawer v-model="right" side="right" behavior="desktop" bordered>
         <q-scroll-area
           style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd"
         >
@@ -83,6 +87,30 @@
         </q-img>
       </q-drawer>
 
+      // FORM DRAWER MENU
+      <q-drawer
+        style=" background: transparent;"
+        v-model="formsDrawer"
+        side="right"
+        behavior="desktop"
+      >
+        <div
+          class=" full-height full-width column justify-center items-center "
+          style=""
+        >
+          <q-btn
+            style="width: 80%"
+            rounded
+            dense
+            label="Fermer"
+            color="orange"
+            text-color="black"
+            @click="formsDrawer = false"
+          />
+          <ClienForm v-if="formsRoute === 'CLIENT'" />
+        </div>
+      </q-drawer>
+
       <q-page-container>
         <router-view />
 
@@ -111,39 +139,25 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator';
+import { Component, Vue, Watch, Mixins } from 'vue-property-decorator';
 import { mapFields } from 'vuex-map-fields';
 
 import userSession from 'src/module/session.module';
+import { formsRouteType } from 'src/store/users/users.types';
+
+import { MainLayoutProperty } from 'src/mixins/mainLayoutProperty';
 
 @Component({
   name: 'MainLayout',
-  computed: {
-    ...mapFields({
-      sessionState: 'usersModule.session',
-      countDownState: 'usersModule.countDown',
-      currentUserState: 'usersModule.currentUser'
-    })
-  },
   components: {
-    OutSession: require('src/pages/OutSession.vue').default
+    OutSession: require('src/pages/OutSession.vue').default,
+    ClienForm: require('src/components/client/ClientForm').default
   }
 })
-export default class MainLayout extends Vue {
-  private countDownState: number;
-  private sessionState;
+export default class MainLayout extends MainLayoutProperty {
+  private countDownState = 16;
+
   private left = false;
-  private right = false;
-  private currentUserState: {
-    userId?: number;
-    userName: string;
-    login: string;
-    photo?: string;
-    type: string;
-    status: boolean;
-    iat?: number;
-    exp?: number;
-  };
 
   @Watch('sessionState')
   changeSession(session) {
@@ -152,19 +166,20 @@ export default class MainLayout extends Vue {
 
   startSession(sessionState) {
     if (sessionState === true) {
-      userSession.start(this, this.currentUserState.exp);
+      userSession.start(this, this.currentUser.exp);
       userSession.onTimeOutChange(t => {
         // console.log(t);
         if (t <= 15) {
           this.countDownState = t;
         } else this.countDownState = 16;
-        if (t === 0) this.sessionState = false;
+        if (t === 0) this.session = false;
       });
     }
   }
 
   mounted() {
-    this.startSession(this.sessionState);
+    this.startSession(this.session);
+    console.log({ form: this.formsRoute });
   }
 }
 </script>

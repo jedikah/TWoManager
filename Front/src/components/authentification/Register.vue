@@ -198,37 +198,20 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
-import { mapFields } from 'vuex-map-fields';
-import { mapActions } from 'vuex';
+import { Component, Vue, Prop, Watch, Mixins } from 'vue-property-decorator';
 
-@Component({
-  name: 'Register',
-  computed: {
-    ...mapFields({
-      login: 'usersModule.registerState.form.login',
-      userName: 'usersModule.registerState.form.userName',
-      password: 'usersModule.registerState.form.password',
-      pdpFile: 'usersModule.registerState.form.pdpSrc'
-    })
-  },
-  methods: {
-    ...mapActions('usersModule', {
-      register: 'register'
-    })
-  }
-})
-export default class Register extends Vue {
+import { RegisterProperty } from 'src/mixins/registerProperty';
+
+@Component({ name: 'Register' })
+export default class Register extends RegisterProperty {
   private pdpFileInput = null;
 
-  private userName: string;
   private passwordConfirm = '';
   private pwdVisible = false;
   private b64: string | ArrayBuffer = '';
-  private pdpFile?: File | string;
 
   @Prop({ default: { form: '', h1: '', dark: false } })
-  readonly myclass?: string;
+  readonly myclass?: { form: string; h1: string; dark: boolean };
 
   @Watch('pdpFileInput')
   changePdp(src) {

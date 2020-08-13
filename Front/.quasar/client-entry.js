@@ -38,7 +38,7 @@ import qboot_Bootnotifydefaults from 'boot/notify-defaults'
 
 import qboot_Bootguard from 'boot/guard'
 
-import qboot_BootcompositionApi from 'boot/compositionApi'
+import qboot_Bootapollo from 'boot/apollo'
 
 
 
@@ -80,7 +80,7 @@ async function start () {
   }
 
   const urlPath = window.location.href.replace(window.location.origin, '')
-  const bootFiles = [qboot_Bootnotifydefaults,qboot_Bootguard,qboot_BootcompositionApi]
+  const bootFiles = [qboot_Bootnotifydefaults,qboot_Bootguard,qboot_Bootapollo]
 
   for (let i = 0; hasRedirected === false && i < bootFiles.length; i++) {
     if (typeof bootFiles[i] !== 'function') {

@@ -9,35 +9,36 @@
  *
  * Boot files are your "main.js"
  **/
-import Vue from 'vue';
-import { provide } from '@vue/composition-api';
-import { ApolloClients } from '@vue/apollo-composable';
+import Vue from 'vue'
+import './import-quasar.js'
 
-import './import-quasar.js';
 
-import App from 'app/src/App.vue';
 
-import createStore from 'app/src/store/index';
+import App from 'app/src/App.vue'
 
-import createRouter from 'app/src/router/index';
 
-import apolloClient from './apolloClient';
+import createStore from 'app/src/store/index'
 
-export default async function() {
+import createRouter from 'app/src/router/index'
+
+
+
+
+
+export default async function () {
   // create store and router instances
-
-  const store =
-    typeof createStore === 'function'
-      ? await createStore({ Vue })
-      : createStore;
-
-  const router =
-    typeof createRouter === 'function'
-      ? await createRouter({ Vue, store })
-      : createRouter;
-
+  
+  const store = typeof createStore === 'function'
+    ? await createStore({Vue})
+    : createStore
+  
+  const router = typeof createRouter === 'function'
+    ? await createRouter({Vue, store})
+    : createRouter
+  
   // make router instance available in store
-  store.$router = router;
+  store.$router = router
+  
 
   // Create the app instantiation Object.
   // Here we inject the router, store to all child components,
@@ -45,15 +46,13 @@ export default async function() {
   const app = {
     router,
     store,
-    setup() {
-      provide(ApolloClients, {
-        default: apolloClient
-      });
-    },
     render: h => h(App)
-  };
+  }
 
-  app.el = '#q-app';
+
+  
+  app.el = '#q-app'
+  
 
   // expose the app, the router and the store.
   // note we are not mounting the app here, since bootstrapping will be
@@ -62,5 +61,5 @@ export default async function() {
     app,
     store,
     router
-  };
+  }
 }

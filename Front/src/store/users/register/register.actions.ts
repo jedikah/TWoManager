@@ -1,29 +1,26 @@
-import { ActionTree, MutationTree } from 'vuex';
+import { ActionTree } from 'vuex';
 import { Notify } from 'quasar';
 
-import { UsersState, RegisterForm } from './register.types';
+import { UsersState } from './register.types';
 import RootState from 'src/store/types';
-import * as usersMutate from 'src/api/mutations/users.mutation';
 
-export const registerUsersMutation: MutationTree<UsersState> = {
-  reinitResgisterState(state) {
-    state.registerState.form = {
-      userName: '',
-      login: '',
-      password: '',
-      pdpFile: null
-    };
-  }
-};
+import { register } from 'src/services/users/register';
+import { uploadPdp } from 'src/services/users/pdpUpload';
 
 export const registerUserAction: ActionTree<UsersState, RootState> = {
-  async register({}, { login, userName, password, pdpFile }: RegisterForm) {
+  async register({
+    state: {
+      registerState: {
+        form: { login, userName, password, pdpFile }
+      }
+    }
+  }) {
     let photo = null;
 
-    if (await usersMutate.uploadPdp(pdpFile, login))
+    if (await uploadPdp(pdpFile, login))
       photo = login + '/' + login + '_pdp.JPG';
 
-    const output = await usersMutate.register(userName, login, password, photo);
+    const output = await register(userName, login, password, photo);
 
     if (output.userId) {
       if (output.type)

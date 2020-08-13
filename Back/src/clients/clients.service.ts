@@ -10,6 +10,7 @@ import dateNow from '../utils/dateFormat';
 import { UserOutput } from '../users/users.types';
 import { ClientInput } from './client.types';
 import { CollaborationsService } from '../collaborations/collaborations.service';
+import { TableName } from '../database/TableName';
 
 @Injectable()
 export class ClientsService {
@@ -41,5 +42,18 @@ export class ClientsService {
     }
 
     return clientResponse;
+  }
+
+  async getClientsListByUser(user: UserOutput): Promise<ClientEntity[]> {
+    const response = await this.clientsRepository.find({
+      relations: ['user'],
+      where: {
+        user: {
+          userId: user.userId,
+        },
+      },
+    });
+
+    return response;
   }
 }

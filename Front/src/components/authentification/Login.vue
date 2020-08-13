@@ -8,15 +8,7 @@
 
     <q-card-section>
       <div class="q-pa-md">
-        <q-form
-          @submit.prevent="
-            loginSubmit({
-              loginState,
-              passwordState
-            })
-          "
-          class="q-gutter-md col "
-        >
+        <q-form @submit.prevent="loginSubmit()" class="q-gutter-md col ">
           <!--
               SECTION FORMULAIRE
             -->
@@ -27,7 +19,7 @@
               outlined
               color="grey-3"
               label-color="orange"
-              v-model="loginState"
+              v-model="login"
               label="Votre login *"
               hint="Indentifiant de connexion"
               lazy-rules
@@ -47,7 +39,7 @@
               label-color="orange"
               lazy-rules
               label="Mot de passe *"
-              v-model="passwordState"
+              v-model="password"
               :type="!pwdVisible ? 'password' : 'text'"
               :rules="[
                 val => (val && val.length > 0) || 'Le champ est obligatoir'
@@ -76,8 +68,8 @@
                 color="orange"
                 text-color="black"
                 @click="
-                  loginState = '';
-                  passwordState = '';
+                  login = '';
+                  password = '';
                 "
               />
             </q-btn-group>
@@ -89,32 +81,26 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
-import { mapFields } from 'vuex-map-fields';
-import { mapActions } from 'vuex';
+import { Component, Prop, Mixins } from 'vue-property-decorator';
+// import {} from 'vue-class-component'
 
-@Component({
-  name: 'Login',
-  computed: {
-    ...mapFields({
-      loginState: 'usersModule.loginState.form.login',
-      passwordState: 'usersModule.loginState.form.password'
-    })
-  },
-  methods: {
-    ...mapActions('usersModule', { loginSubmit: 'loginSubmit' })
-  }
-})
-export default class Login extends Vue {
+import { LoginProperty } from 'src/mixins/loginProperty';
+
+@Component({ name: 'Login' })
+export default class Login extends LoginProperty {
   //Props
   @Prop({
     required: false,
     type: Object,
     default: () => ({ form: '', h1: '', dark: false })
   })
-  readonly myclass: { from: string; h1: string; dark: boolean };
+  readonly myclass: { form: string; h1: string; dark: boolean };
 
   private pwdVisible = false;
+
+  mounted() {
+    this.login;
+  }
 }
 </script>
 

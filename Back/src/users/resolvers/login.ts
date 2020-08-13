@@ -1,4 +1,4 @@
-import { Resolver, Query, Args } from '@nestjs/graphql';
+import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
 import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 
 import { UserEntity } from '../../database/entities';
@@ -26,7 +26,7 @@ export class UsersLogin {
     });
   }
 
-  @Query(() => LoginOutput)
+  @Mutation(() => LoginOutput)
   async login(@Args('input') input: LoginInput): Promise<LoginOutput> {
     const user = (await this.usersService.getUserByLogin(
       input.login.toLocaleLowerCase(),
