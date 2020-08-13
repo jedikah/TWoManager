@@ -53,13 +53,19 @@ type Mutation {
   addClientByUser(input: ClientInput!): ClientEntity!
 }
 
+type PaginateUserClients {
+  hasMore: Boolean!
+  cursor: Int!
+  clients: [ClientEntity!]!
+}
+
 type Query {
   loginSession(input: LoginInput!): Boolean!
   checkToken(input: String!): VerifyToken!
   users: [UserEntity!]
   usersCount: Int!
   clientListByUser: [ClientEntity!]!
-  userClients: [ClientEntity!]!
+  userClients(after: Float!, pageSize: Float!): PaginateUserClients!
 }
 
 """The `Upload` scalar type represents a file upload."""

@@ -13,7 +13,15 @@ import { AuthModule } from './auths/auth.module';
 import { ClientModule } from './clients/clients.module';
 import { CollaboratesModule } from './collaborations/collaborates.module';
 
-const modules = [UsersModule, AuthModule, ClientModule, CollaboratesModule];
+import { UtilsModule } from './utils/utils.module';
+
+const modules = [
+  UtilsModule,
+  UsersModule,
+  AuthModule,
+  ClientModule,
+  CollaboratesModule,
+];
 
 @Module({
   imports: [
