@@ -5,7 +5,7 @@ import RootState from 'src/store/types';
 
 export const loginState: LoginState = {
   form: {
-    login: '',
+    login: '123456789',
     password: ''
   }
 };

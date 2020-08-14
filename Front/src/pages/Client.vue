@@ -5,78 +5,36 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { mapActions } from 'vuex';
-import { ref, computed } from '@vue/composition-api';
-import { useQuery } from '@vue/apollo-composable';
-import gql from 'graphql-tag';
+import {
+  ref,
+  computed,
+  watch,
+  toRef,
+  reactive,
+  defineComponent
+} from '@vue/composition-api';
 
-import { useTest, value } from './test';
+import { mapFields } from 'vuex-map-fields';
+import { Accessors } from 'types';
 
-type Prop = {
-  mySetup: () => void;
-};
+import { LoginForm } from 'src/store/users/login/login.types';
 
-const ClientProperty = Vue.extend({
-  props: {
-    mySetup: () => {
-      console.log('mysetup');
-    }
+export default defineComponent({
+  computed: {
+    ...(mapFields({
+      login: 'usersModule.loginState.form.login',
+      password: 'usersModule.loginState.form.password'
+    }) as Accessors<LoginForm>)
   },
-  setup: (props: Prop, { root }) => {
-    const [x, f] = useTest();
+  setup: () => {
+    const blabla = 'string';
 
-    const count = ref(1);
+    const g = computed(() => ({}));
 
-    const plusOne = computed(() => count.value * 2);
-
-    return { x, f };
+    return { blabla };
   },
-
-  methods: { ...mapActions('clientsModule', { test: 'test' }) }
+  methods: {
+    test12: () => this.blabla
+  }
 });
-
-@Component({
-  name: 'Client',
-  components: {
-    clienform: require('src/components/client/ClientForm').default
-  }
-})
-export default class Client extends ClientProperty {
-  private text = 'test';
-
-  data() {
-    return {
-      test2: 'blablabl'
-    };
-  }
-
-  // setup(prop) {
-  //   console.log({ setup: 'bdqsjhgdqsg' });
-  // }
-
-  mounted() {
-    // this.se;
-    console.log({ val: value.language });
-    value.language = '12';
-    // console.log({
-    //   val: useQuery(
-    //     gql`
-    //       query Login($input: LoginInput!) {
-    //         login(input: $input) {
-    //           token
-    //           type
-    //         }
-    //       }
-    //     `,
-    //     {
-    //       input: {
-    //         login: 'jedikah',
-    //         password: '123'
-    //       }
-    //     }
-    //   )
-    // });
-  }
-}
 </script>

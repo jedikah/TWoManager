@@ -27,7 +27,7 @@ const httpUploadOptions = {
   // }
 };
 
-const defaultOptions = {
+const defaultOptions: DefaultOptions = {
   watchQuery: {},
   query: {
     errorPolicy: 'all'
@@ -41,10 +41,8 @@ const httpLink = ApolloLink.split(
 );
 
 // Create the apollo client
-const apolloClient = new ApolloClient({
+export const apolloClient = new ApolloClient({
   link: ApolloLink.from([httpLink]),
   cache: new InMemoryCache(),
   defaultOptions
 });
-
-export default apolloClient;
