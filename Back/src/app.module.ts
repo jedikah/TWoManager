@@ -26,8 +26,8 @@ const modules = [
 @Module({
   imports: [
     ...modules,
-    TypeOrmModule.forFeature(Entity),
-    TypeOrmModule.forRoot({ autoLoadEntities: true, ...config }),
+    // TypeOrmModule.forFeature(Entity),
+    TypeOrmModule.forRoot(config),
     GraphQLModule.forRootAsync({
       useFactory: () => ({
         autoSchemaFile: join(process.cwd(), 'src/types/schema.gql'),
