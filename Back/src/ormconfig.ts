@@ -1,5 +1,5 @@
 import { ConnectionOptions } from 'typeorm';
-const path = require('path');
+import * as path from 'path';
 
 export const config: ConnectionOptions = {
   type: 'mysql',
@@ -8,8 +8,8 @@ export const config: ConnectionOptions = {
   username: 'root',
   password: '',
   database: 'twomanager',
-  entities: [path.join(__dirname + '/database/entities/*.entity.js')],
-  migrations: [path.join(__dirname, '/database/migrations/*.js')],
+  entities: [path.join(__dirname, 'database/entities/*.entity.js')],
+  migrations: [path.join(__dirname, 'database/migrations/*.js')],
   migrationsRun: true,
   cli: {
     migrationsDir: path.join(__dirname, 'database/migrations/*.js'),

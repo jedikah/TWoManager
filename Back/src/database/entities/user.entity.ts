@@ -1,25 +1,18 @@
 import { TableName } from '../TableName';
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  ManyToMany,
-  JoinTable,
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { Field, ObjectType, ID } from '@nestjs/graphql';
 
-import { ClientEntity } from './client.entity';
 import { FolderEntity } from './folder.entity';
 
 @ObjectType()
 @Entity({ name: TableName.User })
 export class UserEntity {
   @Field(() => ID)
-  @PrimaryGeneratedColumn({ name: 'user_Id' })
-  userId?: number;
+  @PrimaryGeneratedColumn({ name: 'user_id' })
+  userId: number;
 
   @Field()
-  @Column({ name: 'user_Name' })
+  @Column({ name: 'user_name' })
   userName: string;
 
   @Field()
@@ -27,21 +20,21 @@ export class UserEntity {
   login: string;
 
   @Field()
-  @Column({ name: 'password', nullable: true })
+  @Column({ name: 'password' })
   password: string;
 
   @Field({ nullable: true })
-  @Column({ name: 'photo' })
+  @Column({ name: 'photo', nullable: true })
   photo?: string;
 
   @Field({ nullable: true })
-  @Column({ name: 'type' })
+  @Column({ name: 'type', nullable: true })
   type?: string;
 
   @Field({ nullable: true })
-  @Column({ name: 'status' })
+  @Column({ name: 'status', nullable: true })
   status?: boolean;
 
-  @Field(type => [FolderEntity])
-  folders?: FolderEntity[];
+  @Field(() => [FolderEntity])
+  folders: FolderEntity[];
 }

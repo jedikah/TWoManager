@@ -8,30 +8,30 @@ import { FolderEntity } from './folder.entity';
 @Entity({ name: TableName.Letter })
 export class LetterEntity {
   @Field()
-  @PrimaryColumn({ name: 'rtx_Num' })
-  rtxNum: string;
+  @PrimaryColumn({ name: 'num_rtx' })
+  numRtx: string;
 
   @Field()
-  @Column({ name: 'folder_Id' })
+  @Column({ name: 'folder_id' })
   folderId: number;
 
   @Field()
-  @Column({ name: 'date_Rtx' })
+  @Column({ name: 'date_rtx' })
   dateRtx: Date;
 
   @Field()
-  @Column({ name: 'letter_Town' })
+  @Column({ name: 'letter_town' })
   letterTown: string;
 
   @Field()
-  @Column({ name: 'created_At' })
+  @Column({ name: 'created_at' })
   createdAt: Date;
 
   @Field()
   @Column({ name: 'object' })
   object: string;
 
-  @OneToOne(type => FolderEntity)
+  @OneToOne(() => FolderEntity)
   @JoinColumn()
   folder: FolderEntity;
 }

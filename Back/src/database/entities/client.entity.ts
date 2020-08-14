@@ -6,11 +6,11 @@ import { Field, ObjectType, ID } from '@nestjs/graphql';
 @Entity({ name: TableName.Client })
 export class ClientEntity {
   @Field(() => ID)
-  @PrimaryGeneratedColumn({ name: 'client_Id' })
-  clientId?: number;
+  @PrimaryGeneratedColumn({ name: 'client_id' })
+  clientId: number;
 
   @Field()
-  @Column({ name: 'client_Name' })
+  @Column({ name: 'client_name' })
   clientName: string;
 
   @Field({ nullable: true })

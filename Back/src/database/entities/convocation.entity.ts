@@ -4,8 +4,8 @@ import {
   Column,
   PrimaryColumn,
   ManyToOne,
-  OneToOne,
   JoinColumn,
+  RelationId,
 } from 'typeorm';
 import { Field, ObjectType, ID } from '@nestjs/graphql';
 
@@ -16,42 +16,38 @@ import { PvEntity } from './pv.entity';
 @Entity({ name: TableName.Convocation })
 export class ConvocationEntity {
   @Field(() => ID)
-  @PrimaryColumn({ name: 'register_Num' })
-  registerNum: number;
+  @PrimaryColumn({ name: 'num_register' })
+  numRegister: number;
 
   @Field()
-  @Column({ name: 'folder_Id' })
-  folderId: number;
+  @Column({ name: 'name_pers_conv' })
+  namePersConv: string;
 
   @Field()
-  @Column({ name: 'pv_Num' })
-  pvNum: number;
-
-  @Field()
-  @Column({ name: 'nom_Pers_Conv' })
-  nomPersConv: string;
-
-  @Field()
-  @Column({ name: 'convoke_On' })
+  @Column({ name: 'convoke_on' })
   convokeOn: Date;
 
   @Field()
-  @Column({ name: 'at_Town' })
+  @Column({ name: 'at_town' })
   atTown: string;
 
   @Field()
-  @Column({ name: 'at_Time' })
+  @Column({ name: 'at_time' })
   atTime: string;
 
   @Field()
-  @Column({ name: 'requisition_Num' })
-  requisitionNum: string;
+  @Column({ name: 'num_requisition' })
+  numRequisition: string;
 
-  @ManyToOne(type => FolderEntity)
-  @JoinColumn()
+  @ManyToOne(() => FolderEntity)
+  @JoinColumn({ name: 'folder_id' })
   folder: FolderEntity;
+  @RelationId((convocation: ConvocationEntity) => convocation.folder)
+  folderId: number;
 
-  @ManyToOne(type => PvEntity)
-  @JoinColumn()
+  @ManyToOne(() => PvEntity)
+  @JoinColumn({ name: 'num_pv' })
   pv: PvEntity;
+  @RelationId((convocation: ConvocationEntity) => convocation.pv)
+  numPv: number;
 }

@@ -3,9 +3,9 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  OneToMany,
   ManyToOne,
   JoinColumn,
+  RelationId,
 } from 'typeorm';
 import { Field, ObjectType, ID } from '@nestjs/graphql';
 
@@ -17,35 +17,23 @@ import { FactureEntity } from './facture.entity';
 @Entity({ name: TableName.Folder })
 export class FolderEntity {
   @Field(() => ID)
-  @PrimaryGeneratedColumn({ name: 'folder_Id' })
+  @PrimaryGeneratedColumn({ name: 'dossier_id' })
   folderId: number;
-
-  @Field()
-  @Column({ name: 'user_Id' })
-  userId: number;
-
-  @Field()
-  @Column({ name: 'client_Id' })
-  clientId: number;
-
-  @Field()
-  @Column({ name: 'facture_Id' })
-  factureId: number;
 
   @Field()
   @Column({ name: 'register' })
   register: string;
 
   @Field()
-  @Column({ name: 'num_Title' })
+  @Column({ name: 'num_title' })
   numTitle: string;
 
   @Field()
-  @Column({ name: 'ground_Name' })
+  @Column({ name: 'ground_name' })
   groundName: string;
 
   @Field()
-  @Column({ name: 'localisation_Trav' })
+  @Column({ name: 'localisation_trav' })
   localisationTrav: string;
 
   @Field()
@@ -53,26 +41,32 @@ export class FolderEntity {
   fokontany: string;
 
   @Field()
-  @Column({ name: 'date_Trav' })
+  @Column({ name: 'date_trav' })
   dateTrav: Date;
 
   @Field()
-  @Column({ name: 'type_Trav' })
+  @Column({ name: 'type_trav' })
   typeTrav: string;
 
   @Field()
   @Column({ name: 'price' })
   price: number;
 
-  @ManyToOne(type => UserEntity)
-  @JoinColumn()
+  @ManyToOne(() => UserEntity)
+  @JoinColumn({ name: 'user_id' })
   user: UserEntity;
+  @RelationId((folder: FolderEntity) => folder.user)
+  userId: number;
 
-  @ManyToOne(type => ClientEntity)
-  @JoinColumn()
+  @ManyToOne(() => ClientEntity)
+  @JoinColumn({ name: 'client_id' })
   client: ClientEntity;
+  @RelationId((folder: FolderEntity) => folder.client)
+  clientId: number;
 
-  @ManyToOne(type => FactureEntity)
-  @JoinColumn()
+  @ManyToOne(() => FactureEntity, { nullable: true })
+  @JoinColumn({ name: 'facture_id' })
   facture: FactureEntity;
+  @RelationId((folder: FolderEntity) => folder.facture)
+  factureId?: number;
 }

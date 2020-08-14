@@ -23,9 +23,6 @@ scalar DateTime
 
 type FolderEntity {
   folderId: ID!
-  userId: Float!
-  clientId: Float!
-  factureId: Float!
   register: String!
   numTitle: String!
   groundName: String!

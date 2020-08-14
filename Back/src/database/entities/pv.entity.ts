@@ -6,8 +6,8 @@ import { Field, ObjectType, ID } from '@nestjs/graphql';
 @Entity({ name: TableName.Pv })
 export class PvEntity {
   @Field(() => ID)
-  @PrimaryGeneratedColumn({ name: 'pv_Num' })
-  pvNum: number;
+  @PrimaryGeneratedColumn({ name: 'num_pv' })
+  numPv: number;
 
   @Field()
   @Column({ name: 'attachments' })
