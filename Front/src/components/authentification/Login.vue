@@ -19,7 +19,7 @@
               outlined
               color="grey-3"
               label-color="orange"
-              v-model="login"
+              v-model="logIn.login"
               label="Votre login *"
               hint="Indentifiant de connexion"
               lazy-rules
@@ -39,7 +39,7 @@
               label-color="orange"
               lazy-rules
               label="Mot de passe *"
-              v-model="password"
+              v-model="logIn.password"
               :type="!pwdVisible ? 'password' : 'text'"
               :rules="[
                 val => (val && val.length > 0) || 'Le champ est obligatoir'
@@ -68,8 +68,8 @@
                 color="orange"
                 text-color="black"
                 @click="
-                  login = '';
-                  password = '';
+                  logIn.login = '';
+                  logIn.password = '';
                 "
               />
             </q-btn-group>
@@ -81,27 +81,35 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Mixins } from 'vue-property-decorator';
-// import {} from 'vue-class-component'
+import {
+  ref,
+  computed,
+  watch,
+  toRef,
+  reactive,
+  defineComponent,
+  createApp
+} from '@vue/composition-api';
 
-import { LoginProperty } from 'src/mixins/loginProperty';
+import { logIn } from 'src/services/store/state';
+import { useLogIn } from 'src/services/users/useLogIn';
 
-@Component({ name: 'Login' })
-export default class Login extends LoginProperty {
-  //Props
-  @Prop({
-    required: false,
-    type: Object,
-    default: () => ({ form: '', h1: '', dark: false })
-  })
-  readonly myclass: { form: string; h1: string; dark: boolean };
-
-  private pwdVisible = false;
-
-  mounted() {
-    this.login;
+export default defineComponent({
+  props: {
+    myclass: {
+      required: false,
+      type: Object,
+      default: () => ({ form: '', h1: '', dark: false })
+    }
+  },
+  setup: () => {
+    const pwdVisible = ref(false);
+    return {
+      logIn,
+      pwdVisible
+    };
   }
-}
+});
 </script>
 
 <style></style>

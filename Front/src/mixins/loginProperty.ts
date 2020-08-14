@@ -6,7 +6,6 @@ import { Accessors } from 'types';
 import { LoginForm } from 'src/store/users/login/login.types';
 
 export const LoginProperty = Vue.extend({
-  template: '#anchored-heading-template',
   computed: {
     ...(mapFields({
       login: 'usersModule.loginState.form.login',
