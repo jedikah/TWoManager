@@ -2,6 +2,17 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type CheckTokenOutput {
+  userId: ID!
+  userName: String!
+  login: String!
+  photo: String
+  type: String!
+  status: Boolean!
+  iat: Int!
+  exp: Int!
+}
+
 type ClientEntity {
   clientId: ID!
   clientName: String!
@@ -45,7 +56,7 @@ type LoginOutput {
 
 type Mutation {
   login(input: LoginInput!): LoginOutput!
-  register(input: UserInput!): UserOutput!
+  register(input: RegisterInput!): UserOutput!
   uploadFile(login: String!, file: Upload!): Boolean!
   addClientByUser(input: ClientInput!): ClientEntity!
 }
@@ -58,11 +69,18 @@ type PaginateUserClients {
 
 type Query {
   loginSession(input: LoginInput!): Boolean!
-  checkToken(input: String!): VerifyToken!
+  checkToken(input: String!): CheckTokenOutput!
   users: [UserEntity!]
   usersCount: Int!
   clientListByUser: [ClientEntity!]!
   userClients(after: Float!, pageSize: Float!): PaginateUserClients!
+}
+
+input RegisterInput {
+  userName: String!
+  login: String!
+  password: String!
+  photo: String
 }
 
 """The `Upload` scalar type represents a file upload."""
@@ -79,13 +97,6 @@ type UserEntity {
   folders: [FolderEntity!]!
 }
 
-input UserInput {
-  userName: String!
-  login: String!
-  password: String!
-  photo: String
-}
-
 type UserOutput {
   userId: ID!
   userName: String!
@@ -93,15 +104,4 @@ type UserOutput {
   photo: String
   type: String
   status: Boolean
-}
-
-type VerifyToken {
-  userId: ID!
-  userName: String!
-  login: String!
-  photo: String
-  type: String!
-  status: Boolean!
-  iat: Int!
-  exp: Int!
 }

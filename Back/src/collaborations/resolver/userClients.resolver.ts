@@ -1,13 +1,13 @@
 import { Resolver, Query, ObjectType, Field, Int, Args } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 
-import { ClientEntity } from 'src/database/entities';
-import { GqlAuthGuard } from 'src/auths/jwt-auth.guard';
-import { CurrentUser } from 'src/auths/currentUser';
-import { UserOutput } from 'src/users/users.types';
+import { ClientEntity } from '../../database/entities';
+import { GqlAuthGuard } from '../../auths/jwt-auth.guard';
+import { CurrentUser } from '../../auths/currentUser';
+import { UserOutput } from '../../users/users.types';
 import { CollaborationsService } from '../collaborations.service';
-import { ClientsService } from 'src/clients/clients.service';
-import { PaginationService } from 'src/utils/pagination.service';
+import { ClientsService } from '../../clients/clients.service';
+import { PaginationService } from '../../utils/pagination.service';
 
 @ObjectType()
 class PaginateUserClients {

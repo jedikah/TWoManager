@@ -2,7 +2,7 @@ import { Resolver, Args, Query } from '@nestjs/graphql';
 import { HttpException, HttpStatus } from '@nestjs/common';
 
 import { UserEntity } from '../../database/entities';
-import { VerifyToken } from '../users.types';
+import { CheckTokenOutput } from '../users.types';
 import { AuthsService } from '../../auths/auths.service';
 
 @Resolver(of => UserEntity)
@@ -11,8 +11,8 @@ export class UsersCheckToken {
 
   //Query
 
-  @Query(() => VerifyToken)
-  async checkToken(@Args('input') input: string): Promise<VerifyToken> {
+  @Query(() => CheckTokenOutput)
+  async checkToken(@Args('input') input: string): Promise<CheckTokenOutput> {
     try {
       let val = null;
       const currentUserToken = await this.authsService.checkToken(input);

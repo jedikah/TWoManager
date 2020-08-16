@@ -1,7 +1,7 @@
 import { Field, InputType, ObjectType, ID, Int } from '@nestjs/graphql';
 
 @InputType()
-export class UserInput {
+export class RegisterInput {
   @Field()
   userName: string;
 
@@ -88,7 +88,7 @@ export class LoginOutput {
 }
 
 @ObjectType()
-export class VerifyToken {
+export class CheckTokenOutput {
   @Field(() => ID)
   userId: number;
 
