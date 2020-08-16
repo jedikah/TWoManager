@@ -29,9 +29,9 @@ export const useRegister = (): [
   const [pdpUploadVar, sendPdp] = usePdpUpload();
 
   onDone(({ data, errors }) => {
-    registerState.login = '';
-    registerState.userName = '';
-    registerState.password = '';
+    registerState.login = null;
+    registerState.userName = null;
+    registerState.password = null;
     registerState.photo = null;
 
     if (pdpUploadVar.file) {

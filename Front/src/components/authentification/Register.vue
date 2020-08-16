@@ -10,7 +10,13 @@
 
     <q-card-section>
       <div class="q-pa-md">
-        <q-form @submit.prevent="submitRegister()" class=" col">
+        <q-form
+          @submit.prevent="
+            submitRegister();
+            passwordConfirm = null;
+          "
+          class=" col"
+        >
           <div class="column full-width">
             <!--
               SECTION PDP
@@ -172,10 +178,10 @@
                   text-color="black"
                   type="reset"
                   @click="
-                    registerState.userName = '';
-                    registerState.login = '';
-                    registerState.password = '';
-                    passwordConfirm = '';
+                    registerState.userName = null;
+                    registerState.login = null;
+                    registerState.password = null;
+                    passwordConfirm = null;
                   "
                   push
                   label="Reset"
