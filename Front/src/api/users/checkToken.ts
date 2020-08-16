@@ -1,6 +1,7 @@
 import gql from 'graphql-tag';
+import { CheckTokenOutput } from '../types';
 export interface CheckTokenData {
-  input: string;
+  checkToken: CheckTokenOutput;
 }
 
 export const CHECKTOKEN = gql`

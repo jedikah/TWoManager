@@ -1,6 +1,7 @@
 import { useMutation } from '@vue/apollo-composable';
 import { logErrorMessages } from '@vue/apollo-util';
 import { reactive, Ref } from '@vue/composition-api';
+import { useState, useGetters, useActions } from '@u3u/vue-hooks';
 
 import { LOGIN, LogInData } from 'src/api/users/login';
 import { notifyThis } from '../context';
@@ -24,6 +25,13 @@ export const useLogIn = (): [LoginInput, () => void, Ref<boolean>] => {
     checkTokenRefetch
   ] = useCheckToken();
 
+  const actions = {
+    ...useActions('sessionModule', {
+      setSession: 'setSession',
+      setCurrentUser: 'setCurrentUser'
+    })
+  };
+
   onDone(({ data: logInData }) => {
     logIn.login = '';
     logIn.password = '';
@@ -34,6 +42,8 @@ export const useLogIn = (): [LoginInput, () => void, Ref<boolean>] => {
 
     onChectTonkenResult(({ data: checkTokenData }) => {
       console.log({ logInData, checkTokenData });
+      actions.setSession(true);
+      actions.setCurrentUser(checkTokenData.checkToken);
     });
   });
 

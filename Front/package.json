@@ -17,6 +17,7 @@
     "@types/dotenv": "^8.2.0",
     "@types/electron-devtools-installer": "^2.2.0",
     "@types/graphql": "^14.5.0",
+    "@u3u/vue-hooks": "^2.0.1",
     "@vue/apollo-composable": "^4.0.0-alpha.10",
     "@vue/apollo-util": "^4.0.0-alpha.6",
     "@vue/composition-api": "^1.0.0-beta.8",

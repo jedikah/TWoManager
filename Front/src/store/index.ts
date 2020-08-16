@@ -5,6 +5,7 @@ import { getField, updateField } from 'vuex-map-fields';
 import RootState from './types';
 import { usersModule } from './users/usersModule.store';
 import { clientsModule } from './clients/clientsModule.store';
+import { sessionModule } from './session/sessionModule.store';
 
 // import example from './module-example';
 // import { ExampleStateInterface } from './module-example/state';
@@ -23,7 +24,8 @@ export default store(function({ Vue }) {
     },
     modules: {
       usersModule,
-      clientsModule
+      clientsModule,
+      sessionModule
     },
     actions: {},
     getters: { getField },
