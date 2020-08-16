@@ -8,7 +8,7 @@
 
     <q-card-section>
       <div class="q-pa-md">
-        <q-form @submit.prevent="loginSubmit()" class="q-gutter-md col ">
+        <q-form @submit.prevent="submitLogIn()" class="q-gutter-md col ">
           <!--
               SECTION FORMULAIRE
             -->
@@ -91,7 +91,6 @@ import {
   createApp
 } from '@vue/composition-api';
 
-import { logIn } from 'src/services/store/state';
 import { useLogIn } from 'src/services/users/useLogIn';
 
 export default defineComponent({
@@ -104,9 +103,12 @@ export default defineComponent({
   },
   setup: () => {
     const pwdVisible = ref(false);
+    const [logIn, submitLogIn, loadingLogin] = useLogIn();
     return {
       logIn,
-      pwdVisible
+      pwdVisible,
+      submitLogIn,
+      loadingLogin
     };
   }
 });

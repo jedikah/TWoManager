@@ -1,19 +1,20 @@
 import { useMutation } from '@vue/apollo-composable';
 import { logErrorMessages } from '@vue/apollo-util';
-import { ref, reactive } from '@vue/composition-api';
+import { reactive, Ref } from '@vue/composition-api';
 
-import { logIn } from '../store/state';
-import { LOGIN } from 'src/api/users/login';
+import { LOGIN, LoginInputData } from 'src/api/users/login';
 import { notifyThis } from '../context';
+import { LoginInput, MutationLoginArgs } from 'src/api/types';
 
-export const useLogIn = () => {
-  const { onDone, onError, loading } = useMutation(LOGIN, {
-    variables: {
-      input: {
-        login: logIn.login,
-        password: logIn.password
-      }
-    }
+export const useLogIn = (): [LoginInput, () => void, Ref<boolean>] => {
+  const { mutate: sendLogIn, onDone, onError, loading } = useMutation<
+    LoginInputData,
+    MutationLoginArgs
+  >(LOGIN);
+
+  const logIn: LoginInput = reactive({
+    login: 'jedikah',
+    password: '123'
   });
 
   onDone(({ data }) => {
@@ -28,5 +29,15 @@ export const useLogIn = () => {
     notifyThis(error.message);
   });
 
-  return { loading };
+  const submitLogIn = () => {
+    if (logIn.login !== '' && logIn.password !== '')
+      sendLogIn({
+        input: {
+          login: logIn.login,
+          password: logIn.password
+        }
+      });
+  };
+
+  return [logIn, submitLogIn, loading];
 };

@@ -1,4 +1,4 @@
-import { CHECKtOKEN } from 'src/api/users/checkToken';
+import { CHECKTOKEN } from 'src/api/users/checkToken';
 import graphqlClient from '../index';
 import { context, notifyThere, notifyThis } from '../context';
 
@@ -11,7 +11,7 @@ export const checkToken = async (token?: string) => {
   if (token)
     try {
       response = await graphqlClient.query({
-        query: CHECKtOKEN,
+        query: CHECKTOKEN,
         variables: {
           input: token
         },

@@ -1,6 +1,9 @@
 import gql from 'graphql-tag';
+export interface CheckTokenData {
+  input: string;
+}
 
-export const CHECKtOKEN = gql`
+export const CHECKTOKEN = gql`
   query CheckToken($input: String!) {
     checkToken(input: $input) {
       userId
