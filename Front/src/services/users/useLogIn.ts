@@ -10,7 +10,7 @@ import { useCheckToken } from './useCheckToken';
 import { Router } from 'src/router';
 
 export const useLogIn = (): [LoginInput, () => void, Ref<boolean>] => {
-  const { mutate: sendLogIn, onDone, loading } = useMutation<
+  const { mutate: sendLogIn, onDone, onError, loading } = useMutation<
     LogInData,
     MutationLoginArgs
   >(LOGIN);
@@ -33,13 +33,9 @@ export const useLogIn = (): [LoginInput, () => void, Ref<boolean>] => {
     })
   };
 
-  onDone(({ data: logInData, errors }) => {
+  onDone(({ data: logInData }) => {
     logIn.login = '';
     logIn.password = '';
-
-    console.log({ errors });
-
-    if (errors) notifyThere(errors);
 
     localStorage.setItem('token', logInData.login.token);
 
@@ -55,9 +51,9 @@ export const useLogIn = (): [LoginInput, () => void, Ref<boolean>] => {
     });
   });
 
-  // onError(error => {
-  //   logErrorMessages(error);
-  // });
+  onError(error => {
+    logErrorMessages(error);
+  });
 
   const submitLogIn = () => {
     if (logIn.login !== '' && logIn.password !== '')

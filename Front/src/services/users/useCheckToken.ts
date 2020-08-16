@@ -2,8 +2,10 @@ import { useQuery } from '@vue/apollo-composable';
 import { reactive } from '@vue/composition-api';
 
 import { CHECKTOKEN, CheckTokenData } from 'src/api/users/checkToken';
-import { QueryCheckTokenArgs } from 'src/api/types';
+import { QueryCheckTokenArgs, CheckTokenOutput } from 'src/api/types';
 import { ApolloQueryResult } from 'apollo-client';
+import { logErrorMessages } from '@vue/apollo-util';
+import { Router } from 'src/router';
 
 export const useCheckToken = (): [
   (
@@ -19,13 +21,18 @@ export const useCheckToken = (): [
   ) => Promise<ApolloQueryResult<CheckTokenData>>
 ] => {
   const variables = reactive({
-    input: ''
+    input: localStorage.getItem('token') || ''
   });
 
-  const { onResult, refetch } = useQuery<CheckTokenData, QueryCheckTokenArgs>(
-    CHECKTOKEN,
-    variables
-  );
+  const { onResult, refetch, onError } = useQuery<
+    CheckTokenData,
+    QueryCheckTokenArgs
+  >(CHECKTOKEN, variables);
+
+  onError(error => {
+    logErrorMessages(error);
+    Router.replace('/');
+  });
 
   return [onResult, variables, refetch];
 };

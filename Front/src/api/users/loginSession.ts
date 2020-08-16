@@ -1,7 +1,9 @@
 import gql from 'graphql-tag';
 
+export type LogInSessionData = boolean;
+
 export const LOGINSESSION = gql`
-  query($input: LoginInput!) {
+  mutation LoginSession($input: LoginInput!) {
     loginSession(input: $input)
   }
 `;

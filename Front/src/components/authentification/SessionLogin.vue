@@ -8,15 +8,18 @@
     <q-separator inset />
 
     <q-card-section class="column" style="padding: 0; margin: 0">
-      <Avatar :src="currentUser.photo" :name="currentUser.userName" />
+      <Avatar
+        :src="state.currentUser.value.photo"
+        :name="state.currentUser.value.userName"
+      />
       <q-btn
         label="S'authentifier"
         type="button"
         color="amber"
         text-color="black"
         @click="
-          checkTokenSession();
-          toLogin = !toLogin;
+          checkTokenVariable.input = getToken();
+          checkTokenRefetch();
         "
       />
     </q-card-section>
@@ -28,8 +31,8 @@
       <div class=" q-gutter-xs">
         <q-form
           @submit.prevent="
-            checkTokenSession();
-            loginSessionSubmit();
+            checkTokenRefetch();
+            submitLogInSession();
           "
           class="q-gutter-sx"
         >
@@ -45,7 +48,7 @@
               label-color="orange"
               lazy-rules
               label="Mot de passe *"
-              v-model="password"
+              v-model="logInSessionState.password"
               :type="!pwdVisible ? 'password' : 'text'"
               :rules="[
                 val => (val && val.length > 0) || 'Le champ est obligatoir'
@@ -73,7 +76,7 @@
                 label="Reset"
                 color="orange"
                 text-color="black"
-                @click="password = ''"
+                @click="logInSessionState.password = ''"
               />
             </q-btn-group>
           </div>
@@ -84,24 +87,53 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Mixins } from 'vue-property-decorator';
-import { SessionLoginProperty } from 'src/mixins/sessionLoginProperty';
+import { defineComponent, ref } from '@vue/composition-api';
+import { useState } from '@u3u/vue-hooks';
 
-@Component({
-  name: 'Login',
+import { useCheckToken } from 'src/services/users/useCheckToken';
+import { useLogInSession } from 'src/services/users/useLogInSession';
+
+export default defineComponent({
   components: {
     Avatar: require('../templates/Avatar.vue').default
-  }
-})
-export default class Login extends SessionLoginProperty {
-  private toLogin = false;
+  },
+  setup: () => {
+    const toLogin = ref(false);
+    const pwdVisible = ref(false);
+    const state = {
+      ...useState('sessionModule', { currentUser: 'currentUser' })
+    };
 
-  private pwdVisible = false;
+    const [logInSessionState, submitLogInSession] = useLogInSession();
 
-  mounted() {
-    // console.log({ myclass: this.myclass });
+    const [
+      onCheckTokenResult,
+      checkTokenVariable,
+      checkTokenRefetch
+    ] = useCheckToken();
+
+    onCheckTokenResult(() => {
+      toLogin.value = true;
+    });
+
+    const getToken = () => {
+      return localStorage.getItem('token') || '';
+    };
+
+    logInSessionState.login = state.currentUser.value.login;
+
+    return {
+      toLogin,
+      pwdVisible,
+      state,
+      checkTokenVariable,
+      checkTokenRefetch,
+      submitLogInSession,
+      logInSessionState,
+      getToken
+    };
   }
-}
+});
 </script>
 
 <style></style>

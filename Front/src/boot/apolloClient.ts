@@ -1,31 +1,31 @@
 import { ApolloClient, DefaultOptions } from 'apollo-client';
-import { HttpLink } from 'apollo-link-http';
+import { setContext } from 'apollo-link-context';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { ApolloLink } from 'apollo-link';
 import { createUploadLink } from 'apollo-upload-client';
 import { BatchHttpLink } from 'apollo-link-batch-http';
+import { createHttpLink } from 'apollo-link-http';
 
 const token = localStorage.getItem('token') || null;
 
 const httpOptions = {
-  uri: 'http://localhost:3000/graphql',
-  headers: {
-    authorization: `Bearer ${token}`
-  }
+  uri: 'http://localhost:3000/graphql'
 };
 
 const httpUploadOptions = {
   uri: 'http://localhost:3000/graphql'
-  // credentials: 'include',
-  // headers: {
-  //   'Content-Type': 'application/json',
-  //   'Access-Control-Allow-Origin': '*',
-  //   'Access-Control-Allow-Credentials': true
-  // },
-  // fetchOptions: {
-  //   mode: 'no-cors'
-  // }
 };
+
+const authLink = setContext((_, { headers, ...context }) => {
+  const token = localStorage.getItem('token');
+  return {
+    headers: {
+      ...headers,
+      ...(token ? { authorization: `Bearer ${token}` } : {})
+    },
+    ...context
+  };
+});
 
 const defaultOptions: DefaultOptions = {
   watchQuery: {},
@@ -42,7 +42,7 @@ const httpLink = ApolloLink.split(
 
 // Create the apollo client
 export const apolloClient = new ApolloClient({
-  link: ApolloLink.from([httpLink]),
+  link: ApolloLink.from([httpLink, authLink]),
   cache: new InMemoryCache(),
   defaultOptions
 });

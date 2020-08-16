@@ -26,6 +26,7 @@
     "apollo-client": "^2.6.10",
     "apollo-link": "^1.2.14",
     "apollo-link-batch-http": "^1.2.14",
+    "apollo-link-context": "^1.0.20",
     "apollo-link-http": "^1.5.17",
     "apollo-server-express": "^2.15.1",
     "asar": "^3.0.3",

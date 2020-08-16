@@ -16,17 +16,11 @@ export type Scalars = {
 
 export type Query = {
   __typename?: 'Query';
-  loginSession: Scalars['Boolean'];
   checkToken: CheckTokenOutput;
   users?: Maybe<Array<UserEntity>>;
   usersCount: Scalars['Int'];
   clientListByUser: Array<ClientEntity>;
   userClients: PaginateUserClients;
-};
-
-
-export type QueryLoginSessionArgs = {
-  input: LoginInput;
 };
 
 
@@ -38,11 +32,6 @@ export type QueryCheckTokenArgs = {
 export type QueryUserClientsArgs = {
   after: Scalars['Float'];
   pageSize: Scalars['Float'];
-};
-
-export type LoginInput = {
-  login: Scalars['String'];
-  password: Scalars['String'];
 };
 
 export type CheckTokenOutput = {
@@ -101,6 +90,7 @@ export type PaginateUserClients = {
 export type Mutation = {
   __typename?: 'Mutation';
   login: LoginOutput;
+  loginSession: Scalars['Boolean'];
   register: UserOutput;
   uploadFile: Scalars['Boolean'];
   addClientByUser: ClientEntity;
@@ -108,6 +98,11 @@ export type Mutation = {
 
 
 export type MutationLoginArgs = {
+  input: LoginInput;
+};
+
+
+export type MutationLoginSessionArgs = {
   input: LoginInput;
 };
 
@@ -125,6 +120,11 @@ export type MutationUploadFileArgs = {
 
 export type MutationAddClientByUserArgs = {
   input: ClientInput;
+};
+
+export type LoginInput = {
+  login: Scalars['String'];
+  password: Scalars['String'];
 };
 
 export type LoginOutput = {
