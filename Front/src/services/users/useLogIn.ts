@@ -7,6 +7,7 @@ import { LOGIN, LogInData } from 'src/api/users/login';
 import { notifyThis } from '../context';
 import { LoginInput, MutationLoginArgs } from 'src/api/types';
 import { useCheckToken } from './useCheckToken';
+import { Router } from 'src/router';
 
 export const useLogIn = (): [LoginInput, () => void, Ref<boolean>] => {
   const { mutate: sendLogIn, onDone, onError, loading } = useMutation<
@@ -36,6 +37,8 @@ export const useLogIn = (): [LoginInput, () => void, Ref<boolean>] => {
     logIn.login = '';
     logIn.password = '';
 
+    localStorage.setItem('token', logInData.login.token);
+
     checkTonkenVariable.input = logInData.login.token;
 
     checkTokenRefetch();
@@ -44,6 +47,7 @@ export const useLogIn = (): [LoginInput, () => void, Ref<boolean>] => {
       console.log({ logInData, checkTokenData });
       actions.setSession(true);
       actions.setCurrentUser(checkTokenData.checkToken);
+      Router.replace('/main');
     });
   });
 

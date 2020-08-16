@@ -10,17 +10,7 @@
 
     <q-card-section>
       <div class="q-pa-md">
-        <q-form
-          @submit.prevent="
-            register({
-              userName,
-              login,
-              password,
-              pdpFile
-            })
-          "
-          class=" col"
-        >
+        <q-form @submit.prevent="submitRegister()" class=" col">
           <div class="column full-width">
             <!--
               SECTION PDP
@@ -52,7 +42,7 @@
                 :dense="true"
                 outlined
                 bottom-slots
-                v-model="pdpFileInput"
+                v-model="pdpUploadVar.file"
                 max-file-size="2000048"
                 label-color="orange"
                 label="Poids max (2M)"
@@ -77,7 +67,7 @@
                 :dense="true"
                 outlined
                 label-color="orange"
-                v-model="userName"
+                v-model="registerState.userName"
                 label="Votre nom *"
                 hint="Nom complet"
                 lazy-rules
@@ -93,7 +83,7 @@
                 outlined
                 color="grey-3"
                 label-color="orange"
-                v-model="login"
+                v-model="registerState.login"
                 label="Votre login *"
                 hint="Indentifiant de connexion"
                 lazy-rules
@@ -119,7 +109,7 @@
                   label-color="orange"
                   lazy-rules
                   label="Mot de passe *"
-                  v-model="password"
+                  v-model="registerState.password"
                   :type="!pwdVisible ? 'password' : 'text'"
                   :rules="[
                     val => (val && val.length > 0) || 'Le champ est obligatoir'
@@ -147,7 +137,9 @@
                   v-model="passwordConfirm"
                   :type="!pwdVisible ? 'password' : 'text'"
                   :rules="[
-                    val => val === password || 'Le champ est obligatoir'
+                    val =>
+                      val === registerState.password ||
+                      'Le champ est obligatoir'
                   ]"
                   hint="Confirmer le mot de passe"
                 >
@@ -180,9 +172,9 @@
                   text-color="black"
                   type="reset"
                   @click="
-                    userName = '';
-                    login = '';
-                    password = '';
+                    registerState.userName = '';
+                    registerState.login = '';
+                    registerState.password = '';
                     passwordConfirm = '';
                   "
                   push
@@ -198,28 +190,52 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch, Mixins } from 'vue-property-decorator';
+import { ref, defineComponent, Ref, watch } from '@vue/composition-api';
 
-import { RegisterProperty } from 'src/mixins/registerProperty';
+import { useRegister } from 'src/services/users/useRegister';
 
-@Component({ name: 'Register' })
-export default class Register extends RegisterProperty {
-  private pdpFileInput = null;
+export default defineComponent({
+  props: {
+    myclass: {
+      required: false,
+      type: Object,
+      default: () => ({ form: '', h1: '', dark: false })
+    }
+  },
+  setup: () => {
+    const [
+      registerState,
+      loadingRegister,
+      submitRegister,
+      pdpUploadVar
+    ] = useRegister();
 
-  private passwordConfirm = '';
-  private pwdVisible = false;
-  private b64: string | ArrayBuffer = '';
+    const b64: Ref<string | ArrayBuffer> = ref('');
+    const pwdVisible = ref(false);
+    const passwordConfirm = ref('');
+    const pdpFile: Ref<string> = ref(null);
 
-  @Prop({ default: { form: '', h1: '', dark: false } })
-  readonly myclass?: { form: string; h1: string; dark: boolean };
+    watch(pdpUploadVar, newPdpFile => {
+      b64.value = URL.createObjectURL(newPdpFile.file);
 
-  @Watch('pdpFileInput')
-  changePdp(src) {
-    this.b64 = URL.createObjectURL(src);
-    this.pdpFile = src;
-    console.log({ src, b64: this.b64 });
+      if (pdpUploadVar.file) {
+        pdpUploadVar.login = registerState.login;
+        registerState.photo =
+          registerState.login + '/' + registerState.login + '_pdp.JPG';
+      }
+    });
+
+    return {
+      registerState,
+      loadingRegister,
+      submitRegister,
+      b64,
+      pwdVisible,
+      passwordConfirm,
+      pdpUploadVar
+    };
   }
-}
+});
 </script>
 
 <style></style>

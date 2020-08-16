@@ -81,15 +81,7 @@
 </template>
 
 <script lang="ts">
-import {
-  ref,
-  computed,
-  watch,
-  toRef,
-  reactive,
-  defineComponent,
-  createApp
-} from '@vue/composition-api';
+import { ref, defineComponent } from '@vue/composition-api';
 
 import { useLogIn } from 'src/services/users/useLogIn';
 

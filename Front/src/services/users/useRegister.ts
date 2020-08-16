@@ -2,19 +2,31 @@ import { useMutation } from '@vue/apollo-composable';
 import { logErrorMessages } from '@vue/apollo-util';
 import { ref, reactive, Ref } from '@vue/composition-api';
 
-import { REGISTER } from 'src/api/users/register';
+import { REGISTER, RegisterData } from 'src/api/users/register';
 import { notifyThis } from '../context';
-import { RegisterInput } from 'src/api/types';
+import { RegisterInput, MutationRegisterArgs } from 'src/api/types';
+import { usePdpUpload } from './usePdpUpload';
+import { MutationUploadFileArgs } from 'src/api/types';
 
-export const useRegister = (): [RegisterInput, Ref<boolean>, () => void] => {
+export const useRegister = (): [
+  RegisterInput,
+  Ref<boolean>,
+  () => void,
+  MutationUploadFileArgs
+] => {
   const registerState: RegisterInput = reactive({
-    userName: '',
-    login: '',
-    password: '',
+    userName: 'kwan',
+    login: 'kwan',
+    password: '123',
     photo: null
   });
 
-  const { mutate, onDone, onError, loading } = useMutation(REGISTER);
+  const { mutate, onDone, onError, loading } = useMutation<
+    RegisterData,
+    MutationRegisterArgs
+  >(REGISTER);
+
+  const [pdpUploadVar, sendPdp] = usePdpUpload();
 
   onDone(({ data }) => {
     registerState.login = '';
@@ -35,11 +47,15 @@ export const useRegister = (): [RegisterInput, Ref<boolean>, () => void] => {
       registerState.userName !== '' &&
       registerState.password !== ''
     ) {
+      if (pdpUploadVar.file) {
+        sendPdp();
+      }
+
       mutate({
         input: registerState
       });
     }
   };
 
-  return [registerState, loading, submit];
+  return [registerState, loading, submit, pdpUploadVar];
 };
