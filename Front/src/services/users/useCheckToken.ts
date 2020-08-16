@@ -19,7 +19,7 @@ export const useCheckToken = (): [
   ) => Promise<ApolloQueryResult<CheckTokenData>>
 ] => {
   const variables = reactive({
-    input: localStorage.getItem('token') || ''
+    input: ''
   });
 
   const { onResult, refetch } = useQuery<CheckTokenData, QueryCheckTokenArgs>(

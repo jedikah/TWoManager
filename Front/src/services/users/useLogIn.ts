@@ -2,13 +2,14 @@ import { useMutation } from '@vue/apollo-composable';
 import { logErrorMessages } from '@vue/apollo-util';
 import { reactive, Ref } from '@vue/composition-api';
 
-import { LOGIN, LoginInputData } from 'src/api/users/login';
+import { LOGIN, LogInData } from 'src/api/users/login';
 import { notifyThis } from '../context';
 import { LoginInput, MutationLoginArgs } from 'src/api/types';
+import { useCheckToken } from './useCheckToken';
 
 export const useLogIn = (): [LoginInput, () => void, Ref<boolean>] => {
   const { mutate: sendLogIn, onDone, onError, loading } = useMutation<
-    LoginInputData,
+    LogInData,
     MutationLoginArgs
   >(LOGIN);
 
@@ -17,11 +18,23 @@ export const useLogIn = (): [LoginInput, () => void, Ref<boolean>] => {
     password: '123'
   });
 
-  onDone(({ data }) => {
+  const [
+    onChectTonkenResult,
+    checkTonkenVariable,
+    checkTokenRefetch
+  ] = useCheckToken();
+
+  onDone(({ data: logInData }) => {
     logIn.login = '';
     logIn.password = '';
 
-    console.log({ data });
+    checkTonkenVariable.input = logInData.login.token;
+
+    checkTokenRefetch();
+
+    onChectTonkenResult(({ data: checkTokenData }) => {
+      console.log({ logInData, checkTokenData });
+    });
   });
 
   onError(error => {
