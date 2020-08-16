@@ -34,15 +34,18 @@ const defaultOptions: DefaultOptions = {
   }
 };
 
-const httpLink = ApolloLink.split(
-  operation => operation.getContext().hasUpload,
-  createUploadLink(httpUploadOptions),
-  new BatchHttpLink(httpOptions)
-);
+// const httpLink = ApolloLink.split(
+//   operation => operation.getContext().hasUpload,
+//   createUploadLink(httpUploadOptions),
+//   new BatchHttpLink(httpOptions),
+// );
+
+const httpLink = createUploadLink({ uri: 'http://localhost:3000/graphql' });
+const link = authLink.concat(httpLink);
 
 // Create the apollo client
 export const apolloClient = new ApolloClient({
-  link: ApolloLink.from([httpLink, authLink]),
+  link,
   cache: new InMemoryCache(),
   defaultOptions
 });

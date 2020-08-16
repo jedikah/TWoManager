@@ -8,10 +8,7 @@
     <q-separator inset />
 
     <q-card-section class="column" style="padding: 0; margin: 0">
-      <Avatar
-        :src="state.currentUser.value.photo"
-        :name="state.currentUser.value.userName"
-      />
+      <Avatar :src="photo" :name="userName" />
       <q-btn
         label="S'authentifier"
         type="button"
@@ -19,7 +16,7 @@
         text-color="black"
         @click="
           checkTokenVariable.input = getToken();
-          checkTokenRefetch();
+          toCheckTokenMutate();
         "
       />
     </q-card-section>
@@ -31,7 +28,7 @@
       <div class=" q-gutter-xs">
         <q-form
           @submit.prevent="
-            checkTokenRefetch();
+            toCheckTokenMutate();
             submitLogInSession();
           "
           class="q-gutter-sx"
@@ -87,7 +84,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@vue/composition-api';
+import { defineComponent, ref, reactive } from '@vue/composition-api';
 import { useState } from '@u3u/vue-hooks';
 
 import { useCheckToken } from 'src/services/users/useCheckToken';
@@ -97,22 +94,21 @@ export default defineComponent({
   components: {
     Avatar: require('../templates/Avatar.vue').default
   },
-  setup: () => {
+  setup: (_, { root }) => {
     const toLogin = ref(false);
     const pwdVisible = ref(false);
-    const state = {
-      ...useState('sessionModule', { currentUser: 'currentUser' })
-    };
+    const state = reactive(root.$store.state.sessionModule.currentUser);
 
     const [logInSessionState, submitLogInSession] = useLogInSession();
 
     const [
-      onCheckTokenResult,
+      onCheckTokenDone,
       checkTokenVariable,
-      checkTokenRefetch
+      toCheckTokenMutate
     ] = useCheckToken();
 
-    onCheckTokenResult(() => {
+    onCheckTokenDone(({ data: checkData }) => {
+      console.log({ checkData });
       toLogin.value = true;
     });
 
@@ -120,14 +116,16 @@ export default defineComponent({
       return localStorage.getItem('token') || '';
     };
 
-    logInSessionState.login = state.currentUser.value.login;
+    console.log({ state });
+
+    logInSessionState.login = state.login;
 
     return {
       toLogin,
       pwdVisible,
-      state,
+      ...state,
       checkTokenVariable,
-      checkTokenRefetch,
+      toCheckTokenMutate,
       submitLogInSession,
       logInSessionState,
       getToken

@@ -16,7 +16,6 @@ export type Scalars = {
 
 export type Query = {
   __typename?: 'Query';
-  checkToken: CheckTokenOutput;
   users?: Maybe<Array<UserEntity>>;
   usersCount: Scalars['Int'];
   clientListByUser: Array<ClientEntity>;
@@ -24,26 +23,9 @@ export type Query = {
 };
 
 
-export type QueryCheckTokenArgs = {
-  input: Scalars['String'];
-};
-
-
 export type QueryUserClientsArgs = {
   after: Scalars['Float'];
   pageSize: Scalars['Float'];
-};
-
-export type CheckTokenOutput = {
-  __typename?: 'CheckTokenOutput';
-  userId: Scalars['ID'];
-  userName: Scalars['String'];
-  login: Scalars['String'];
-  photo?: Maybe<Scalars['String']>;
-  type: Scalars['String'];
-  status: Scalars['Boolean'];
-  iat: Scalars['Int'];
-  exp: Scalars['Int'];
 };
 
 export type UserEntity = {
@@ -91,6 +73,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   login: LoginOutput;
   loginSession: Scalars['Boolean'];
+  checkToken: CheckTokenOutput;
   register: UserOutput;
   uploadFile: Scalars['Boolean'];
   addClientByUser: ClientEntity;
@@ -104,6 +87,11 @@ export type MutationLoginArgs = {
 
 export type MutationLoginSessionArgs = {
   input: LoginInput;
+};
+
+
+export type MutationCheckTokenArgs = {
+  input: Scalars['String'];
 };
 
 
@@ -131,6 +119,18 @@ export type LoginOutput = {
   __typename?: 'LoginOutput';
   token?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
+};
+
+export type CheckTokenOutput = {
+  __typename?: 'CheckTokenOutput';
+  userId: Scalars['ID'];
+  userName: Scalars['String'];
+  login: Scalars['String'];
+  photo?: Maybe<Scalars['String']>;
+  type: Scalars['String'];
+  status: Scalars['Boolean'];
+  iat: Scalars['Int'];
+  exp: Scalars['Int'];
 };
 
 export type RegisterInput = {

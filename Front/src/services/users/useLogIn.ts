@@ -21,9 +21,9 @@ export const useLogIn = (): [LoginInput, () => void, Ref<boolean>] => {
   });
 
   const [
-    onChectTonkenResult,
+    onChectTonkenDone,
     checkTonkenVariable,
-    checkTokenRefetch
+    toCheckTokenMutate
   ] = useCheckToken();
 
   const actions = {
@@ -34,16 +34,16 @@ export const useLogIn = (): [LoginInput, () => void, Ref<boolean>] => {
   };
 
   onDone(({ data: logInData }) => {
-    logIn.login = '';
-    logIn.password = '';
-
     localStorage.setItem('token', logInData.login.token);
 
     checkTonkenVariable.input = logInData.login.token;
 
-    checkTokenRefetch();
+    toCheckTokenMutate();
 
-    onChectTonkenResult(({ data: checkTokenData }) => {
+    onChectTonkenDone(({ data: checkTokenData }) => {
+      logIn.login = '';
+      logIn.password = '';
+
       console.log({ logInData, checkTokenData });
       actions.setSession(true);
       actions.setCurrentUser(checkTokenData.checkToken);

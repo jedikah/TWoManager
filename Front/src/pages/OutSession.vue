@@ -1,6 +1,6 @@
 <template>
   <q-page-container
-    v-if="!sessionState"
+    v-if="!session"
     class="column fullscreen items-center  justify-center noFilter"
     style="background-color: #2f2d2da3;"
   >
@@ -16,29 +16,33 @@
 </template>
 
 <script lang="ts">
+import { defineComponent, ref } from '@vue/composition-api';
+import { useState } from '@u3u/vue-hooks';
 import { Component, Vue } from 'vue-property-decorator';
 import { mapFields } from 'vuex-map-fields';
 
-@Component({
-  name: 'OutSession',
+export default defineComponent({
   components: {
     SessionLogin: require('src/components/authentification/SessionLogin.vue')
       .default
   },
-  computed: {
-    ...mapFields({
-      currentUser: 'usersModule.currentUser',
-      sessionState: 'usersModule.session'
-    })
-  }
-})
-export default class OutSession extends Vue {
-  private reconnect = false;
-  private currentUser;
-  private sessionState;
+  setup: () => {
+    const state = {
+      ...useState('sessionModule', {
+        session: 'session'
+      })
+    };
+    const reconnect = ref(false);
 
-  mounted() {
-    // console.log({ cur: this.currentUser });
+    console.log(state.session.value);
+
+    const test = ref(false);
+
+    return {
+      reconnect,
+      ...state,
+      test
+    };
   }
-}
+});
 </script>

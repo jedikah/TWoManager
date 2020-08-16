@@ -18,8 +18,8 @@ export default boot(({ router, store, redirect }) => {
           next('/main');
         }
         if (!userData && to.path !== '/') {
-          store.commit('usersModule/setCurrentUser', userData);
-          store.commit('usersModule/session', false);
+          store.commit('sessionModule/setCurrentUser', userData);
+          store.commit('sessionModule/setSession', false);
           next('/');
         }
       }
@@ -55,8 +55,8 @@ export default boot(({ router, store, redirect }) => {
             : ''
         };
 
-        store.commit('usersModule/setCurrentUser', newUserData);
-        store.commit('usersModule/setSession', true);
+        store.commit('sessionModule/setCurrentUser', newUserData);
+        store.commit('sessionModule/setSession', false);
       }
     } catch (err) {
       console.log('boot guard error: ' + err);

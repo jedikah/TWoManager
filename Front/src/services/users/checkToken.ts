@@ -10,18 +10,20 @@ export const checkToken = async (token?: string) => {
   let response = null;
   if (token)
     try {
-      response = await graphqlClient.query({
-        query: CHECKTOKEN,
+      console.log('**********************');
+      response = await graphqlClient.mutate({
+        mutation: CHECKTOKEN,
         variables: {
           input: token
         },
-        fetchPolicy: 'network-only'
+        fetchPolicy: 'no-cache'
       });
 
       if (response.errors) {
         notifyThere(response.errors);
         return null;
       }
+      console.log({ response });
 
       return response.data.checkToken;
     } catch (err) {

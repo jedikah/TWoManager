@@ -5,7 +5,7 @@ export interface CheckTokenData {
 }
 
 export const CHECKTOKEN = gql`
-  query CheckToken($input: String!) {
+  mutation CheckToken($input: String!) {
     checkToken(input: $input) {
       userId
       userName

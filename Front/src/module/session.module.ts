@@ -1,9 +1,10 @@
 import { IdleSessionTimeout } from 'idle-session-timeout';
+import { Router } from 'src/router';
 
 /**
  * IDLE SESSION TIMEOUT
  */
-const session = new IdleSessionTimeout(1000 * 60 * 30);
+const session = new IdleSessionTimeout(1000 * 30);
 
 const timeOutAt = session.getTimeLeft();
 
@@ -27,7 +28,7 @@ const stop = () => {
   session.dispose();
 };
 
-const start = ({ $router, $route }, currentUserExp) => {
+const start = currentUserExp => {
   session.onTimeOut = () => {
     const exp =
       currentUserExp -
@@ -38,7 +39,7 @@ const start = ({ $router, $route }, currentUserExp) => {
       );
 
     if (exp <= 0) {
-      $router.push('/');
+      Router.replace('/');
     }
     setTimeout(() => {
       stop();

@@ -18,7 +18,7 @@ export interface SessionState {
 }
 
 const state: SessionState = {
-  session: false,
+  session: true,
   currentUser: {
     userId: null,
     userName: '',

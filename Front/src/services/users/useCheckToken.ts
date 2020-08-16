@@ -1,38 +1,58 @@
-import { useQuery } from '@vue/apollo-composable';
-import { reactive } from '@vue/composition-api';
+import { useQuery, useMutation } from '@vue/apollo-composable';
+import { reactive, ref, watchEffect } from '@vue/composition-api';
 
 import { CHECKTOKEN, CheckTokenData } from 'src/api/users/checkToken';
-import { QueryCheckTokenArgs, CheckTokenOutput } from 'src/api/types';
+import { MutationCheckTokenArgs, CheckTokenOutput } from 'src/api/types';
 import { ApolloQueryResult } from 'apollo-client';
 import { logErrorMessages } from '@vue/apollo-util';
 import { Router } from 'src/router';
+import { FetchResult } from 'apollo-link';
 
 export const useCheckToken = (): [
   (
-    fn: (param?: ApolloQueryResult<CheckTokenData>) => void
+    fn: (
+      param?: FetchResult<
+        CheckTokenData,
+        Record<string, any>,
+        Record<string, any>
+      >
+    ) => void
   ) => {
     off: () => void;
   },
   {
     input: string;
   },
-  (
-    variables?: QueryCheckTokenArgs
-  ) => Promise<ApolloQueryResult<CheckTokenData>>
+  () => void
 ] => {
   const variables = reactive({
-    input: localStorage.getItem('token') || ''
+    input: ''
   });
 
-  const { onResult, refetch, onError } = useQuery<
+  const enabled = ref(false);
+
+  const { onDone, mutate: sendCheckToken, onError } = useMutation<
     CheckTokenData,
-    QueryCheckTokenArgs
-  >(CHECKTOKEN, variables);
+    MutationCheckTokenArgs
+  >(CHECKTOKEN);
 
   onError(error => {
     logErrorMessages(error);
     Router.replace('/');
   });
 
-  return [onResult, variables, refetch];
+  watchEffect(() => {
+    console.log(enabled.value);
+  });
+
+  setTimeout(() => {
+    enabled.value = true;
+  }, 5000);
+
+  const toMutate = () => {
+    enabled.value = true;
+    sendCheckToken(variables);
+  };
+
+  return [onDone, variables, toMutate];
 };

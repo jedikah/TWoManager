@@ -115,7 +115,7 @@
         <router-view />
 
         <q-card
-          v-if="countDownState <= 15 && countDownState > 0"
+          v-if="countDown <= 15 && countDown > 0"
           style="height: 90px;
         width: 150px;
         background: none;
@@ -129,7 +129,7 @@
         >
           <p></p>
           <p>session expiré dans:</p>
-          <p>{{ countDownState }}</p>
+          <p>{{ countDown }}</p>
           <p>second</p>
         </q-card>
       </q-page-container>
@@ -139,47 +139,59 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch, Mixins } from 'vue-property-decorator';
-import { mapFields } from 'vuex-map-fields';
+import { defineComponent, ref, watchEffect } from '@vue/composition-api';
+import { useState, useActions } from '@u3u/vue-hooks';
 
 import userSession from 'src/module/session.module';
-import { formsRouteType } from 'src/store/users/users.types';
 
-import { MainLayoutProperty } from 'src/mixins/mainLayoutProperty';
-
-@Component({
-  name: 'MainLayout',
+export default defineComponent({
   components: {
     OutSession: require('src/pages/OutSession.vue').default,
     ClienForm: require('src/components/client/ClientForm').default
-  }
-})
-export default class MainLayout extends MainLayoutProperty {
-  private countDownState = 16;
+  },
+  setup: () => {
+    const countDown = ref(16);
+    const left = ref(false);
+    const formsDrawer = ref(false);
+    const formsRoute = ref('');
 
-  private left = false;
+    const state = {
+      ...useState('sessionModule', {
+        session: 'session',
+        currentUser: 'currentUser'
+      })
+    };
 
-  @Watch('sessionState')
-  changeSession(session) {
-    this.startSession(session);
-  }
+    const actions = {
+      ...useActions('sessionModule', ['setSession'])
+    };
 
-  startSession(sessionState) {
-    if (sessionState === true) {
-      userSession.start(this, this.currentUser.exp);
-      userSession.onTimeOutChange(t => {
-        // console.log(t);
-        if (t <= 15) {
-          this.countDownState = t;
-        } else this.countDownState = 16;
-        if (t === 0) this.session = false;
-      });
-    }
-  }
+    console.log(state.session.value);
 
-  mounted() {
-    this.startSession(this.session);
-    console.log({ form: this.formsRoute });
+    const startSession = session => {
+      if (session === true) {
+        userSession.start(state.currentUser.value.exp);
+        userSession.onTimeOutChange(t => {
+          // console.log(t);
+          if (t <= 15) {
+            countDown.value = t;
+          } else countDown.value = 16;
+          if (t === 0) actions.setSession(false);
+        });
+      }
+    };
+
+    watchEffect(() => {
+      startSession(state.session.value);
+    });
+
+    return {
+      formsDrawer,
+      formsRoute,
+      left,
+      ...state,
+      countDown
+    };
   }
-}
+});
 </script>
