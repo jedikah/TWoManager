@@ -3,7 +3,7 @@ import { logErrorMessages } from '@vue/apollo-util';
 import { ref, reactive, Ref } from '@vue/composition-api';
 
 import { REGISTER, RegisterData } from 'src/api/users/register';
-import { notifyThis } from '../context';
+import { notifyThere } from '../context';
 import { RegisterInput, MutationRegisterArgs } from 'src/api/types';
 import { usePdpUpload } from './usePdpUpload';
 import { MutationUploadFileArgs } from 'src/api/types';
@@ -28,17 +28,21 @@ export const useRegister = (): [
 
   const [pdpUploadVar, sendPdp] = usePdpUpload();
 
-  onDone(({ data }) => {
+  onDone(({ data, errors }) => {
     registerState.login = '';
     registerState.userName = '';
     registerState.password = '';
     registerState.photo = null;
 
-    console.log({ data });
+    if (pdpUploadVar.file) {
+      sendPdp();
+    }
+
+    if (errors) notifyThere(errors);
   });
 
   onError(error => {
-    notifyThis(error.message);
+    logErrorMessages(error);
   });
 
   const submit = () => {
@@ -47,10 +51,6 @@ export const useRegister = (): [
       registerState.userName !== '' &&
       registerState.password !== ''
     ) {
-      if (pdpUploadVar.file) {
-        sendPdp();
-      }
-
       mutate({
         input: registerState
       });

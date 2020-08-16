@@ -1,16 +1,16 @@
 import { useMutation } from '@vue/apollo-composable';
 import { logErrorMessages } from '@vue/apollo-util';
 import { reactive, Ref } from '@vue/composition-api';
-import { useState, useGetters, useActions } from '@u3u/vue-hooks';
+import { useActions } from '@u3u/vue-hooks';
 
 import { LOGIN, LogInData } from 'src/api/users/login';
-import { notifyThis } from '../context';
+import { notifyThere } from '../context';
 import { LoginInput, MutationLoginArgs } from 'src/api/types';
 import { useCheckToken } from './useCheckToken';
 import { Router } from 'src/router';
 
 export const useLogIn = (): [LoginInput, () => void, Ref<boolean>] => {
-  const { mutate: sendLogIn, onDone, onError, loading } = useMutation<
+  const { mutate: sendLogIn, onDone, loading } = useMutation<
     LogInData,
     MutationLoginArgs
   >(LOGIN);
@@ -33,9 +33,13 @@ export const useLogIn = (): [LoginInput, () => void, Ref<boolean>] => {
     })
   };
 
-  onDone(({ data: logInData }) => {
+  onDone(({ data: logInData, errors }) => {
     logIn.login = '';
     logIn.password = '';
+
+    console.log({ errors });
+
+    if (errors) notifyThere(errors);
 
     localStorage.setItem('token', logInData.login.token);
 
@@ -51,10 +55,9 @@ export const useLogIn = (): [LoginInput, () => void, Ref<boolean>] => {
     });
   });
 
-  onError(error => {
-    logErrorMessages(error);
-    notifyThis(error.message);
-  });
+  // onError(error => {
+  //   logErrorMessages(error);
+  // });
 
   const submitLogIn = () => {
     if (logIn.login !== '' && logIn.password !== '')
