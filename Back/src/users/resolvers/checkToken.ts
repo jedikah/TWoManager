@@ -1,7 +1,7 @@
 import { Resolver, Args, Mutation } from '@nestjs/graphql';
 import { HttpException, HttpStatus } from '@nestjs/common';
 
-import { UserEntity } from '../../database/entities';
+import { UserEntity } from '../user.entity';
 import { CheckTokenOutput } from '../users.types';
 import { AuthsService } from '../../auths/auths.service';
 

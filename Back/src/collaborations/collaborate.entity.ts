@@ -1,7 +1,9 @@
 import { TableName } from '../TableName';
 import { Entity, Column, ManyToOne, JoinColumn, RelationId } from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
-import { UserEntity, ClientEntity } from './index';
+
+import { UserEntity } from '../users/user.entity';
+import { ClientEntity } from '../clients/client.entity';
 
 @ObjectType()
 @Entity({ name: TableName.Collaborate })

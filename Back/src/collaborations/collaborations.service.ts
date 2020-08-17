@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
-import { CollaborateEntity } from '../database/entities';
+
+import { CollaborateEntity } from './collaborate.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()

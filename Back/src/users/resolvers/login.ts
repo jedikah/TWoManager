@@ -1,39 +1,29 @@
-import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
-import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
+import { Resolver, Args, Mutation } from '@nestjs/graphql';
+import { HttpException, HttpStatus } from '@nestjs/common';
 
-import { UserEntity } from '../../database/entities';
+import { UserEntity } from '../user.entity';
 import { UsersService } from '../users.service';
-import { LoginInput, User, LoginOutput, UserOutput } from '../users.types';
+import { LoginInput, LoginOutput } from '../users.types';
 import { AuthsService } from '../../auths/auths.service';
-import { CurrentUser } from '../../auths/currentUser';
-import { GqlAuthGuard } from '../../auths/jwt-auth.guard';
-
-const bcrypt = require('bcrypt');
 
 @Resolver(of => UserEntity)
-export class UsersLogin {
+export class UsersLogIn {
   constructor(
     private usersService: UsersService,
     private authsService: AuthsService,
   ) {}
 
-  async pwdCompare(inputPwd: string, pwd: string): Promise<boolean> {
-    return await new Promise((resolve, reject) => {
-      bcrypt.compare(inputPwd, pwd, (err, result) => {
-        if (!result) resolve(result);
-        else resolve(result);
-      });
-    });
-  }
-
   @Mutation(() => LoginOutput)
   async login(@Args('input') input: LoginInput): Promise<LoginOutput> {
     const user = (await this.usersService.getUserByLogin(
       input.login.toLocaleLowerCase(),
-    )) as User;
+    )) as UserEntity;
 
     if (user) {
-      const isMatch = await this.pwdCompare(input.password, user.password);
+      const isMatch = await this.usersService.pwdCompare(
+        input.password,
+        user.password,
+      );
 
       if (isMatch) {
         if (user.status === true) {
@@ -61,22 +51,5 @@ export class UsersLogin {
       'Ce login ne correspond pas!',
       HttpStatus.NOT_FOUND,
     );
-  }
-
-  @Mutation(() => Boolean)
-  @UseGuards(GqlAuthGuard)
-  async loginSession(
-    @CurrentUser() users: UserOutput,
-    @Args('input') input: LoginInput,
-  ): Promise<boolean> {
-    let response = false;
-    if (users) {
-      const user = (await this.usersService.getUserByLogin(
-        input.login.toLocaleLowerCase(),
-      )) as User;
-
-      response = await this.pwdCompare(input.password, user.password);
-    }
-    return response;
   }
 }

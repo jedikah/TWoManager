@@ -5,7 +5,7 @@ import * as FormData from 'form-data';
 import axios from 'axios';
 // import { createWriteStream } from 'fs';
 
-import { UserEntity } from '../../database/entities';
+import { UserEntity } from '../user.entity';
 
 @Resolver(of => UserEntity)
 export class UsersUpload {

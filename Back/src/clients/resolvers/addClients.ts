@@ -1,7 +1,7 @@
-import { Resolver, Mutation, Args, Query } from '@nestjs/graphql';
-import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
+import { Resolver, Mutation, Args } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
 
-import { ClientEntity } from '../../database/entities';
+import { ClientEntity } from '../client.entity';
 import { ClientInput } from '../client.types';
 import { ClientsService } from '../clients.service';
 import { CurrentUser } from '../../auths/currentUser';
@@ -23,10 +23,6 @@ export class AddClients {
     @Args('input')
     input: ClientInput,
   ): Promise<ClientEntity> {
-    // try {
     return await this.clientsService.addClientByUser(input, user);
-    // } catch (err) {
-    // throw new HttpException('AddClientByUser', err);
-    // }
   }
 }

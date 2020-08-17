@@ -58,27 +58,6 @@ export class TokenCreator {
 }
 
 @ObjectType()
-export class User {
-  @Field(() => ID)
-  userId: number;
-
-  @Field()
-  login: string;
-
-  @Field()
-  userName: string;
-
-  @Field()
-  password: string;
-
-  @Field()
-  type: string;
-
-  @Field()
-  status: boolean;
-}
-
-@ObjectType()
 export class LoginOutput {
   @Field({ nullable: true })
   token: string;
@@ -113,12 +92,3 @@ export class CheckTokenOutput {
   @Field(() => Int)
   exp: number;
 }
-
-// @InputType()
-// export class PdpUpload {
-//   @Field()
-//   pdp: FileUpload;
-
-//   @Field()
-//   login: string;
-// }

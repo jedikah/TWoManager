@@ -1,4 +1,3 @@
-import { TableName } from '../TableName';
 import {
   Entity,
   Column,
@@ -9,9 +8,10 @@ import {
 } from 'typeorm';
 import { Field, ObjectType, ID } from '@nestjs/graphql';
 
-import { ClientEntity } from './client.entity';
-import { UserEntity } from './user.entity';
-import { FactureEntity } from './facture.entity';
+import { TableName } from '../TableName';
+import { ClientEntity } from '../clients/client.entity';
+import { UserEntity } from '../users/user.entity';
+import { FactureEntity } from '../factures/facture.entity';
 
 @ObjectType()
 @Entity({ name: TableName.Folder })

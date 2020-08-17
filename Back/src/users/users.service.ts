@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserEntity } from '../database/entities';
+import { UserEntity } from './user.entity';
 import { UserOutput } from './users.types';
 
+const bcrypt = require('bcrypt');
 @Injectable()
 export class UsersService {
   constructor(
@@ -44,5 +45,16 @@ export class UsersService {
     const user = await this.usersRepository.save(newUser);
     const { password, folders, ...userOutput } = user;
     return userOutput as UserOutput;
+  }
+
+  // Utiles
+
+  async pwdCompare(inputPwd: string, pwd: string): Promise<boolean> {
+    return await new Promise((resolve, reject) => {
+      bcrypt.compare(inputPwd, pwd, (err, result) => {
+        if (!result) resolve(result);
+        else resolve(result);
+      });
+    });
   }
 }

@@ -1,8 +1,8 @@
-import { TableName } from '../TableName';
 import { Entity, Column, PrimaryColumn, OneToOne, JoinColumn } from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
 
-import { FolderEntity } from './folder.entity';
+import { TableName } from '../TableName';
+import { FolderEntity } from '../folders/folder.entity';
 
 @ObjectType()
 @Entity({ name: TableName.Letter })

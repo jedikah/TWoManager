@@ -1,9 +1,7 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-import { UserEntity } from '../database/entities';
-import { LoginInput, UserOutput } from '../users/users.types';
+import { UserOutput } from '../users/users.types';
 
 @Injectable()
 export class AuthsService {

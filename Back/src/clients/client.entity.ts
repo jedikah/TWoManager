@@ -1,6 +1,7 @@
-import { TableName } from '../TableName';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { Field, ObjectType, ID } from '@nestjs/graphql';
+
+import { TableName } from '../TableName';
 
 @ObjectType()
 @Entity({ name: TableName.Client })

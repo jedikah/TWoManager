@@ -1,7 +1,7 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { CollaborateEntity } from '../database/entities';
+import { CollaborateEntity } from './collaborate.entity';
 import { ClientModule } from '../clients/clients.module';
 import { CollaborationsService } from './collaborations.service';
 import { CollaborationsResolvers } from './resolver';

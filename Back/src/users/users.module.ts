@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AuthsService } from '../auths/auths.service';
 import { jwtConstants } from '../auths/constants';
-import { UserEntity } from '../database/entities';
+import { UserEntity } from './user.entity';
 import { JwtStrategy } from '../auths/jwt.strategy';
 import { UsersResolver } from './resolvers';
 import { UsersService } from './users.service';

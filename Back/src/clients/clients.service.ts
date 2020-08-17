@@ -1,16 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import {
-  ClientEntity,
-  CollaborateEntity,
-  UserEntity,
-} from '../database/entities';
+
+import { ClientEntity } from '../clients/client.entity';
+import { CollaborateEntity } from '../collaborations/collaborate.entity';
+import { UserEntity } from '../users/user.entity';
 import dateNow from '../utils/dateFormat';
 import { UserOutput } from '../users/users.types';
 import { ClientInput } from './client.types';
 import { CollaborationsService } from '../collaborations/collaborations.service';
-import { TableName } from '../database/TableName';
 
 @Injectable()
 export class ClientsService {

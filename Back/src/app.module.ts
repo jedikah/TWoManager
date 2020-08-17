@@ -6,7 +6,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { config } from './ormconfig';
-import Entity from './database/entities';
 
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auths/auth.module';
@@ -26,7 +25,6 @@ const modules = [
 @Module({
   imports: [
     ...modules,
-    // TypeOrmModule.forFeature(Entity),
     TypeOrmModule.forRoot(config),
     GraphQLModule.forRootAsync({
       useFactory: () => ({

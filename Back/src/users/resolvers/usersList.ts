@@ -1,7 +1,8 @@
 import { Resolver, Query, Int, ResolveField, Root } from '@nestjs/graphql';
 import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 
-import { UserEntity, FolderEntity } from '../../database/entities';
+import { UserEntity } from '../user.entity';
+import { FolderEntity } from '../../folders/folder.entity';
 import { UsersService } from '../users.service';
 import { UserOutput } from '../users.types';
 import { CurrentUser } from '../../auths/currentUser';
@@ -20,11 +21,6 @@ export class UsersList {
       'error registering user',
       HttpStatus.INTERNAL_SERVER_ERROR,
     );
-  }
-
-  @Query(() => Int)
-  async usersCount(): Promise<number> {
-    return this.usersService.getUsersCount();
   }
 
   @ResolveField(() => [FolderEntity])
