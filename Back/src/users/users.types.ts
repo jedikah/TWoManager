@@ -37,7 +37,7 @@ export class UserOutput {
 }
 
 @InputType()
-export class LoginInput {
+export class LogInInput {
   @Field()
   login: string;
 
@@ -58,7 +58,7 @@ export class TokenCreator {
 }
 
 @ObjectType()
-export class LoginOutput {
+export class LogInOutput {
   @Field({ nullable: true })
   token: string;
 

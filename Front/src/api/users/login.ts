@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
-import { LoginOutput } from '../types';
+import { LogInOutput } from '../types';
 
 export interface LogInData {
-  login: LoginOutput;
+  login: LogInOutput;
 }
 
 export const LOGIN = gql`

@@ -3,7 +3,7 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 
 import { UserEntity } from '../user.entity';
 import { UsersService } from '../users.service';
-import { LoginInput, LoginOutput } from '../users.types';
+import { LogInInput, LogInOutput } from '../users.types';
 import { AuthsService } from '../../auths/auths.service';
 
 @Resolver(of => UserEntity)
@@ -13,8 +13,8 @@ export class UsersLogIn {
     private authsService: AuthsService,
   ) {}
 
-  @Mutation(() => LoginOutput)
-  async login(@Args('input') input: LoginInput): Promise<LoginOutput> {
+  @Mutation(() => LogInOutput)
+  async login(@Args('input') input: LogInInput): Promise<LogInOutput> {
     const user = (await this.usersService.getUserByLogin(
       input.login.toLocaleLowerCase(),
     )) as UserEntity;

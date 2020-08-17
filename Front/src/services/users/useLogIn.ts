@@ -5,17 +5,17 @@ import { useActions } from '@u3u/vue-hooks';
 
 import { LOGIN, LogInData } from 'src/api/users/login';
 import { notifyThere } from '../context';
-import { LoginInput, MutationLoginArgs } from 'src/api/types';
+import { LogInInput, MutationLoginArgs } from 'src/api/types';
 import { useCheckToken } from './useCheckToken';
 import { Router } from 'src/router';
 
-export const useLogIn = (): [LoginInput, () => void, Ref<boolean>] => {
+export const useLogIn = (): [LogInInput, () => void, Ref<boolean>] => {
   const { mutate: sendLogIn, onDone, onError, loading } = useMutation<
     LogInData,
     MutationLoginArgs
   >(LOGIN);
 
-  const logIn: LoginInput = reactive({
+  const logIn: LogInInput = reactive({
     login: 'jedikah',
     password: '123'
   });

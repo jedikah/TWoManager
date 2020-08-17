@@ -71,7 +71,7 @@ export type PaginateUserClients = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  login: LoginOutput;
+  login: LogInOutput;
   loginSession: Scalars['Boolean'];
   checkToken: CheckTokenOutput;
   register: UserOutput;
@@ -81,12 +81,12 @@ export type Mutation = {
 
 
 export type MutationLoginArgs = {
-  input: LoginInput;
+  input: LogInInput;
 };
 
 
 export type MutationLoginSessionArgs = {
-  input: LoginInput;
+  input: LogInInput;
 };
 
 
@@ -110,13 +110,13 @@ export type MutationAddClientByUserArgs = {
   input: ClientInput;
 };
 
-export type LoginInput = {
+export type LogInInput = {
   login: Scalars['String'];
   password: Scalars['String'];
 };
 
-export type LoginOutput = {
-  __typename?: 'LoginOutput';
+export type LogInOutput = {
+  __typename?: 'LogInOutput';
   token?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
 };

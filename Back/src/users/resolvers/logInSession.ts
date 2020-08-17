@@ -3,7 +3,7 @@ import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 
 import { UserEntity } from '../user.entity';
 import { UsersService } from '../users.service';
-import { LoginInput, UserOutput } from '../users.types';
+import { LogInInput, UserOutput } from '../users.types';
 import { AuthsService } from '../../auths/auths.service';
 import { CurrentUser } from '../../auths/currentUser';
 import { GqlAuthGuard } from '../../auths/jwt-auth.guard';
@@ -19,7 +19,7 @@ export class UsersLogInSession {
   @UseGuards(GqlAuthGuard)
   async loginSession(
     @CurrentUser() users: UserOutput,
-    @Args('input') input: LoginInput,
+    @Args('input') input: LogInInput,
   ): Promise<boolean> {
     let response = false;
     if (users) {

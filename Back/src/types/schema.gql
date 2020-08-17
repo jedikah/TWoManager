@@ -44,19 +44,19 @@ type FolderEntity {
   price: Float!
 }
 
-input LoginInput {
+input LogInInput {
   login: String!
   password: String!
 }
 
-type LoginOutput {
+type LogInOutput {
   token: String
   type: String
 }
 
 type Mutation {
-  login(input: LoginInput!): LoginOutput!
-  loginSession(input: LoginInput!): Boolean!
+  login(input: LogInInput!): LogInOutput!
+  loginSession(input: LogInInput!): Boolean!
   checkToken(input: String!): CheckTokenOutput!
   register(input: RegisterInput!): UserOutput!
   uploadFile(login: String!, file: Upload!): Boolean!

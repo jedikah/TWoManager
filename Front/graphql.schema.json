@@ -626,7 +626,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "LoginInput",
+                    "name": "LogInInput",
                     "ofType": null
                   }
                 },
@@ -638,7 +638,7 @@
               "name": null,
               "ofType": {
                 "kind": "OBJECT",
-                "name": "LoginOutput",
+                "name": "LogInOutput",
                 "ofType": null
               }
             },
@@ -657,7 +657,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "LoginInput",
+                    "name": "LogInInput",
                     "ofType": null
                   }
                 },
@@ -822,7 +822,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "LoginInput",
+        "name": "LogInInput",
         "description": null,
         "fields": null,
         "inputFields": [
@@ -861,7 +861,7 @@
       },
       {
         "kind": "OBJECT",
-        "name": "LoginOutput",
+        "name": "LogInOutput",
         "description": null,
         "fields": [
           {
