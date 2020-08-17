@@ -1,6 +1,6 @@
 import { CHECKTOKEN } from 'src/api/users/checkToken';
-import graphqlClient from '../index';
-import { context, notifyThere, notifyThis } from '../context';
+import { apolloClient } from '../applloClient';
+import { notifyThere, notifyThis } from '../context';
 
 export const checkToken = async (token?: string) => {
   if (!token) token = localStorage.getItem('token') || null;
@@ -10,8 +10,7 @@ export const checkToken = async (token?: string) => {
   let response = null;
   if (token)
     try {
-      console.log('**********************');
-      response = await graphqlClient.mutate({
+      response = await apolloClient.mutate({
         mutation: CHECKTOKEN,
         variables: {
           input: token
@@ -23,7 +22,6 @@ export const checkToken = async (token?: string) => {
         notifyThere(response.errors);
         return null;
       }
-      console.log({ response });
 
       return response.data.checkToken;
     } catch (err) {

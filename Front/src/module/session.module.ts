@@ -4,7 +4,7 @@ import { Router } from 'src/router';
 /**
  * IDLE SESSION TIMEOUT
  */
-const session = new IdleSessionTimeout(1000 * 30);
+const session = new IdleSessionTimeout(1000 * 60 * 30);
 
 const timeOutAt = session.getTimeLeft();
 

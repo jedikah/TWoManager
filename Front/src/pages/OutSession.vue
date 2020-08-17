@@ -16,32 +16,31 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@vue/composition-api';
-import { useState } from '@u3u/vue-hooks';
-import { Component, Vue } from 'vue-property-decorator';
-import { mapFields } from 'vuex-map-fields';
+import { defineComponent, ref, reactive, computed } from '@vue/composition-api';
+import { createNamespacedHelpers } from 'vuex-composition-helpers';
+import {
+  StateSession,
+  GettersSession,
+  MutationsSession,
+  ActionsSession
+} from 'src/store/session/type';
 
 export default defineComponent({
   components: {
     SessionLogin: require('src/components/authentification/SessionLogin.vue')
       .default
   },
-  setup: () => {
-    const state = {
-      ...useState('sessionModule', {
-        session: 'session'
-      })
-    };
+  setup: (_, { root }) => {
+    const session = computed(() => root.$store.state.sessionModule.session);
+
     const reconnect = ref(false);
 
-    console.log(state.session.value);
-
-    const test = ref(false);
+    console.log({ outsession: session });
 
     return {
       reconnect,
-      ...state,
-      test
+      session,
+      test: root.$store.state.sessionModule.session
     };
   }
 });

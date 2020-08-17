@@ -1,24 +1,16 @@
-import { ActionTree, MutationTree } from 'vuex';
-import { Module, GetterTree } from 'vuex';
-
 import RootState from '../types';
+import {
+  StateSession,
+  GettersSession,
+  MutationsSession,
+  ActionsSession,
+  ModuleSession
+} from './type';
 
 import { checkToken } from 'src/services/users/checkToken';
 
-export interface SessionState {
-  session: boolean;
-  currentUser: {
-    userId: number;
-    userName: string;
-    login: string;
-    photo: string;
-    type: string;
-    status: boolean;
-  };
-}
-
-const state: SessionState = {
-  session: true,
+const state: StateSession = {
+  session: false,
   currentUser: {
     userId: null,
     userName: '',
@@ -29,20 +21,21 @@ const state: SessionState = {
   }
 };
 
-const getters: GetterTree<SessionState, RootState> = {};
+const getters: GettersSession = {};
 
-const mutations: MutationTree<SessionState> = {
-  setCurrentUser(state, currentUser: typeof state.currentUser) {
+const mutations: MutationsSession = {
+  setCurrentUser(state, currentUser) {
     state.currentUser = currentUser;
   },
 
   setSession(state, session: typeof state.session) {
     state.session = session;
+    console.log({ session: state.session });
   }
 };
 
-const actions: ActionTree<SessionState, RootState> = {
-  setCurrentUser({ commit }, currentUser: typeof state.currentUser) {
+const actions: ActionsSession = {
+  setCurrentUser({ commit }, currentUser) {
     commit('setCurrentUser', currentUser);
   },
   setSession({ commit }, session: typeof state.session) {
@@ -52,7 +45,7 @@ const actions: ActionTree<SessionState, RootState> = {
 
 const namespaced = true;
 
-export const sessionModule: Module<SessionState, RootState> = {
+export const sessionModule: ModuleSession = {
   namespaced,
   state,
   getters,

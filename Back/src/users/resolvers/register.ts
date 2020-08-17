@@ -3,6 +3,7 @@ import { Resolver, Args, Mutation } from '@nestjs/graphql';
 import { UserEntity } from '../../database/entities';
 import { UsersService } from '../users.service';
 import { UserOutput, RegisterInput } from '../users.types';
+import { HttpException, HttpStatus } from '@nestjs/common';
 
 const bcrypt = require('bcrypt');
 const saltRounds = 11;
@@ -13,6 +14,11 @@ export class UsersRegister {
 
   @Mutation(() => UserOutput)
   async register(@Args('input') input: RegisterInput): Promise<UserOutput> {
+    if (await this.usersService.getUserByLogin(input.login))
+      throw new HttpException(
+        "Ce login est déja attribué à un compte. Choisir un autre login s'il vous plaie.",
+        HttpStatus.NOT_ACCEPTABLE,
+      );
     const newUser = new UserEntity();
 
     const passToHash = (await new Promise(function(resolve, reject) {
@@ -25,7 +31,9 @@ export class UsersRegister {
     newUser.userName = input.userName;
     newUser.login = input.login.toLocaleLowerCase();
     newUser.password = passToHash;
+
     if (input.photo) newUser.photo = input.photo;
+
     if ((await this.usersService.getUsersCount()) === 0) {
       newUser.type = 'Administrateur';
       newUser.status = true;

@@ -4,22 +4,29 @@ import { Notify } from 'quasar';
 import { checkToken } from 'src/services/users/checkToken';
 
 export default boot(({ router, store, redirect }) => {
+  const commitStates = async token => {
+    const userData = await checkToken(token);
+    const newUserData = {
+      ...userData,
+      photo: userData.photo ? 'http://localhost:80/TWoM/' + userData.photo : ''
+    };
+
+    store.commit('sessionModule/setCurrentUser', newUserData);
+    store.commit('sessionModule/setSession', true);
+
+    return userData;
+  };
   router.beforeEach(async (to, from, next) => {
     try {
       const token = localStorage.getItem('token');
       let userData = null;
       if (token) {
-        console.log('1');
-        userData = await checkToken(token);
-
-        console.log({ userData });
+        userData = await commitStates(token);
 
         if (userData && to.path === '/') {
           next('/main');
         }
         if (!userData && to.path !== '/') {
-          store.commit('sessionModule/setCurrentUser', userData);
-          store.commit('sessionModule/setSession', false);
           next('/');
         }
       }
@@ -44,20 +51,8 @@ export default boot(({ router, store, redirect }) => {
 
   router.afterEach(async (to, from) => {
     const token = localStorage.getItem('token');
-    let userData = null;
     try {
-      if (token && to.path !== '/') {
-        userData = await checkToken(token);
-        const newUserData = {
-          ...userData,
-          photo: userData.photo
-            ? 'http://localhost:80/TWoM/' + userData.photo
-            : ''
-        };
-
-        store.commit('sessionModule/setCurrentUser', newUserData);
-        store.commit('sessionModule/setSession', false);
-      }
+      if (token && to.path !== '/') await commitStates(token);
     } catch (err) {
       console.log('boot guard error: ' + err);
     }

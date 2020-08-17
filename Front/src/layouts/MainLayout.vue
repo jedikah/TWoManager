@@ -1,6 +1,9 @@
 <template>
   <q-layout view="lHh LpR lfr" class=" fullscreen">
-    <div :class="!session && 'sessionFilter'" style="padding-top: 10px">
+    <div
+      :class="session === false && 'sessionFilter'"
+      style="padding-top: 10px"
+    >
       <q-header
         reveal
         class="text-white"
@@ -139,57 +142,66 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watchEffect } from '@vue/composition-api';
-import { useState, useActions } from '@u3u/vue-hooks';
+import {
+  defineComponent,
+  ref,
+  watchEffect,
+  reactive,
+  computed
+} from '@vue/composition-api';
+import { createNamespacedHelpers } from 'vuex-composition-helpers';
 
 import userSession from 'src/module/session.module';
+import {
+  StateSession,
+  GettersSession,
+  MutationsSession,
+  ActionsSession,
+  ModuleSession
+} from 'src/store/session/type';
 
 export default defineComponent({
   components: {
     OutSession: require('src/pages/OutSession.vue').default,
     ClienForm: require('src/components/client/ClientForm').default
   },
-  setup: () => {
+  setup: (_, { root }) => {
     const countDown = ref(16);
     const left = ref(false);
     const formsDrawer = ref(false);
     const formsRoute = ref('');
 
-    const state = {
-      ...useState('sessionModule', {
-        session: 'session',
-        currentUser: 'currentUser'
-      })
-    };
+    const { useState, useActions } = createNamespacedHelpers<
+      StateSession,
+      GettersSession,
+      ActionsSession,
+      ModuleSession
+    >(root.$store, 'sessionModule');
+    const { session, currentUser } = useState(['session', 'currentUser']);
 
-    const actions = {
-      ...useActions('sessionModule', ['setSession'])
-    };
-
-    console.log(state.session.value);
+    const { setSession } = useActions(['setSession']);
 
     const startSession = session => {
       if (session === true) {
-        userSession.start(state.currentUser.value.exp);
+        userSession.start(currentUser.value.exp);
         userSession.onTimeOutChange(t => {
-          // console.log(t);
           if (t <= 15) {
             countDown.value = t;
           } else countDown.value = 16;
-          if (t === 0) actions.setSession(false);
+          if (t === 0) setSession(false);
         });
       }
     };
 
     watchEffect(() => {
-      startSession(state.session.value);
+      startSession(session.value);
     });
 
     return {
       formsDrawer,
       formsRoute,
       left,
-      ...state,
+      session,
       countDown
     };
   }

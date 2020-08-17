@@ -56,6 +56,8 @@ type LoginOutput {
 
 type Mutation {
   login(input: LoginInput!): LoginOutput!
+  loginSession(input: LoginInput!): Boolean!
+  checkToken(input: String!): CheckTokenOutput!
   register(input: RegisterInput!): UserOutput!
   uploadFile(login: String!, file: Upload!): Boolean!
   addClientByUser(input: ClientInput!): ClientEntity!
@@ -68,8 +70,6 @@ type PaginateUserClients {
 }
 
 type Query {
-  loginSession(input: LoginInput!): Boolean!
-  checkToken(input: String!): CheckTokenOutput!
   users: [UserEntity!]
   usersCount: Int!
   clientListByUser: [ClientEntity!]!

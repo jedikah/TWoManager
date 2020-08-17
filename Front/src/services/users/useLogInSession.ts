@@ -5,7 +5,7 @@ import { useMutation } from '@vue/apollo-composable';
 import { useActions } from '@u3u/vue-hooks';
 
 import { LOGINSESSION, LogInSessionData } from 'src/api/users/loginSession';
-import { useCheckToken } from './useCheckToken';
+import { notifyThere } from '../context';
 
 export const useLogInSession = (): [LoginInput, () => void] => {
   const logInSessionState: LoginInput = reactive({
@@ -22,13 +22,12 @@ export const useLogInSession = (): [LoginInput, () => void] => {
     MutationLoginArgs
   >(LOGINSESSION);
 
-  onDone(({ data }) => {
-    logInSessionState.login = '';
-    logInSessionState.password = '';
+  onDone(({ data, errors }) => {
+    if (errors) notifyThere(errors);
 
-    actions.setSession(true);
+    logInSessionState.password = null;
 
-    console.log({ data });
+    actions.setSession(data.loginSession);
   });
 
   onError(error => {

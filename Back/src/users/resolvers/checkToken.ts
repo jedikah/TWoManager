@@ -1,4 +1,4 @@
-import { Resolver, Args, Query } from '@nestjs/graphql';
+import { Resolver, Args, Mutation } from '@nestjs/graphql';
 import { HttpException, HttpStatus } from '@nestjs/common';
 
 import { UserEntity } from '../../database/entities';
@@ -11,7 +11,7 @@ export class UsersCheckToken {
 
   //Query
 
-  @Query(() => CheckTokenOutput)
+  @Mutation(() => CheckTokenOutput)
   async checkToken(@Args('input') input: string): Promise<CheckTokenOutput> {
     try {
       let val = null;

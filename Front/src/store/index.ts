@@ -3,8 +3,6 @@ import Vuex from 'vuex';
 import { getField, updateField } from 'vuex-map-fields';
 
 import RootState from './types';
-import { usersModule } from './users/usersModule.store';
-import { clientsModule } from './clients/clientsModule.store';
 import { sessionModule } from './session/sessionModule.store';
 
 // import example from './module-example';
@@ -23,8 +21,6 @@ export default store(function({ Vue }) {
       version: '1.0.0'
     },
     modules: {
-      usersModule,
-      clientsModule,
       sessionModule
     },
     actions: {},

@@ -63,7 +63,7 @@ export class UsersLogin {
     );
   }
 
-  @Query(() => Boolean)
+  @Mutation(() => Boolean)
   @UseGuards(GqlAuthGuard)
   async loginSession(
     @CurrentUser() users: UserOutput,

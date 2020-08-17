@@ -15738,6 +15738,11 @@ vuex-class@^0.3.2:
   resolved "https://registry.yarnpkg.com/vuex-class/-/vuex-class-0.3.2.tgz#c7e96a076c1682137d4d23a8dcfdc63f220e17a8"
   integrity sha512-m0w7/FMsNcwJgunJeM+wcNaHzK2KX1K1rw2WUQf7Q16ndXHo7pflRyOV/E8795JO/7fstyjH3EgqBI4h4n4qXQ==
 
+vuex-composition-helpers@^1.0.18:
+  version "1.0.18"
+  resolved "https://registry.yarnpkg.com/vuex-composition-helpers/-/vuex-composition-helpers-1.0.18.tgz#62b50a6ec34885c113b825b18d9efbbe0ee28dfe"
+  integrity sha512-IM0CankybZn7rwm9EXQ13fG3w6c/zl89yOmrgI2CKd2dQIud53Hh73x48D++sV8ea9K530/vKyoAP5/drg1Ajg==
+
 vuex-map-decorators@^1.2.7:
   version "1.2.7"
   resolved "https://registry.yarnpkg.com/vuex-map-decorators/-/vuex-map-decorators-1.2.7.tgz#feeb965ea5687ee5aae0dda8c933c65f50f78f5e"

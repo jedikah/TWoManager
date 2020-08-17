@@ -43,7 +43,6 @@
               outlined
               color="grey-3"
               label-color="orange"
-              lazy-rules
               label="Mot de passe *"
               v-model="logInSessionState.password"
               :type="!pwdVisible ? 'password' : 'text'"
@@ -84,7 +83,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from '@vue/composition-api';
+import {
+  defineComponent,
+  ref,
+  reactive,
+  watchEffect
+} from '@vue/composition-api';
 import { useState } from '@u3u/vue-hooks';
 
 import { useCheckToken } from 'src/services/users/useCheckToken';
@@ -97,7 +101,9 @@ export default defineComponent({
   setup: (_, { root }) => {
     const toLogin = ref(false);
     const pwdVisible = ref(false);
-    const state = reactive(root.$store.state.sessionModule.currentUser);
+    const state = reactive({
+      currentUser: root.$store.state.sessionModule.currentUser
+    });
 
     const [logInSessionState, submitLogInSession] = useLogInSession();
 
@@ -107,8 +113,7 @@ export default defineComponent({
       toCheckTokenMutate
     ] = useCheckToken();
 
-    onCheckTokenDone(({ data: checkData }) => {
-      console.log({ checkData });
+    onCheckTokenDone(() => {
       toLogin.value = true;
     });
 
@@ -116,14 +121,12 @@ export default defineComponent({
       return localStorage.getItem('token') || '';
     };
 
-    console.log({ state });
-
-    logInSessionState.login = state.login;
+    logInSessionState.login = state.currentUser.login;
 
     return {
       toLogin,
       pwdVisible,
-      ...state,
+      ...state.currentUser,
       checkTokenVariable,
       toCheckTokenMutate,
       submitLogInSession,

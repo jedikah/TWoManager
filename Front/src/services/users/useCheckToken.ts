@@ -1,9 +1,8 @@
-import { useQuery, useMutation } from '@vue/apollo-composable';
+import { useMutation } from '@vue/apollo-composable';
 import { reactive, ref, watchEffect } from '@vue/composition-api';
 
 import { CHECKTOKEN, CheckTokenData } from 'src/api/users/checkToken';
-import { MutationCheckTokenArgs, CheckTokenOutput } from 'src/api/types';
-import { ApolloQueryResult } from 'apollo-client';
+import { MutationCheckTokenArgs } from 'src/api/types';
 import { logErrorMessages } from '@vue/apollo-util';
 import { Router } from 'src/router';
 import { FetchResult } from 'apollo-link';
@@ -39,10 +38,6 @@ export const useCheckToken = (): [
   onError(error => {
     logErrorMessages(error);
     Router.replace('/');
-  });
-
-  watchEffect(() => {
-    console.log(enabled.value);
   });
 
   setTimeout(() => {

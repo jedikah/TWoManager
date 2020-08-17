@@ -77,34 +77,33 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
+import { defineComponent, ref } from '@vue/composition-api';
 
-@Component({
-  name: 'Authentification',
+export default defineComponent({
   components: {
     Login: require('src/components/authentification/Login.vue').default,
     Register: require('src/components/authentification/Register.vue').default
-  }
-})
-export default class Index extends Vue {
-  private left = true;
-  private right = false;
-  private width = 0;
-  private size = 0;
+  },
+  setup: () => {
+    const left = ref(true);
+    const right = ref(false);
+    const width = ref(0);
+    const size = ref(0);
 
-  created() {
-    window.addEventListener('resize', () => this.handleResize());
-    this.handleResize();
-  }
+    function handleResize() {
+      width.value = (35 * window.innerWidth) / 100;
+      size.value = (25 * window.innerWidth) / 100;
+    }
 
-  handleResize() {
-    this.width = (35 * window.innerWidth) / 100;
-    this.size = (25 * window.innerWidth) / 100;
-  }
+    function slide() {
+      left.value = !left.value;
+      right.value = !right.value;
+    }
 
-  slide() {
-    this.left = !this.left;
-    this.right = !this.right;
+    window.addEventListener('resize', () => handleResize());
+    handleResize();
+
+    return { left, right, width, size, slide };
   }
-}
+});
 </script>

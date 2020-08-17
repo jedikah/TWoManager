@@ -1,14 +1,18 @@
-import graphqlClient from '../index';
-import { context, notifyThere, notifyThis } from '../context';
-import { USERSCOUNT } from 'src/api/users/usersCount';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useQuery, useResult } from '@vue/apollo-composable';
+import { Ref } from '@vue/composition-api';
 
-export const usersCount = async () => {
-  const response = await graphqlClient.query({
-    query: USERSCOUNT,
-    errorPolicy: 'all'
+import { notifyThere } from '../context';
+import { USERSCOUNT, UsersCountData } from 'src/api/users/usersCount';
+
+export const usersCount = (): [Readonly<Ref<number | void>>] => {
+  const { result, onResult } = useQuery<UsersCountData>(USERSCOUNT);
+
+  const count = useResult(result);
+
+  onResult(({ errors }) => {
+    if (errors) notifyThere(errors);
   });
 
-  if (response.errors) notifyThere(response.errors);
-
-  return response.data.usersCount;
+  return [count];
 };

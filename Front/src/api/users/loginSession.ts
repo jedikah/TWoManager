@@ -1,6 +1,8 @@
 import gql from 'graphql-tag';
 
-export type LogInSessionData = boolean;
+export interface LogInSessionData {
+  loginSession: boolean;
+}
 
 export const LOGINSESSION = gql`
   mutation LoginSession($input: LoginInput!) {

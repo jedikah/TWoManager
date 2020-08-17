@@ -14,18 +14,7 @@ import {
   defineComponent
 } from '@vue/composition-api';
 
-import { mapFields } from 'vuex-map-fields';
-import { Accessors } from 'types';
-
-import { LoginForm } from 'src/store/users/login/login.types';
-
 export default defineComponent({
-  computed: {
-    ...(mapFields({
-      login: 'usersModule.loginState.form.login',
-      password: 'usersModule.loginState.form.password'
-    }) as Accessors<LoginForm>)
-  },
   setup: () => {
     const blabla = 'string';
 

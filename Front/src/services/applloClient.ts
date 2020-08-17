@@ -18,6 +18,9 @@ const defaultOptions: DefaultOptions = {
   watchQuery: {},
   query: {
     errorPolicy: 'all'
+  },
+  mutate: {
+    errorPolicy: 'all'
   }
 };
 

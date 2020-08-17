@@ -16,7 +16,7 @@ export class UserEntity {
   userName: string;
 
   @Field()
-  @Column({ name: 'login' })
+  @Column({ name: 'login', unique: true })
   login: string;
 
   @Field()

@@ -33,18 +33,21 @@ export const useLogIn = (): [LoginInput, () => void, Ref<boolean>] => {
     })
   };
 
-  onDone(({ data: logInData }) => {
+  onDone(({ data: logInData, errors }) => {
+    if (errors) notifyThere(errors);
+
     localStorage.setItem('token', logInData.login.token);
 
     checkTonkenVariable.input = logInData.login.token;
 
     toCheckTokenMutate();
 
-    onChectTonkenDone(({ data: checkTokenData }) => {
+    onChectTonkenDone(({ data: checkTokenData, errors }) => {
+      if (errors) notifyThere(errors);
+
       logIn.login = '';
       logIn.password = '';
 
-      console.log({ logInData, checkTokenData });
       actions.setSession(true);
       actions.setCurrentUser(checkTokenData.checkToken);
       Router.replace('/main');

@@ -1,6 +1,6 @@
 import { useMutation } from '@vue/apollo-composable';
 import { logErrorMessages } from '@vue/apollo-util';
-import { ref, reactive, Ref } from '@vue/composition-api';
+import { reactive, Ref } from '@vue/composition-api';
 
 import { REGISTER, RegisterData } from 'src/api/users/register';
 import { notifyThere } from '../context';
@@ -29,6 +29,8 @@ export const useRegister = (): [
   const [pdpUploadVar, sendPdp] = usePdpUpload();
 
   onDone(({ data, errors }) => {
+    if (errors) notifyThere(errors);
+
     registerState.login = null;
     registerState.userName = null;
     registerState.password = null;
@@ -37,12 +39,10 @@ export const useRegister = (): [
     if (pdpUploadVar.file) {
       sendPdp();
     }
-
-    if (errors) notifyThere(errors);
   });
 
-  onError(error => {
-    logErrorMessages(error);
+  onError(({ message }) => {
+    logErrorMessages(message);
   });
 
   const submit = () => {
