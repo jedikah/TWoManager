@@ -10,6 +10,7 @@ export const useClientsUser = (): {
   state: {
     lastIndex: number;
     data: any[];
+    loadingTableRow: boolean;
     hasMore: boolean;
     cursor: number;
     stop: boolean;
@@ -25,12 +26,13 @@ export const useClientsUser = (): {
 } => {
   const variables: QueryUserClientsArgs = reactive({
     after: 0,
-    pageSize: 10
+    pageSize: 30
   });
 
   const state = reactive({
     lastIndex: 0,
-    data: new Array(24),
+    data: [],
+    loadingTableRow: false,
     hasMore: false,
     cursor: 0,
     stop: false,
@@ -58,19 +60,21 @@ export const useClientsUser = (): {
 
     data.userClients.clients.forEach(client => {
       state.data.splice(state.lastIndex, 1, {
-        index: state.lastIndex + 1,
+        index: ++state.lastIndex,
         ...client
       });
-      state.lastIndex++;
     });
 
     if (data.userClients.hasMore == false) state.stop = true;
   }
 
   onResult(({ data, errors, loading }) => {
+    if (state.data.length <= 0) state.data = new Array(24);
     if (errors) notifyThere(errors);
 
-    if (!loading && !state.stop) pushData(data);
+    if (!loading && !state.stop) {
+      pushData(data);
+    }
   });
 
   onError(error => {
@@ -79,7 +83,7 @@ export const useClientsUser = (): {
 
   function fetchMoreclient() {
     variables.after = result.value.userClients.cursor;
-    variables.pageSize = 10;
+    variables.pageSize = 30;
 
     if (result.value.userClients.hasMore === true) refetch(variables);
   }

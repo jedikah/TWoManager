@@ -1,31 +1,19 @@
 <template>
   <div class="q-pa-md">
     <q-table
-      style="height: 400px"
+      style="height: 75vh"
       :columns="columns"
       :data="state.data"
       class="col-12"
-      :loading="loadingClient"
+      :loading="loadingClient || state.loadingTableRow"
       :pagination="state.pagination"
       :rows-per-page-options="[0]"
       row-key="index"
       virtual-scroll
+      :virtual-scroll-sticky-size-end="40"
+      :virtual-scroll-sticky-size-start="0"
       @virtual-scroll="onLoad"
     >
-      <template v-slot:body="props">
-        <q-tr :props="props" :key="`m_${props.row.index}`">
-          <q-td v-for="col in props.cols" :key="col.name" :props="props">
-            {{ col.value }}
-          </q-td>
-        </q-tr>
-
-        <q-tr
-          :props="props"
-          :key="`e_${props.row.index}`"
-          class="q-virtual-scroll--with-prev"
-        >
-        </q-tr>
-      </template>
     </q-table>
   </div>
 </template>
@@ -70,14 +58,19 @@ export default defineComponent({
       loadingClient
     } = useClientsUser();
 
-    function onLoad({ to, index }) {
-      console.log({ lastIndex: state.lastIndex - 1, index, stop: state.stop });
+    function onLoad({ to, index, ref }) {
+      console.log({ index });
       if (
         state.hasMore === true &&
         state.stop === false &&
-        state.lastIndex - 1 <= index
+        index >= state.lastIndex - 10 &&
+        state.loadingTableRow === false
       ) {
+        state.loadingTableRow = true;
         fetchMoreclient();
+        setTimeout(() => {
+          state.loadingTableRow = false;
+        }, 1000);
       } else console.log('not updatable');
     }
 
