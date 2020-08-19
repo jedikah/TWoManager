@@ -1,24 +1,32 @@
 <template>
   <div class="q-pa-md">
     <q-table
-      style="height: 500px; min-Width: 500px"
-      title="Liste des Clients"
-      :data="state.data"
+      style="height: 400px"
       :columns="columns"
+      :data="state.data"
+      class="col-12"
       :loading="loadingClient"
+      :pagination="state.pagination"
+      :rows-per-page-options="[0]"
       row-key="index"
       virtual-scroll
-      :pagination.sync="state.pagination"
-      :rows-per-page-options="[0]"
-      @virtual-scroll="onScroll"
-      :virtual-scroll-item-size="10"
-    />
-    <q-btn
-      color="orange"
-      text-color="black"
-      label="test"
-      @click="fetchMoreclient()"
-    />
+      @virtual-scroll="onLoad"
+    >
+      <template v-slot:body="props">
+        <q-tr :props="props" :key="`m_${props.row.index}`">
+          <q-td v-for="col in props.cols" :key="col.name" :props="props">
+            {{ col.value }}
+          </q-td>
+        </q-tr>
+
+        <q-tr
+          :props="props"
+          :key="`e_${props.row.index}`"
+          class="q-virtual-scroll--with-prev"
+        >
+        </q-tr>
+      </template>
+    </q-table>
   </div>
 </template>
 
@@ -30,7 +38,12 @@ import { useClientsUser } from 'src/services/clients/useClientsUser';
 export default defineComponent({
   setup: (_, { root }) => {
     const columns = reactive([
-      { name: 'index', label: '#', aalign: 'left', field: 'index' },
+      {
+        name: 'index',
+        label: '#',
+        align: 'left',
+        field: cols => `${cols.index}`
+      },
       {
         name: 'clientName',
         required: true,
@@ -57,20 +70,22 @@ export default defineComponent({
       loadingClient
     } = useClientsUser();
 
-    function onScroll({ to, ref }) {
-      const lastIndex = state.data.length - 1;
-
-      if (state.hasMore === true && !state.stop) {
+    function onLoad({ to, index }) {
+      console.log({ lastIndex: state.lastIndex - 1, index, stop: state.stop });
+      if (
+        state.hasMore === true &&
+        state.stop === false &&
+        state.lastIndex - 1 <= index
+      ) {
         fetchMoreclient();
-      }
-      // console.log({ dataaa: state.data });
+      } else console.log('not updatable');
     }
 
     return {
       columns,
       state,
       loadingClient,
-      onScroll,
+      onLoad,
       variables,
       fetchMoreclient
     };

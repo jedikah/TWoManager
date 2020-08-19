@@ -8,7 +8,7 @@ import { logErrorMessages } from '@vue/apollo-util';
 
 export const useClientsUser = (): {
   state: {
-    index: number;
+    lastIndex: number;
     data: any[];
     hasMore: boolean;
     cursor: number;
@@ -29,14 +29,13 @@ export const useClientsUser = (): {
   });
 
   const state = reactive({
-    index: 0,
-    data: [],
+    lastIndex: 0,
+    data: new Array(24),
     hasMore: false,
     cursor: 0,
     stop: false,
     pagination: {
-      rowsPerPage: 0,
-      rowNumber: 24
+      rowsPerPage: 0
     }
   });
 
@@ -52,21 +51,26 @@ export const useClientsUser = (): {
   });
 
   function pushData(data: UserClientData) {
+    if (data.userClients.hasMore === false) state.stop = true;
+
+    state.hasMore = data.userClients.hasMore;
+    state.cursor = data.userClients.cursor;
+
     data.userClients.clients.forEach(client => {
-      if (data.userClients.hasMore === false) state.stop = true;
-      state.hasMore = data.userClients.hasMore;
-      state.cursor = data.userClients.cursor;
-      state.data.push({ ...client, index: state.index++ });
+      state.data.splice(state.lastIndex, 1, {
+        index: state.lastIndex + 1,
+        ...client
+      });
+      state.lastIndex++;
     });
+
+    if (data.userClients.hasMore == false) state.stop = true;
   }
 
   onResult(({ data, errors, loading }) => {
     if (errors) notifyThere(errors);
 
-    if (!loading && data.userClients.cursor) {
-      console.log({ hasmore: data.userClients.hasMore });
-      pushData(data);
-    }
+    if (!loading && !state.stop) pushData(data);
   });
 
   onError(error => {
