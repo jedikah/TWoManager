@@ -64,6 +64,7 @@ type Mutation {
 }
 
 type PaginateUserClients {
+  countRow: Int!
   hasMore: Boolean!
   cursor: Int!
   clients: [ClientEntity!]!

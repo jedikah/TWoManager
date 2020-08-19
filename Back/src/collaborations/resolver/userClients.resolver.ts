@@ -11,6 +11,9 @@ import { PaginationService } from '../../utils/pagination.service';
 
 @ObjectType()
 class PaginateUserClients {
+  @Field(() => Int)
+  countRow: number;
+
   @Field()
   hasMore: boolean;
 
@@ -52,6 +55,7 @@ export class UserClientsResolver {
     );
 
     return {
+      countRow: clients.length,
       hasMore: paginateResult.hasMore,
       clients: paginateResult.list,
       cursor: paginateResult.cursor,
