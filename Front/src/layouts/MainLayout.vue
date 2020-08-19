@@ -1,14 +1,12 @@
 <template>
-  <q-layout view="lHh LpR lfr" class=" fullscreen">
-    <div
+  <div>
+    <q-layout
       :class="session === false && 'sessionFilter'"
+      view="lHh LpR lfr"
+      class=" fullscreen column"
       style="padding-top: 10px"
     >
-      <q-header
-        reveal
-        class="text-white"
-        style="background: white; position: absolute; top: 10px; border-radius: 45px 45px 45px 45px; box-shadow: 1px 1px 5px grey"
-      >
+      <q-header reveal class="text-white myHeader ">
         <q-toolbar class=" full-height" style="min-height: 35px; color: black;">
           <q-btn dense flat round icon="menu" @click="left = !left" />
 
@@ -90,7 +88,7 @@
         </q-img>
       </q-drawer>
 
-      // FORM DRAWER MENU
+      <!-- // FORM DRAWER MENU -->
       <q-drawer
         style=" background: transparent;"
         v-model="formsDrawer"
@@ -102,7 +100,7 @@
           style=""
         >
           <q-btn
-            style="width: 80%"
+            style="width: 80%; margin-bottom: 5px"
             rounded
             dense
             label="Fermer"
@@ -114,31 +112,21 @@
         </div>
       </q-drawer>
 
-      <q-page-container>
-        <router-view />
+      <q-page-container class=" border-red col">
+        <router-view class=" full-width" />
 
-        <q-card
-          v-if="countDown <= 15 && countDown > 0"
-          style="height: 90px;
-        width: 150px;
-        background: none;
-        color: grey;
-        opacity: 0.5;
-        line-height: 10px;
-        text-align: center;
-        position: fixed;
-        bottom: 50px;
-        zoom: 0.8"
-        >
+        <q-card v-if="countDown <= 15 && countDown > 0" class="myCountDownCard">
           <p></p>
           <p>session expiré dans:</p>
           <p>{{ countDown }}</p>
           <p>second</p>
         </q-card>
       </q-page-container>
-    </div>
-    <OutSession />
-  </q-layout>
+    </q-layout>
+    <q-layout>
+      <OutSession />
+    </q-layout>
+  </div>
 </template>
 
 <script lang="ts">
@@ -188,7 +176,7 @@ export default defineComponent({
           if (t <= 15) {
             countDown.value = t;
           } else countDown.value = 16;
-          if (t === 0) setSession(false);
+          if (t === 1) setTimeout(() => setSession(false), 1000);
         });
       }
     };

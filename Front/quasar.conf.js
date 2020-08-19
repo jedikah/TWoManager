@@ -28,7 +28,7 @@ module.exports = configure(function(ctx) {
     boot: ['notify-defaults', 'guard', 'apollo'],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
-    css: ['app.scss'],
+    css: ['app.scss', 'mainLayout.scss'],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [

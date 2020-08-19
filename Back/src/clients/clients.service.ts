@@ -23,24 +23,28 @@ export class ClientsService {
   }
 
   async addClientByUser(
-    newClient: ClientInput,
+    addClient: ClientInput,
     user: UserOutput,
   ): Promise<ClientEntity> {
-    console.log({ newClient, user });
-    const clientResponse = await this.clientsRepository.save(newClient);
+    const clientResponse = await this.clientsRepository.save(addClient);
 
-    console.log({ clientResponse });
     if (clientResponse) {
-      const newCollaborate = new CollaborateEntity();
+      const newCollaborateEntity = new CollaborateEntity();
       const newUser = new UserEntity();
+      const newClient = new ClientEntity();
+
+      newClient.clientId = clientResponse.clientId;
 
       newUser.userId = user.userId;
 
-      newCollaborate.user = newUser;
-      newCollaborate.clientId = clientResponse.clientId;
-      newCollaborate.createdAt = dateNow();
-      newCollaborate.updatedAt = dateNow();
-      await this.collaborateService.addCollaboration(newCollaborate);
+      newCollaborateEntity.user = newUser;
+      newCollaborateEntity.client = newClient;
+      newCollaborateEntity.createdAt = dateNow();
+      newCollaborateEntity.updatedAt = dateNow();
+
+      console.log({ newCollaborateEntity });
+
+      await this.collaborateService.addCollaboration(newCollaborateEntity);
     }
 
     return clientResponse;

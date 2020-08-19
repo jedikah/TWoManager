@@ -7,9 +7,11 @@ export const context = () => ({
   }
 });
 
-export const notifyThis = (message: string, type = 'warning') => {
+type MessageType = 'positive' | 'negative' | 'warning' | 'info';
+
+export const notifyThis = (message: string, type: MessageType = 'warning') => {
   Notify.create({
-    type: type,
+    type,
     message,
     position: 'bottom-right',
     timeout: 6000,
@@ -29,7 +31,7 @@ export const notifyThis = (message: string, type = 'warning') => {
 
 export const notifyThere = (
   errors: readonly GraphQLError[],
-  type = 'warning'
+  type: MessageType = 'warning'
 ) => {
   let i = 0;
   errors.map(err => {

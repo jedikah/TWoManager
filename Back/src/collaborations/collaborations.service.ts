@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Repository, SelectQueryBuilder } from 'typeorm';
 
 import { CollaborateEntity } from './collaborate.entity';
 import { InjectRepository } from '@nestjs/typeorm';

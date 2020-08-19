@@ -6,7 +6,7 @@ export interface LogInData {
 }
 
 export const LOGIN = gql`
-  mutation Login($input: LoginInput!) {
+  mutation Login($input: LogInInput!) {
     login(input: $input) {
       token
       type

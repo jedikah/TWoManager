@@ -5,7 +5,7 @@ export interface LogInSessionData {
 }
 
 export const LOGINSESSION = gql`
-  mutation LoginSession($input: LoginInput!) {
+  mutation LoginSession($input: LogInInput!) {
     loginSession(input: $input)
   }
 `;

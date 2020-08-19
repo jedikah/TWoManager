@@ -17,7 +17,8 @@ const authLink = setContext((_, { headers, ...context }) => {
 const defaultOptions: DefaultOptions = {
   watchQuery: {},
   query: {
-    errorPolicy: 'all'
+    errorPolicy: 'all',
+    fetchPolicy: 'network-only'
   },
   mutate: {
     errorPolicy: 'all'

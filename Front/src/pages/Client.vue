@@ -1,29 +1,22 @@
 <template>
-  <q-page class="row items-center justify-center">
-    <div class=" " style="width: 300px; height: 500px">{{}}</div>
+  <q-page class="">
+    <q-card>
+      <q-card-section class=" no-padding">
+        <ClientTable />
+      </q-card-section>
+    </q-card>
   </q-page>
 </template>
 
 <script lang="ts">
-import {
-  ref,
-  computed,
-  watch,
-  toRef,
-  reactive,
-  defineComponent
-} from '@vue/composition-api';
+import { computed, defineComponent } from '@vue/composition-api';
 
 export default defineComponent({
-  setup: () => {
-    const blabla = 'string';
-
-    const g = computed(() => ({}));
-
-    return { blabla };
+  components: {
+    ClientTable: require('src/components/client/ClientTable.vue').default
   },
-  methods: {
-    test12: () => this.blabla
+  setup: () => {
+    return {};
   }
 });
 </script>

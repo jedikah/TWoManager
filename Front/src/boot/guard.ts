@@ -3,8 +3,8 @@ import { Notify } from 'quasar';
 
 import { checkToken } from 'src/services/users/checkToken';
 
-export default boot(({ router, store, redirect }) => {
-  const commitStates = async token => {
+export default boot(({ router, store }) => {
+  const commitStates = async (token: string, session = true) => {
     const userData = await checkToken(token);
     const newUserData = {
       ...userData,
@@ -12,10 +12,11 @@ export default boot(({ router, store, redirect }) => {
     };
 
     store.commit('sessionModule/setCurrentUser', newUserData);
-    store.commit('sessionModule/setSession', true);
+    store.commit('sessionModule/setSession', session);
 
     return userData;
   };
+
   router.beforeEach(async (to, from, next) => {
     try {
       const token = localStorage.getItem('token');
