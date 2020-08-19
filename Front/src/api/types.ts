@@ -64,6 +64,7 @@ export type ClientEntity = {
 
 export type PaginateUserClients = {
   __typename?: 'PaginateUserClients';
+  countRow: Scalars['Int'];
   hasMore: Scalars['Boolean'];
   cursor: Scalars['Int'];
   clients: Array<ClientEntity>;

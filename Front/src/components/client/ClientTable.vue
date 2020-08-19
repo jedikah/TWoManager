@@ -58,8 +58,7 @@ export default defineComponent({
       loadingClient
     } = useClientsUser();
 
-    function onLoad({ to, index, ref }) {
-      console.log({ index });
+    function onLoad({ index }) {
       if (
         state.hasMore === true &&
         state.stop === false &&
@@ -70,8 +69,8 @@ export default defineComponent({
         fetchMoreclient();
         setTimeout(() => {
           state.loadingTableRow = false;
-        }, 1000);
-      } else console.log('not updatable');
+        }, 500);
+      }
     }
 
     return {

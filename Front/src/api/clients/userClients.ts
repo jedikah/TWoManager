@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import { PaginateUserClients } from '../types';
 
 interface Client {
   clientId: string;
@@ -15,12 +16,13 @@ export interface UserClient {
 }
 
 export interface UserClientData {
-  userClients: UserClient;
+  userClients: PaginateUserClients;
 }
 
 export const CLIENTSUSER = gql`
   query($after: Float!, $pageSize: Float!) {
     userClients(after: $after, pageSize: $pageSize) {
+      countRow
       hasMore
       cursor
       clients {

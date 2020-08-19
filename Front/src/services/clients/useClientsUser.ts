@@ -69,7 +69,8 @@ export const useClientsUser = (): {
   }
 
   onResult(({ data, errors, loading }) => {
-    if (state.data.length <= 0) state.data = new Array(24);
+    if (!loading && state.data.length <= 0)
+      state.data = new Array(data.userClients.countRow);
     if (errors) notifyThere(errors);
 
     if (!loading && !state.stop) {
