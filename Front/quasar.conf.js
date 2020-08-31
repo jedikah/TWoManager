@@ -7,7 +7,6 @@
 // https://quasar.dev/quasar-cli/quasar-conf-js
 /* eslint-env node */
 /* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable @typescript-eslint/camelcase */
 const { configure } = require('quasar/wrappers');
 
 module.exports = configure(function(ctx) {
@@ -25,7 +24,7 @@ module.exports = configure(function(ctx) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://quasar.dev/quasar-cli/boot-files
-    boot: ['notify-defaults', 'guard', 'apollo'],
+    boot: ['composition-api', 'notify-defaults', 'guard'],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
     css: ['app.scss', 'mainLayout.scss'],
@@ -47,6 +46,7 @@ module.exports = configure(function(ctx) {
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
+
       // transpile: false,
 
       // Add dependencies for transpiling with Babel (Array of string/regex)
@@ -66,7 +66,6 @@ module.exports = configure(function(ctx) {
       // https://quasar.dev/quasar-cli/handling-webpack
       extendWebpack(cfg) {
         // linting is slow in TS projects, we execute it only for production builds
-        // cfg.externals = { 'fs-extra': 'commonjs2 fs-extra' };
         if (ctx.prod) {
           if (process.env.NODE_ENV === 'production') {
             cfg.module.rules.push({
@@ -79,7 +78,7 @@ module.exports = configure(function(ctx) {
         }
       },
 
-      chainWebpack(chain, { isServer, isClient }) {
+      chainWebpack(chain) {
         chain.module
           .rule('vue')
           .use('vue-loader')
@@ -113,6 +112,13 @@ module.exports = configure(function(ctx) {
       // * 'all'  - Manually specify what to import
       importStrategy: 'auto',
 
+      // For special cases outside of where "auto" importStrategy can have an impact
+      // (like functional components as one of the examples),
+      // you can manually specify Quasar components/directives to be available everywhere:
+      //
+      // components: [],
+      // directives: [],
+
       // Quasar plugins
       plugins: ['Notify']
     },
@@ -131,12 +137,12 @@ module.exports = configure(function(ctx) {
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: 'Quasar App',
-        short_name: 'QuasarApp',
+        name: 'TWo Manager',
+        short_name: 'TWo Manager',
         description: 'A Quasar Framework app',
         display: 'standalone',
         orientation: 'portrait',
-        backgroundColor: '#ffffff',
+        background_color: '#ffffff',
         theme_color: '#027be3',
         icons: [
           {
@@ -169,6 +175,14 @@ module.exports = configure(function(ctx) {
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/developing-cordova-apps/configuring-cordova
+    cordova: {
+      // noIosLegacyBuildFlag: true, // uncomment only if you know what you are doing
+    },
+
+    // Full list of options: https://quasar.dev/quasar-cli/developing-capacitor-apps/configuring-capacitor
+    capacitor: {
+      hideSplashscreen: true
+    },
 
     sourceFiles: {
       electronMainDev: 'src-electron/main-process/electron-main.dev.ts',
@@ -194,7 +208,7 @@ module.exports = configure(function(ctx) {
         appId: 'two_manager',
         // https://www.electron.build/configuration/configuration
         compression: 'maximum',
-        appId: 'update_version',
+        appId: 'twom',
         directories: {
           output: 'dist',
           buildResources: 'build'

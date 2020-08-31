@@ -1,13 +1,10 @@
-import RootState from '../types';
 import {
   StateSession,
   GettersSession,
   MutationsSession,
   ActionsSession,
-  ModuleSession
+  ModuleSession,
 } from './type';
-
-import { checkToken } from 'src/services/users/checkToken';
 
 const state: StateSession = {
   session: false,
@@ -17,8 +14,8 @@ const state: StateSession = {
     login: '',
     photo: null,
     type: '',
-    status: false
-  }
+    status: false,
+  },
 };
 
 const getters: GettersSession = {};
@@ -31,7 +28,7 @@ const mutations: MutationsSession = {
   setSession(state, session: typeof state.session) {
     state.session = session;
     console.log({ session: state.session });
-  }
+  },
 };
 
 const actions: ActionsSession = {
@@ -40,7 +37,7 @@ const actions: ActionsSession = {
   },
   setSession({ commit }, session: typeof state.session) {
     commit('setSession', session);
-  }
+  },
 };
 
 const namespaced = true;
@@ -50,5 +47,5 @@ export const sessionModule: ModuleSession = {
   state,
   getters,
   mutations,
-  actions
+  actions,
 };

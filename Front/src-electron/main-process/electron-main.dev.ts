@@ -9,6 +9,10 @@ import electronDebug from 'electron-debug';
 import installExtension, { VUEJS_DEVTOOLS } from 'electron-devtools-installer';
 import { app } from 'electron';
 
+interface Ext {
+  name: string;
+}
+
 // Install `electron-debug` with `devtron`
 electronDebug({ showDevTools: true });
 
@@ -23,4 +27,4 @@ app.whenReady().then(() => {
     });
 });
 
-require('./electron-main.ts');
+import './electron-main';

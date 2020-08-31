@@ -39,14 +39,14 @@ const start = currentUserExp => {
       );
 
     if (exp <= 0) {
-      Router.replace('/');
+      void Router.replace('/');
     }
     setTimeout(() => {
       stop();
     }, 1500);
   };
 
-  session.onTimeLeftChange = time => {
+  session.onTimeLeftChange = () => {
     //
   };
   session.start();

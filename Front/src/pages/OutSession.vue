@@ -16,16 +16,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive, computed } from '@vue/composition-api';
-import { createNamespacedHelpers } from 'vuex-composition-helpers';
-import {
-  StateSession,
-  GettersSession,
-  MutationsSession,
-  ActionsSession
-} from 'src/store/session/type';
+import { defineComponent, ref, computed } from '@vue/composition-api';
 
 export default defineComponent({
+  name: 'OutSession',
   components: {
     SessionLogin: require('src/components/authentification/SessionLogin.vue')
       .default

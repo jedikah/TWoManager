@@ -72,6 +72,12 @@
                   logIn.password = '';
                 "
               />
+              <q-btn
+                label="test"
+                color="orange"
+                text-color="black"
+                @click="handelOpen()"
+              />
             </q-btn-group>
           </div>
         </q-form>
@@ -82,10 +88,14 @@
 
 <script lang="ts">
 import { ref, defineComponent } from '@vue/composition-api';
+import { execute } from 'tauri/api/process';
 
 import { useLogIn } from 'src/services/users/useLogIn';
 
+const path = require('path');
+
 export default defineComponent({
+  name: 'Login',
   props: {
     myclass: {
       required: false,
@@ -96,12 +106,22 @@ export default defineComponent({
   setup: () => {
     const pwdVisible = ref(false);
     const [logIn, submitLogIn, loadingLogin] = useLogIn();
+    const cwd = path.join(__dirname, '..');
+    const file = 'index.ts';
+
+    console.log(logIn);
+
+    function handelOpen() {
+      // const test = await execute('./test.ts', ['-r', 'ts-node/register']);
+      console.log(cwd);
+    }
 
     return {
       logIn,
       pwdVisible,
       submitLogIn,
-      loadingLogin
+      loadingLogin,
+      handelOpen
     };
   }
 });

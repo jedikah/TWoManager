@@ -86,7 +86,7 @@ export const useClientsUser = (): {
     variables.after = result.value.userClients.cursor;
     variables.pageSize = 30;
 
-    if (result.value.userClients.hasMore === true) refetch(variables);
+    if (result.value.userClients.hasMore === true) void refetch(variables);
   }
 
   return {

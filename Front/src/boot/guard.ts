@@ -8,7 +8,10 @@ export default boot(({ router, store }) => {
     const userData = await checkToken(token);
     const newUserData = {
       ...userData,
-      photo: userData.photo ? 'http://localhost:80/TWoM/' + userData.photo : ''
+      photo:
+        userData && userData.photo
+          ? 'http://localhost:80/TWoM/' + userData.photo
+          : ''
     };
 
     store.commit('sessionModule/setCurrentUser', newUserData);
@@ -50,7 +53,7 @@ export default boot(({ router, store }) => {
     }
   });
 
-  router.afterEach(async (to, from) => {
+  router.afterEach(async to => {
     const token = localStorage.getItem('token');
     try {
       if (token && to.path !== '/') await commitStates(token);

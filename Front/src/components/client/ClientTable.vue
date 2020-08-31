@@ -24,7 +24,7 @@ import { defineComponent, reactive } from '@vue/composition-api';
 import { useClientsUser } from 'src/services/clients/useClientsUser';
 
 export default defineComponent({
-  setup: (_, { root }) => {
+  setup: () => {
     const columns = reactive([
       {
         name: 'index',

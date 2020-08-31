@@ -18,7 +18,7 @@ export const useRegister = (): [
     userName: 'kwan',
     login: 'kwan',
     password: '123',
-    photo: null
+    photo: null,
   });
 
   const { mutate, onDone, onError, loading } = useMutation<
@@ -52,7 +52,7 @@ export const useRegister = (): [
       registerState.password !== ''
     ) {
       mutate({
-        input: registerState
+        input: registerState,
       });
     }
   };

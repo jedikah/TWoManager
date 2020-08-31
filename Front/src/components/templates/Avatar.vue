@@ -13,17 +13,26 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch } from 'vue-property-decorator';
+import { defineComponent } from '@vue/composition-api';
 
-@Component({ name: 'Avatar' })
-export default class Avatar extends Vue {
-  @Prop({ required: false, default: '' })
-  readonly src: string | ArrayBuffer;
-
-  @Prop({ required: false, type: String, default: '125px' })
-  readonly size: string;
-
-  @Prop({ required: false, default: 'Nom et Prenom' })
-  readonly name: string;
-}
+export default defineComponent({
+  name: 'Avatar',
+  props: {
+    src: {
+      required: false,
+      type: String,
+      default: ''
+    },
+    size: {
+      required: false,
+      type: String,
+      default: '125'
+    },
+    name: {
+      required: false,
+      type: String,
+      default: 'Nom et Prenom'
+    }
+  }
+});
 </script>

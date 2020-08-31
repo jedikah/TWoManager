@@ -1,4 +1,4 @@
-import { app, BrowserWindow, nativeTheme, dialog } from 'electron';
+import { app, BrowserWindow, nativeTheme } from 'electron';
 
 import titleCont from '../../../Back/child.constant';
 
@@ -16,14 +16,14 @@ try {
 } catch (_) {}
 
 /**
- * Set `__` path to static files in production;
+ * Set `__statics` path to static files in production;
  * The reason we are setting it here is that the path needs to be evaluated at runtime
  */
 if (process.env.PROD) {
   global.__statics = __dirname;
 }
 
-let mainWindow: BrowserWindow | null;
+let mainWindow;
 
 function createWindow() {
   /**
@@ -36,21 +36,19 @@ function createWindow() {
     webPreferences: {
       // Change from /quasar.conf.js > electron > nodeIntegration;
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
-      nodeIntegration: true,
-      nodeIntegrationInWorker: true
+      nodeIntegration: Boolean(process.env.QUASAR_NODE_INTEGRATION),
+      nodeIntegrationInWorker: Boolean(process.env.QUASAR_NODE_INTEGRATION)
 
       // More info: /quasar-cli/developing-electron-apps/electron-preload-script
       // preload: path.resolve(__dirname, 'electron-preload.js')
     }
   });
 
-  mainWindow.loadURL(process.env.APP_URL || '');
+  mainWindow.loadURL(process.env.APP_URL);
 
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
-
-  return mainWindow;
 }
 
 app.on('ready', () => {

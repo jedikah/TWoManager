@@ -1,15 +1,14 @@
 {
-  "name": "update_version",
+  "name": "twom",
   "version": "0.0.1",
   "description": "A Quasar Framework app",
-  "productName": "Quasar App",
-  "author": "",
+  "productName": "TWo Manager",
+  "author": "jedikah <jekjedika@gmail.com>",
   "private": true,
   "scripts": {
-    "lint": "eslint --ext .js,.ts,.vue --ignore-path .gitignore ./",
+    "lint": "eslint --ext .js,.ts,.vue ./",
     "test": "echo \"No test specified\" && exit 0",
-    "rebuild": "electron-rebuild -f -w sqlite3",
-    "codegen": "graphql-codegen --config codegen.yml"
+    "tauri": "tauri"
   },
   "dependencies": {
     "@erdii/caddy-serverless-express": "^0.0.2",
@@ -35,8 +34,6 @@
     "copy-webpack-plugin": "^6.0.3",
     "dataloader": "^2.0.0",
     "dotenv": "^8.2.0",
-    "electron-is-dev": "^1.2.0",
-    "electron-store": "^5.2.0",
     "express": "^4.17.1",
     "fetch": "^1.1.0",
     "graphql": "^15.3.0",
@@ -44,8 +41,6 @@
     "graphql-tools": "^6.0.13",
     "gyp": "^0.5.0",
     "idle-session-timeout": "^1.0.1",
-    "is-electron": "^2.2.0",
-    "jsonwebtoken": "^8.5.1",
     "needle": "^2.5.0",
     "node": "^14.5.0",
     "node-addon-api": "^3.0.0",
@@ -58,9 +53,10 @@
     "offline-token-generator": "^1.0.2",
     "quasar": "^1.12.13",
     "reflect-metadata": "^0.1.13",
-    "rimraf": "^3.0.2",
+    "requirejs": "^2.3.6",
     "rxjs": "^6.6.0",
     "simple-ajax-uploader": "^2.6.7",
+    "tauri": "^0.12.0",
     "ts-sql-plugin": "^0.8.1",
     "two-way-decorator": "^0.2.2",
     "type-graphql": "^1.0.0-rc.3",
@@ -103,15 +99,12 @@
     "core-js": "^3.6.5",
     "devtron": "^1.4.0",
     "electron": "^9.0.0",
-    "electron-builder": "^22.7.0",
     "electron-debug": "^3.0.1",
     "electron-devtools-installer": "^3.0.0",
-    "electron-packager": "^14.1.1",
-    "electron-rebuild": "^1.11.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-loader": "^3.0.3",
-    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-import": "^2.9.0",
     "eslint-plugin-vue": "^6.2.1",
     "jest": "26.0.1",
     "prettier": "^1.19.1",
@@ -123,6 +116,7 @@
     "workbox-webpack-plugin": "5.0.0"
   },
   "browserslist": [
+    "ie >= 11",
     "last 10 Chrome versions",
     "last 10 Firefox versions",
     "last 4 Edge versions",
@@ -137,19 +131,5 @@
     "node": ">= 10.18.1",
     "npm": ">= 6.13.4",
     "yarn": ">= 1.21.1"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "js",
-      "json",
-      "ts"
-    ],
-    "rootDir": "src-electron/main-process/child/src",
-    "testRegex": ".spec.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "coverageDirectory": "../coverage",
-    "testEnvironment": "node"
   }
 }

@@ -2,7 +2,7 @@ import { useMutation } from '@vue/apollo-composable';
 
 import {
   ADDCLIENTBYUSER,
-  AddClientByUserData
+  AddClientByUserData,
 } from 'src/api/clients/addClientByUser';
 import { MutationAddClientByUserArgs, ClientInput } from 'src/api/types';
 import { reactive } from '@vue/composition-api';
@@ -13,7 +13,7 @@ export const useAddClientByUser = (): [ClientInput, () => void] => {
   const state: ClientInput = reactive({
     clientName: '',
     domicile: '',
-    contact: ''
+    contact: '',
   });
 
   const { mutate: senAddClient, onDone, onError } = useMutation<
@@ -36,7 +36,7 @@ export const useAddClientByUser = (): [ClientInput, () => void] => {
     );
   });
 
-  onError(error => {
+  onError((error) => {
     console.log('errorrrrrrr');
     logErrorMessages(error);
   });
@@ -44,7 +44,7 @@ export const useAddClientByUser = (): [ClientInput, () => void] => {
   const submit = () => {
     console.log({ state });
 
-    if (state.clientName !== '') senAddClient({ input: state });
+    if (state.clientName !== '') void senAddClient({ input: state });
   };
 
   return [state, submit];

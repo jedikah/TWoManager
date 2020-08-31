@@ -1,6 +1,5 @@
 import { store } from 'quasar/wrappers';
 import Vuex from 'vuex';
-import { getField, updateField } from 'vuex-map-fields';
 
 import RootState from './types';
 import { sessionModule } from './session/sessionModule.store';
@@ -23,9 +22,6 @@ export default store(function({ Vue }) {
     modules: {
       sessionModule
     },
-    actions: {},
-    getters: { getField },
-    mutations: { updateField },
 
     // enable strict mode (adds overhead!)
     // for dev mode only

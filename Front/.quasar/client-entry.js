@@ -10,6 +10,8 @@
  * Boot files are your "main.js"
  **/
 
+import 'quasar/dist/quasar.ie.polyfills.js'
+
 
 
 import '@quasar/extras/roboto-font/roboto-font.css'
@@ -36,18 +38,15 @@ import createApp from './app.js'
 
 
 
+import qboot_Bootcompositionapi from 'boot/composition-api'
+
 import qboot_Bootnotifydefaults from 'boot/notify-defaults'
 
 import qboot_Bootguard from 'boot/guard'
 
-import qboot_Bootapollo from 'boot/apollo'
 
 
 
-
-
-import electron from 'electron'
-Vue.prototype.$q.electron = electron
 
 
 
@@ -56,7 +55,7 @@ Vue.config.productionTip = false
 
 
 
-console.info('[Quasar] Running ELECTRON.')
+console.info('[Quasar] Running SPA.')
 
 
 
@@ -82,7 +81,7 @@ async function start () {
   }
 
   const urlPath = window.location.href.replace(window.location.origin, '')
-  const bootFiles = [qboot_Bootnotifydefaults,qboot_Bootguard,qboot_Bootapollo]
+  const bootFiles = [qboot_Bootcompositionapi,qboot_Bootnotifydefaults,qboot_Bootguard]
 
   for (let i = 0; hasRedirected === false && i < bootFiles.length; i++) {
     if (typeof bootFiles[i] !== 'function') {

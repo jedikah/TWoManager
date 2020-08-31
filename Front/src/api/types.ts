@@ -1,6 +1,7 @@
-import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -9,9 +10,9 @@ export type Scalars = {
   Int: number;
   Float: number;
   /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
-  DateTime: any;
+  DateTime: Date;
   /** The `Upload` scalar type represents a file upload. */
-  Upload: any;
+  Upload: Date;
 };
 
 export type Query = {
@@ -21,7 +22,6 @@ export type Query = {
   clientListByUser: Array<ClientEntity>;
   userClients: PaginateUserClients;
 };
-
 
 export type QueryUserClientsArgs = {
   after: Scalars['Float'];
@@ -53,7 +53,6 @@ export type FolderEntity = {
   price: Scalars['Float'];
 };
 
-
 export type ClientEntity = {
   __typename?: 'ClientEntity';
   clientId: Scalars['ID'];
@@ -80,32 +79,26 @@ export type Mutation = {
   addClientByUser: ClientEntity;
 };
 
-
 export type MutationLoginArgs = {
   input: LogInInput;
 };
-
 
 export type MutationLoginSessionArgs = {
   input: LogInInput;
 };
 
-
 export type MutationCheckTokenArgs = {
   input: Scalars['String'];
 };
-
 
 export type MutationRegisterArgs = {
   input: RegisterInput;
 };
 
-
 export type MutationUploadFileArgs = {
   login: Scalars['String'];
   file: Scalars['Upload'];
 };
-
 
 export type MutationAddClientByUserArgs = {
   input: ClientInput;
@@ -151,12 +144,9 @@ export type UserOutput = {
   status?: Maybe<Scalars['Boolean']>;
 };
 
-
 export type ClientInput = {
   clientId?: Maybe<Scalars['ID']>;
   clientName: Scalars['String'];
   domicile?: Maybe<Scalars['String']>;
   contact?: Maybe<Scalars['String']>;
 };
-
-

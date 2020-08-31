@@ -1,5 +1,5 @@
 import { useMutation } from '@vue/apollo-composable';
-import { reactive, ref, watchEffect } from '@vue/composition-api';
+import { reactive, ref } from '@vue/composition-api';
 
 import { CHECKTOKEN, CheckTokenData } from 'src/api/users/checkToken';
 import { MutationCheckTokenArgs } from 'src/api/types';

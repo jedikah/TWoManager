@@ -219,7 +219,6 @@ export default defineComponent({
     const b64: Ref<string | ArrayBuffer> = ref('');
     const pwdVisible = ref(false);
     const passwordConfirm = ref('');
-    const pdpFile: Ref<string> = ref(null);
 
     watch(pdpUploadVar, newPdpFile => {
       b64.value = URL.createObjectURL(newPdpFile.file);

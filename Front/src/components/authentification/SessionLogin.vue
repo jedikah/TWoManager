@@ -83,13 +83,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  reactive,
-  watchEffect
-} from '@vue/composition-api';
-import { useState } from '@u3u/vue-hooks';
+import { defineComponent, ref, reactive } from '@vue/composition-api';
 
 import { useCheckToken } from 'src/services/users/useCheckToken';
 import { useLogInSession } from 'src/services/users/useLogInSession';

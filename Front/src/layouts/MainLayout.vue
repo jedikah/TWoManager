@@ -130,25 +130,19 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  watchEffect,
-  reactive,
-  computed
-} from '@vue/composition-api';
+import { defineComponent, ref, watchEffect } from '@vue/composition-api';
 import { createNamespacedHelpers } from 'vuex-composition-helpers';
 
 import userSession from 'src/module/session.module';
 import {
   StateSession,
   GettersSession,
-  MutationsSession,
   ActionsSession,
   ModuleSession
 } from 'src/store/session/type';
 
 export default defineComponent({
+  name: 'MaynLayout',
   components: {
     OutSession: require('src/pages/OutSession.vue').default,
     ClienForm: require('src/components/client/ClientForm').default
