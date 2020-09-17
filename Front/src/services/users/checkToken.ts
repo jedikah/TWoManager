@@ -1,4 +1,4 @@
-import { CHECKTOKEN } from 'src/api/users/checkToken';
+import { CHECKTOKEN } from './useCheckToken.gql';
 import { apolloClient } from '../applloClient';
 import { notifyThere, notifyThis } from '../context';
 

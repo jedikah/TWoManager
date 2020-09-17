@@ -1,7 +1,7 @@
 import { useMutation } from '@vue/apollo-composable';
 import { reactive, ref } from '@vue/composition-api';
 
-import { CHECKTOKEN, CheckTokenData } from 'src/api/users/checkToken';
+import { CHECKTOKEN, CheckTokenData } from './useCheckToken.gql';
 import { MutationCheckTokenArgs } from 'src/api/types';
 import { logErrorMessages } from '@vue/apollo-util';
 import { Router } from 'src/router';

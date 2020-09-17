@@ -3,28 +3,28 @@
 # ------------------------------------------------------
 
 type CheckTokenOutput {
-  userId: ID!
-  userName: String!
+  exp: Int!
+  iat: Int!
   login: String!
   photo: String
-  type: String!
   status: Boolean!
-  iat: Int!
-  exp: Int!
+  type: String!
+  userId: ID!
+  userName: String!
 }
 
 type ClientEntity {
   clientId: ID!
   clientName: String!
-  domicile: String
   contact: String
+  domicile: String
 }
 
 input ClientInput {
   clientId: ID
   clientName: String!
-  domicile: String
   contact: String
+  domicile: String
 }
 
 """
@@ -33,15 +33,15 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type FolderEntity {
+  dateTrav: DateTime!
+  fokontany: String!
   folderId: ID!
-  register: String!
-  numTitle: String!
   groundName: String!
   localisationTrav: String!
-  fokontany: String!
-  dateTrav: DateTime!
-  typeTrav: String!
+  numTitle: String!
   price: Float!
+  register: String!
+  typeTrav: String!
 }
 
 input LogInInput {
@@ -55,54 +55,54 @@ type LogInOutput {
 }
 
 type Mutation {
+  addClientByUser(input: ClientInput!): ClientEntity!
+  checkToken(input: String!): CheckTokenOutput!
   login(input: LogInInput!): LogInOutput!
   loginSession(input: LogInInput!): Boolean!
-  checkToken(input: String!): CheckTokenOutput!
   register(input: RegisterInput!): UserOutput!
-  uploadFile(login: String!, file: Upload!): Boolean!
-  addClientByUser(input: ClientInput!): ClientEntity!
+  uploadFile(file: Upload!, login: String!): Boolean!
 }
 
 type PaginateUserClients {
-  countRow: Int!
-  hasMore: Boolean!
-  cursor: Int!
   clients: [ClientEntity!]!
+  countRow: Int!
+  cursor: Int!
+  hasMore: Boolean!
 }
 
 type Query {
-  users: [UserEntity!]
-  usersCount: Int!
   clientListByUser: [ClientEntity!]!
   userClients(after: Float!, pageSize: Float!): PaginateUserClients!
+  users: [UserEntity!]
+  usersCount: Int!
 }
 
 input RegisterInput {
-  userName: String!
   login: String!
   password: String!
   photo: String
+  userName: String!
 }
 
 """The `Upload` scalar type represents a file upload."""
 scalar Upload
 
 type UserEntity {
-  userId: ID!
-  userName: String!
+  folders: [FolderEntity!]!
   login: String!
   password: String!
   photo: String
-  type: String
   status: Boolean
-  folders: [FolderEntity!]!
+  type: String
+  userId: ID!
+  userName: String!
 }
 
 type UserOutput {
-  userId: ID!
-  userName: String!
   login: String!
   photo: String
-  type: String
   status: Boolean
+  type: String
+  userId: ID!
+  userName: String!
 }
