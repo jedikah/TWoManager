@@ -4,7 +4,7 @@
       style="height: 75vh"
       :columns="columns"
       :data="state.data"
-      class="col-12"
+      class="col-12 my-sticky-header-table"
       :loading="loadingClient || state.loadingTableRow"
       :pagination="state.pagination"
       :rows-per-page-options="[0]"
@@ -86,22 +86,20 @@ export default defineComponent({
 </script>
 
 <style lang="sass">
-.my-sticky-dynamic
-  /* height or max-height is important */
-  height: 410px
+.my-sticky-header-table
+  height: 310px
 
   .q-table__top,
   .q-table__bottom,
-  thead tr:first-child th /* bg color is important for th; just specify one */
+  thead tr:first-child th
     background-color: #fff
 
   thead tr th
     position: sticky
     z-index: 1
-  /* this will be the loading indicator */
-  thead tr:last-child th
-    /* height of all previous header rows */
-    top: 48px
   thead tr:first-child th
     top: 0
+
+  &.q-table--loading thead tr:last-child th
+    top: 48px
 </style>

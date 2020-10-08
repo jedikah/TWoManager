@@ -1,8 +1,8 @@
 import { useQuery } from '@vue/apollo-composable';
 import { Ref, reactive } from '@vue/composition-api';
 
-import { CLIENTSUSER, UserClientData } from 'src/api/clients/userClients';
-import { QueryUserClientsArgs } from 'src/api/types';
+import { CLIENTSUSER, UserClientData } from './useClientsUser.gql';
+import { QueryUserClientsArgs } from '../types';
 import { notifyThere } from '../context';
 import { logErrorMessages } from '@vue/apollo-util';
 

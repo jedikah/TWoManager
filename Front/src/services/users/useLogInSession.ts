@@ -1,10 +1,10 @@
-import { MutationLoginArgs, LogInInput } from 'src/api/types';
+import { MutationLoginArgs, LogInInput } from '../types';
 import { reactive } from '@vue/composition-api';
 import { logErrorMessages } from '@vue/apollo-util';
 import { useMutation } from '@vue/apollo-composable';
 import { useActions } from '@u3u/vue-hooks';
 
-import { LOGINSESSION, LogInSessionData } from 'src/api/users/loginSession';
+import { LOGINSESSION, LogInSessionData } from './useLoginSession.gql';
 import { notifyThere } from '../context';
 
 export const useLogInSession = (): [LogInInput, () => void] => {

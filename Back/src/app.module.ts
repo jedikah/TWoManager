@@ -7,7 +7,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import configs, { config, GraphqlConfigs } from './configs';
+import configs, { GraphqlConfigs } from './configs';
 
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auths/auth.module';

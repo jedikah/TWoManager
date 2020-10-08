@@ -34,18 +34,14 @@ export interface Configs {
   database: ConnectionOptions;
 }
 
-export const config: ConnectionOptions = {
-  type: 'mysql',
-  host: 'localhost',
-  port: 3306,
-  username: 'root',
-  password: 'root',
-  database: 'twomanager',
-  entities: Entity,
-  synchronize: true,
-};
-
 export default (): Configs => {
+  let entities = 'src/**/*.entity{.ts,.js}';
+  let migrations = 'src/migrations/*{.ts,.js}';
+
+  if (!process.send) {
+    entities = 'dist/**/*.entity{.ts,.js}';
+    migrations = 'dist/migrations/*{.ts,.js}';
+  }
   return {
     server: {
       port: parseInt(process.env.PORT),
@@ -62,9 +58,9 @@ export default (): Configs => {
       username: process.env.TYPEORM_USERNAME,
       password: process.env.TYPEORM_PASSWORD,
       database: process.env.TYPEORM_DATABASE,
-      entities: ['src/**/*.entity{.ts,.js}'],
+      entities: [entities],
       synchronize: false,
-      migrations: ['src/migrations/*{.ts,.js}'],
+      migrations: [migrations],
       migrationsTableName: 'migrations_typeorm',
       migrationsRun: true,
     },

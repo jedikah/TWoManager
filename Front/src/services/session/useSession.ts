@@ -1,33 +1,52 @@
-import { reactive } from '@vue/composition-api';
+import { reactive, watch } from '@vue/composition-api';
+import { useCheckToken } from '../users/useCheckToken';
 
 export type CurrentUser = {
-  userId: number;
+  __typename?: 'CheckTokenOutput';
+  userId: string;
   userName: string;
   login: string;
-  photo: string;
+  photo?: string;
   type: string;
   status: boolean;
-  iat?: number;
-  exp?: number;
+  iat: number;
+  exp: number;
 };
 
 export interface StateSession {
-  session: boolean;
+  session?: boolean;
   currentUser: CurrentUser;
 }
 
-export const useSession = (): [StateSession] => {
-  const state: StateSession = reactive({
-    session: false,
-    currentUser: {
-      userId: null,
-      userName: '',
-      login: '',
-      photo: null,
-      type: '',
-      status: false
-    }
-  });
+export const state: StateSession = reactive({
+  session: undefined,
+  currentUser: {
+    userId: null,
+    userName: '',
+    login: '',
+    photo: null,
+    type: '',
+    status: false,
+    iat: null,
+    exp: null
+  }
+});
 
-  return [state];
+export const useSession = () => {
+  const { onDone, variables, toMutate } = useCheckToken();
+
+  const checkToken = (token: string) => {
+    variables.input = token;
+
+    toMutate();
+
+    onDone(({ data }) => {
+      if (data.checkToken) {
+        state.session = true;
+        state.currentUser = data.checkToken;
+      }
+    });
+  };
+
+  return { state, checkToken, onDone };
 };

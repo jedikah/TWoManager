@@ -3,7 +3,7 @@ import { useQuery, useResult } from '@vue/apollo-composable';
 import { Ref } from '@vue/composition-api';
 
 import { notifyThere } from '../context';
-import { USERSCOUNT, UsersCountData } from 'src/api/users/usersCount';
+import { USERSCOUNT, UsersCountData } from './useCount.gql';
 
 export const usersCount = (): [Readonly<Ref<number | void>>] => {
   const { result, onResult } = useQuery<UsersCountData>(USERSCOUNT);

@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { Field, ObjectType, ID } from '@nestjs/graphql';
 
-import { TableName } from '../TableName';
+import { TableName } from '../utils/TableName';
 import { ClientEntity } from '../clients/client.entity';
 import { UserEntity } from '../users/user.entity';
 import { FactureEntity } from '../factures/facture.entity';

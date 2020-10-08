@@ -83,7 +83,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, reactive } from '@vue/composition-api';
+import { defineComponent, ref } from '@vue/composition-api';
+import { useSession } from 'src/services/session/useSession';
 
 import { useCheckToken } from 'src/services/users/useCheckToken';
 import { useLogInSession } from 'src/services/users/useLogInSession';
@@ -95,17 +96,16 @@ export default defineComponent({
   setup: (_, { root }) => {
     const toLogin = ref(false);
     const pwdVisible = ref(false);
-    const state = reactive({
-      currentUser: root.$store.state.sessionModule.currentUser
-    });
+
+    const { state: sessionState } = useSession();
 
     const [logInSessionState, submitLogInSession] = useLogInSession();
 
-    const [
-      onCheckTokenDone,
-      checkTokenVariable,
-      toCheckTokenMutate
-    ] = useCheckToken();
+    const {
+      onDone: onCheckTokenDone,
+      variables: checkTokenVariable,
+      toMutate: toCheckTokenMutate
+    } = useCheckToken();
 
     onCheckTokenDone(() => {
       toLogin.value = true;
@@ -115,12 +115,12 @@ export default defineComponent({
       return localStorage.getItem('token') || '';
     };
 
-    logInSessionState.login = state.currentUser.login;
+    logInSessionState.login = sessionState.currentUser.login;
 
     return {
       toLogin,
       pwdVisible,
-      ...state.currentUser,
+      ...sessionState.currentUser,
       checkTokenVariable,
       toCheckTokenMutate,
       submitLogInSession,

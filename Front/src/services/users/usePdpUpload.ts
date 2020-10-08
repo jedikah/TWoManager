@@ -1,7 +1,7 @@
 import { reactive } from '@vue/composition-api';
 
-import { PDPUPLOAD, PdpUploadData } from 'src/api/users/pdpUpload';
-import { MutationUploadFileArgs } from 'src/api/types';
+import { PDPUPLOAD, PdpUploadData } from './usePdpUpload.gql';
+import { MutationUploadFileArgs } from '../types';
 import { useMutation } from '@vue/apollo-composable';
 import { notifyThere } from '../context';
 

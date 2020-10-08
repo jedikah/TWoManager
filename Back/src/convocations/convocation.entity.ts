@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import { Field, ObjectType, ID } from '@nestjs/graphql';
 
-import { TableName } from '../TableName';
+import { TableName } from '../utils/TableName';
 import { FolderEntity } from '../folders/folder.entity';
 import { PvEntity } from '../pvs/pv.entity';
 

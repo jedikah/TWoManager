@@ -10,6 +10,8 @@
  * Boot files are your "main.js"
  **/
 
+import 'quasar/dist/quasar.ie.polyfills.js'
+
 
 
 import '@quasar/extras/roboto-font/roboto-font.css'
@@ -46,9 +48,6 @@ import qboot_Bootguard from 'boot/guard'
 
 
 
-import electron from 'electron'
-Vue.prototype.$q.electron = electron
-
 
 
 Vue.config.devtools = true
@@ -56,7 +55,7 @@ Vue.config.productionTip = false
 
 
 
-console.info('[Quasar] Running ELECTRON.')
+console.info('[Quasar] Running SPA.')
 
 
 

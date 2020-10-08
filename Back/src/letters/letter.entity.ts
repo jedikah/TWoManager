@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryColumn, OneToOne, JoinColumn } from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
 
-import { TableName } from '../TableName';
+import { TableName } from '../utils/TableName';
 import { FolderEntity } from '../folders/folder.entity';
 
 @ObjectType()

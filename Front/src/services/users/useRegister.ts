@@ -2,11 +2,11 @@ import { useMutation } from '@vue/apollo-composable';
 import { logErrorMessages } from '@vue/apollo-util';
 import { reactive, Ref } from '@vue/composition-api';
 
-import { REGISTER, RegisterData } from 'src/api/users/register';
+import { REGISTER, RegisterData } from './useRegister.gql';
 import { notifyThere } from '../context';
-import { RegisterInput, MutationRegisterArgs } from 'src/api/types';
+import { RegisterInput, MutationRegisterArgs } from '../types';
 import { usePdpUpload } from './usePdpUpload';
-import { MutationUploadFileArgs } from 'src/api/types';
+import { MutationUploadFileArgs } from '../types';
 
 export const useRegister = (): [
   RegisterInput,
@@ -18,7 +18,7 @@ export const useRegister = (): [
     userName: 'kwan',
     login: 'kwan',
     password: '123',
-    photo: null,
+    photo: null
   });
 
   const { mutate, onDone, onError, loading } = useMutation<
@@ -52,7 +52,7 @@ export const useRegister = (): [
       registerState.password !== ''
     ) {
       mutate({
-        input: registerState,
+        input: registerState
       });
     }
   };

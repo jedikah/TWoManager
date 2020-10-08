@@ -1,8 +1,8 @@
 <template>
   <div>
     <q-layout
-      :class="session === false && 'sessionFilter'"
-      view="lHh LpR lfr"
+      :class="!sessionState.session && 'sessionFilter'"
+      view="hHh LpR lfr"
       class=" fullscreen column"
       style="padding-top: 10px"
     >
@@ -17,11 +17,9 @@
           <q-btn
             dense
             flat
-            label="Client"
-            @click="
-              formsRoute = 'CLIENT';
-              formsDrawer = true;
-            "
+            round
+            icon="menu"
+            @click="formsDrawer = !formsDrawer"
           />
         </q-toolbar>
       </q-header>
@@ -36,7 +34,7 @@
                 <q-icon name="inbox" />
               </q-item-section>
 
-              <q-item-section @click="$router.push('/')">
+              <q-item-section @click="router.push('/')">
                 Inbox
               </q-item-section>
             </q-item>
@@ -90,29 +88,17 @@
 
       <!-- // FORM DRAWER MENU -->
       <q-drawer
-        style=" background-color: red;"
+        width="400"
         v-model="formsDrawer"
         side="right"
         behavior="desktop"
       >
-        <div
-          class=" full-height full-width column justify-center items-center "
-          style=""
-        >
-          <q-btn
-            style="width: 80%; margin-bottom: 5px"
-            rounded
-            dense
-            label="Fermer"
-            color="orange"
-            text-color="black"
-            @click="formsDrawer = false"
-          />
-          <ClienForm v-if="formsRoute === 'CLIENT'" />
+        <div class=" full-height full-width column " style="padding: 20px">
+          <ClienForm v-if="route.name === 'CLIENT'" />
         </div>
       </q-drawer>
 
-      <q-page-container class=" border-red col">
+      <q-page-container class="col">
         <router-view class=" full-width" />
 
         <q-card v-if="countDown <= 15 && countDown > 0" class="myCountDownCard">
@@ -131,15 +117,9 @@
 
 <script lang="ts">
 import { defineComponent, ref, watchEffect } from '@vue/composition-api';
-import { createNamespacedHelpers } from 'vuex-composition-helpers';
 
 import userSession from 'src/module/session.module';
-import {
-  StateSession,
-  GettersSession,
-  ActionsSession,
-  ModuleSession
-} from 'src/store/session/type';
+import { useSession } from 'src/services/session/useSession';
 
 export default defineComponent({
   name: 'MaynLayout',
@@ -149,41 +129,32 @@ export default defineComponent({
   },
   setup: (_, { root }) => {
     const countDown = ref(16);
-    const left = ref(false);
-    const formsDrawer = ref(false);
-    const formsRoute = ref('');
+    const left = ref(true);
+    const formsDrawer = ref(true);
 
-    const { useState, useActions } = createNamespacedHelpers<
-      StateSession,
-      GettersSession,
-      ActionsSession,
-      ModuleSession
-    >(root.$store, 'sessionModule');
-    const { session, currentUser } = useState(['session', 'currentUser']);
+    const { state: sessionState } = useSession();
 
-    const { setSession } = useActions(['setSession']);
-
-    const startSession = session => {
+    const startSession = (session: boolean) => {
       if (session === true) {
-        userSession.start(currentUser.value.exp);
+        userSession.start(sessionState.currentUser.exp);
         userSession.onTimeOutChange(t => {
           if (t <= 15) {
             countDown.value = t;
           } else countDown.value = 16;
-          if (t === 1) setTimeout(() => setSession(false), 1000);
+          if (t === 1) setTimeout(() => (sessionState.session = false), 1000);
         });
       }
     };
 
     watchEffect(() => {
-      startSession(session.value);
+      startSession(sessionState.session);
     });
 
     return {
+      route: root.$route,
       formsDrawer,
-      formsRoute,
       left,
-      session,
+      sessionState,
       countDown
     };
   }

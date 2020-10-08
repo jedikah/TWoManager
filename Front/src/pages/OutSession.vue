@@ -1,6 +1,6 @@
 <template>
   <q-page-container
-    v-if="!session"
+    v-if="sessionState.session !== undefined && !sessionState.session"
     class="column fullscreen items-center  justify-center noFilter"
     style="background-color: #2f2d2da3;"
   >
@@ -16,7 +16,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from '@vue/composition-api';
+import { defineComponent, ref } from '@vue/composition-api';
+import { useSession } from 'src/services/session/useSession';
 
 export default defineComponent({
   name: 'OutSession',
@@ -24,17 +25,14 @@ export default defineComponent({
     SessionLogin: require('src/components/authentification/SessionLogin.vue')
       .default
   },
-  setup: (_, { root }) => {
-    const session = computed(() => root.$store.state.sessionModule.session);
+  setup: (_, {}) => {
+    const { state: sessionState } = useSession();
 
     const reconnect = ref(false);
 
-    console.log({ outsession: session });
-
     return {
       reconnect,
-      session,
-      test: root.$store.state.sessionModule.session
+      sessionState
     };
   }
 });

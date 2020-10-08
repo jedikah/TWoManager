@@ -17,16 +17,24 @@ const routes: RouteConfig[] = [
   // }
 
   {
+    name: 'SIMPLE',
     path: '/',
     component: () => import('layouts/SimpleLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Authentification.vue') }
+      {
+        name: 'LOGIN',
+        path: '',
+        component: () => import('pages/Authentification.vue')
+      }
     ]
   },
   {
+    name: 'MAIN',
     path: '/main',
     component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/Client.vue') }]
+    children: [
+      { name: 'CLIENT', path: '', component: () => import('pages/Client.vue') }
+    ]
   }
 ];
 

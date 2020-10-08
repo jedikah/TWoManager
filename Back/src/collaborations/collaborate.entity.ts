@@ -1,4 +1,4 @@
-import { TableName } from '../TableName';
+import { TableName } from '../utils/TableName';
 import { Entity, Column, ManyToOne, JoinColumn, RelationId } from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
 

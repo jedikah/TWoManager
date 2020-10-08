@@ -103,17 +103,16 @@ export default defineComponent({
       default: () => ({ form: '', h1: '', dark: false })
     }
   },
-  setup: () => {
+  setup: (_, { root }) => {
     const pwdVisible = ref(false);
     const [logIn, submitLogIn, loadingLogin] = useLogIn();
     const cwd = path.join(__dirname, '..');
     const file = 'index.ts';
 
-    console.log(logIn);
-
     function handelOpen() {
       // const test = await execute('./test.ts', ['-r', 'ts-node/register']);
-      console.log(cwd);
+      console.log({ $route: root.$route });
+      // console.log(cwd);
     }
 
     return {
