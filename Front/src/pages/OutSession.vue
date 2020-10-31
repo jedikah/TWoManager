@@ -25,7 +25,7 @@ export default defineComponent({
     SessionLogin: require('src/components/authentification/SessionLogin.vue')
       .default
   },
-  setup: (_, {}) => {
+  setup: () => {
     const { state: sessionState } = useSession();
 
     const reconnect = ref(false);

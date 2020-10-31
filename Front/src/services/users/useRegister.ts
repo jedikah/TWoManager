@@ -28,7 +28,7 @@ export const useRegister = (): [
 
   const [pdpUploadVar, sendPdp] = usePdpUpload();
 
-  onDone(({ data, errors }) => {
+  onDone(({ errors }) => {
     if (errors) notifyThere(errors);
 
     registerState.login = null;

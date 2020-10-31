@@ -42,8 +42,6 @@ import qboot_Bootcompositionapi from 'boot/composition-api'
 
 import qboot_Bootnotifydefaults from 'boot/notify-defaults'
 
-import qboot_Bootguard from 'boot/guard'
-
 
 
 
@@ -81,7 +79,7 @@ async function start () {
   }
 
   const urlPath = window.location.href.replace(window.location.origin, '')
-  const bootFiles = [qboot_Bootcompositionapi,qboot_Bootnotifydefaults,qboot_Bootguard]
+  const bootFiles = [qboot_Bootcompositionapi,qboot_Bootnotifydefaults]
 
   for (let i = 0; hasRedirected === false && i < bootFiles.length; i++) {
     if (typeof bootFiles[i] !== 'function') {

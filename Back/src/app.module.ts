@@ -16,6 +16,11 @@ import { CollaboratesModule } from './collaborations/collaborates.module';
 
 import { UtilsModule } from './utils/utils.module';
 import { ConnectionOptions } from 'typeorm';
+import { FoldersModule } from './folders/folders.module';
+import { FacturesModule } from './factures/factures.module';
+import { ConvocationsModule } from './convocations/convocations.module';
+import { LettersModule } from './letters/letters.module';
+import { PvsModule } from './pvs/pvs.module';
 
 const modules = [
   UtilsModule,
@@ -52,6 +57,11 @@ const modules = [
         };
       },
     }),
+    FoldersModule,
+    FacturesModule,
+    ConvocationsModule,
+    LettersModule,
+    PvsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

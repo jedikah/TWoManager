@@ -1,7 +1,6 @@
 import { useMutation } from '@vue/apollo-composable';
 import { logErrorMessages } from '@vue/apollo-util';
 import { reactive, Ref } from '@vue/composition-api';
-import { useActions } from '@u3u/vue-hooks';
 
 import { LOGIN, LogInData } from './useLogin.gql';
 import { notifyThere } from '../context';
@@ -34,7 +33,7 @@ export const useLogIn = (): [LogInInput, () => void, Ref<boolean>] => {
     checkToken(logInData.login.token);
   });
 
-  onChectTonkenDone(({ data: checkTokenData, errors }) => {
+  onChectTonkenDone(({ errors }) => {
     if (errors) notifyThere(errors);
 
     logIn.login = '';

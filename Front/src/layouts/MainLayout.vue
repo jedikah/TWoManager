@@ -88,7 +88,7 @@
 
       <!-- // FORM DRAWER MENU -->
       <q-drawer
-        width="400"
+        :width="400"
         v-model="formsDrawer"
         side="right"
         behavior="desktop"
@@ -138,7 +138,7 @@ export default defineComponent({
       if (session === true) {
         userSession.start(sessionState.currentUser.exp);
         userSession.onTimeOutChange(t => {
-          if (t <= 15) {
+          if (t <= 15 && t >= 0) {
             countDown.value = t;
           } else countDown.value = 16;
           if (t === 1) setTimeout(() => (sessionState.session = false), 1000);

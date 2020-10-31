@@ -93,7 +93,7 @@ export default defineComponent({
   components: {
     Avatar: require('../templates/Avatar.vue').default
   },
-  setup: (_, { root }) => {
+  setup: () => {
     const toLogin = ref(false);
     const pwdVisible = ref(false);
 

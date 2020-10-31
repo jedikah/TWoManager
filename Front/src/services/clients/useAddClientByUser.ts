@@ -1,16 +1,29 @@
-import { useMutation } from '@vue/apollo-composable';
+import { useMutation, useApolloClient } from '@vue/apollo-composable';
 
 import { ADDCLIENTBYUSER, AddClientByUserData } from './useAddClientByUser.gql';
-import { MutationAddClientByUserArgs, ClientInput } from '../types';
+import {
+  MutationAddClientByUserArgs,
+  ClientAddInput,
+  QueryUserClientsArgs
+} from '../types';
 import { reactive } from '@vue/composition-api';
 import { notifyThere, notifyThis, context } from '../context';
 import { logErrorMessages } from '@vue/apollo-util';
+import { CLIENTSUSER, UserClientData } from './useClientsUser.gql';
 
-export const useAddClientByUser = (): [ClientInput, () => void] => {
-  const state: ClientInput = reactive({
+export const useAddClientByUser = (): [ClientAddInput, () => void] => {
+  const state: ClientAddInput = reactive({
     clientName: '',
     domicile: '',
     contact: ''
+  });
+
+  const apollo = useApolloClient();
+  const variables: QueryUserClientsArgs = reactive({
+    paginationInput: {
+      limit: 30,
+      page: 1
+    }
   });
 
   const { mutate: senAddClient, onDone, onError } = useMutation<
@@ -21,16 +34,37 @@ export const useAddClientByUser = (): [ClientInput, () => void] => {
   onDone(({ data, errors }) => {
     if (errors) notifyThere(errors);
 
-    state.clientName = null;
-    state.domicile = '';
-    state.contact = '';
+    data.addClientByUser;
 
-    notifyThis(
-      'Client client ' +
-        data.addClientByUser.clientName +
-        ' a bien été enregisté.',
-      'positive'
-    );
+    if (data.addClientByUser) {
+      const prevClient = apollo.client.cache.readQuery<
+        UserClientData,
+        QueryUserClientsArgs
+      >({
+        query: CLIENTSUSER,
+        variables
+      });
+
+      if (prevClient) {
+        prevClient.userClients.clients.push(data.addClientByUser);
+
+        apollo.client.writeQuery<UserClientData>({
+          query: CLIENTSUSER,
+          data: prevClient
+        });
+      }
+
+      state.clientName = null;
+      state.domicile = '';
+      state.contact = '';
+
+      notifyThis(
+        'Client client ' +
+          data.addClientByUser.clientName +
+          ' a bien été enregisté.',
+        'positive'
+      );
+    }
   });
 
   onError(error => {

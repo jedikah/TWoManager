@@ -51,14 +51,12 @@
           label="Valider"
           type="submit"
           color="amber"
-          text-color="black"
         />
         <q-btn
           class="col-5"
           rounded
           label="Reset"
           color="orange"
-          text-color="black"
           type="reset"
         />
       </q-form>

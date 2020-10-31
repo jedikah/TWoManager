@@ -2,7 +2,6 @@ import { store } from 'quasar/wrappers';
 import Vuex from 'vuex';
 
 import RootState from './types';
-import { sessionModule } from './session/sessionModule.store';
 
 // import example from './module-example';
 // import { ExampleStateInterface } from './module-example/state';
@@ -19,9 +18,7 @@ export default store(function({ Vue }) {
     state: {
       version: '1.0.0'
     },
-    modules: {
-      sessionModule
-    },
+    modules: {},
 
     // enable strict mode (adds overhead!)
     // for dev mode only

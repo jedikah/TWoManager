@@ -5,7 +5,7 @@ import { CHECKTOKEN, CheckTokenData } from './useCheckToken.gql';
 import { MutationCheckTokenArgs } from '../types';
 import { logErrorMessages } from '@vue/apollo-util';
 import { Router } from 'src/router';
-import { FetchResult } from 'apollo-link';
+// import { FetchResult } from 'apollo-link';
 
 export const useCheckToken = () => {
   const variables = reactive({

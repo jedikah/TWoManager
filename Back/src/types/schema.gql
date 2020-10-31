@@ -13,6 +13,13 @@ type CheckTokenOutput {
   userName: String!
 }
 
+input ClientAddInput {
+  clientId: ID
+  clientName: String!
+  contact: String
+  domicile: String
+}
+
 type ClientEntity {
   clientId: ID!
   clientName: String!
@@ -20,8 +27,13 @@ type ClientEntity {
   domicile: String
 }
 
-input ClientInput {
-  clientId: ID
+type ClientsCollaborateResult {
+  clients: [ClientEntity!]!
+  paginationMeta: PaginationMeta!
+}
+
+input ClientUpdateInput {
+  clientId: ID!
   clientName: String!
   contact: String
   domicile: String
@@ -32,16 +44,83 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type FolderEntity {
+type FactureEntity {
+  dateFacture: DateTime!
+  factureId: ID!
+}
+
+input FolderAddInput {
+  clientId: Float!
   dateTrav: DateTime!
+  factureId: Float
+  fokontany: String!
+  folderId: ID
+  groundName: String!
+  localisationTrav: String!
+  numTitle: String
+  price: Float
+  register: String!
+  typeTrav: String!
+  userId: Float
+}
+
+type FolderEntity {
+  client: ClientEntity!
+  dateTrav: DateTime!
+  facture: FactureEntity
   fokontany: String!
   folderId: ID!
   groundName: String!
   localisationTrav: String!
-  numTitle: String!
-  price: Float!
+  numTitle: String
+  price: Float
   register: String!
   typeTrav: String!
+  user: UserEntity
+}
+
+input FoldersFilterInput {
+  groundName: String
+  numTitle: String
+  register: String
+}
+
+type FoldersResult {
+  folders: [FolderEntity!]!
+  paginationMeta: PaginationMeta!
+}
+
+input FolderUpdateInput {
+  clientId: Float!
+  dateTrav: DateTime!
+  factureId: Float
+  fokontany: String!
+  folderId: ID!
+  groundName: String!
+  localisationTrav: String!
+  numTitle: String
+  price: Float
+  register: String!
+  typeTrav: String!
+  userId: Float
+}
+
+input LetterAddInput {
+  createdAt: DateTime!
+  dateRtx: DateTime!
+  folderId: Float!
+  letterTown: String!
+  numRtx: String!
+  object: String!
+}
+
+type LetterEntity {
+  createdAt: DateTime!
+  dateRtx: DateTime!
+  folder: FolderEntity
+  letterTown: String!
+  numRtx: String!
+  object: String!
 }
 
 input LogInInput {
@@ -55,24 +134,35 @@ type LogInOutput {
 }
 
 type Mutation {
-  addClientByUser(input: ClientInput!): ClientEntity!
+  addClientByUser(input: ClientAddInput!): ClientEntity!
+  addFolder(input: FolderAddInput!): FolderEntity!
+  addLetter(input: LetterAddInput!): LetterEntity!
   checkToken(input: String!): CheckTokenOutput!
   login(input: LogInInput!): LogInOutput!
   loginSession(input: LogInInput!): Boolean!
   register(input: RegisterInput!): UserOutput!
+  updateClient(input: ClientUpdateInput!): ClientEntity!
+  updateFolder(input: FolderUpdateInput!): FolderEntity!
   uploadFile(file: Upload!, login: String!): Boolean!
 }
 
-type PaginateUserClients {
-  clients: [ClientEntity!]!
-  countRow: Int!
-  cursor: Int!
-  hasMore: Boolean!
+input PaginationInput {
+  limit: Float!
+  page: Float!
+}
+
+type PaginationMeta {
+  currentPage: Float!
+  itemCount: Float!
+  itemsPerPage: Float!
+  totalItems: Float!
+  totalPages: Float!
 }
 
 type Query {
   clientListByUser: [ClientEntity!]!
-  userClients(after: Float!, pageSize: Float!): PaginateUserClients!
+  userClients(paginationInput: PaginationInput!): ClientsCollaborateResult!
+  userFolders(foldersFilterInput: FoldersFilterInput!, paginationInput: PaginationInput!): FoldersResult!
   users: [UserEntity!]
   usersCount: Int!
 }

@@ -88,11 +88,11 @@
 
 <script lang="ts">
 import { ref, defineComponent } from '@vue/composition-api';
-import { execute } from 'tauri/api/process';
+// import { execute } from 'tauri/api/process';
 
 import { useLogIn } from 'src/services/users/useLogIn';
 
-const path = require('path');
+// const path = require('path');
 
 export default defineComponent({
   name: 'Login',
@@ -106,8 +106,8 @@ export default defineComponent({
   setup: (_, { root }) => {
     const pwdVisible = ref(false);
     const [logIn, submitLogIn, loadingLogin] = useLogIn();
-    const cwd = path.join(__dirname, '..');
-    const file = 'index.ts';
+    // const cwd = path.join(__dirname, '..');
+    // const file = 'index.ts';
 
     function handelOpen() {
       // const test = await execute('./test.ts', ['-r', 'ts-node/register']);

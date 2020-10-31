@@ -17,15 +17,15 @@ import { FactureEntity } from '../factures/facture.entity';
 @Entity({ name: TableName.Folder })
 export class FolderEntity {
   @Field(() => ID)
-  @PrimaryGeneratedColumn({ name: 'dossier_id' })
+  @PrimaryGeneratedColumn({ name: 'folder_id' })
   folderId: number;
 
   @Field()
   @Column({ name: 'register' })
   register: string;
 
-  @Field()
-  @Column({ name: 'num_title' })
+  @Field({ nullable: true })
+  @Column({ name: 'num_title', nullable: true })
   numTitle: string;
 
   @Field()
@@ -48,23 +48,26 @@ export class FolderEntity {
   @Column({ name: 'type_trav' })
   typeTrav: string;
 
-  @Field()
-  @Column({ name: 'price' })
+  @Field({ nullable: true })
+  @Column({ name: 'price', nullable: true })
   price: number;
 
   @ManyToOne(() => UserEntity)
+  @Field(() => UserEntity, { nullable: true })
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
   @RelationId((folder: FolderEntity) => folder.user)
   userId: number;
 
   @ManyToOne(() => ClientEntity)
+  @Field(() => ClientEntity)
   @JoinColumn({ name: 'client_id' })
   client: ClientEntity;
   @RelationId((folder: FolderEntity) => folder.client)
   clientId: number;
 
   @ManyToOne(() => FactureEntity, { nullable: true })
+  @Field(() => FactureEntity, { nullable: true })
   @JoinColumn({ name: 'facture_id' })
   facture: FactureEntity;
   @RelationId((folder: FolderEntity) => folder.facture)

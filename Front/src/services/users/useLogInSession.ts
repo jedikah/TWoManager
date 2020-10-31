@@ -2,10 +2,10 @@ import { MutationLoginArgs, LogInInput } from '../types';
 import { reactive } from '@vue/composition-api';
 import { logErrorMessages } from '@vue/apollo-util';
 import { useMutation } from '@vue/apollo-composable';
-import { useActions } from '@u3u/vue-hooks';
 
 import { LOGINSESSION, LogInSessionData } from './useLoginSession.gql';
 import { notifyThere } from '../context';
+import { useSession } from '../session/useSession';
 
 export const useLogInSession = (): [LogInInput, () => void] => {
   const logInSessionState: LogInInput = reactive({
@@ -13,9 +13,7 @@ export const useLogInSession = (): [LogInInput, () => void] => {
     password: ''
   });
 
-  const actions = {
-    ...useActions('sessionModule', ['setSession'])
-  };
+  const { state: sessionState } = useSession();
 
   const { mutate: sendLogInSession, onDone, onError } = useMutation<
     LogInSessionData,
@@ -25,9 +23,11 @@ export const useLogInSession = (): [LogInInput, () => void] => {
   onDone(({ data, errors }) => {
     if (errors) notifyThere(errors);
 
-    logInSessionState.password = null;
+    if (data.loginSession) {
+      logInSessionState.password = '';
 
-    actions.setSession(data.loginSession);
+      sessionState.session = data.loginSession;
+    }
   });
 
   onError(error => {

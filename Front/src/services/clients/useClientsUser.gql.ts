@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { PaginateUserClients } from '../types';
+import { ClientsCollaborateResult } from '../types';
 
 interface Client {
   clientId: string;
@@ -16,20 +16,24 @@ export interface UserClient {
 }
 
 export interface UserClientData {
-  userClients: PaginateUserClients;
+  userClients: ClientsCollaborateResult;
 }
 
 export const CLIENTSUSER = gql`
-  query($after: Float!, $pageSize: Float!) {
-    userClients(after: $after, pageSize: $pageSize) {
-      countRow
-      hasMore
-      cursor
+  query($paginationInput: PaginationInput!) {
+    userClients(paginationInput: $paginationInput) {
       clients {
         clientId
         clientName
         domicile
         contact
+      }
+      paginationMeta {
+        currentPage
+        itemCount
+        itemsPerPage
+        totalItems
+        totalPages
       }
     }
   }

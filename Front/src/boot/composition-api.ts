@@ -5,28 +5,11 @@ import { DefaultApolloClient } from '@vue/apollo-composable';
 import hooks from '@u3u/vue-hooks';
 import { apolloClient } from 'src/services/applloClient';
 
-import { checkToken } from 'src/services/users/checkToken';
 import { useSession } from 'src/services/session/useSession';
 import { Router } from 'src/router';
 import { notifyThere } from 'src/services/context';
 
-export default boot(({ Vue, app, store }) => {
-  const commitStates = async (token: string, session = true) => {
-    const userData = await checkToken(token);
-    const newUserData = {
-      ...userData,
-      photo:
-        userData && userData.photo
-          ? 'http://localhost:80/TWoM/' + userData.photo
-          : ''
-    };
-
-    store.commit('sessionModule/setCurrentUser', newUserData);
-    store.commit('sessionModule/setSession', session);
-
-    return userData;
-  };
-
+export default boot(({ Vue, app }) => {
   Vue.use(hooks);
   Vue.use(VueCompositionApi);
 

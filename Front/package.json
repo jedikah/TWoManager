@@ -8,10 +8,12 @@
   "scripts": {
     "lint": "eslint --ext .js,.ts,.vue ./",
     "test": "echo \"No test specified\" && exit 0",
-    "tauri": "tauri"
+    "tauri": "tauri",
+    "codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@erdii/caddy-serverless-express": "^0.0.2",
+    "@quasar/cli": "^1.1.2",
     "@quasar/extras": "^1.0.0",
     "@types/dotenv": "^8.2.0",
     "@types/electron-devtools-installer": "^2.2.0",

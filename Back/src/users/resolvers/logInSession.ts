@@ -31,6 +31,12 @@ export class UsersLogInSession {
         input.password,
         user.password,
       );
+
+      if (!response)
+        throw new HttpException(
+          'Le mot de pass est incorrect.',
+          HttpStatus.UNAUTHORIZED,
+        );
     }
     return response;
   }

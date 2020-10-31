@@ -1,4 +1,4 @@
-import { reactive, watch } from '@vue/composition-api';
+import { reactive } from '@vue/composition-api';
 import { useCheckToken } from '../users/useCheckToken';
 
 export type CurrentUser = {

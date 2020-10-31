@@ -6,74 +6,55 @@ import { QueryUserClientsArgs } from '../types';
 import { notifyThere } from '../context';
 import { logErrorMessages } from '@vue/apollo-util';
 
-export const useClientsUser = (): {
-  state: {
-    lastIndex: number;
-    data: any[];
-    loadingTableRow: boolean;
-    hasMore: boolean;
-    cursor: number;
-    stop: boolean;
-    pagination: {
-      rowsPerPage: number;
-    };
-  };
-  variables: QueryUserClientsArgs;
-
-  fetchMoreclient: () => void;
-
-  loadingClient: Ref<boolean>;
-} => {
+export const useClientsUser = () => {
   const variables: QueryUserClientsArgs = reactive({
-    after: 0,
-    pageSize: 30
+    paginationInput: {
+      limit: 30,
+      page: 1
+    }
   });
 
   const state = reactive({
+    meta: {
+      currentPage: 1,
+      itemCount: 0,
+      itemsPerPage: 0,
+      totalItems: 0,
+      totalPages: 0
+    },
     lastIndex: 0,
     data: [],
     loadingTableRow: false,
-    hasMore: false,
-    cursor: 0,
-    stop: false,
     pagination: {
       rowsPerPage: 0
     }
   });
 
-  const {
-    result,
-    loading: loadingClient,
-    onResult,
-    onError,
-    refetch
-  } = useQuery<UserClientData, QueryUserClientsArgs>(CLIENTSUSER, variables, {
+  const { loading: loadingClient, onResult, onError, refetch } = useQuery<
+    UserClientData,
+    QueryUserClientsArgs
+  >(CLIENTSUSER, variables, {
     fetchPolicy: 'cache-and-network',
     notifyOnNetworkStatusChange: false
   });
 
   function pushData(data: UserClientData) {
-    if (data.userClients.hasMore === false) state.stop = true;
-
-    state.hasMore = data.userClients.hasMore;
-    state.cursor = data.userClients.cursor;
-
     data.userClients.clients.forEach(client => {
       state.data.splice(state.lastIndex, 1, {
         index: ++state.lastIndex,
         ...client
       });
     });
-
-    if (data.userClients.hasMore == false) state.stop = true;
   }
 
   onResult(({ data, errors, loading }) => {
-    if (!loading && state.data.length <= 0)
-      state.data = new Array(data.userClients.countRow);
+    if (!loading && state.data.length <= 0) {
+      state.meta = data.userClients.paginationMeta;
+      state.data = new Array(state.meta.totalItems);
+    }
     if (errors) notifyThere(errors);
 
-    if (!loading && !state.stop) {
+    if (!loading && state.meta.currentPage <= state.meta.totalPages) {
       pushData(data);
     }
   });
@@ -82,11 +63,10 @@ export const useClientsUser = (): {
     logErrorMessages(error);
   });
 
-  function fetchMoreclient() {
-    variables.after = result.value.userClients.cursor;
-    variables.pageSize = 30;
-
-    if (result.value.userClients.hasMore === true) void refetch(variables);
+  function fetchMoreclient(page: number, limit = 30) {
+    variables.paginationInput.page = page;
+    variables.paginationInput.limit = limit;
+    void refetch(variables);
   }
 
   return {

@@ -8,20 +8,17 @@ import { UserOutput } from '../../users/users.types';
 import { CollaborationsService } from '../collaborations.service';
 import { ClientsService } from '../../clients/clients.service';
 import { PaginationService } from '../../utils/pagination.service';
+import { SelectQueryBuilder } from 'typeorm';
+import { CollaborateEntity } from '../collaborate.entity';
+import { PaginationInput, PaginationMeta } from '../../types';
 
 @ObjectType()
-class PaginateUserClients {
-  @Field(() => Int)
-  countRow: number;
-
-  @Field()
-  hasMore: boolean;
-
-  @Field(() => Int)
-  cursor: number;
-
+class ClientsCollaborateResult {
   @Field(() => [ClientEntity])
   clients: ClientEntity[];
+
+  @Field(() => PaginationMeta)
+  paginationMeta: PaginationMeta;
 }
 
 @Resolver(() => ClientEntity)
@@ -33,32 +30,29 @@ export class UserClientsResolver {
     private paginationService: PaginationService,
   ) {}
 
-  @Query(() => PaginateUserClients)
+  @Query(() => ClientsCollaborateResult)
   async userClients(
-    @Args('pageSize') pageSize: number,
-    @Args('after') after: number,
     @CurrentUser() user: UserOutput,
-  ): Promise<PaginateUserClients> {
-    const clients = await Promise.all(
-      (await this.collaborationService.getUserClients(user.userId)).map(
-        async coll => {
-          return this.clientService.getClientById(coll.clientId);
-        },
-      ),
+    @Args('paginationInput') paginationInput: PaginationInput,
+  ): Promise<ClientsCollaborateResult> {
+    const request: SelectQueryBuilder<CollaborateEntity> = this.collaborationService.getUserClients(
+      user.userId,
     );
 
-    const paginateResult = this.paginationService.pagination<ClientEntity>(
-      clients,
-      'clientId',
-      pageSize,
-      after,
+    const paginateClients = await this.collaborationService.paginate(
+      request,
+      paginationInput,
+    );
+
+    const clients = await Promise.all(
+      paginateClients.items.map(async coll => {
+        return this.clientService.getClientById(coll.clientId);
+      }),
     );
 
     return {
-      countRow: clients.length,
-      hasMore: paginateResult.hasMore,
-      clients: paginateResult.list,
-      cursor: paginateResult.cursor,
+      clients,
+      paginationMeta: paginateClients.meta,
     };
   }
 }

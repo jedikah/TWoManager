@@ -14,6 +14,28 @@
       :virtual-scroll-sticky-size-start="0"
       @virtual-scroll="onLoad"
     >
+      <template v-slot:body="props">
+        <q-tr :props="props">
+          <q-td key="index" :props="props">
+            {{ props.row.index }}
+          </q-td>
+          <q-td key="clientName" :props="props">
+            {{ props.row.clientName }}
+          </q-td>
+          <q-td key="domicile" :props="props">
+            {{ props.row.domicile }}
+          </q-td>
+          <q-td key="contact" :props="props">
+            {{ props.row.contact }}
+          </q-td>
+          <q-td key="action" :props="props">
+            <q-btn-group>
+              <q-btn color="amber">Modifier</q-btn>
+              <q-btn color="orange">Supprimer</q-btn>
+            </q-btn-group>
+          </q-td>
+        </q-tr>
+      </template>
     </q-table>
   </div>
 </template>
@@ -48,7 +70,20 @@ export default defineComponent({
         field: 'domicile',
         sortable: true
       },
-      { name: 'contact', label: 'Contact', field: 'contact', sortable: true }
+      {
+        name: 'contact',
+        label: 'Contact',
+        field: 'contact',
+        sortable: true,
+        align: 'center'
+      },
+      {
+        name: 'action',
+        label: 'Action',
+        field: 'action',
+        sortable: false,
+        align: 'center'
+      }
     ]);
 
     const {
@@ -60,13 +95,12 @@ export default defineComponent({
 
     function onLoad({ index }) {
       if (
-        state.hasMore === true &&
-        state.stop === false &&
+        state.meta.currentPage < state.meta.totalPages &&
         index >= state.lastIndex - 10 &&
         state.loadingTableRow === false
       ) {
         state.loadingTableRow = true;
-        fetchMoreclient();
+        fetchMoreclient(state.meta.currentPage + 1);
         setTimeout(() => {
           state.loadingTableRow = false;
         }, 500);
