@@ -1,25 +1,4 @@
 import { ConnectionOptions } from 'typeorm';
-
-import { Client } from '../clients/client.entity';
-import { Collaborate } from '../collaborations/collaborate.entity';
-import { Convocation } from '../convocations/convocation.entity';
-import { Facture } from '../factures/facture.entity';
-import { Folder } from '../folders/folder.entity';
-import { Letter } from '../letters/letter.entity';
-import { Pv } from '../pvs/pv.entity';
-import { User } from '../users/user.entity';
-
-const Entity = [
-  Client,
-  Collaborate,
-  Convocation,
-  Facture,
-  Folder,
-  Letter,
-  Pv,
-  User,
-];
-
 export interface GraphqlConfigs {
   playground: boolean;
   debug: boolean;

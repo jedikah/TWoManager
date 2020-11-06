@@ -108,7 +108,7 @@ input FolderUpdateInput {
 type Letter {
   dateRtx: DateTime!
   folder: Folder
-  id: Float!
+  id: ID!
   letterTown: String!
   numRtx: String!
   object: String!
@@ -117,7 +117,7 @@ type Letter {
 input LetterAddInput {
   dateRtx: DateTime!
   folderId: Float!
-  id: Float
+  id: ID
   letterTown: String!
   numRtx: String!
   object: String!
@@ -126,7 +126,7 @@ input LetterAddInput {
 input LetterUpdateInput {
   dateRtx: DateTime!
   folderId: Float!
-  id: Float
+  id: ID
   letterTown: String!
   numRtx: String!
   object: String!

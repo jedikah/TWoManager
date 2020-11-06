@@ -9,25 +9,25 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import configs, { GraphqlConfigs } from './configs';
 
-import { UsersModule } from './users/users.module';
+import { UsersModule } from './user/user.module';
 import { AuthModule } from './auths/auth.module';
-import { ClientModule } from './clients/clients.module';
-import { CollaboratesModule } from './collaborations/collaborates.module';
+import { ClientModule } from './client/client.module';
+import { CollaborateModule } from './collaborate/collaborate.module';
 
 import { UtilsModule } from './utils/utils.module';
 import { ConnectionOptions } from 'typeorm';
-import { FoldersModule } from './folders/folders.module';
-import { FacturesModule } from './factures/factures.module';
-import { ConvocationsModule } from './convocations/convocations.module';
-import { LettersModule } from './letters/letters.module';
-import { PvsModule } from './pvs/pvs.module';
+import { FolderModule } from './folder/folder.module';
+import { FactureModule } from './facture/facture.module';
+import { ConvocationModule } from './convocation/convocation.module';
+import { LetterModule } from './letter/letter.module';
+import { PvModule } from './pv/pv.module';
 
 const modules = [
   UtilsModule,
   UsersModule,
   AuthModule,
   ClientModule,
-  CollaboratesModule,
+  CollaborateModule,
 ];
 
 @Module({
@@ -57,11 +57,11 @@ const modules = [
         };
       },
     }),
-    FoldersModule,
-    FacturesModule,
-    ConvocationsModule,
-    LettersModule,
-    PvsModule,
+    FolderModule,
+    FactureModule,
+    ConvocationModule,
+    LetterModule,
+    PvModule,
   ],
   controllers: [AppController],
   providers: [AppService],
