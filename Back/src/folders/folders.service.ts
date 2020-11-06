@@ -4,22 +4,22 @@ import { IPaginationOptions } from 'nestjs-typeorm-paginate/dist/interfaces';
 import { paginate } from 'nestjs-typeorm-paginate/dist/paginate';
 import { Pagination } from 'nestjs-typeorm-paginate/dist/pagination';
 import { Repository, SelectQueryBuilder } from 'typeorm';
-import { ClientEntity } from '../clients/client.entity';
-import { UserEntity } from '../users/user.entity';
-import { FolderEntity } from './folder.entity';
+import { Client } from '../clients/client.entity';
+import { User } from '../users/user.entity';
+import { Folder } from './folder.entity';
 
 @Injectable()
 export class FoldersService {
   constructor(
-    @InjectRepository(FolderEntity)
-    private FolderRepository: Repository<FolderEntity>,
+    @InjectRepository(Folder)
+    private FolderRepository: Repository<Folder>,
   ) {}
 
   async paginate(
-    qb: SelectQueryBuilder<FolderEntity>,
+    qb: SelectQueryBuilder<Folder>,
     options: IPaginationOptions,
-  ): Promise<Pagination<FolderEntity>> {
-    return paginate<FolderEntity>(qb, options);
+  ): Promise<Pagination<Folder>> {
+    return paginate<Folder>(qb, options);
   }
 
   foldersByUser({
@@ -27,33 +27,30 @@ export class FoldersService {
     numTitle = '',
     groundName = '',
     userId,
-  }): SelectQueryBuilder<FolderEntity> {
-    return this.FolderRepository.createQueryBuilder('folders')
-      .where('folders.register like :register', { register: `%${register}%` })
-      .andWhere('folders.numTitle like :numTitle', {
+  }): SelectQueryBuilder<Folder> {
+    return this.FolderRepository.createQueryBuilder('folder')
+      .where('folder.register like :register', { register: `%${register}%` })
+      .andWhere('folder.numTitle like :numTitle', {
         numTitle: `%${numTitle}%`,
       })
-      .andWhere('folders.groundName like :groundName', {
+      .andWhere('folder.groundName like :groundName', {
         groundName: `%${groundName}%`,
       })
-      .andWhere('folders.user_id like :user_id', {
+      .andWhere('folder.user_id like :user_id', {
         user_id: `%${userId}%`,
       })
-      .orderBy('folders.user_id', 'DESC');
+      .orderBy('folder.user_id', 'DESC');
   }
 
-  async addFolder(folder: FolderEntity): Promise<FolderEntity> {
+  async addFolder(folder: Folder): Promise<Folder> {
     return this.FolderRepository.save(folder);
   }
 
-  async updateFolder(folder: FolderEntity): Promise<FolderEntity> {
+  async updateFolder(folder: Folder): Promise<Folder> {
     return this.FolderRepository.save(folder);
   }
 
-  async FoldersByUsers(
-    user: UserEntity,
-    client: ClientEntity,
-  ): Promise<FolderEntity[]> {
+  async FoldersByUsers(user: User, client: Client): Promise<Folder[]> {
     return this.FolderRepository.find({
       where: {
         user,
@@ -62,7 +59,7 @@ export class FoldersService {
     });
   }
 
-  async FolderById(folderId: number): Promise<FolderEntity> {
+  async FolderById(folderId: number): Promise<Folder> {
     return this.FolderRepository.findOne(folderId);
   }
 }

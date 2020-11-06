@@ -8,14 +8,13 @@ import {
 } from 'typeorm';
 import { Field, ObjectType, ID } from '@nestjs/graphql';
 
-import { TableName } from '../utils/TableName';
-import { ClientEntity } from '../clients/client.entity';
-import { UserEntity } from '../users/user.entity';
-import { FactureEntity } from '../factures/facture.entity';
+import { Client } from '../clients/client.entity';
+import { User } from '../users/user.entity';
+import { Facture } from '../factures/facture.entity';
 
 @ObjectType()
-@Entity({ name: TableName.Folder })
-export class FolderEntity {
+@Entity({ name: 'folder' })
+export class Folder {
   @Field(() => ID)
   @PrimaryGeneratedColumn({ name: 'folder_id' })
   folderId: number;
@@ -52,24 +51,24 @@ export class FolderEntity {
   @Column({ name: 'price', nullable: true })
   price: number;
 
-  @ManyToOne(() => UserEntity)
-  @Field(() => UserEntity, { nullable: true })
+  @ManyToOne(() => User)
+  @Field(() => User, { nullable: true })
   @JoinColumn({ name: 'user_id' })
-  user: UserEntity;
-  @RelationId((folder: FolderEntity) => folder.user)
+  user: User;
+  @RelationId((folder: Folder) => folder.user)
   userId: number;
 
-  @ManyToOne(() => ClientEntity)
-  @Field(() => ClientEntity)
+  @ManyToOne(() => Client)
+  @Field(() => Client)
   @JoinColumn({ name: 'client_id' })
-  client: ClientEntity;
-  @RelationId((folder: FolderEntity) => folder.client)
+  client: Client;
+  @RelationId((folder: Folder) => folder.client)
   clientId: number;
 
-  @ManyToOne(() => FactureEntity, { nullable: true })
-  @Field(() => FactureEntity, { nullable: true })
+  @ManyToOne(() => Facture, { nullable: true })
+  @Field(() => Facture, { nullable: true })
   @JoinColumn({ name: 'facture_id' })
-  facture: FactureEntity;
-  @RelationId((folder: FolderEntity) => folder.facture)
+  facture: Facture;
+  @RelationId((folder: Folder) => folder.facture)
   factureId?: number;
 }

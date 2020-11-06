@@ -1,11 +1,9 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { Field, ObjectType, ID } from '@nestjs/graphql';
 
-import { TableName } from '../utils/TableName';
-
 @ObjectType()
-@Entity({ name: TableName.Pv })
-export class PvEntity {
+@Entity({ name: 'pv' })
+export class Pv {
   @Field(() => ID)
   @PrimaryGeneratedColumn({ name: 'num_pv' })
   numPv: number;

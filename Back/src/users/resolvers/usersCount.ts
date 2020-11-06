@@ -1,9 +1,9 @@
 import { Resolver, Query, Int } from '@nestjs/graphql';
 
-import { UserEntity } from '../user.entity';
+import { User } from '../user.entity';
 import { UsersService } from '../users.service';
 
-@Resolver(of => UserEntity)
+@Resolver(() => User)
 export class UsersCount {
   constructor(private usersService: UsersService) {}
 

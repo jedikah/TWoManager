@@ -1,6 +1,6 @@
 import { Resolver, Args, Mutation } from '@nestjs/graphql';
 
-import { UserEntity } from '../user.entity';
+import { User } from '../user.entity';
 import { UsersService } from '../users.service';
 import { UserOutput, RegisterInput } from '../users.types';
 import { HttpException, HttpStatus } from '@nestjs/common';
@@ -8,7 +8,7 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 const bcrypt = require('bcrypt');
 const saltRounds = 11;
 
-@Resolver(of => UserEntity)
+@Resolver(of => User)
 export class UsersRegister {
   constructor(private usersService: UsersService) {}
 
@@ -19,7 +19,7 @@ export class UsersRegister {
         "Ce login est déja attribué à un compte. Choisir un autre login s'il vous plaie.",
         HttpStatus.NOT_ACCEPTABLE,
       );
-    const newUser = new UserEntity();
+    const newUser = new User();
 
     const passToHash = (await new Promise(function(resolve, reject) {
       bcrypt.hash(input.password, saltRounds, function(err, hash) {

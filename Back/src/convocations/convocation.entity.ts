@@ -8,13 +8,12 @@ import {
 } from 'typeorm';
 import { Field, ObjectType, ID } from '@nestjs/graphql';
 
-import { TableName } from '../utils/TableName';
-import { FolderEntity } from '../folders/folder.entity';
-import { PvEntity } from '../pvs/pv.entity';
+import { Folder } from '../folders/folder.entity';
+import { Pv } from '../pvs/pv.entity';
 
 @ObjectType()
-@Entity({ name: TableName.Convocation })
-export class ConvocationEntity {
+@Entity({ name: 'convocation' })
+export class Convocation {
   @Field(() => ID)
   @PrimaryColumn({ name: 'num_register' })
   numRegister: number;
@@ -39,15 +38,15 @@ export class ConvocationEntity {
   @Column({ name: 'num_requisition' })
   numRequisition: string;
 
-  @ManyToOne(() => FolderEntity)
+  @ManyToOne(() => Folder)
   @JoinColumn({ name: 'folder_id' })
-  folder: FolderEntity;
-  @RelationId((convocation: ConvocationEntity) => convocation.folder)
+  folder: Folder;
+  @RelationId((convocation: Convocation) => convocation.folder)
   folderId: number;
 
-  @ManyToOne(() => PvEntity)
+  @ManyToOne(() => Pv)
   @JoinColumn({ name: 'num_pv' })
-  pv: PvEntity;
-  @RelationId((convocation: ConvocationEntity) => convocation.pv)
+  pv: Pv;
+  @RelationId((convocation: Convocation) => convocation.pv)
   numPv: number;
 }

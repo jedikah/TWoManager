@@ -1,24 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserEntity } from './user.entity';
+import { User } from './user.entity';
 import { UserOutput } from './users.types';
 
 const bcrypt = require('bcrypt');
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(UserEntity)
-    private usersRepository: Repository<UserEntity>,
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
   ) {}
 
   // Get
 
-  async getUsers(): Promise<UserEntity[]> {
-    return await this.usersRepository.find();
+  async getUsers(): Promise<User[]> {
+    return this.usersRepository.find();
   }
 
-  async getUserByLogin(login: string): Promise<UserEntity> {
+  async getUserById(userId: number): Promise<User> {
+    return this.usersRepository.findOne(userId);
+  }
+
+  async getUserByLogin(login: string): Promise<User> {
     const user = await this.usersRepository.find({
       select: [
         'userId',
@@ -36,12 +40,12 @@ export class UsersService {
   }
 
   async getUsersCount(): Promise<number> {
-    return await this.usersRepository.count();
+    return this.usersRepository.count();
   }
 
   // Add
 
-  async setRegister(newUser: UserEntity): Promise<UserOutput> {
+  async setRegister(newUser: User): Promise<UserOutput> {
     const user = await this.usersRepository.save(newUser);
     const { password, folders, ...userOutput } = user;
     return userOutput as UserOutput;
@@ -50,7 +54,7 @@ export class UsersService {
   // Utiles
 
   async pwdCompare(inputPwd: string, pwd: string): Promise<boolean> {
-    return await new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       bcrypt.compare(inputPwd, pwd, (err, result) => {
         if (!result) resolve(result);
         else resolve(result);

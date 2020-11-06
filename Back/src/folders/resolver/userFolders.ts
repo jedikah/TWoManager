@@ -4,7 +4,7 @@ import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 import { CurrentUser } from '../../auths/currentUser';
 import { GqlAuthGuard } from '../../auths/jwt-auth.guard';
 import { UserOutput } from '../../users/users.types';
-import { FolderEntity } from '../folder.entity';
+import { Folder } from '../folder.entity';
 import { FoldersService } from '../folders.service';
 import { FoldersFilterInput, FoldersResult } from '../folder.types';
 import { ClientsService } from '../../clients/clients.service';
@@ -12,7 +12,7 @@ import { UsersService } from '../../users/users.service';
 import { PaginationInput } from '../../types';
 import { SelectQueryBuilder } from 'typeorm';
 
-@Resolver(of => FolderEntity)
+@Resolver(of => Folder)
 export class UserFolders {
   constructor(
     private foldersServices: FoldersService,
@@ -27,9 +27,9 @@ export class UserFolders {
     @Args('paginationInput') paginationInput: PaginationInput,
     @Args('foldersFilterInput') foldersFilterInput: FoldersFilterInput,
   ): Promise<FoldersResult> {
-    const user = await this.usersServices.getUserByLogin(currentUser.login);
+    const getUser = await this.usersServices.getUserByLogin(currentUser.login);
 
-    if (!user)
+    if (!getUser)
       throw new HttpException(
         "Vous n'êtes pas connecté.",
         HttpStatus.NOT_ACCEPTABLE,
@@ -49,9 +49,9 @@ export class UserFolders {
       ? (groundName = foldersFilterInput.groundName)
       : (groundName = '');
 
-    const request: SelectQueryBuilder<FolderEntity> = this.foldersServices.foldersByUser(
+    const request: SelectQueryBuilder<Folder> = this.foldersServices.foldersByUser(
       {
-        userId: user.userId,
+        userId: getUser.userId,
         register,
         numTitle,
         groundName,

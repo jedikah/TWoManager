@@ -7,11 +7,11 @@ import {
   PartialType,
 } from '@nestjs/graphql';
 import { PaginationMeta } from '../types';
-import { FolderEntity } from './folder.entity';
+import { Folder } from './folder.entity';
 
 @InputType()
 export class FolderUpdateInput extends PartialType(
-  OmitType(FolderEntity, ['client', 'facture', 'user']),
+  OmitType(Folder, ['client', 'facture', 'user']),
   InputType,
 ) {
   @Field(() => ID)
@@ -53,7 +53,7 @@ export class FolderUpdateInput extends PartialType(
 
 @InputType()
 export class FolderAddInput extends PartialType(
-  OmitType(FolderEntity, ['client', 'facture', 'user']),
+  OmitType(Folder, ['client', 'facture', 'user']),
   InputType,
 ) {
   @Field(() => ID, { nullable: true })
@@ -107,8 +107,8 @@ export class FoldersFilterInput {
 
 @ObjectType()
 export class FoldersResult {
-  @Field(() => [FolderEntity])
-  folders: FolderEntity[];
+  @Field(() => [Folder])
+  folders: Folder[];
 
   @Field(() => PaginationMeta)
   paginationMeta: PaginationMeta;

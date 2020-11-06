@@ -1,14 +1,14 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { ClientEntity } from './client.entity';
+import { Client } from './client.entity';
 import { ClientsResolver } from './resolvers';
 import { ClientsService } from './clients.service';
 import { CollaboratesModule } from '../collaborations/collaborates.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([ClientEntity]),
+    TypeOrmModule.forFeature([Client]),
     forwardRef(() => CollaboratesModule),
   ],
   providers: [...ClientsResolver, ClientsService],

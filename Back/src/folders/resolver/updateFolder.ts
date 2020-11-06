@@ -4,13 +4,13 @@ import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 import { CurrentUser } from '../../auths/currentUser';
 import { GqlAuthGuard } from '../../auths/jwt-auth.guard';
 import { UserOutput } from '../../users/users.types';
-import { FolderEntity } from '../folder.entity';
+import { Folder } from '../folder.entity';
 import { FoldersService } from '../folders.service';
 import { FolderUpdateInput } from '../folder.types';
 import { ClientsService } from '../../clients/clients.service';
 import { UsersService } from '../../users/users.service';
 
-@Resolver(of => FolderEntity)
+@Resolver(of => Folder)
 export class UpdateFolder {
   constructor(
     private foldersServices: FoldersService,
@@ -18,18 +18,18 @@ export class UpdateFolder {
     private usersServices: UsersService,
   ) {}
 
-  @Mutation(() => FolderEntity)
+  @Mutation(() => Folder)
   @UseGuards(GqlAuthGuard)
   async updateFolder(
     @CurrentUser() currentUser: UserOutput,
     @Args('input') input: FolderUpdateInput,
-  ): Promise<FolderEntity> {
+  ): Promise<Folder> {
     const client = await this.clientsServices.getClientById(input.clientId);
     const user = await this.usersServices.getUserByLogin(currentUser.login);
-    const newFolder = new FolderEntity();
+    const newFolder = new Folder();
 
     if (client) {
-      Object.assign<FolderEntity, Partial<FolderEntity>>(newFolder, {
+      Object.assign<Folder, Partial<Folder>>(newFolder, {
         user,
         client,
         register: input.register,

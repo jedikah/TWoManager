@@ -1,13 +1,12 @@
-import { TableName } from '../utils/TableName';
 import { Entity, Column, ManyToOne, JoinColumn, RelationId } from 'typeorm';
 import { Field, ObjectType } from '@nestjs/graphql';
 
-import { UserEntity } from '../users/user.entity';
-import { ClientEntity } from '../clients/client.entity';
+import { User } from '../users/user.entity';
+import { Client } from '../clients/client.entity';
 
 @ObjectType()
-@Entity({ name: TableName.Collaborate })
-export class CollaborateEntity {
+@Entity({ name: 'collaborate' })
+export class Collaborate {
   @Field()
   @Column({ name: 'created_at' })
   createdAt: Date;
@@ -16,17 +15,17 @@ export class CollaborateEntity {
   @Column({ name: 'updated_at' })
   updatedAt: Date;
 
-  @Field(() => UserEntity)
-  @ManyToOne(() => UserEntity, { primary: true })
+  @Field(() => User)
+  @ManyToOne(() => User, { primary: true })
   @JoinColumn({ name: 'user_id' })
-  user: UserEntity;
-  @RelationId((collaboration: CollaborateEntity) => collaboration.user)
+  user: User;
+  @RelationId((collaboration: Collaborate) => collaboration.user)
   userId: number;
 
-  @Field(() => ClientEntity)
-  @ManyToOne(() => ClientEntity, { primary: true })
+  @Field(() => Client)
+  @ManyToOne(() => Client, { primary: true })
   @JoinColumn({ name: 'client_id' })
-  client: ClientEntity;
-  @RelationId((collaboration: CollaborateEntity) => collaboration.client)
+  client: Client;
+  @RelationId((collaboration: Collaborate) => collaboration.client)
   clientId: number;
 }

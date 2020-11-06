@@ -1,12 +1,12 @@
 import { Resolver, Args, Mutation } from '@nestjs/graphql';
 import { HttpException, HttpStatus } from '@nestjs/common';
 
-import { UserEntity } from '../user.entity';
+import { User } from '../user.entity';
 import { UsersService } from '../users.service';
 import { LogInInput, LogInOutput } from '../users.types';
 import { AuthsService } from '../../auths/auths.service';
 
-@Resolver(of => UserEntity)
+@Resolver(() => User)
 export class UsersLogIn {
   constructor(
     private usersService: UsersService,
@@ -17,7 +17,7 @@ export class UsersLogIn {
   async login(@Args('input') input: LogInInput): Promise<LogInOutput> {
     const user = (await this.usersService.getUserByLogin(
       input.login.toLocaleLowerCase(),
-    )) as UserEntity;
+    )) as User;
 
     if (user) {
       const isMatch = await this.usersService.pwdCompare(

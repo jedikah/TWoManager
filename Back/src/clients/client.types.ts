@@ -6,10 +6,10 @@ import {
   Int,
   PartialType,
 } from '@nestjs/graphql';
-import { ClientEntity } from './client.entity';
+import { Client } from './client.entity';
 
 @InputType()
-export class ClientAddInput extends PartialType(ClientEntity, InputType) {
+export class ClientAddInput extends PartialType(Client, InputType) {
   @Field(() => ID, { nullable: true })
   clientId?: number;
 
@@ -24,7 +24,7 @@ export class ClientAddInput extends PartialType(ClientEntity, InputType) {
 }
 
 @InputType()
-export class ClientUpdateInput extends PartialType(ClientEntity, InputType) {
+export class ClientUpdateInput extends PartialType(Client, InputType) {
   @Field(() => ID)
   clientId: number;
 

@@ -1,23 +1,23 @@
 import { ConnectionOptions } from 'typeorm';
 
-import { ClientEntity } from '../clients/client.entity';
-import { CollaborateEntity } from '../collaborations/collaborate.entity';
-import { ConvocationEntity } from '../convocations/convocation.entity';
-import { FactureEntity } from '../factures/facture.entity';
-import { FolderEntity } from '../folders/folder.entity';
-import { LetterEntity } from '../letters/letter.entity';
-import { PvEntity } from '../pvs/pv.entity';
-import { UserEntity } from '../users/user.entity';
+import { Client } from '../clients/client.entity';
+import { Collaborate } from '../collaborations/collaborate.entity';
+import { Convocation } from '../convocations/convocation.entity';
+import { Facture } from '../factures/facture.entity';
+import { Folder } from '../folders/folder.entity';
+import { Letter } from '../letters/letter.entity';
+import { Pv } from '../pvs/pv.entity';
+import { User } from '../users/user.entity';
 
 const Entity = [
-  ClientEntity,
-  CollaborateEntity,
-  ConvocationEntity,
-  FactureEntity,
-  FolderEntity,
-  LetterEntity,
-  PvEntity,
-  UserEntity,
+  Client,
+  Collaborate,
+  Convocation,
+  Facture,
+  Folder,
+  Letter,
+  Pv,
+  User,
 ];
 
 export interface GraphqlConfigs {

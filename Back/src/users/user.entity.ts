@@ -1,12 +1,11 @@
-import { TableName } from '../utils/TableName';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { Field, ObjectType, ID } from '@nestjs/graphql';
 
-import { FolderEntity } from '../folders/folder.entity';
+import { Folder } from '../folders/folder.entity';
 
 @ObjectType()
-@Entity({ name: TableName.User })
-export class UserEntity {
+@Entity({ name: 'user' })
+export class User {
   @Field(() => ID)
   @PrimaryGeneratedColumn({ name: 'user_id' })
   userId: number;
@@ -35,6 +34,6 @@ export class UserEntity {
   @Column({ name: 'status', nullable: true })
   status?: boolean;
 
-  @Field(() => [FolderEntity])
-  folders: FolderEntity[];
+  @Field(() => [Folder])
+  folders: Folder[];
 }

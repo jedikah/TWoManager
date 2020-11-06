@@ -1,14 +1,14 @@
 import { Resolver, Query, Args, Mutation } from '@nestjs/graphql';
 import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 
-import { UserEntity } from '../user.entity';
+import { User } from '../user.entity';
 import { UsersService } from '../users.service';
 import { LogInInput, UserOutput } from '../users.types';
 import { AuthsService } from '../../auths/auths.service';
 import { CurrentUser } from '../../auths/currentUser';
 import { GqlAuthGuard } from '../../auths/jwt-auth.guard';
 
-@Resolver(of => UserEntity)
+@Resolver(() => User)
 export class UsersLogInSession {
   constructor(
     private usersService: UsersService,
@@ -25,7 +25,7 @@ export class UsersLogInSession {
     if (users) {
       const user = (await this.usersService.getUserByLogin(
         input.login.toLocaleLowerCase(),
-      )) as UserEntity;
+      )) as User;
 
       response = await this.usersService.pwdCompare(
         input.password,

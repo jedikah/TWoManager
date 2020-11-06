@@ -1,9 +1,9 @@
 import { Field, InputType, OmitType, PartialType } from '@nestjs/graphql';
-import { LetterEntity } from './letter.entity';
+import { Letter } from './letter.entity';
 
 @InputType()
 export class LetterAddInput extends PartialType(
-  OmitType(LetterEntity, ['folder']),
+  OmitType(Letter, ['folder']),
   InputType,
 ) {
   @Field()
@@ -19,8 +19,8 @@ export class LetterAddInput extends PartialType(
   letterTown: string;
 
   @Field()
-  createdAt: Date;
-
-  @Field()
   object: string;
 }
+
+@InputType()
+export class LetterUpdateInput extends LetterAddInput {}

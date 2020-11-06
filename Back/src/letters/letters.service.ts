@@ -1,16 +1,27 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { LetterEntity } from './letter.entity';
+import { Folder } from '../folders/folder.entity';
+import { Letter } from './letter.entity';
 
 @Injectable()
 export class LettersService {
   constructor(
-    @InjectRepository(LetterEntity)
-    private LetterRepository: Repository<LetterEntity>,
+    @InjectRepository(Letter)
+    private LetterRepository: Repository<Letter>,
   ) {}
 
-  async addLetter(letter: LetterEntity): Promise<LetterEntity> {
+  async addLetter(letter: Letter): Promise<Letter> {
+    return this.LetterRepository.save(letter);
+  }
+
+  async getLetterByFolder(folder: Folder): Promise<Letter> {
+    return this.LetterRepository.findOne({
+      where: { folder },
+    });
+  }
+
+  async updateLetter(letter: Letter): Promise<Letter> {
     return this.LetterRepository.save(letter);
   }
 }

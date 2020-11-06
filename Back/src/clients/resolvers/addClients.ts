@@ -1,34 +1,34 @@
 import { Resolver, Mutation, Args } from '@nestjs/graphql';
 import { UseGuards } from '@nestjs/common';
 
-import { ClientEntity } from '../client.entity';
+import { Client } from '../client.entity';
 import { ClientAddInput } from '../client.types';
 import { ClientsService } from '../clients.service';
 import { CurrentUser } from '../../auths/currentUser';
 import { GqlAuthGuard } from '../../auths/jwt-auth.guard';
 import { UserOutput } from '../../users/users.types';
-import { CollaborateEntity } from '../../collaborations/collaborate.entity';
-import { UserEntity } from '../../users/user.entity';
+import { Collaborate } from '../../collaborations/collaborate.entity';
+import { User } from '../../users/user.entity';
 import dateNow from '../../utils/dateFormat';
 import { CollaborationsService } from '../../collaborations/collaborations.service';
 
-@Resolver(of => ClientEntity)
+@Resolver(of => Client)
 export class AddClients {
   constructor(
     private clientsService: ClientsService,
     private collaborateService: CollaborationsService,
   ) {}
 
-  @Mutation(() => ClientEntity)
+  @Mutation(() => Client)
   @UseGuards(GqlAuthGuard)
   async addClientByUser(
     @CurrentUser() user: UserOutput,
     @Args('input')
     input: ClientAddInput,
-  ): Promise<ClientEntity> {
-    const newClient = new ClientEntity();
+  ): Promise<Client> {
+    const newClient = new Client();
 
-    Object.assign<ClientEntity, Partial<ClientEntity>>(newClient, {
+    Object.assign<Client, Partial<Client>>(newClient, {
       clientName: input.clientName,
       domicile: input.domicile,
       contact: input.contact,
@@ -37,20 +37,20 @@ export class AddClients {
     const clientResponse = await this.clientsService.addClientByUser(newClient);
 
     if (clientResponse) {
-      const newCollaborateEntity = new CollaborateEntity();
-      const newUser = new UserEntity();
-      const newClient = new ClientEntity();
+      const newCollaborate = new Collaborate();
+      const newUser = new User();
+      const newClient = new Client();
 
       newClient.clientId = clientResponse.clientId;
 
       newUser.userId = user.userId;
 
-      newCollaborateEntity.user = newUser;
-      newCollaborateEntity.client = newClient;
-      newCollaborateEntity.createdAt = dateNow();
-      newCollaborateEntity.updatedAt = dateNow();
+      newCollaborate.user = newUser;
+      newCollaborate.client = newClient;
+      newCollaborate.createdAt = dateNow();
+      newCollaborate.updatedAt = dateNow();
 
-      await this.collaborateService.addCollaboration(newCollaborateEntity);
+      await this.collaborateService.addCollaboration(newCollaborate);
     }
 
     return clientResponse;

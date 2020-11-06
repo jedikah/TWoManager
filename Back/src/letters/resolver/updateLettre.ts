@@ -1,18 +1,14 @@
 import { Resolver, Mutation, Args } from '@nestjs/graphql';
 import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 
-import { CurrentUser } from '../../auths/currentUser';
 import { GqlAuthGuard } from '../../auths/jwt-auth.guard';
-import { UserOutput } from '../../users/users.types';
-import { ClientsService } from '../../clients/clients.service';
-import { UsersService } from '../../users/users.service';
 import { Letter } from '../letter.entity';
 import { LettersService } from '../letters.service';
-import { LetterAddInput } from '../letter.type';
+import { LetterUpdateInput } from '../letter.type';
 import { FoldersService } from '../../folders/folders.service';
 
-@Resolver(of => Letter)
-export class AddLetter {
+@Resolver(() => Letter)
+export class UpdateLetter {
   constructor(
     private foldersServices: FoldersService,
     private lettersServices: LettersService,
@@ -20,25 +16,29 @@ export class AddLetter {
 
   @Mutation(() => Letter)
   @UseGuards(GqlAuthGuard)
-  async addLetter(@Args('input') input: LetterAddInput): Promise<Letter> {
+  async updateLetter(@Args('input') input: LetterUpdateInput): Promise<Letter> {
     const folder = await this.foldersServices.FolderById(input.folderId);
     const newLetter = new Letter();
+    const letter = await this.lettersServices.getLetterByFolder(folder);
 
     if (folder) {
       Object.assign<Letter, Partial<Letter>>(newLetter, {
         numRtx: input.numRtx,
         dateRtx: input.dateRtx,
         letterTown: input.letterTown,
-        // createdAt: input.createdAt,
         object: input.object,
         folder,
       });
+      letter.numRtx = input.numRtx;
+      letter.dateRtx = input.dateRtx;
+      letter.letterTown = input.letterTown;
+      letter.object = input.object;
     } else
       throw new HttpException(
         "Le dossier associé à cette lettre n'existe pas encore.",
         HttpStatus.NOT_ACCEPTABLE,
       );
 
-    return await this.lettersServices.addLetter(newLetter);
+    return await this.lettersServices.updateLetter(letter);
   }
 }

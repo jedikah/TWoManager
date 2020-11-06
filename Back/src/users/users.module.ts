@@ -4,14 +4,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { AuthsService } from '../auths/auths.service';
 import { jwtConstants } from '../auths/constants';
-import { UserEntity } from './user.entity';
+import { User } from './user.entity';
 import { JwtStrategy } from '../auths/jwt.strategy';
 import { UsersResolver } from './resolvers';
 import { UsersService } from './users.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserEntity]),
+    TypeOrmModule.forFeature([User]),
     JwtModule.register({
       secret: jwtConstants.secret,
       signOptions: { expiresIn: jwtConstants.expiresIn },

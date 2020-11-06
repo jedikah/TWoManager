@@ -5,12 +5,10 @@ import * as FormData from 'form-data';
 import axios from 'axios';
 // import { createWriteStream } from 'fs';
 
-import { UserEntity } from '../user.entity';
+import { User } from '../user.entity';
 
-@Resolver(of => UserEntity)
+@Resolver(() => User)
 export class UsersUpload {
-  constructor() {}
-
   @Mutation(() => Boolean)
   async uploadFile(
     @Args({ name: 'file', type: () => GraphQLUpload })

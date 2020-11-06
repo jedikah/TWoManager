@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 
-import { CollaborateEntity } from './collaborate.entity';
+import { Collaborate } from './collaborate.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   IPaginationOptions,
@@ -12,24 +12,22 @@ import {
 @Injectable()
 export class CollaborationsService {
   constructor(
-    @InjectRepository(CollaborateEntity)
-    private collaborateRepository: Repository<CollaborateEntity>,
+    @InjectRepository(Collaborate)
+    private collaborateRepository: Repository<Collaborate>,
   ) {}
 
   async paginate(
-    qb: SelectQueryBuilder<CollaborateEntity>,
+    qb: SelectQueryBuilder<Collaborate>,
     options: IPaginationOptions,
-  ): Promise<Pagination<CollaborateEntity>> {
-    return paginate<CollaborateEntity>(qb, options);
+  ): Promise<Pagination<Collaborate>> {
+    return paginate<Collaborate>(qb, options);
   }
 
-  async addCollaboration(
-    collaborate: CollaborateEntity,
-  ): Promise<CollaborateEntity> {
+  async addCollaboration(collaborate: Collaborate): Promise<Collaborate> {
     return await this.collaborateRepository.save(collaborate);
   }
 
-  getUserClients(userId: number): SelectQueryBuilder<CollaborateEntity> {
+  getUserClients(userId: number): SelectQueryBuilder<Collaborate> {
     return this.collaborateRepository
       .createQueryBuilder('collaborate')
       .where('collaborate.user_id=:user_id', { user_id: userId })

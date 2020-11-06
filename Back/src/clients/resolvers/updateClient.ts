@@ -1,7 +1,7 @@
 import { Resolver, Args, Mutation } from '@nestjs/graphql';
 import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 
-import { ClientEntity } from '../client.entity';
+import { Client } from '../client.entity';
 import { GqlAuthGuard } from '../../auths/jwt-auth.guard';
 import { ClientsService } from '../clients.service';
 import { ClientUpdateInput } from '../client.types';
@@ -10,14 +10,12 @@ import { ClientUpdateInput } from '../client.types';
 export class UpdateClient {
   constructor(private clientsService: ClientsService) {}
 
-  @Mutation(() => ClientEntity)
+  @Mutation(() => Client)
   @UseGuards(GqlAuthGuard)
-  async updateClient(
-    @Args('input') input: ClientUpdateInput,
-  ): Promise<ClientEntity> {
-    let client = new ClientEntity();
+  async updateClient(@Args('input') input: ClientUpdateInput): Promise<Client> {
+    let client = new Client();
     client = await this.clientsService.getClientById(input.clientId);
-    Object.assign<ClientEntity, Partial<ClientEntity>>(client, {
+    Object.assign<Client, Partial<Client>>(client, {
       clientName: input.clientName,
       domicile: input.domicile,
       contact: input.contact,

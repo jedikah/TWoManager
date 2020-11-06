@@ -1,20 +1,20 @@
 import { Resolver, Query, Int, ResolveField, Root } from '@nestjs/graphql';
 import { HttpException, HttpStatus, UseGuards } from '@nestjs/common';
 
-import { UserEntity } from '../user.entity';
-import { FolderEntity } from '../../folders/folder.entity';
+import { User } from '../user.entity';
+import { Folder } from '../../folders/folder.entity';
 import { UsersService } from '../users.service';
 import { UserOutput } from '../users.types';
 import { CurrentUser } from '../../auths/currentUser';
 import { GqlAuthGuard } from '../../auths/jwt-auth.guard';
 
-@Resolver(of => UserEntity)
+@Resolver(of => User)
 export class UsersList {
   constructor(private usersService: UsersService) {}
 
-  @Query(() => [UserEntity], { nullable: true })
+  @Query(() => [User], { nullable: true })
   @UseGuards(GqlAuthGuard)
-  async users(@CurrentUser() users: UserOutput): Promise<UserEntity[]> {
+  async users(@CurrentUser() users: UserOutput): Promise<User[]> {
     if (users) return await this.usersService.getUsers();
 
     throw new HttpException(
@@ -23,8 +23,8 @@ export class UsersList {
     );
   }
 
-  @ResolveField(() => [FolderEntity])
-  folders(@Root() user: UserEntity): Promise<FolderEntity[]> {
+  @ResolveField(() => [Folder])
+  folders(@Root() user: User): Promise<Folder[]> {
     //
     return Promise.resolve([]);
   }

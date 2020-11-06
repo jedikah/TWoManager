@@ -2,25 +2,25 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { ClientEntity } from '../clients/client.entity';
+import { Client } from '../clients/client.entity';
 import { UserOutput } from '../users/users.types';
 
 @Injectable()
 export class ClientsService {
   constructor(
-    @InjectRepository(ClientEntity)
-    private clientsRepository: Repository<ClientEntity>,
+    @InjectRepository(Client)
+    private clientsRepository: Repository<Client>,
   ) {}
 
-  getClientById(clientId: number): Promise<ClientEntity> {
+  getClientById(clientId: number): Promise<Client> {
     return this.clientsRepository.findOne(clientId);
   }
 
-  async addClientByUser(addClient: ClientEntity): Promise<ClientEntity> {
+  async addClientByUser(addClient: Client): Promise<Client> {
     return this.clientsRepository.save(addClient);
   }
 
-  async getClientsListByUser(user: UserOutput): Promise<ClientEntity[]> {
+  async getClientsListByUser(user: UserOutput): Promise<Client[]> {
     const response = this.clientsRepository.find({
       relations: ['user'],
       where: {
@@ -33,7 +33,7 @@ export class ClientsService {
     return response;
   }
 
-  async updateClient(client: ClientEntity): Promise<ClientEntity> {
+  async updateClient(client: Client): Promise<Client> {
     return this.clientsRepository.save(client);
   }
 }
