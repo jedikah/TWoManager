@@ -16,10 +16,9 @@ export type Scalars = {
 
 export type Query = {
   __typename?: 'Query';
-  clientListByUser: Array<ClientEntity>;
   userClients: ClientsCollaborateResult;
   userFolders: FoldersResult;
-  users?: Maybe<Array<UserEntity>>;
+  users?: Maybe<Array<User>>;
   usersCount: Scalars['Int'];
 };
 
@@ -34,14 +33,6 @@ export type QueryUserFoldersArgs = {
   paginationInput: PaginationInput;
 };
 
-export type ClientEntity = {
-  __typename?: 'ClientEntity';
-  clientId: Scalars['ID'];
-  clientName: Scalars['String'];
-  contact?: Maybe<Scalars['String']>;
-  domicile?: Maybe<Scalars['String']>;
-};
-
 export type PaginationInput = {
   limit: Scalars['Float'];
   page: Scalars['Float'];
@@ -49,8 +40,16 @@ export type PaginationInput = {
 
 export type ClientsCollaborateResult = {
   __typename?: 'ClientsCollaborateResult';
-  clients: Array<ClientEntity>;
+  clients: Array<Client>;
   paginationMeta: PaginationMeta;
+};
+
+export type Client = {
+  __typename?: 'Client';
+  clientId: Scalars['ID'];
+  clientName: Scalars['String'];
+  contact?: Maybe<Scalars['String']>;
+  domicile?: Maybe<Scalars['String']>;
 };
 
 export type PaginationMeta = {
@@ -70,15 +69,15 @@ export type FoldersFilterInput = {
 
 export type FoldersResult = {
   __typename?: 'FoldersResult';
-  folders: Array<FolderEntity>;
+  folders: Array<Folder>;
   paginationMeta: PaginationMeta;
 };
 
-export type FolderEntity = {
-  __typename?: 'FolderEntity';
-  client: ClientEntity;
+export type Folder = {
+  __typename?: 'Folder';
+  client: Client;
   dateTrav: Scalars['DateTime'];
-  facture?: Maybe<FactureEntity>;
+  facture?: Maybe<Facture>;
   fokontany: Scalars['String'];
   folderId: Scalars['ID'];
   groundName: Scalars['String'];
@@ -87,19 +86,19 @@ export type FolderEntity = {
   price?: Maybe<Scalars['Float']>;
   register: Scalars['String'];
   typeTrav: Scalars['String'];
-  user?: Maybe<UserEntity>;
+  user?: Maybe<User>;
 };
 
 
-export type FactureEntity = {
-  __typename?: 'FactureEntity';
-  dateFacture: Scalars['DateTime'];
+export type Facture = {
+  __typename?: 'Facture';
+  dateFacture: Scalars['Float'];
   factureId: Scalars['ID'];
 };
 
-export type UserEntity = {
-  __typename?: 'UserEntity';
-  folders: Array<FolderEntity>;
+export type User = {
+  __typename?: 'User';
+  folders: Array<Folder>;
   login: Scalars['String'];
   password: Scalars['String'];
   photo?: Maybe<Scalars['String']>;
@@ -111,15 +110,17 @@ export type UserEntity = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  addClientByUser: ClientEntity;
-  addFolder: FolderEntity;
-  addLetter: LetterEntity;
+  addClientByUser: Client;
+  addFolder: Folder;
+  addLetter: Letter;
+  addPv: Pv;
   checkToken: CheckTokenOutput;
   login: LogInOutput;
   loginSession: Scalars['Boolean'];
   register: UserOutput;
-  updateClient: ClientEntity;
-  updateFolder: FolderEntity;
+  updateClient: Client;
+  updateFolder: Folder;
+  updateLetter: Letter;
   uploadFile: Scalars['Boolean'];
 };
 
@@ -136,6 +137,11 @@ export type MutationAddFolderArgs = {
 
 export type MutationAddLetterArgs = {
   input: LetterAddInput;
+};
+
+
+export type MutationAddPvArgs = {
+  input: PvAddInput;
 };
 
 
@@ -169,6 +175,11 @@ export type MutationUpdateFolderArgs = {
 };
 
 
+export type MutationUpdateLetterArgs = {
+  input: LetterUpdateInput;
+};
+
+
 export type MutationUploadFileArgs = {
   file: Scalars['Upload'];
   login: Scalars['String'];
@@ -197,22 +208,42 @@ export type FolderAddInput = {
 };
 
 export type LetterAddInput = {
-  createdAt: Scalars['DateTime'];
   dateRtx: Scalars['DateTime'];
   folderId: Scalars['Float'];
+  id?: Maybe<Scalars['ID']>;
   letterTown: Scalars['String'];
   numRtx: Scalars['String'];
   object: Scalars['String'];
 };
 
-export type LetterEntity = {
-  __typename?: 'LetterEntity';
-  createdAt: Scalars['DateTime'];
+export type Letter = {
+  __typename?: 'Letter';
   dateRtx: Scalars['DateTime'];
-  folder?: Maybe<FolderEntity>;
+  folder?: Maybe<Folder>;
+  id: Scalars['ID'];
   letterTown: Scalars['String'];
   numRtx: Scalars['String'];
   object: Scalars['String'];
+};
+
+export type PvAddInput = {
+  attachments?: Maybe<Scalars['String']>;
+  cause?: Maybe<Scalars['String']>;
+  commune?: Maybe<Scalars['String']>;
+  district?: Maybe<Scalars['String']>;
+  folderId: Scalars['Float'];
+  region?: Maybe<Scalars['String']>;
+};
+
+export type Pv = {
+  __typename?: 'Pv';
+  attachments: Scalars['String'];
+  cause: Scalars['String'];
+  commune: Scalars['String'];
+  district: Scalars['String'];
+  folder?: Maybe<Folder>;
+  pvId: Scalars['ID'];
+  region: Scalars['String'];
 };
 
 export type CheckTokenOutput = {
@@ -275,5 +306,14 @@ export type FolderUpdateInput = {
   register: Scalars['String'];
   typeTrav: Scalars['String'];
   userId?: Maybe<Scalars['Float']>;
+};
+
+export type LetterUpdateInput = {
+  dateRtx: Scalars['DateTime'];
+  folderId: Scalars['Float'];
+  id?: Maybe<Scalars['ID']>;
+  letterTown: Scalars['String'];
+  numRtx: Scalars['String'];
+  object: Scalars['String'];
 };
 

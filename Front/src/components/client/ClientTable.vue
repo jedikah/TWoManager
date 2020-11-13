@@ -37,6 +37,7 @@
         </q-tr>
       </template>
     </q-table>
+    {{ state.data }}
   </div>
 </template>
 

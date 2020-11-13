@@ -40,6 +40,7 @@ export const useClientsUser = () => {
 
   function pushData(data: UserClientData) {
     data.userClients.clients.forEach(client => {
+      client.clientName;
       state.data.splice(state.lastIndex, 1, {
         index: ++state.lastIndex,
         ...client
@@ -53,6 +54,8 @@ export const useClientsUser = () => {
       state.data = new Array(state.meta.totalItems);
     }
     if (errors) notifyThere(errors);
+
+    console.log(data.userClients.clients);
 
     if (!loading && state.meta.currentPage <= state.meta.totalPages) {
       pushData(data);
