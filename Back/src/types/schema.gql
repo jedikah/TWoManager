@@ -45,7 +45,7 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type Facture {
-  dateFacture: DateTime!
+  dateFacture: Float!
   factureId: ID!
 }
 
@@ -146,6 +146,7 @@ type Mutation {
   addClientByUser(input: ClientAddInput!): Client!
   addFolder(input: FolderAddInput!): Folder!
   addLetter(input: LetterAddInput!): Letter!
+  addPv(input: PvAddInput!): Pv!
   checkToken(input: String!): CheckTokenOutput!
   login(input: LogInInput!): LogInOutput!
   loginSession(input: LogInInput!): Boolean!
@@ -167,6 +168,25 @@ type PaginationMeta {
   itemsPerPage: Float!
   totalItems: Float!
   totalPages: Float!
+}
+
+type Pv {
+  attachments: String!
+  cause: String!
+  commune: String!
+  district: String!
+  folder: Folder
+  pvId: ID!
+  region: String!
+}
+
+input PvAddInput {
+  attachments: String
+  cause: String
+  commune: String
+  district: String
+  folderId: Float!
+  region: String
 }
 
 type Query {

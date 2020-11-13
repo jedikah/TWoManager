@@ -1,3 +1,3 @@
-import { FoldersFieldResolver } from './folders.resolver-field';
+import { FoldersFieldResolver } from './folders.field-resolver';
 
 export const FoldersFielResolver = [FoldersFieldResolver];

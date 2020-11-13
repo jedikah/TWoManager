@@ -10,5 +10,5 @@ export class Facture {
 
   @Field()
   @Column({ name: 'date_facture' })
-  dateFacture: Date;
+  dateFacture: number;
 }

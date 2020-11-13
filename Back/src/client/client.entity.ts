@@ -9,14 +9,14 @@ export class Client {
   clientId: number;
 
   @Field()
-  @Column({ name: 'client_name' })
+  @Column({ name: 'client_name', length: 35 })
   clientName: string;
 
   @Field({ nullable: true })
-  @Column({ name: 'domicile' })
+  @Column({ name: 'domicile', length: 50 })
   domicile: string;
 
   @Field({ nullable: true })
-  @Column({ name: 'contact' })
+  @Column({ name: 'contact', length: 10 })
   contact: string;
 }

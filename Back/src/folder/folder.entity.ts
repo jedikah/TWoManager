@@ -20,23 +20,23 @@ export class Folder {
   folderId: number;
 
   @Field()
-  @Column({ name: 'register' })
+  @Column({ name: 'register', length: 8 })
   register: string;
 
   @Field({ nullable: true })
-  @Column({ name: 'num_title', nullable: true })
+  @Column({ name: 'num_title', nullable: true, length: 8 })
   numTitle: string;
 
   @Field()
-  @Column({ name: 'ground_name' })
+  @Column({ name: 'ground_name', length: 30 })
   groundName: string;
 
   @Field()
-  @Column({ name: 'localisation_trav' })
+  @Column({ name: 'localisation_trav', length: 20 })
   localisationTrav: string;
 
   @Field()
-  @Column({ name: 'fokontany' })
+  @Column({ name: 'fokontany', length: 15 })
   fokontany: string;
 
   @Field()

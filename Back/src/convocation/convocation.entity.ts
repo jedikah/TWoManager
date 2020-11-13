@@ -23,23 +23,19 @@ export class Convocation {
   numRegister: number;
 
   @Field()
-  @Column({ name: 'name_pers_conv' })
+  @Column({ name: 'name_pers_conv', length: 35 })
   namePersConv: string;
 
   @Field()
   @Column({ name: 'convoke_on' })
-  convokeOn: Date;
+  convokeOn: number;
 
   @Field()
-  @Column({ name: 'at_town' })
+  @Column({ name: 'at_town', length: 20 })
   atTown: string;
 
   @Field()
-  @Column({ name: 'at_time' })
-  atTime: string;
-
-  @Field()
-  @Column({ name: 'num_requisition' })
+  @Column({ name: 'num_requisition', length: 8 })
   numRequisition: string;
 
   @ManyToOne(() => Folder)

@@ -18,7 +18,7 @@ export class Letter {
   id: number;
 
   @Field()
-  @Column({ name: 'num_rtx' })
+  @Column({ name: 'num_rtx', length: 8 })
   numRtx: string;
 
   @Field()
@@ -26,11 +26,11 @@ export class Letter {
   dateRtx: Date;
 
   @Field()
-  @Column({ name: 'letter_town' })
+  @Column({ name: 'letter_town', length: 15 })
   letterTown: string;
 
   @Field()
-  @Column({ name: 'object' })
+  @Column({ name: 'object', length: 80 })
   object: string;
 
   @OneToOne(() => Folder, { nullable: true })
