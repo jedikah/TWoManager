@@ -1,12 +1,12 @@
 import gql from 'graphql-tag';
-import { ClientEntity } from '../types';
+import { Client } from '../types';
 
 export interface AddClientByUserData {
-  addClientByUser: ClientEntity;
+  addClientByUser: Client;
 }
 
 export const ADDCLIENTBYUSER = gql`
-  mutation($input: ClientAddInput!) {
+  mutation AddClientByUser($input: ClientAddInput!) {
     addClientByUser(input: $input) {
       clientId
       clientName
