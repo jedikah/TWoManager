@@ -39,6 +39,24 @@ input ClientUpdateInput {
   domicile: String
 }
 
+type Convocation {
+  atTown: String!
+  convokeOn: DateTime!
+  id: ID!
+  namePersConv: String!
+  numRegister: Float!
+  numRequisition: String!
+}
+
+input ConvocationAddInput {
+  atTown: String!
+  convokeOn: DateTime!
+  folderId: Float!
+  namePersConv: String!
+  numRegister: Float!
+  numRequisition: String!
+}
+
 """
 A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
 """
@@ -144,6 +162,7 @@ type LogInOutput {
 
 type Mutation {
   addClientByUser(input: ClientAddInput!): Client!
+  addConvocation(input: ConvocationAddInput!): Convocation!
   addFolder(input: FolderAddInput!): Folder!
   addLetter(input: LetterAddInput!): Letter!
   addPv(input: PvAddInput!): Pv!

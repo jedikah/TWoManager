@@ -9,7 +9,6 @@ import {
 import { Field, ObjectType, ID } from '@nestjs/graphql';
 
 import { Folder } from '../folder/folder.entity';
-import { Pv } from '../pv/pv.entity';
 
 @ObjectType()
 @Entity({ name: 'convocation' })
@@ -27,8 +26,8 @@ export class Convocation {
   namePersConv: string;
 
   @Field()
-  @Column({ name: 'convoke_on' })
-  convokeOn: number;
+  @Column({ name: 'convoke_on', type: 'datetime' })
+  convokeOn: Date;
 
   @Field()
   @Column({ name: 'at_town', length: 20 })
@@ -43,10 +42,4 @@ export class Convocation {
   folder: Folder;
   @RelationId((convocation: Convocation) => convocation.folder)
   folderId: number;
-
-  @ManyToOne(() => Pv)
-  @JoinColumn({ name: 'num_pv' })
-  pv: Pv;
-  @RelationId((convocation: Convocation) => convocation.pv)
-  numPv: number;
 }
