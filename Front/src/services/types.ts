@@ -111,6 +111,7 @@ export type User = {
 export type Mutation = {
   __typename?: 'Mutation';
   addClientByUser: Client;
+  addConvocation: Convocation;
   addFolder: Folder;
   addLetter: Letter;
   addPv: Pv;
@@ -127,6 +128,11 @@ export type Mutation = {
 
 export type MutationAddClientByUserArgs = {
   input: ClientAddInput;
+};
+
+
+export type MutationAddConvocationArgs = {
+  input: ConvocationAddInput;
 };
 
 
@@ -190,6 +196,25 @@ export type ClientAddInput = {
   clientName: Scalars['String'];
   contact?: Maybe<Scalars['String']>;
   domicile?: Maybe<Scalars['String']>;
+};
+
+export type ConvocationAddInput = {
+  atTown: Scalars['String'];
+  convokeOn: Scalars['DateTime'];
+  folderId: Scalars['Float'];
+  namePersConv: Scalars['String'];
+  numRegister: Scalars['Float'];
+  numRequisition: Scalars['String'];
+};
+
+export type Convocation = {
+  __typename?: 'Convocation';
+  atTown: Scalars['String'];
+  convokeOn: Scalars['DateTime'];
+  id: Scalars['ID'];
+  namePersConv: Scalars['String'];
+  numRegister: Scalars['Float'];
+  numRequisition: Scalars['String'];
 };
 
 export type FolderAddInput = {

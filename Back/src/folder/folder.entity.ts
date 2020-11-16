@@ -24,7 +24,7 @@ export class Folder {
   register: string;
 
   @Field({ nullable: true })
-  @Column({ name: 'num_title', nullable: true, length: 8 })
+  @Column({ name: 'num_title', nullable: true, length: 8, default: '' })
   numTitle: string;
 
   @Field()
