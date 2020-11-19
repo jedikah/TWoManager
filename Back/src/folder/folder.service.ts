@@ -36,8 +36,8 @@ export class FolderServices {
       .andWhere('folder.groundName like :groundName', {
         groundName: `%${groundName}%`,
       })
-      .andWhere('folder.user_id like :user_id', {
-        user_id: `%${userId}%`,
+      .andWhere('folder.user_id = :user_id', {
+        user_id: userId,
       })
       .orderBy('folder.user_id', 'DESC');
   }

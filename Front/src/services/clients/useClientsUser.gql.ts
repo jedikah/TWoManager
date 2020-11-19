@@ -6,7 +6,7 @@ export interface UserClientData {
 }
 
 export const CLIENTSUSER = gql`
-  query($paginationInput: PaginationInput!) {
+  query UserClients($paginationInput: PaginationInput!) {
     userClients(paginationInput: $paginationInput) {
       clients {
         clientId

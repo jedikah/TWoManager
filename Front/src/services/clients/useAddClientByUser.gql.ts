@@ -6,7 +6,7 @@ export interface AddClientByUserData {
 }
 
 export const ADDCLIENTBYUSER = gql`
-  mutation($input: ClientAddInput!) {
+  mutation AddClientByUser($input: ClientAddInput!) {
     addClientByUser(input: $input) {
       clientId
       clientName

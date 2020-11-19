@@ -1,11 +1,8 @@
-import { Field, InputType, OmitType, PartialType } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 import { Convocation } from './convocation.entity';
 
 @InputType()
-export class ConvocationAddInput extends PartialType(
-  OmitType(Convocation, ['id', 'pv', 'folder']),
-  InputType,
-) {
+export class ConvocationAddInput implements Partial<Convocation> {
   @Field()
   numRegister: number;
 
@@ -13,7 +10,7 @@ export class ConvocationAddInput extends PartialType(
   namePersConv: string;
 
   @Field()
-  convokeOn: number;
+  convokeOn: Date;
 
   @Field()
   atTown: string;
@@ -23,7 +20,4 @@ export class ConvocationAddInput extends PartialType(
 
   @Field()
   folderId: number;
-
-  @Field()
-  numPv: number;
 }

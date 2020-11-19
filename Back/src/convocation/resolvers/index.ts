@@ -1,1 +1,3 @@
-export const ConvocationResolvers = [];
+import { AddConvocation } from './addConvocation';
+
+export const ConvocationResolvers = [AddConvocation];

@@ -38,10 +38,10 @@ export default (): Configs => {
       password: process.env.TYPEORM_PASSWORD,
       database: process.env.TYPEORM_DATABASE,
       entities: [entities],
-      synchronize: false,
+      synchronize: true,
       migrations: [migrations],
       migrationsTableName: 'migrations_typeorm',
-      migrationsRun: true,
+      migrationsRun: false,
     },
   };
 };
