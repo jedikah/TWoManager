@@ -1,5 +1,5 @@
 import { useQuery } from '@vue/apollo-composable';
-import { Ref, reactive } from '@vue/composition-api';
+import { reactive } from '@vue/composition-api';
 
 import { CLIENTSUSER, UserClientData } from './useClientsUser.gql';
 import { QueryUserClientsArgs } from '../types';
@@ -22,43 +22,32 @@ export const useClientsUser = () => {
       totalItems: 0,
       totalPages: 0
     },
-    lastIndex: 0,
-    data: [],
-    loadingTableRow: false,
     pagination: {
-      rowsPerPage: 0
+      page: 1,
+      rowsPerPage: 30,
+      rowsNumber: 0
     }
   });
 
-  const { loading: loadingClient, onResult, onError, refetch } = useQuery<
-    UserClientData,
-    QueryUserClientsArgs
-  >(CLIENTSUSER, variables, {
+  const {
+    loading: loadingClient,
+    onResult,
+    onError,
+    refetch,
+    result
+  } = useQuery<UserClientData, QueryUserClientsArgs>(CLIENTSUSER, variables, {
     fetchPolicy: 'cache-and-network',
     notifyOnNetworkStatusChange: false
   });
 
-  function pushData(data: UserClientData) {
-    data.userClients.clients.forEach(client => {
-      client.clientName;
-      state.data.splice(state.lastIndex, 1, {
-        index: ++state.lastIndex,
-        ...client
-      });
-    });
-  }
-
-  onResult(({ data, errors, loading }) => {
-    if (!loading && state.data.length <= 0) {
-      state.meta = data.userClients.paginationMeta;
-      state.data = new Array(state.meta.totalItems);
-    }
+  onResult(({ data, errors }) => {
     if (errors) notifyThere(errors);
 
-    console.log(data.userClients.clients);
-
-    if (!loading && state.meta.currentPage <= state.meta.totalPages) {
-      pushData(data);
+    if (data) {
+      state.pagination.rowsPerPage =
+        data.userClients.paginationMeta.itemsPerPage;
+      state.pagination.rowsNumber = data.userClients.paginationMeta.totalItems;
+      state.pagination.page = data.userClients.paginationMeta.currentPage;
     }
   });
 
@@ -74,6 +63,7 @@ export const useClientsUser = () => {
 
   return {
     state,
+    result,
     variables,
     fetchMoreclient,
     loadingClient

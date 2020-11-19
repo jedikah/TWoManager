@@ -13,14 +13,7 @@
           <q-toolbar-title style="font-size: 1em">
             T.Wo.Manager
           </q-toolbar-title>
-
-          <q-btn
-            dense
-            flat
-            round
-            icon="menu"
-            @click="formsDrawer = !formsDrawer"
-          />
+          <clientHeader />
         </q-toolbar>
       </q-header>
 
@@ -93,13 +86,39 @@
         side="right"
         behavior="desktop"
       >
-        <div class=" full-height full-width column " style="padding: 20px">
+        <div
+          class=" full-height full-width column "
+          style="padding: 2px; padding-top: 20vh;"
+        >
           <ClienForm v-if="route.name === 'CLIENT'" />
         </div>
       </q-drawer>
 
       <q-page-container class="col">
-        <router-view class=" full-width" />
+        <div class="row full-width">
+          <router-view style="width: 94%" />
+          <div
+            style="
+            height: 100%;
+            position: relative;
+            top: 30vh; right: -30px;
+            padding: 5px;
+            box-shadow: -4px 0.5px 2px grey;
+            border-radius: 35px 0 0 35px;
+
+            "
+          >
+            <q-fab
+              v-model="formsDrawer"
+              color="amber"
+              text-color="black"
+              icon="keyboard_arrow_left"
+              direction="right"
+              style="z-index: 1000"
+            >
+            </q-fab>
+          </div>
+        </div>
 
         <q-card v-if="countDown <= 15 && countDown > 0" class="myCountDownCard">
           <p></p>
@@ -121,16 +140,18 @@ import { defineComponent, ref, watchEffect } from '@vue/composition-api';
 import userSession from 'src/module/session.module';
 import { useSession } from 'src/services/session/useSession';
 
+export const formsDrawer = ref(true);
+
 export default defineComponent({
   name: 'MaynLayout',
   components: {
     OutSession: require('src/pages/OutSession.vue').default,
-    ClienForm: require('src/components/client/ClientForm').default
+    ClienForm: require('src/components/client/ClientForm').default,
+    clientHeader: require('src/components/client/clientHeader').default
   },
   setup: (_, { root }) => {
     const countDown = ref(16);
     const left = ref(true);
-    const formsDrawer = ref(true);
 
     const { state: sessionState } = useSession();
 

@@ -29,7 +29,8 @@ export const state: StateSession = reactive({
     status: false,
     iat: null,
     exp: null
-  }
+  },
+  left: true
 });
 
 export const useSession = () => {

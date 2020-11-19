@@ -3,22 +3,14 @@
     <q-table
       style="height: 75vh"
       :columns="columns"
-      :data="state.data"
+      :data="!loadingClient ? result.userClients.clients : []"
       class="col-12 my-sticky-header-table"
-      :loading="loadingClient || state.loadingTableRow"
-      :pagination="state.pagination"
-      :rows-per-page-options="[0]"
+      :loading="loadingClient"
+      :pagination.sync="state.pagination"
       row-key="index"
-      virtual-scroll
-      :virtual-scroll-sticky-size-end="40"
-      :virtual-scroll-sticky-size-start="0"
-      @virtual-scroll="onLoad"
     >
       <template v-slot:body="props">
         <q-tr :props="props">
-          <q-td key="index" :props="props">
-            {{ props.row.index }}
-          </q-td>
           <q-td key="clientName" :props="props">
             {{ props.row.clientName }}
           </q-td>
@@ -36,85 +28,51 @@
           </q-td>
         </q-tr>
       </template>
+      <template v-slot:bottom>
+        <div class="row full-width justify-center q-mt-md">
+          <q-pagination
+            v-model="result.userClients.paginationMeta.currentPage"
+            :max="result.userClients.paginationMeta.totalPages"
+            :direction-links="true"
+            :boundary-links="true"
+            icon-first="skip_previous"
+            icon-last="skip_next"
+            icon-prev="fast_rewind"
+            icon-next="fast_forward"
+            @input="handleChangePage"
+          >
+          </q-pagination>
+        </div>
+      </template>
     </q-table>
-    {{ state.data }}
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from '@vue/composition-api';
-
+import { defineComponent } from '@vue/composition-api';
+import { columns } from './client.column';
 import { useClientsUser } from 'src/services/clients/useClientsUser';
 
 export default defineComponent({
   setup: () => {
-    const columns = reactive([
-      {
-        name: 'index',
-        label: '#',
-        align: 'left',
-        field: cols => `${cols.index}`
-      },
-      {
-        name: 'clientName',
-        required: true,
-        label: 'Nom et Prenom',
-        align: 'left',
-        field: 'clientName',
-        format: val => `${val}`,
-        sortable: true
-      },
-      {
-        name: 'domicile',
-        align: 'center',
-        label: 'Domicile',
-        field: 'domicile',
-        sortable: true
-      },
-      {
-        name: 'contact',
-        label: 'Contact',
-        field: 'contact',
-        sortable: true,
-        align: 'center'
-      },
-      {
-        name: 'action',
-        label: 'Action',
-        field: 'action',
-        sortable: false,
-        align: 'center'
-      }
-    ]);
-
     const {
       state,
+      result,
       variables,
       fetchMoreclient,
       loadingClient
     } = useClientsUser();
 
-    function onLoad({ index }) {
-      if (
-        state.meta.currentPage < state.meta.totalPages &&
-        index >= state.lastIndex - 10 &&
-        state.loadingTableRow === false
-      ) {
-        state.loadingTableRow = true;
-        fetchMoreclient(state.meta.currentPage + 1);
-        setTimeout(() => {
-          state.loadingTableRow = false;
-        }, 500);
-      }
-    }
+    const handleChangePage = (vallue: any) => fetchMoreclient(vallue);
 
     return {
-      columns,
       state,
-      loadingClient,
-      onLoad,
+      result,
       variables,
-      fetchMoreclient
+      fetchMoreclient,
+      loadingClient,
+      columns,
+      handleChangePage
     };
   }
 });
