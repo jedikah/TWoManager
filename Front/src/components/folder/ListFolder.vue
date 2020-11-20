@@ -9,7 +9,7 @@
       <q-item-label header>Liste de dossier</q-item-label>
 
       <q-item
-        v-for="folder in result.userFolders.folders"
+        v-for="folder in !loading ? result.userFolders.folders : []"
         :key="folder.folderId"
         clickable
         v-ripple
@@ -49,7 +49,7 @@ export default {
   name: 'ListFolder',
   setup() {
     const { vars } = useUserFoldersVars();
-    const { result } = useUserFolders(vars);
+    const { result, loading } = useUserFolders(vars);
 
     function formatDate(strDate: string) {
       const toFormat = new Date(strDate);
@@ -60,7 +60,8 @@ export default {
       progress1: 0.3,
       progressLabel1: '100%',
       result,
-      formatDate
+      formatDate,
+      loading
     };
   }
 };

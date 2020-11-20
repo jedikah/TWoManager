@@ -1,20 +1,20 @@
 <template>
-  <div style=" padding-top: 20vh;">
-    <ClientAddForm v-if="clientFormBtn === 'add'" />
-    <ClientUpdateForm v-if="clientFormBtn === 'update'" />
+  <div>
+    <FolderAddForm v-if="folderFormBtn === 'add'" />
+    <FolderUpdateForm v-if="folderFormBtn === 'update'" />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
 import { useAddClientByUser } from 'src/services/clients/useAddClientByUser';
-import { clientFormBtn } from './clientHeader.vue';
+import { folderFormBtn } from './folderHeader.vue';
 
 export default defineComponent({
-  name: 'clientForm',
+  name: 'folderForm',
   components: {
-    ClientAddForm: require('./clientForm.add').default,
-    ClientUpdateForm: require('./clientForm.update').default
+    FolderAddForm: require('./folderForm.add').default,
+    FolderUpdateForm: require('./folderForm.update').default
   },
   setup: () => {
     const [state, submitAddClient] = useAddClientByUser();
@@ -22,7 +22,7 @@ export default defineComponent({
     return {
       state,
       submitAddClient,
-      clientFormBtn
+      folderFormBtn
     };
   }
 });

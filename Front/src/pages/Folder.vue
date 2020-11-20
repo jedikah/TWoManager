@@ -1,13 +1,12 @@
 <template>
   <q-page>
     <ListFolder />
-    <AddFolder />
   </q-page>
 </template>
 
 <script lang="ts">
 import ListFolder from '../components/folder/ListFolder.vue';
-import AddFolder from '../components/folder/AddFolder.vue';
+import AddFolder from '../components/folder/folderForm.add';
 
 export default {
   name: 'Folder',

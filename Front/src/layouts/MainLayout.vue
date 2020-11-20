@@ -4,7 +4,7 @@
       :class="!sessionState.session && 'sessionFilter'"
       view="hHh LpR lfr"
       class=" fullscreen column"
-      style="padding-top: 10px"
+      style="padding-top: 10px; min-width: 1280px"
     >
       <q-header reveal class="text-white myHeader ">
         <q-toolbar class=" full-height" style="min-height: 35px; color: black;">
@@ -13,7 +13,8 @@
           <q-toolbar-title style="font-size: 1em">
             T.Wo.Manager
           </q-toolbar-title>
-          <clientHeader />
+          <ClientHeader v-if="root.$route.name === 'CLIENT'" />
+          <FolderHeader v-if="root.$route.name === 'FOLDER'" />
         </q-toolbar>
       </q-header>
 
@@ -82,15 +83,17 @@
       <!-- // FORM DRAWER MENU -->
       <q-drawer
         :width="400"
+        :mini-width="300"
         v-model="formsDrawer"
         side="right"
         behavior="desktop"
       >
         <div
-          class=" full-height full-width column "
-          style="padding: 2px; padding-top: 20vh;"
+          class=" full-height full-width column items-center"
+          style="padding: 2px;"
         >
-          <ClienForm v-if="route.name === 'CLIENT'" />
+          <ClientForm v-if="root.$route.name === 'CLIENT'" />
+          <FolderForm v-if="root.$route.name === 'FOLDER'" />
         </div>
       </q-drawer>
 
@@ -100,6 +103,7 @@
           <div
             style="
             height: 100%;
+            width: 6%;
             position: relative;
             top: 30vh; right: -30px;
             padding: 5px;
@@ -135,7 +139,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watchEffect } from '@vue/composition-api';
+import { defineComponent, ref, watchEffect, watch } from '@vue/composition-api';
 
 import userSession from 'src/module/session.module';
 import { useSession } from 'src/services/session/useSession';
@@ -146,8 +150,10 @@ export default defineComponent({
   name: 'MaynLayout',
   components: {
     OutSession: require('src/pages/OutSession.vue').default,
-    ClienForm: require('src/components/client/ClientForm').default,
-    clientHeader: require('src/components/client/clientHeader').default
+    ClientForm: require('src/components/client/ClientForm').default,
+    ClientHeader: require('src/components/client/clientHeader').default,
+    FolderForm: require('src/components/folder/folderForm').default,
+    FolderHeader: require('src/components/folder/folderHeader').default
   },
   setup: (_, { root }) => {
     const countDown = ref(16);
@@ -169,10 +175,11 @@ export default defineComponent({
 
     watchEffect(() => {
       startSession(sessionState.session);
+      // console.log(route.name);
     });
 
     return {
-      route: root.$route,
+      root,
       formsDrawer,
       left,
       sessionState,

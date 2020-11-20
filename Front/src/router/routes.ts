@@ -36,7 +36,7 @@ const routes: RouteConfig[] = [
       { name: 'CLIENT', path: '', component: () => import('pages/Client.vue') },
       {
         name: 'FOLDER',
-        path: 'folder',
+        path: '/main/folder',
         component: () => import('pages/Folder.vue')
       }
     ]

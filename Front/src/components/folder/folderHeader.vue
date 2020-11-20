@@ -1,8 +1,8 @@
 <template>
   <div>
     <q-btn-group push flat dense>
-      <q-btn push label="Ajouter client" @click="handleChange('add')" />
-      <q-btn push label="Modifier client" @click="handleChange('update')" />
+      <q-btn push label="Ajouter folder" @click="handleChange('add')" />
+      <q-btn push label="update folder" @click="handleChange('update')" />
     </q-btn-group>
   </div>
 </template>
@@ -11,7 +11,7 @@
 import { defineComponent, ref } from '@vue/composition-api';
 import { formsDrawer } from 'src/layouts/MainLayout.vue';
 
-export const clientFormBtn = ref('add');
+export const folderFormBtn = ref('add');
 
 export default defineComponent({
   name: 'clientHeader',
@@ -19,10 +19,10 @@ export default defineComponent({
   setup: () => {
     const handleChange = (btn: string) => {
       formsDrawer.value = true;
-      clientFormBtn.value = btn;
+      folderFormBtn.value = btn;
     };
 
-    return { formsDrawer, clientFormBtn, handleChange };
+    return { formsDrawer, handleChange };
   }
 });
 </script>
