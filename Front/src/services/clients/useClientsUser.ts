@@ -15,17 +15,12 @@ export const useClientsUser = () => {
   });
 
   const state = reactive({
-    meta: {
-      currentPage: 1,
-      itemCount: 0,
-      itemsPerPage: 0,
-      totalItems: 0,
-      totalPages: 0
-    },
     pagination: {
       page: 1,
+      itemCount: 0,
       rowsPerPage: 30,
-      rowsNumber: 0
+      totalItems: 0,
+      totalPages: 0
     }
   });
 
@@ -46,8 +41,9 @@ export const useClientsUser = () => {
     if (data) {
       state.pagination.rowsPerPage =
         data.userClients.paginationMeta.itemsPerPage;
-      state.pagination.rowsNumber = data.userClients.paginationMeta.totalItems;
+      state.pagination.itemCount = data.userClients.paginationMeta.totalItems;
       state.pagination.page = data.userClients.paginationMeta.currentPage;
+      state.pagination.totalPages = data.userClients.paginationMeta.totalPages;
     }
   });
 

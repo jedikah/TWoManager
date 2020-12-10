@@ -1,29 +1,6 @@
-import { store } from 'quasar/wrappers';
-import Vuex from 'vuex';
+// import { reactive } from '@vue/composition-api';
 
-import RootState from './types';
-
-// import example from './module-example';
-// import { ExampleStateInterface } from './module-example/state';
-
-/*
- * If not building with SSR mode, you can
- * directly export the Store instantiation
- */
-
-export default store(function({ Vue }) {
-  Vue.use(Vuex);
-
-  const Store = new Vuex.Store<RootState>({
-    state: {
-      version: '1.0.0'
-    },
-    modules: {},
-
-    // enable strict mode (adds overhead!)
-    // for dev mode only
-    strict: !!process.env.DEV
-  });
-
-  return Store;
-});
+// export const StateCpt = reactive({
+//   client: {},
+//   folder: {}
+// });

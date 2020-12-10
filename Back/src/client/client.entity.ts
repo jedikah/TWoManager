@@ -13,10 +13,10 @@ export class Client {
   clientName: string;
 
   @Field({ nullable: true })
-  @Column({ name: 'domicile', length: 50 })
+  @Column({ name: 'domicile', length: 50, nullable: true })
   domicile: string;
 
   @Field({ nullable: true })
-  @Column({ name: 'contact', length: 10 })
+  @Column({ name: 'contact', length: 10, unique: true, nullable: true })
   contact: string;
 }

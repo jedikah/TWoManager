@@ -72,12 +72,6 @@
                   logIn.password = '';
                 "
               />
-              <q-btn
-                label="test"
-                color="orange"
-                text-color="black"
-                @click="handelOpen()"
-              />
             </q-btn-group>
           </div>
         </q-form>
@@ -87,6 +81,7 @@
 </template>
 
 <script lang="ts">
+import { useRouter } from '@u3u/vue-hooks';
 import { ref, defineComponent } from '@vue/composition-api';
 // import { execute } from 'tauri/api/process';
 
@@ -103,24 +98,17 @@ export default defineComponent({
       default: () => ({ form: '', h1: '', dark: false })
     }
   },
-  setup: (_, { root }) => {
+  setup: () => {
     const pwdVisible = ref(false);
     const [logIn, submitLogIn, loadingLogin] = useLogIn();
     // const cwd = path.join(__dirname, '..');
     // const file = 'index.ts';
 
-    function handelOpen() {
-      // const test = await execute('./test.ts', ['-r', 'ts-node/register']);
-      console.log({ $route: root.$route });
-      // console.log(cwd);
-    }
-
     return {
       logIn,
       pwdVisible,
       submitLogIn,
-      loadingLogin,
-      handelOpen
+      loadingLogin
     };
   }
 });

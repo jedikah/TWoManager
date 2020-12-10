@@ -1,25 +1,25 @@
 <template>
-  <div class="q-pa-md q-gutter-md">
-    <q-list
-      bordered
-      padding
-      class="rounded-borders list scroll"
-      style="max-width: 500px; max-height: 75vh;"
-    >
-      <q-item-label header>Liste de dossier</q-item-label>
+  <q-list
+    bordered
+    padding
+    class="rounded-borders list scroll border-red"
+    style="max-width: 350px; max-height: 75vh;"
+  >
+    <q-item-label header>Liste de dossier</q-item-label>
 
-      <q-item
-        v-for="folder in !loading ? result.userFolders.folders : []"
-        :key="folder.folderId"
-        clickable
-        v-ripple
-      >
+    <q-expansion-item
+      v-for="folder in !loading ? result.userFolders.folders : []"
+      :key="folder.folderId"
+      expand-icon
+    >
+      <template v-slot:header>
         <q-item-section avatar center>
           <q-avatar icon="folder" color="amber" text-color="white" />
         </q-item-section>
 
         <q-item-section>
           <q-item-label lines="1">{{ folder.client.clientName }}</q-item-label>
+          <q-item-label lines="2">{{ folder.typeTrav }}</q-item-label>
           <q-item-label caption class="q-mb-sm">{{
             formatDate(folder.dateTrav)
           }}</q-item-label>
@@ -33,19 +33,20 @@
             </div>
           </q-linear-progress>
         </q-item-section>
-      </q-item>
-    </q-list>
-  </div>
+      </template>
+    </q-expansion-item>
+  </q-list>
 </template>
 
 <script lang="ts">
+import { defineComponent } from '@vue/composition-api';
 import {
   useUserFolders,
   useUserFoldersVars
 } from '../../services/folders/useUserFolders';
 import { date } from 'quasar';
 
-export default {
+export default defineComponent({
   name: 'ListFolder',
   setup() {
     const { vars } = useUserFoldersVars();
@@ -64,7 +65,7 @@ export default {
       loading
     };
   }
-};
+});
 </script>
 
 <style></style>

@@ -3,17 +3,17 @@
   "compilerOptions": {
     "baseUrl": ".",
     "target": "es5",
-    "experimentalDecorators": true,
+    // "experimentalDecorators": true,
     "noEmit": false,
     "allowJs": true,
     "strict": false,
     "removeComments": true,
     "module": "commonjs",
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "emitDecoratorMetadata": true,
-    "sourceMap": true,
-    "incremental": true,
-    "declaration": true
+    "moduleResolution": "node"
+    // "allowSyntheticDefaultImports": true,
+    // "emitDecoratorMetadata": true,
+    // "sourceMap": true,
+    // "incremental": true,
+    // "declaration": true
   }
 }

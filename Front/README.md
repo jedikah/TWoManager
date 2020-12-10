@@ -1,4 +1,4 @@
-# TWo Manager (twom)
+# Jedikah App (twom)
 
 A Quasar Framework app
 

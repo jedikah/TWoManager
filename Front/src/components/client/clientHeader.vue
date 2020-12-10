@@ -1,28 +1,34 @@
 <template>
   <div>
-    <q-btn-group push flat dense>
-      <q-btn push label="Ajouter client" @click="handleChange('add')" />
-      <q-btn push label="Modifier client" @click="handleChange('update')" />
-    </q-btn-group>
+    <q-btn-toggle
+      dense
+      v-model="clientFormBtn"
+      @click="formsDrawer = true"
+      color="orange"
+      text-color="white"
+      toggle-color="amber"
+      toggle-text-color="black"
+      unelevated
+      glossy
+      :options="[
+        { label: 'Ajouter un client', value: 'add' },
+        { label: 'Modifier un client', value: 'update' }
+      ]"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from '@vue/composition-api';
-import { formsDrawer } from 'src/layouts/MainLayout.vue';
+import { formsDrawer } from '../../layouts/MainLayout.vue';
 
-export const clientFormBtn = ref('add');
+export const clientFormBtn = ref();
 
 export default defineComponent({
   name: 'clientHeader',
   components: {},
   setup: () => {
-    const handleChange = (btn: string) => {
-      formsDrawer.value = true;
-      clientFormBtn.value = btn;
-    };
-
-    return { formsDrawer, clientFormBtn, handleChange };
+    return { formsDrawer, clientFormBtn };
   }
 });
 </script>

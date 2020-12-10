@@ -17,7 +17,6 @@ const routes: RouteConfig[] = [
   // }
 
   {
-    name: 'SIMPLE',
     path: '/',
     component: () => import('layouts/SimpleLayout.vue'),
     children: [
@@ -29,14 +28,13 @@ const routes: RouteConfig[] = [
     ]
   },
   {
-    name: 'MAIN',
     path: '/main',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { name: 'CLIENT', path: '', component: () => import('pages/Client.vue') },
       {
         name: 'FOLDER',
-        path: '/main/folder',
+        path: '/main/folders',
         component: () => import('pages/Folder.vue')
       }
     ]

@@ -1,10 +1,8 @@
 <template>
   <q-page class="">
-    <q-card>
-      <q-card-section class=" no-padding">
-        <ClientTable />
-      </q-card-section>
-    </q-card>
+    <div class="q-pa-md" style="min-height: 720px; max-height: 900px">
+      <ClientTable />
+    </div>
   </q-page>
 </template>
 

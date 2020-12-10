@@ -27,6 +27,7 @@ export const FOLDER_FRAG = gql`
     folderId
     groundName
     dateTrav
+    typeTrav
   }
   ${CLIENT_FRAG}
 `;

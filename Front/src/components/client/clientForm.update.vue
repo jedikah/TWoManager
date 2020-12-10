@@ -66,7 +66,7 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
-import { useAddClientByUser } from 'src/services/clients/useAddClientByUser';
+import { useAddClientByUser } from '../../services/clients/useAddClientByUser';
 
 export default defineComponent({
   name: 'clientUpdateForm',

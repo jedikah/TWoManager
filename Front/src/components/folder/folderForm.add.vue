@@ -102,8 +102,9 @@
 </template>
 
 <script lang="ts">
-import { reactive } from '@vue/composition-api';
-export default {
+import { defineComponent } from '@vue/composition-api';
+
+export default defineComponent({
   name: 'AddFolder',
   setup() {
     return {
@@ -111,7 +112,7 @@ export default {
       date: '2019/02/01'
     };
   }
-};
+});
 </script>
 
 <style></style>

@@ -1,6 +1,7 @@
-import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -22,11 +23,9 @@ export type Query = {
   usersCount: Scalars['Int'];
 };
 
-
 export type QueryUserClientsArgs = {
   paginationInput: PaginationInput;
 };
-
 
 export type QueryUserFoldersArgs = {
   foldersFilterInput: FoldersFilterInput;
@@ -89,7 +88,6 @@ export type Folder = {
   user?: Maybe<User>;
 };
 
-
 export type Facture = {
   __typename?: 'Facture';
   dateFacture: Scalars['Float'];
@@ -125,66 +123,53 @@ export type Mutation = {
   uploadFile: Scalars['Boolean'];
 };
 
-
 export type MutationAddClientByUserArgs = {
   input: ClientAddInput;
 };
-
 
 export type MutationAddConvocationArgs = {
   input: ConvocationAddInput;
 };
 
-
 export type MutationAddFolderArgs = {
   input: FolderAddInput;
 };
-
 
 export type MutationAddLetterArgs = {
   input: LetterAddInput;
 };
 
-
 export type MutationAddPvArgs = {
   input: PvAddInput;
 };
-
 
 export type MutationCheckTokenArgs = {
   input: Scalars['String'];
 };
 
-
 export type MutationLoginArgs = {
   input: LogInInput;
 };
-
 
 export type MutationLoginSessionArgs = {
   input: LogInInput;
 };
 
-
 export type MutationRegisterArgs = {
   input: RegisterInput;
 };
-
 
 export type MutationUpdateClientArgs = {
   input: ClientUpdateInput;
 };
 
-
 export type MutationUpdateFolderArgs = {
   input: FolderUpdateInput;
 };
 
-
 export type MutationUpdateLetterArgs = {
   input: LetterUpdateInput;
 };
-
 
 export type MutationUploadFileArgs = {
   file: Scalars['Upload'];
@@ -341,4 +326,3 @@ export type LetterUpdateInput = {
   numRtx: Scalars['String'];
   object: Scalars['String'];
 };
-

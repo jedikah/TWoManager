@@ -1,18 +1,21 @@
 <template>
   <q-page>
-    <ListFolder />
+    <div
+      class="q-pa-md q-gutter-md border-blue"
+      style="min-height: 720px; max-height: 900px; margin: 5px"
+    >
+      <ListFolder />
+    </div>
   </q-page>
 </template>
 
 <script lang="ts">
-import ListFolder from '../components/folder/ListFolder.vue';
-import AddFolder from '../components/folder/folderForm.add';
+import { defineComponent } from '@vue/composition-api';
 
-export default {
+export default defineComponent({
   name: 'Folder',
   components: {
-    ListFolder,
-    AddFolder
+    ListFolder: require('../components/folder/ListFolder').default
   }
-};
+});
 </script>

@@ -7,83 +7,34 @@
       style="padding-top: 10px; min-width: 1280px"
     >
       <q-header reveal class="text-white myHeader ">
-        <q-toolbar class=" full-height" style="min-height: 35px; color: black;">
-          <q-btn dense flat round icon="menu" @click="left = !left" />
+        <q-toolbar
+          class=" full-height"
+          style="min-height: 35px; color: black; padding-right: 50px"
+        >
+          <q-btn
+            dense
+            flat
+            round
+            icon="menu"
+            @click="routeDrawer = !routeDrawer"
+          />
 
           <q-toolbar-title style="font-size: 1em">
             T.Wo.Manager
           </q-toolbar-title>
-          <ClientHeader v-if="root.$route.name === 'CLIENT'" />
-          <FolderHeader v-if="root.$route.name === 'FOLDER'" />
+          <ClientHeader v-if="routeName === 'CLIENT'" />
+          <FolderHeader v-if="routeName === 'FOLDER'" />
         </q-toolbar>
       </q-header>
 
-      <q-drawer v-model="left" side="left" behavior="desktop" bordered>
-        <q-scroll-area
-          style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd"
-        >
-          <q-list padding>
-            <q-item clickable v-ripple>
-              <q-item-section avatar>
-                <q-icon name="inbox" />
-              </q-item-section>
+      <!-- //Route based drawer -->
 
-              <q-item-section @click="router.push('/')">
-                Inbox
-              </q-item-section>
-            </q-item>
+      <RouteDrawer />
 
-            <q-item active clickable v-ripple>
-              <q-item-section avatar>
-                <q-icon name="star" />
-              </q-item-section>
-
-              <q-item-section>
-                Star
-              </q-item-section>
-            </q-item>
-
-            <q-item clickable v-ripple>
-              <q-item-section avatar>
-                <q-icon name="send" />
-              </q-item-section>
-
-              <q-item-section>
-                Send
-              </q-item-section>
-            </q-item>
-
-            <q-item clickable v-ripple>
-              <q-item-section avatar>
-                <q-icon name="drafts" />
-              </q-item-section>
-
-              <q-item-section>
-                Drafts
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-scroll-area>
-
-        <q-img
-          class="absolute-top"
-          src="https://cdn.quasar.dev/img/material.png"
-          style="height: 150px"
-        >
-          <div class="absolute-bottom bg-transparent">
-            <q-avatar size="56px" class="q-mb-sm">
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
-            </q-avatar>
-            <div class="text-weight-bold">Razvan Stoenescu</div>
-            <div>@rstoenescu</div>
-          </div>
-        </q-img>
-      </q-drawer>
-
-      <!-- // FORM DRAWER MENU -->
+      <!-- // FORM DRAWER  -->
       <q-drawer
+        :mini-width="400"
         :width="400"
-        :mini-width="300"
         v-model="formsDrawer"
         side="right"
         behavior="desktop"
@@ -92,36 +43,30 @@
           class=" full-height full-width column items-center"
           style="padding: 2px;"
         >
-          <ClientForm v-if="root.$route.name === 'CLIENT'" />
-          <FolderForm v-if="root.$route.name === 'FOLDER'" />
+          <ClientForm v-if="routeName === 'CLIENT'" />
+          <FolderForm v-if="routeName === 'FOLDER'" />
+        </div>
+
+        <div
+          class="q-mini-drawer-hide absolute"
+          style="top: 36.5vh; left: -30px"
+        >
+          <q-fab
+            v-model="formsDrawer"
+            @click="handleCloseRouteDrawer"
+            color="amber"
+            text-color="black"
+            icon="keyboard_arrow_left"
+            direction="right"
+            style="z-index: 1000"
+          >
+          </q-fab>
         </div>
       </q-drawer>
 
       <q-page-container class="col">
         <div class="row full-width">
           <router-view style="width: 94%" />
-          <div
-            style="
-            height: 100%;
-            width: 6%;
-            position: relative;
-            top: 30vh; right: -30px;
-            padding: 5px;
-            box-shadow: -4px 0.5px 2px grey;
-            border-radius: 35px 0 0 35px;
-
-            "
-          >
-            <q-fab
-              v-model="formsDrawer"
-              color="amber"
-              text-color="black"
-              icon="keyboard_arrow_left"
-              direction="right"
-              style="z-index: 1000"
-            >
-            </q-fab>
-          </div>
         </div>
 
         <q-card v-if="countDown <= 15 && countDown > 0" class="myCountDownCard">
@@ -139,12 +84,22 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watchEffect, watch } from '@vue/composition-api';
+import { useRouter } from '@u3u/vue-hooks';
+import {
+  computed,
+  defineComponent,
+  ref,
+  watchEffect
+} from '@vue/composition-api';
+import { clientFormBtn } from 'src/components/client/clientHeader.vue';
+import { folderFormBtn } from 'src/components/folder/folderHeader.vue';
 
 import userSession from 'src/module/session.module';
 import { useSession } from 'src/services/session/useSession';
 
-export const formsDrawer = ref(true);
+export const formsDrawer = ref(false);
+export const routeDrawer = ref(true);
+export const formWidth = ref(400);
 
 export default defineComponent({
   name: 'MaynLayout',
@@ -153,11 +108,13 @@ export default defineComponent({
     ClientForm: require('src/components/client/ClientForm').default,
     ClientHeader: require('src/components/client/clientHeader').default,
     FolderForm: require('src/components/folder/folderForm').default,
-    FolderHeader: require('src/components/folder/folderHeader').default
+    FolderHeader: require('src/components/folder/folderHeader').default,
+    RouteDrawer: require('./MainLayout.routeDrawer.vue').default
   },
-  setup: (_, { root }) => {
+  setup: () => {
+    const { route } = useRouter();
     const countDown = ref(16);
-    const left = ref(true);
+    const routeName = computed(() => route.value.name);
 
     const { state: sessionState } = useSession();
 
@@ -173,17 +130,22 @@ export default defineComponent({
       }
     };
 
+    const handleCloseRouteDrawer = () => {
+      clientFormBtn.value = null;
+      folderFormBtn.value = null;
+    };
+
     watchEffect(() => {
       startSession(sessionState.session);
-      // console.log(route.name);
     });
 
     return {
-      root,
+      routeName,
       formsDrawer,
-      left,
+      routeDrawer,
       sessionState,
-      countDown
+      countDown,
+      handleCloseRouteDrawer
     };
   }
 });

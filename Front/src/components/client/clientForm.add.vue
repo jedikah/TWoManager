@@ -41,8 +41,9 @@
           rounded
           outlined
           v-model="state.contact"
+          unmasked-value
           mask="### ## ### ##"
-          fill-mask="*"
+          fill-mask="#"
           label="Contact"
         />
         <q-btn
@@ -66,12 +67,18 @@
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
-import { useAddClientByUser } from 'src/services/clients/useAddClientByUser';
+import { useMainStore } from 'src/store/client/clientModule.store';
+import { useAddClientByUser } from '../../services/clients/useAddClientByUser';
 
 export default defineComponent({
   name: 'clientAddForm',
   setup: () => {
     const [state, submitAddClient] = useAddClientByUser();
+
+    const main = useMainStore();
+
+    console.log('+++++++++++', main.doubleCount);
+    main.reset('test');
 
     return {
       state,
