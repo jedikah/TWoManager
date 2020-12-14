@@ -75,11 +75,6 @@ export default defineComponent({
   setup: () => {
     const [state, submitAddClient] = useAddClientByUser();
 
-    const main = useMainStore();
-
-    console.log('+++++++++++', main.doubleCount);
-    main.reset('test');
-
     return {
       state,
       submitAddClient

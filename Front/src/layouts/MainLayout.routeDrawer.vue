@@ -11,7 +11,7 @@
       show-if-above
       :width="200"
       :breakpoint="500"
-      content-class="bg-grey-3"
+      content-class=" bg-blue-grey-10"
     >
       <q-scroll-area
         style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd"
@@ -21,6 +21,7 @@
             @click="state.router.push('/main')"
             :active="state.active.clients"
             :clickable="!state.active.clients"
+            :style="!state.active.clients && 'color: white'"
             v-ripple
           >
             <q-item-section avatar>
@@ -34,6 +35,7 @@
 
           <q-item
             @click="state.router.push('/main/folders')"
+            :style="!state.active.folders && 'color: white'"
             :active="state.active.folders"
             :clickable="!state.active.folders"
             v-ripple
@@ -47,9 +49,9 @@
             </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple>
+          <q-item :style="'color: white'" clickable v-ripple>
             <q-item-section avatar>
-              <q-icon name="fact_check" />
+              <q-icon name="fact_check" color="white" />
             </q-item-section>
 
             <q-item-section>
@@ -61,15 +63,22 @@
 
       <q-img
         class="absolute-top"
-        src="https://cdn.quasar.dev/img/material.png"
+        src="http://localhost:81/TWoM/background.jpg"
         style="height: 150px"
       >
-        <div class="absolute-bottom bg-transparent">
-          <q-avatar size="56px" class="q-mb-sm">
-            <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+        <div
+          class="absolute-bottom bg-transparent column justify-center items-center"
+          :style="miniState && 'padding-left: 0'"
+        >
+          <q-avatar size="56px" class="q-mb-md">
+            <img src="http://localhost:81/TWoM/avatar.jpg" />
           </q-avatar>
-          <div class="text-weight-bold">Razvan Stoenescu</div>
-          <div>@rstoenescu</div>
+          <div
+            :style="miniState && 'visibility: hidden'"
+            class="text-weight-bold"
+          >
+            {{ sessionState.currentUser.userName }}
+          </div>
         </div>
       </q-img>
     </q-drawer>
@@ -79,6 +88,7 @@
 <script lang="ts">
 import { useRouter } from '@u3u/vue-hooks';
 import { defineComponent, computed, ref } from '@vue/composition-api';
+import { useSession } from 'src/services/session/useSession';
 import { routeDrawer } from './MainLayout.vue';
 
 export default defineComponent({
@@ -86,6 +96,7 @@ export default defineComponent({
   setup: () => {
     const miniState = ref(true);
     const { router, route } = useRouter();
+    const { state: sessionState } = useSession();
 
     const state = computed(() => {
       return {
@@ -97,7 +108,7 @@ export default defineComponent({
       };
     });
 
-    return { routeDrawer, state, miniState };
+    return { routeDrawer, state, miniState, sessionState };
   }
 });
 </script>

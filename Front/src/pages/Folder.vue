@@ -1,9 +1,6 @@
 <template>
   <q-page>
-    <div
-      class="q-pa-md q-gutter-md border-blue"
-      style="min-height: 720px; max-height: 900px; margin: 5px"
-    >
+    <div class="q-pa-md q-gutter-md" style=" margin: 2px; height: 100%">
       <ListFolder />
     </div>
   </q-page>

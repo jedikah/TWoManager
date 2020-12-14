@@ -1,8 +1,7 @@
 import { createStore } from 'pinia';
 
 interface MainState {
-  counter: number;
-  name: string;
+  clientFormBtn: string | null;
 }
 
 export const useMainStore = createStore({
@@ -11,13 +10,11 @@ export const useMainStore = createStore({
   id: 'main',
   // a function that returns a fresh state
   state: (): MainState => ({
-    counter: 2,
-    name: 'Eduardo'
+    clientFormBtn: null
   }),
   // optional getters
   getters: {
     doubleCount(store) {
-      console.log({ counter: this.counter, this: this });
       return this.counter;
     }
   },

@@ -48,7 +48,7 @@
         </div>
 
         <div
-          class="q-mini-drawer-hide absolute"
+          :class="!formsDrawer ? 'hidden' : '' + ' q-mini-drawer-hide absolute'"
           style="top: 36.5vh; left: -30px"
         >
           <q-fab
@@ -64,9 +64,12 @@
         </div>
       </q-drawer>
 
-      <q-page-container class="col">
+      <q-page-container
+        class="col border-blue"
+        style="padding-top: 0; padding-bottom: 0"
+      >
         <div class="row full-width">
-          <router-view style="width: 94%" />
+          <router-view style="width: 98%" />
         </div>
 
         <q-card v-if="countDown <= 15 && countDown > 0" class="myCountDownCard">

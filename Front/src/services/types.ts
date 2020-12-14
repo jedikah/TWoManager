@@ -1,7 +1,8 @@
+import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
-export type Exact<T extends { [key: string]: unknown }> = {
-  [K in keyof T]: T[K];
-};
+export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -17,19 +18,39 @@ export type Scalars = {
 
 export type Query = {
   __typename?: 'Query';
+  clientSearch: Array<Client>;
   userClients: ClientsCollaborateResult;
   userFolders: FoldersResult;
   users?: Maybe<Array<User>>;
   usersCount: Scalars['Int'];
 };
 
+
+export type QueryClientSearchArgs = {
+  input: ClientSearchInput;
+};
+
+
 export type QueryUserClientsArgs = {
   paginationInput: PaginationInput;
 };
 
+
 export type QueryUserFoldersArgs = {
   foldersFilterInput: FoldersFilterInput;
   paginationInput: PaginationInput;
+};
+
+export type ClientSearchInput = {
+  clientName: Scalars['String'];
+};
+
+export type Client = {
+  __typename?: 'Client';
+  clientId: Scalars['ID'];
+  clientName: Scalars['String'];
+  contact?: Maybe<Scalars['String']>;
+  domicile?: Maybe<Scalars['String']>;
 };
 
 export type PaginationInput = {
@@ -41,14 +62,6 @@ export type ClientsCollaborateResult = {
   __typename?: 'ClientsCollaborateResult';
   clients: Array<Client>;
   paginationMeta: PaginationMeta;
-};
-
-export type Client = {
-  __typename?: 'Client';
-  clientId: Scalars['ID'];
-  clientName: Scalars['String'];
-  contact?: Maybe<Scalars['String']>;
-  domicile?: Maybe<Scalars['String']>;
 };
 
 export type PaginationMeta = {
@@ -88,6 +101,7 @@ export type Folder = {
   user?: Maybe<User>;
 };
 
+
 export type Facture = {
   __typename?: 'Facture';
   dateFacture: Scalars['Float'];
@@ -123,53 +137,66 @@ export type Mutation = {
   uploadFile: Scalars['Boolean'];
 };
 
+
 export type MutationAddClientByUserArgs = {
   input: ClientAddInput;
 };
+
 
 export type MutationAddConvocationArgs = {
   input: ConvocationAddInput;
 };
 
+
 export type MutationAddFolderArgs = {
   input: FolderAddInput;
 };
+
 
 export type MutationAddLetterArgs = {
   input: LetterAddInput;
 };
 
+
 export type MutationAddPvArgs = {
   input: PvAddInput;
 };
+
 
 export type MutationCheckTokenArgs = {
   input: Scalars['String'];
 };
 
+
 export type MutationLoginArgs = {
   input: LogInInput;
 };
+
 
 export type MutationLoginSessionArgs = {
   input: LogInInput;
 };
 
+
 export type MutationRegisterArgs = {
   input: RegisterInput;
 };
+
 
 export type MutationUpdateClientArgs = {
   input: ClientUpdateInput;
 };
 
+
 export type MutationUpdateFolderArgs = {
   input: FolderUpdateInput;
 };
 
+
 export type MutationUpdateLetterArgs = {
   input: LetterUpdateInput;
 };
+
 
 export type MutationUploadFileArgs = {
   file: Scalars['Upload'];
@@ -204,7 +231,7 @@ export type Convocation = {
 
 export type FolderAddInput = {
   clientId: Scalars['Float'];
-  dateTrav: Scalars['DateTime'];
+  dateTrav?: Maybe<Scalars['DateTime']>;
   factureId?: Maybe<Scalars['Float']>;
   fokontany: Scalars['String'];
   folderId?: Maybe<Scalars['ID']>;
@@ -214,7 +241,6 @@ export type FolderAddInput = {
   price?: Maybe<Scalars['Float']>;
   register: Scalars['String'];
   typeTrav: Scalars['String'];
-  userId?: Maybe<Scalars['Float']>;
 };
 
 export type LetterAddInput = {
@@ -326,3 +352,4 @@ export type LetterUpdateInput = {
   numRtx: Scalars['String'];
   object: Scalars['String'];
 };
+
