@@ -32,6 +32,10 @@ type ClientsCollaborateResult {
   paginationMeta: PaginationMeta!
 }
 
+input ClientSearchInput {
+  clientName: String!
+}
+
 input ClientUpdateInput {
   clientId: ID!
   clientName: String!
@@ -84,7 +88,7 @@ type Folder {
 
 input FolderAddInput {
   clientId: Float!
-  dateTrav: DateTime!
+  dateTrav: DateTime
   factureId: Float
   fokontany: String!
   folderId: ID
@@ -94,7 +98,6 @@ input FolderAddInput {
   price: Float
   register: String!
   typeTrav: String!
-  userId: Float
 }
 
 input FoldersFilterInput {
@@ -209,6 +212,7 @@ input PvAddInput {
 }
 
 type Query {
+  clientSearch(input: ClientSearchInput!): [Client!]!
   userClients(paginationInput: PaginationInput!): ClientsCollaborateResult!
   userFolders(foldersFilterInput: FoldersFilterInput!, paginationInput: PaginationInput!): FoldersResult!
   users: [User!]

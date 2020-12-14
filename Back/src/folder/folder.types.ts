@@ -53,7 +53,7 @@ export class FolderUpdateInput extends PartialType(
 
 @InputType()
 export class FolderAddInput extends PartialType(
-  OmitType(Folder, ['client', 'facture', 'user']),
+  OmitType(Folder, ['client', 'facture', 'user', 'userId']),
   InputType,
 ) {
   @Field(() => ID, { nullable: true })
@@ -74,17 +74,14 @@ export class FolderAddInput extends PartialType(
   @Field()
   fokontany: string;
 
-  @Field()
-  dateTrav: Date;
+  @Field({ nullable: true })
+  dateTrav?: Date;
 
   @Field()
   typeTrav: string;
 
   @Field({ nullable: true })
   price?: number;
-
-  @Field({ nullable: true })
-  userId?: number;
 
   @Field()
   clientId: number;

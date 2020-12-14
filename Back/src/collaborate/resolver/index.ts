@@ -1,3 +1,4 @@
-import { UserClientsResolver } from './userClients.resolver';
+import { ClientSearch } from './clientsSearch';
+import { UserClients } from './userClients';
 
-export const CollaborationsResolvers = [UserClientsResolver];
+export const CollaborationsResolvers = [UserClients, ClientSearch];

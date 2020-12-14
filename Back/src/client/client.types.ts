@@ -30,3 +30,9 @@ export class ClientUpdateInput extends PartialType(Client, InputType) {
   @Field({ nullable: true })
   contact: string;
 }
+
+@InputType()
+export class ClientSearchInput {
+  @Field()
+  clientName: string;
+}

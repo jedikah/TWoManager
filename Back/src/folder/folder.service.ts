@@ -39,7 +39,7 @@ export class FolderServices {
       .andWhere('folder.user_id = :user_id', {
         user_id: userId,
       })
-      .orderBy('folder.user_id', 'DESC');
+      .orderBy('folder.client.clientId', 'DESC');
   }
 
   async addFolder(folder: Folder): Promise<Folder> {

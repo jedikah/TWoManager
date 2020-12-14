@@ -20,7 +20,7 @@ export class Folder {
   folderId: number;
 
   @Field()
-  @Column({ name: 'register', length: 8 })
+  @Column({ name: 'register', length: 8, default: '' })
   register: string;
 
   @Field({ nullable: true })
@@ -28,7 +28,7 @@ export class Folder {
   numTitle: string;
 
   @Field()
-  @Column({ name: 'ground_name', length: 30 })
+  @Column({ name: 'ground_name', length: 30, default: '' })
   groundName: string;
 
   @Field()
@@ -40,8 +40,8 @@ export class Folder {
   fokontany: string;
 
   @Field()
-  @Column({ name: 'date_trav' })
-  dateTrav: Date;
+  @Column({ name: 'date_trav', nullable: true })
+  dateTrav?: Date;
 
   @Field()
   @Column({ name: 'type_trav' })

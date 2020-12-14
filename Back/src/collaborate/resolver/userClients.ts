@@ -21,14 +21,14 @@ class ClientsCollaborateResult {
 }
 
 @Resolver(() => Client)
-@UseGuards(GqlAuthGuard)
-export class UserClientsResolver {
+export class UserClients {
   constructor(
     private collaborationServices: CollaborationServices,
-    private clientService: ClientServices,
+    private clientServices: ClientServices,
   ) {}
 
   @Query(() => ClientsCollaborateResult)
+  @UseGuards(GqlAuthGuard)
   async userClients(
     @CurrentUser() user: UserOutput,
     @Args('paginationInput') paginationInput: PaginationInput,
@@ -44,7 +44,7 @@ export class UserClientsResolver {
 
     const clients = await Promise.all(
       paginateClients.items.map(async coll => {
-        return this.clientService.getClientById(coll.clientId);
+        return await this.clientServices.getClientById(coll.clientId);
       }),
     );
 
