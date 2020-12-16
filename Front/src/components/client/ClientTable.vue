@@ -21,8 +21,8 @@
         </q-td>
         <q-td key="action" :props="props">
           <q-btn-group>
-            <q-btn color="amber">Modifier</q-btn>
-            <q-btn color="orange">Supprimer</q-btn>
+            <q-btn dense color="amber">Modifier</q-btn>
+            <q-btn dense color="orange">Supprimer</q-btn>
           </q-btn-group>
         </q-td>
       </q-tr>
@@ -49,7 +49,7 @@
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
 import { columns } from './client.column';
-import { useClientsUser } from 'src/services/clients/useClientsUser';
+import { useClientsUser } from '../../services/clients/useClientsUser';
 
 export default defineComponent({
   setup: () => {
@@ -67,7 +67,8 @@ export default defineComponent({
       variables,
       fetchMoreclient,
       loadingClient,
-      columns
+      columns,
+      ...useClientsUser
     };
   }
 });

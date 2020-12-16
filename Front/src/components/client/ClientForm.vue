@@ -8,13 +8,13 @@
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
 import { useAddClientByUser } from '../../services/clients/useAddClientByUser';
-import { clientFormBtn } from './clientHeader.vue';
+import { clientFormBtn } from './ClientHeader.vue';
 
 export default defineComponent({
   name: 'clientForm',
   components: {
-    ClientAddForm: require('./clientForm.add').default,
-    ClientUpdateForm: require('./clientForm.update').default
+    ClientAddForm: require('./ClientForm.add').default,
+    ClientUpdateForm: require('./ClientForm.update').default
   },
   setup: () => {
     const [state, submitAddClient] = useAddClientByUser();

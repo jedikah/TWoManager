@@ -22,8 +22,10 @@
           <q-toolbar-title style="font-size: 1em">
             T.Wo.Manager
           </q-toolbar-title>
-          <ClientHeader v-if="routeName === 'CLIENT'" />
-          <FolderHeader v-if="routeName === 'FOLDER'" />
+          <!-- <ClientHeader v-if="routeName === 'CLIENT'" />
+          <FolderHeader v-if="routeName === 'FOLDER'" /> -->
+          <router-view name="CLIENTHEADER" />
+          <router-view name="FOLDERHEADER" />
         </q-toolbar>
       </q-header>
 
@@ -38,14 +40,10 @@
         v-model="formsDrawer"
         side="right"
         behavior="desktop"
+        elevated
       >
-        <div
-          class=" full-height full-width column items-center"
-          style="padding: 2px;"
-        >
-          <ClientForm v-if="routeName === 'CLIENT'" />
-          <FolderForm v-if="routeName === 'FOLDER'" />
-        </div>
+        <router-view name="CLIENTFORM" />
+        <router-view name="FOLDERFORM" />
 
         <div
           :class="!formsDrawer ? 'hidden' : '' + ' q-mini-drawer-hide absolute'"
@@ -64,12 +62,9 @@
         </div>
       </q-drawer>
 
-      <q-page-container
-        class="col border-blue"
-        style="padding-top: 0; padding-bottom: 0"
-      >
-        <div class="row full-width">
-          <router-view style="width: 98%" />
+      <q-page-container class="col" style="padding-top: 0;">
+        <div class="row" style="width: 100%">
+          <router-view style="width: 100%" />
         </div>
 
         <q-card v-if="countDown <= 15 && countDown > 0" class="myCountDownCard">
@@ -94,8 +89,8 @@ import {
   ref,
   watchEffect
 } from '@vue/composition-api';
-import { clientFormBtn } from 'src/components/client/clientHeader.vue';
-import { folderFormBtn } from 'src/components/folder/folderHeader.vue';
+import { clientFormBtn } from 'src/components/client/ClientHeader.vue';
+import { folderFormBtn } from 'src/components/folder/FolderHeader.vue';
 
 import userSession from 'src/module/session.module';
 import { useSession } from 'src/services/session/useSession';
@@ -108,10 +103,8 @@ export default defineComponent({
   name: 'MaynLayout',
   components: {
     OutSession: require('src/pages/OutSession.vue').default,
-    ClientForm: require('src/components/client/ClientForm').default,
-    ClientHeader: require('src/components/client/clientHeader').default,
-    FolderForm: require('src/components/folder/folderForm').default,
-    FolderHeader: require('src/components/folder/folderHeader').default,
+    FolderForm: require('src/components/folder/FolderForm').default,
+    FolderHeader: require('src/components/folder/FolderHeader').default,
     RouteDrawer: require('./MainLayout.routeDrawer.vue').default
   },
   setup: () => {

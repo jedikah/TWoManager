@@ -1,21 +1,6 @@
 import { RouteConfig } from 'vue-router';
 
 const routes: RouteConfig[] = [
-  // {
-  //   path: '/',
-  //   component: () => import('layouts/MainLayout.vue'),
-  //   children: [
-  //     { path: '', component: () => import('pages/Index.vue') }
-  //   ]
-  // },
-
-  // // Always leave this as last one,
-  // // but you can also remove it
-  // {
-  //   path: '*',
-  //   component: () => import('pages/Error404.vue')
-  // }
-
   {
     path: '/',
     component: () => import('layouts/SimpleLayout.vue'),
@@ -31,11 +16,24 @@ const routes: RouteConfig[] = [
     path: '/main',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { name: 'CLIENT', path: '', component: () => import('pages/Client.vue') },
+      {
+        name: 'CLIENT',
+        path: '',
+        components: {
+          default: () => import('pages/Client.vue'),
+          CLIENTHEADER: () => import('components/client/ClientHeader.vue'),
+          CLIENTFORM: () => import('components/client/ClientForm.vue')
+        }
+      },
+
       {
         name: 'FOLDER',
-        path: '/main/folders',
-        component: () => import('pages/Folder.vue')
+        path: 'folders',
+        components: {
+          default: () => import('pages/Folder.vue'),
+          FOLDERHEADER: () => import('components/folder/FolderHeader.vue'),
+          FOLDERFORM: () => import('components/folder/FolderForm.vue')
+        }
       }
     ]
   }

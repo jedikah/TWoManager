@@ -1,10 +1,15 @@
 <template>
-  <q-card class="  columns" style="width: 99%; padding: 15px">
-    <q-card-section class="col-1 text-center" style="height: 5%">
+  <q-card
+    class="columns"
+    style="width: 99%; padding-top: 0; height: 100%; border: 1px solid red"
+  >
+    <q-card-section class="text-center" style="height: 5%">
       <p class="text-bold">Ajouter un Client</p>
     </q-card-section>
 
-    <q-card-section class=" q-gutter-lg col">
+    <q-card-section
+      style="height: 95%; padding-left: 15px; padding-right: 40px"
+    >
       <q-form
         @submit="submitAddClient()"
         @reset="
@@ -12,7 +17,7 @@
           state.domicile = '';
           state.contact = '';
         "
-        class="q-gutter-md  row full-width"
+        class="q-gutter-sm  row full-width"
       >
         <q-input
           class="col-12"

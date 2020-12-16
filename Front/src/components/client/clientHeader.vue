@@ -25,7 +25,7 @@ import { formsDrawer } from '../../layouts/MainLayout.vue';
 export const clientFormBtn = ref();
 
 export default defineComponent({
-  name: 'clientHeader',
+  name: 'ClientHeader',
   components: {},
   setup: () => {
     return { formsDrawer, clientFormBtn };

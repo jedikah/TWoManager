@@ -1,29 +1,24 @@
 <template>
   <div
-    style=" box-shadow: 0px 0px 6px 0.2px grey; max-width: 350px; height: 95%;"
+    style=" box-shadow: 0px 0px 6px 0.2px grey; width: 25%; position: sticky; height: 95%; "
   >
     <q-item-label
       header
-      style=" font-weight: 900; font-size: 1.2em; text-align: center"
+      style=" font-weight: 900; font-size: 1.2em; text-align: center; height: 6%"
       >Liste de dossier</q-item-label
     >
     <q-separator />
-    <q-list
-      padding
-      class=" list scroll "
-      style="max-width: 350px; max-height: 100%; height: 75vh; height: 89% "
-    >
+    <q-list style="width: 100%;  height: 94%; overflow: hidden">
       <q-scroll-area
         :thumb-style="thumbStyle"
         :bar-style="barStyle"
-        class=" full-height"
-        style="padding: 15px; padding-bottom: 0; padding-top: 0"
+        style="padding-left: 15px; padding-right: 15px; height: 94%; min-height: 500px; "
       >
         <div
           v-for="folder in !loading ? result.userFolders.folders : []"
           :key="folder.folderId"
         >
-          <q-expansion-item dense dense-toggle expand-icon>
+          <q-expansion-item dense dense-toggle group="somegroup" expand-icon>
             <template v-slot:header>
               <q-item-section avatar center>
                 <q-avatar icon="folder" color="amber" text-color="white" />
@@ -40,6 +35,7 @@
                 <q-linear-progress size="xl" :value="progress1" color="orange">
                   <div class="absolute-full flex flex-center">
                     <q-badge
+                      style="opacity: 0.8"
                       color="white"
                       text-color="orange"
                       :label="progressLabel1"
@@ -51,41 +47,45 @@
 
             <q-card>
               <q-card-section>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Quidem, eius reprehenderit eos corrupti commodi magni quaerat ex
-                numquam, dolorum officiis modi facere maiores architecto
-                suscipit iste eveniet doloribus ullam aliquid.
+                <q-btn-group style="margin-top: 5px; width: 100%">
+                  <q-btn dense style="width: 50%" color="amber">PV</q-btn>
+                  <q-btn dense style="width: 50%" color="orange"
+                    >Supprimer</q-btn
+                  >
+                </q-btn-group>
               </q-card-section>
             </q-card>
           </q-expansion-item>
           <q-separator />
         </div>
       </q-scroll-area>
+      <q-separator />
+      <template style="height: 3%">
+        <div class="row full-width justify-center">
+          <q-pagination
+            v-model="state.pagination.page"
+            :max="state.pagination.totalPages"
+            :direction-links="true"
+            :boundary-links="true"
+            icon-first="skip_previous"
+            icon-last="skip_next"
+            icon-prev="fast_rewind"
+            icon-next="fast_forward"
+            @input="e => fetchMoreFolder(e)"
+          >
+          </q-pagination>
+        </div>
+      </template>
     </q-list>
-    <q-separator />
-    <template style="height: 150px">
-      <div class="row full-width justify-center">
-        <q-pagination
-          v-model="state.pagination.page"
-          :max="state.pagination.totalPages"
-          :direction-links="true"
-          :boundary-links="true"
-          icon-first="skip_previous"
-          icon-last="skip_next"
-          icon-prev="fast_rewind"
-          icon-next="fast_forward"
-          @input="e => fetchMoreFolder(e)"
-        >
-        </q-pagination>
-      </div>
-    </template>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
-import { useUserFolders } from '../../services/folders/useUserFolders';
 import { date } from 'quasar';
+
+import { scrollAreaStyle } from '../../module/scrollAreaStyle';
+import { useUserFolders } from '../../services/folders/useUserFolders';
 
 export default defineComponent({
   name: 'ListFolder',
@@ -96,24 +96,6 @@ export default defineComponent({
       const toFormat = new Date(strDate);
       return date.formatDate(+toFormat, 'YYYY-MM-DDTHH:mm:ss.SSSZ');
     }
-
-    const scrollAreaStyle = {
-      thumbStyle: {
-        right: '4px',
-        borderRadius: '5px',
-        backgroundColor: '#ff9800',
-        width: '5px',
-        opacity: 0.75
-      },
-
-      barStyle: {
-        right: '2px',
-        borderRadius: '9px',
-        backgroundColor: '#ff9800',
-        width: '9px',
-        opacity: 0.2
-      }
-    };
 
     return {
       state,

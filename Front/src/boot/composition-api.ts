@@ -1,9 +1,9 @@
-import VueCompositionApi from '@vue/composition-api';
+import VueCompositionApi, { inject, provide } from '@vue/composition-api';
 import { boot } from 'quasar/wrappers';
-import { provide } from '@vue/composition-api';
 import { DefaultApolloClient } from '@vue/apollo-composable';
 import hooks, { useRouter } from '@u3u/vue-hooks';
 import { apolloClient } from 'src/services/applloClient';
+import VueHtmlToPaper from 'vue-html-to-paper';
 
 import { useSession } from 'src/services/session/useSession';
 import { notifyThere } from 'src/services/context';
@@ -11,6 +11,16 @@ import { notifyThere } from 'src/services/context';
 export default boot(({ Vue, app }) => {
   Vue.use(VueCompositionApi);
   Vue.use(hooks);
+
+  const options = {
+    name: '_blank',
+    specs: ['fullscreen=yes', 'titlebar=yes', 'scrollbars=yes'],
+    styles: [
+      'modelView.min.css'
+      // 'https://cdn.jsdelivr.net/npm/quasar@1.14.7/dist/quasar.min.css'
+    ]
+  };
+  Vue.use(VueHtmlToPaper, options);
 
   app.setup = () => {
     provide(DefaultApolloClient, apolloClient);

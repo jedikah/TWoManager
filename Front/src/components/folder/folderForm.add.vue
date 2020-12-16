@@ -1,29 +1,39 @@
 <template>
-  <q-card class="  columns" style="width: 99%; padding: 15px">
-    <q-card-section class="col-1 text-center" style="height: 5%">
-      <p class="text-bold">Ajouter un dossier</p>
-    </q-card-section>
+  <div style=" width: 99%; height: 100%; overflow: hidden; padding-top: 2%;">
+    <q-item-label
+      header
+      style=" font-weight: 900; font-size: 1.2em; text-align: center; height: 6%; margin-bottom: 1%"
+      >Ajouter un dossier</q-item-label
+    >
+    <q-separator />
 
-    <q-card-section class=" q-gutter-lg col">
-      <q-form class="q-gutter-md  row full-width" @submit.prevent="submit">
-        <div class="col-12" style="margin-bottom: 20px">
-          <q-select
-            class="col-12 full-width"
-            dense
-            rounded
-            outlined
-            label="Client *"
-            v-model="selectClientModel"
-            :loading="loadingSearch"
-            use-input
-            use-chips
-            input-debounce="0"
-            @new-value="createValue"
-            :options="clientOptions"
-            @filter="filterClient"
-            style="width: 250px"
-          />
-        </div>
+    <q-form
+      class=" full-width column justify-center items-center "
+      style="height: 94%;"
+      @submit.prevent="submit"
+    >
+      <q-scroll-area
+        :thumb-style="thumbStyle"
+        :bar-style="barStyle"
+        class="row full-width "
+        style="padding-left: 40px; padding-right: 40px; height: 92%; min-height: 500px"
+      >
+        <q-select
+          class="col-12 full-width"
+          style="margin-bottom: 20px"
+          dense
+          rounded
+          outlined
+          label="Client *"
+          v-model="selectClientModel"
+          :loading="loadingSearch"
+          use-input
+          use-chips
+          input-debounce="0"
+          @new-value="createValue"
+          :options="clientOptions"
+          @filter="filterClient"
+        />
 
         <q-input
           class="col-12"
@@ -39,11 +49,13 @@
 
         <q-input
           class="col-12"
+          style="margin-bottom: 20px"
           dense
           rounded
           outlined
           v-model="state.numTitle"
           label="Numero de titre"
+          :rules="[]"
         />
 
         <q-input
@@ -83,6 +95,7 @@
         />
 
         <q-select
+          dense
           class="col-12"
           rounded
           outlined
@@ -94,26 +107,23 @@
           ]"
         />
 
-        <q-date v-model="state.dateTrav" minimal />
+        <div class="row full-width justify-center">
+          <q-date class=" full-width" v-model="state.dateTrav" minimal />
+        </div>
+      </q-scroll-area>
 
-        <q-btn
-          class="col-5"
-          rounded
-          label="Valider"
-          type="submit"
-          color="amber"
-        />
-
-        <q-btn
-          class="col-5"
-          rounded
-          label="Reset"
-          color="orange"
-          type="reset"
-        />
-      </q-form>
-    </q-card-section>
-  </q-card>
+      <div
+        class=" column full-width justify-center items-center"
+        style="height: 8%; position: sticky"
+      >
+        <q-separator />
+        <q-btn-group rounded style="margin-top: 5px;">
+          <q-btn dense type="submit" color="amber">Valider</q-btn>
+          <q-btn dense color="orange" type="reset">Reset</q-btn>
+        </q-btn-group>
+      </div>
+    </q-form>
+  </div>
 </template>
 
 <script lang="ts">
@@ -124,6 +134,8 @@ import {
   ref,
   watch
 } from '@vue/composition-api';
+
+import { scrollAreaStyle } from '../../module/scrollAreaStyle';
 import { useClientSearch } from '../../services/clients/useClientSearch';
 import { useAddFolder } from '../../services/folders/useAddFolder';
 
@@ -167,6 +179,7 @@ export default defineComponent({
         }
       }
     }
+
     return {
       state,
       clientOptions,
@@ -175,7 +188,8 @@ export default defineComponent({
       createValue,
       selectClientModel,
       loadingSearch,
-      submit
+      submit,
+      ...scrollAreaStyle
     };
   }
 });

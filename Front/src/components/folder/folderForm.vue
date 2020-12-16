@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width: 100%; height: 100%; border: 1px solid #e0dede">
     <FolderAddForm v-if="folderFormBtn === 'add'" />
     <FolderUpdateForm v-if="folderFormBtn === 'update'" />
   </div>
@@ -8,13 +8,13 @@
 <script lang="ts">
 import { defineComponent } from '@vue/composition-api';
 import { useAddClientByUser } from 'src/services/clients/useAddClientByUser';
-import { folderFormBtn } from './folderHeader.vue';
+import { folderFormBtn } from './FolderHeader.vue';
 
 export default defineComponent({
   name: 'folderForm',
   components: {
-    FolderAddForm: require('./folderForm.add').default,
-    FolderUpdateForm: require('./folderForm.update').default
+    FolderAddForm: require('./FolderForm.add').default,
+    FolderUpdateForm: require('./FolderForm.update').default
   },
   setup: () => {
     const [state, submitAddClient] = useAddClientByUser();

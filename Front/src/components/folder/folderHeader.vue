@@ -15,6 +15,7 @@
         { label: 'Modifier un dossier', value: 'update' }
       ]"
     />
+    <q-btn dense color="amber" @click="$htmlToPaper('printPv')">Imprimer</q-btn>
   </div>
 </template>
 
@@ -25,7 +26,7 @@ import { formsDrawer } from '../../layouts/MainLayout.vue';
 export const folderFormBtn = ref();
 
 export default defineComponent({
-  name: 'clientHeader',
+  name: 'FolderHeader',
   components: {},
   setup: () => {
     return { formsDrawer, folderFormBtn };
