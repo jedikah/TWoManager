@@ -1,0 +1,8 @@
+yarn run v1.22.5
+$ npm run typeorm migration:generate -- -d src/migrations -n "table_letter_set_primayGenerated@Field(()" =
+
+> two@0.0.1 typeorm D:\Projet\Quasar\TWoManager\Back
+> npx typeorm --config dist/src/configs/typeorm.cli.js "migration:generate" "-d" "src/migrations" "-n" "table_letter_set_primayGenerated@Field(()" "="
+
+Migration D:\Projet\Quasar\TWoManager\Back/src/migrations/1604670183116-table_letter_set_primayGenerated@Field(().ts has been generated successfully.
+Done in 6.85s.

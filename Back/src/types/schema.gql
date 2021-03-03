@@ -2,18 +2,63 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type ClientEntity {
-  clientId: ID!
-  clientName: String!
-  domicile: String
-  contact: String
+type CheckTokenOutput {
+  exp: Int!
+  iat: Int!
+  login: String!
+  photo: String
+  status: Boolean!
+  type: String!
+  userId: ID!
+  userName: String!
 }
 
-input ClientInput {
+type Client {
+  clientId: ID!
+  clientName: String!
+  contact: String
+  domicile: String
+}
+
+input ClientAddInput {
   clientId: ID
   clientName: String!
-  domicile: String
   contact: String
+  domicile: String
+}
+
+type ClientsCollaborateResult {
+  clients: [Client!]!
+  paginationMeta: PaginationMeta!
+}
+
+input ClientSearchInput {
+  clientName: String!
+}
+
+input ClientUpdateInput {
+  clientId: ID!
+  clientName: String!
+  contact: String
+  domicile: String
+}
+
+type Convocation {
+  atTown: String!
+  convokeOn: DateTime!
+  id: ID!
+  namePersConv: String!
+  numRegister: Float!
+  numRequisition: String!
+}
+
+input ConvocationAddInput {
+  atTown: String!
+  convokeOn: DateTime!
+  folderId: Float!
+  namePersConv: String!
+  numRegister: Float!
+  numRequisition: String!
 }
 
 """
@@ -21,83 +66,203 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type FolderEntity {
-  folderId: ID!
-  userId: Float!
-  clientId: Float!
-  factureId: Float!
-  register: String!
-  numTitle: String!
-  groundName: String!
-  localisationTrav: String!
-  fokontany: String!
-  dateTrav: DateTime!
-  typeTrav: String!
-  price: Float!
+type Facture {
+  dateFacture: Float!
+  factureId: ID!
 }
 
-input LoginInput {
+type Folder {
+  client: Client!
+  dateTrav: DateTime!
+  facture: Facture
+  fokontany: String!
+  folderId: ID!
+  groundName: String!
+  localisationTrav: String!
+  numTitle: String
+  price: Float
+  register: String!
+  typeTrav: String!
+  user: User
+}
+
+input FolderAddInput {
+  clientId: Float!
+  dateTrav: DateTime
+  factureId: Float
+  fokontany: String!
+  folderId: ID
+  groundName: String!
+  localisationTrav: String!
+  numTitle: String
+  price: Float
+  register: String!
+  typeTrav: String!
+}
+
+input FoldersFilterInput {
+  groundName: String
+  numTitle: String
+  register: String
+}
+
+type FoldersResult {
+  folders: [Folder!]!
+  paginationMeta: PaginationMeta!
+}
+
+input FolderUpdateInput {
+  clientId: Float!
+  dateTrav: DateTime!
+  factureId: Float
+  fokontany: String!
+  folderId: ID!
+  groundName: String!
+  localisationTrav: String!
+  numTitle: String
+  price: Float
+  register: String!
+  typeTrav: String!
+  userId: Float
+}
+
+type Letter {
+  dateRtx: DateTime!
+  folder: Folder
+  id: ID!
+  letterTown: String!
+  numRtx: String!
+  object: String!
+}
+
+input LetterAddInput {
+  dateRtx: DateTime!
+  folderId: Float!
+  id: ID
+  letterTown: String!
+  numRtx: String!
+  object: String!
+}
+
+input LetterUpdateInput {
+  dateRtx: DateTime!
+  folderId: Float!
+  id: ID
+  letterTown: String!
+  numRtx: String!
+  object: String!
+}
+
+input LogInInput {
   login: String!
   password: String!
 }
 
-type LoginOutput {
+type LogInOutput {
   token: String
   type: String
 }
 
+type Model {
+  content: String
+  label: String!
+  modelId: ID!
+}
+
 type Mutation {
-  login(input: LoginInput!): LoginOutput!
-  register(input: UserInput!): UserOutput!
-  uploadFile(login: String!, file: Upload!): Boolean!
-  addClientByUser(input: ClientInput!): ClientEntity!
+  addClientByUser(input: ClientAddInput!): Client!
+  addConvocation(input: ConvocationAddInput!): Convocation!
+  addFolder(input: FolderAddInput!): Folder!
+  addLetter(input: LetterAddInput!): Letter!
+  addPv(input: PvAddInput!): Pv!
+  checkToken(input: String!): CheckTokenOutput!
+  login(input: LogInInput!): LogInOutput!
+  loginSession(input: LogInInput!): Boolean!
+  register(input: RegisterInput!): UserOutput!
+  updateClient(input: ClientUpdateInput!): Client!
+  updateFolder(input: FolderUpdateInput!): Folder!
+  updateLetter(input: LetterUpdateInput!): Letter!
+  uploadFile(file: Upload!, login: String!): Boolean!
+}
+
+input PaginationInput {
+  limit: Float!
+  page: Float!
+}
+
+type PaginationMeta {
+  currentPage: Float!
+  itemCount: Float!
+  itemsPerPage: Float!
+  totalItems: Float!
+  totalPages: Float!
+}
+
+type Pv {
+  attachments: String
+  causeA: String
+  causeB: String
+  commune: String
+  district: String
+  folder: Folder
+  model: Model
+  pvId: ID!
+  pvMere: String
+  region: String
+  typePv: String
+}
+
+input PvAddInput {
+  attachments: String
+  causeA: String
+  causeB: String
+  commune: String
+  district: String
+  folderId: Float!
+  pvMere: String
+  region: String
+  typePv: String
+}
+
+input PvByFolderInput {
+  folderId: Float!
 }
 
 type Query {
-  loginSession(input: LoginInput!): Boolean!
-  checkToken(input: String!): VerifyToken!
-  users: [UserEntity!]
+  clientSearch(input: ClientSearchInput!): [Client!]!
+  pvByFolder(input: PvByFolderInput!): [Pv!]!
+  userClients(paginationInput: PaginationInput!): ClientsCollaborateResult!
+  userFolders(foldersFilterInput: FoldersFilterInput!, paginationInput: PaginationInput!): FoldersResult!
+  users: [User!]
   usersCount: Int!
-  clientListByUser: [ClientEntity!]!
+}
+
+input RegisterInput {
+  login: String!
+  password: String!
+  photo: String
+  userName: String!
 }
 
 """The `Upload` scalar type represents a file upload."""
 scalar Upload
 
-type UserEntity {
+type User {
+  folders: [Folder!]!
+  login: String!
+  password: String!
+  photo: String
+  status: Boolean
+  type: String
   userId: ID!
   userName: String!
-  login: String!
-  password: String!
-  photo: String
-  type: String
-  status: Boolean
-  folders: [FolderEntity!]!
-}
-
-input UserInput {
-  userName: String!
-  login: String!
-  password: String!
-  photo: String
 }
 
 type UserOutput {
-  userId: ID!
-  userName: String!
   login: String!
   photo: String
-  type: String
   status: Boolean
-}
-
-type VerifyToken {
+  type: String
   userId: ID!
   userName: String!
-  login: String!
-  photo: String
-  type: String!
-  status: Boolean!
-  iat: Int!
-  exp: Int!
 }
