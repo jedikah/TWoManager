@@ -1,8 +1,8 @@
 <template>
   <q-page-container
-    v-if="!sessionState"
-    class="column fullscreen items-center  justify-center noFilter"
-    style="background-color: #2f2d2da3;"
+    v-if="sessionState.session !== undefined && !sessionState.session"
+    class="column fullscreen items-center justify-center noFilter"
+    style="background-color: #2f2d2da3"
   >
     <SessionLogin style="width: 300px">
       <q-btn
@@ -16,29 +16,24 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import { mapFields } from 'vuex-map-fields';
+import { defineComponent, ref } from 'vue';
+import { useSession } from 'src/services/session/useSession';
 
-@Component({
+export default defineComponent({
   name: 'OutSession',
   components: {
-    SessionLogin: require('src/components/authentification/SessionLogin.vue')
-      .default
+    SessionLogin: () =>
+      import('src/components/authentification/SessionLogin.vue'),
   },
-  computed: {
-    ...mapFields({
-      currentUser: 'usersModule.currentUser',
-      sessionState: 'usersModule.session'
-    })
-  }
-})
-export default class OutSession extends Vue {
-  private reconnect = false;
-  private currentUser;
-  private sessionState;
+  setup: () => {
+    const { state: sessionState } = useSession();
 
-  mounted() {
-    // console.log({ cur: this.currentUser });
-  }
-}
+    const reconnect = ref(false);
+
+    return {
+      reconnect,
+      sessionState,
+    };
+  },
+});
 </script>

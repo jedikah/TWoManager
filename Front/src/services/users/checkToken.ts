@@ -1,6 +1,7 @@
-import { CHECKtOKEN } from 'src/api/users/checkToken';
-import graphqlClient from '../index';
-import { context, notifyThere, notifyThis } from '../context';
+import { CHECKTOKEN, CheckTokenData } from './useCheckToken.gql';
+import { apolloClient } from '../applloClient';
+import { notifyThere, notifyThis } from '../context';
+import { MutationCheckTokenArgs } from '../types';
 
 export const checkToken = async (token?: string) => {
   if (!token) token = localStorage.getItem('token') || null;
@@ -10,12 +11,15 @@ export const checkToken = async (token?: string) => {
   let response = null;
   if (token)
     try {
-      response = await graphqlClient.query({
-        query: CHECKtOKEN,
+      response = await apolloClient.mutate<
+      CheckTokenData,
+      MutationCheckTokenArgs
+    >({
+        mutation: CHECKTOKEN,
         variables: {
           input: token
         },
-        fetchPolicy: 'network-only'
+        fetchPolicy: 'no-cache'
       });
 
       if (response.errors) {
@@ -25,7 +29,8 @@ export const checkToken = async (token?: string) => {
 
       return response.data.checkToken;
     } catch (err) {
-      console.log('users query, checkToken: ', err);
+      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+      notifyThis({message: 'users query, checkToken: ' + err, type: 'warning'})
     }
-  else notifyThis(message, 'info');
+  else notifyThis({message, type : 'info'});
 };

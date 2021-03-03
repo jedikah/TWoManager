@@ -1,6 +1,6 @@
 <template>
   <q-card :class="'my-card ' + myclass.form" style="height: 100%">
-    <q-card-section :class="myclass.h1" style="height: 50px;">
+    <q-card-section :class="myclass.h1" style="height: 50px">
       <div class="text-h6 text-center" style="color: #f2c037">S'identifier</div>
     </q-card-section>
 
@@ -8,11 +8,11 @@
 
     <q-card-section>
       <div class="q-pa-md">
-        <q-form @submit.prevent="loginSubmit()" class="q-gutter-md col ">
+        <q-form @submit.prevent="submitLogIn()" class="q-gutter-md col">
           <!--
               SECTION FORMULAIRE
             -->
-          <div class=" col-8 q-gutter-lg " style="padding-top: 15px; ">
+          <div class="col-8 q-gutter-lg" style="padding-top: 15px">
             <q-input
               :dark="myclass.dark"
               :dense="true"
@@ -24,7 +24,7 @@
               hint="Indentifiant de connexion"
               lazy-rules
               :rules="[
-                val => (val && val.length > 0) || 'Le champ est obligatoir'
+                (val) => (val && val.length > 0) || 'Le champ est obligatoir',
               ]"
             >
               <template v-slot:append>
@@ -42,7 +42,7 @@
               v-model="logIn.password"
               :type="!pwdVisible ? 'password' : 'text'"
               :rules="[
-                val => (val && val.length > 0) || 'Le champ est obligatoir'
+                (val) => (val && val.length > 0) || 'Le champ est obligatoir',
               ]"
               hint="Mot de passe de connexion"
             >
@@ -56,7 +56,7 @@
               </template>
             </q-input>
 
-            <q-btn-group class=" col-12" style=" box-shadow: none" spread push>
+            <q-btn-group class="col-12" style="box-shadow: none" spread push>
               <q-btn
                 label="Valider"
                 type="submit"
@@ -81,34 +81,35 @@
 </template>
 
 <script lang="ts">
-import {
-  ref,
-  computed,
-  watch,
-  toRef,
-  reactive,
-  defineComponent,
-  createApp
-} from '@vue/composition-api';
+import { ref, defineComponent } from 'vue';
+// import { execute } from 'tauri/api/process';
 
-import { logIn } from 'src/services/store/state';
 import { useLogIn } from 'src/services/users/useLogIn';
 
+// const path = require('path');
+
 export default defineComponent({
+  name: 'Login',
   props: {
     myclass: {
       required: false,
       type: Object,
-      default: () => ({ form: '', h1: '', dark: false })
-    }
+      default: () => ({ form: '', h1: '', dark: false }),
+    },
   },
   setup: () => {
     const pwdVisible = ref(false);
+    const { logIn, submitLogIn, loading: loadingLogin } = useLogIn();
+    // const cwd = path.join(__dirname, '..');
+    // const file = 'index.ts';
+
     return {
       logIn,
-      pwdVisible
+      pwdVisible,
+      submitLogIn,
+      loadingLogin,
     };
-  }
+  },
 });
 </script>
 

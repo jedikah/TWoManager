@@ -11,6 +11,11 @@
  **/
 
 
+import { createApp } from 'vue'
+
+
+
+
 
 import '@quasar/extras/roboto-font/roboto-font.css'
 
@@ -27,34 +32,17 @@ import 'quasar/dist/quasar.sass'
 
 import 'src/css/app.scss'
 
-
-import Vue from 'vue'
-import createApp from './app.js'
+import 'src/css/mainLayout.scss'
 
 
-
-
-import qboot_Bootnotifydefaults from 'boot/notify-defaults'
-
-import qboot_Bootguard from 'boot/guard'
-
-import qboot_Bootapollo from 'boot/apollo'
+import createQuasarApp from './app.js'
 
 
 
 
 
-import electron from 'electron'
-Vue.prototype.$q.electron = electron
 
-
-
-Vue.config.devtools = true
-Vue.config.productionTip = false
-
-
-
-console.info('[Quasar] Running ELECTRON.')
+console.info('[Quasar] Running SPA.')
 
 
 
@@ -63,9 +51,7 @@ console.info('[Quasar] Running ELECTRON.')
 const publicPath = ``
 
 
-async function start () {
-  const { app, store, router } = await createApp()
-
+async function start ({ app, router, store }, bootFiles) {
   
 
   
@@ -73,26 +59,20 @@ async function start () {
   const redirect = url => {
     hasRedirected = true
     const normalized = Object(url) === url
-      ? router.resolve(url).route.fullPath
+      ? router.resolve(url).fullPath
       : url
 
     window.location.href = normalized
   }
 
   const urlPath = window.location.href.replace(window.location.origin, '')
-  const bootFiles = [qboot_Bootnotifydefaults,qboot_Bootguard,qboot_Bootapollo]
 
   for (let i = 0; hasRedirected === false && i < bootFiles.length; i++) {
-    if (typeof bootFiles[i] !== 'function') {
-      continue
-    }
-
     try {
       await bootFiles[i]({
         app,
         router,
         store,
-        Vue,
         ssrContext: null,
         redirect,
         urlPath,
@@ -115,22 +95,36 @@ async function start () {
   }
   
 
+  app.use(router)
+  app.use(store)
+
   
 
     
 
     
-
-    
-      new Vue(app)
-    
-
-    
-
+      app.mount('#q-app')
     
 
   
 
 }
 
-start()
+createQuasarApp(createApp)
+
+  .then(app => {
+    return Promise.all([
+      
+      import(/* webpackMode: "eager" */ 'boot/composition-api'),
+      
+      import(/* webpackMode: "eager" */ 'boot/notify-defaults')
+      
+    ]).then(bootFiles => {
+      const boot = bootFiles
+        .map(entry => entry.default)
+        .filter(entry => typeof entry === 'function')
+
+      start(app, boot)
+    })
+  })
+

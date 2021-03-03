@@ -7,19 +7,11 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator';
-import { mapActions } from 'vuex';
-import { mapFields } from 'vuex-map-fields';
+import { defineComponent } from 'vue';
 
-@Component({
-  name: 'SimpleLayout',
-  computed: {
-    ...mapFields({
-      sessionState: 'usersModule.session'
-    })
-  }
-})
-export default class SimpleLayout extends Vue {
-  private sessionState;
-}
+export default defineComponent({
+  setup: () => {
+    return {};
+  },
+});
 </script>

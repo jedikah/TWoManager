@@ -1,185 +1,177 @@
 <template>
-  <q-layout view="lHh LpR lfr" class=" fullscreen">
-    <div :class="!session && 'sessionFilter'" style="padding-top: 10px">
-      <q-header
-        reveal
-        class="text-white"
-        style="background: white; position: absolute; top: 10px; border-radius: 45px 45px 45px 45px; box-shadow: 1px 1px 5px grey"
-      >
-        <q-toolbar class=" full-height" style="min-height: 35px; color: black;">
-          <q-btn dense flat round icon="menu" @click="left = !left" />
+  <div>
+    <q-layout
+      :class="!sessionState.session && 'sessionFilter'"
+      view="hHh LpR fff"
+      class="fullscreen column"
+      style="padding-top: 10px; min-width: 1280px"
+    >
+      <q-header reveal class="text-white myHeader">
+        <q-toolbar
+          class="full-height row"
+          style="min-height: 35px; color: black; padding-right: 50px"
+        >
+          <div class="col-1">
+            <q-btn
+              dense
+              flat
+              round
+              icon="menu"
+              @click="routeDrawer = !routeDrawer"
+            />
+          </div>
 
-          <q-toolbar-title style="font-size: 1em">
-            T.Wo.Manager
-          </q-toolbar-title>
+          <div class="col-1">
+            <q-toolbar-title style="font-size: 1em">
+              T.Wo.Manager
+            </q-toolbar-title>
+          </div>
 
-          <q-btn
-            dense
-            flat
-            label="Client"
-            @click="
-              formsRoute = 'CLIENT';
-              formsDrawer = true;
-            "
-          />
+          <div class="col-10">
+            <router-view name="header" />
+          </div>
         </q-toolbar>
       </q-header>
 
-      <q-drawer v-model="left" side="left" behavior="desktop" bordered>
-        <q-scroll-area
-          style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd"
-        >
-          <q-list padding>
-            <q-item clickable v-ripple>
-              <q-item-section avatar>
-                <q-icon name="inbox" />
-              </q-item-section>
+      <!-- //Route based drawer -->
 
-              <q-item-section @click="$router.push('/')">
-                Inbox
-              </q-item-section>
-            </q-item>
+      <RouteDrawer />
 
-            <q-item active clickable v-ripple>
-              <q-item-section avatar>
-                <q-icon name="star" />
-              </q-item-section>
-
-              <q-item-section>
-                Star
-              </q-item-section>
-            </q-item>
-
-            <q-item clickable v-ripple>
-              <q-item-section avatar>
-                <q-icon name="send" />
-              </q-item-section>
-
-              <q-item-section>
-                Send
-              </q-item-section>
-            </q-item>
-
-            <q-item clickable v-ripple>
-              <q-item-section avatar>
-                <q-icon name="drafts" />
-              </q-item-section>
-
-              <q-item-section>
-                Drafts
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-scroll-area>
-
-        <q-img
-          class="absolute-top"
-          src="https://cdn.quasar.dev/img/material.png"
-          style="height: 150px"
-        >
-          <div class="absolute-bottom bg-transparent">
-            <q-avatar size="56px" class="q-mb-sm">
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
-            </q-avatar>
-            <div class="text-weight-bold">Razvan Stoenescu</div>
-            <div>@rstoenescu</div>
-          </div>
-        </q-img>
-      </q-drawer>
-
-      // FORM DRAWER MENU
+      <!-- // FORM DRAWER  -->
       <q-drawer
-        style=" background: transparent;"
+        :mini-width="400"
+        :width="400"
         v-model="formsDrawer"
         side="right"
         behavior="desktop"
+        style="padding-right: 20px; margin-top: 20px"
+        overlay
+        mini-to-overlay
       >
         <div
-          class=" full-height full-width column justify-center items-center "
-          style=""
+          class="q-mini-drawer-hide absolute-top fab-container"
+          style="margin-top: 20px"
         >
-          <q-btn
-            style="width: 80%"
-            rounded
-            dense
-            label="Fermer"
-            color="orange"
-            text-color="black"
-            @click="formsDrawer = false"
-          />
-          <ClienForm v-if="formsRoute === 'CLIENT'" />
+          <div class="full-width full-height bg-white">
+            <q-fab
+              v-model="formsDrawer"
+              @click="handleCloseRouteDrawer"
+              color="amber"
+              text-color="black"
+              icon="keyboard_arrow_left"
+              direction="right"
+              style="z-index: 1000"
+            />
+          </div>
+        </div>
+
+        <div style="margin-top: 55px">
+          <router-view name="form" />
         </div>
       </q-drawer>
 
-      <q-page-container>
-        <router-view />
+      <q-page-container class="col" style="padding-top: 0">
+        <div class="row" style="width: 100%">
+          <router-view style="width: 100%" />
+        </div>
 
-        <q-card
-          v-if="countDownState <= 15 && countDownState > 0"
-          style="height: 90px;
-        width: 150px;
-        background: none;
-        color: grey;
-        opacity: 0.5;
-        line-height: 10px;
-        text-align: center;
-        position: fixed;
-        bottom: 50px;
-        zoom: 0.8"
-        >
+        <q-card v-if="countDown <= 15 && countDown > 0" class="myCountDownCard">
           <p></p>
           <p>session expiré dans:</p>
-          <p>{{ countDownState }}</p>
+          <p>{{ countDown }}</p>
           <p>second</p>
         </q-card>
       </q-page-container>
-    </div>
-    <OutSession />
-  </q-layout>
+    </q-layout>
+    <q-layout>
+      <OutSession />
+    </q-layout>
+  </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch, Mixins } from 'vue-property-decorator';
-import { mapFields } from 'vuex-map-fields';
+import { useRoute } from 'vue-router';
+import { computed, defineComponent, ref, watchEffect } from 'vue';
+import { clientFormBtn } from 'src/components/client/ClientForm.vue';
+import { folderFormBtn } from 'src/components/folder/FolderForm.vue';
 
-import userSession from 'src/module/session.module';
-import { formsRouteType } from 'src/store/users/users.types';
+import userSession from 'src/utils/session.module';
+import { useSession } from 'src/services/session/useSession';
 
-import { MainLayoutProperty } from 'src/mixins/mainLayoutProperty';
+export const formsDrawer = ref(false);
+export const routeDrawer = ref(true);
+export const formWidth = ref(400);
 
-@Component({
-  name: 'MainLayout',
+export default defineComponent({
+  name: 'MaynLayout',
   components: {
     OutSession: require('src/pages/OutSession.vue').default,
-    ClienForm: require('src/components/client/ClientForm').default
-  }
-})
-export default class MainLayout extends MainLayoutProperty {
-  private countDownState = 16;
+    // FolderForm: require('src/components/folder/FolderForm').default,
+    // FolderHeader: require('src/components/folder/FolderHeader.vue').default,
+    RouteDrawer: require('./MainLayout.routeDrawer.vue').default,
+  },
+  setup: () => {
+    const route = useRoute();
+    const countDown = ref(16);
+    const routeName = computed(() => route.name);
 
-  private left = false;
+    const { state: sessionState } = useSession();
 
-  @Watch('sessionState')
-  changeSession(session) {
-    this.startSession(session);
-  }
+    const startSession = (session: boolean) => {
+      if (session === true) {
+        userSession.start(sessionState.currentUser.exp);
+        userSession.onTimeOutChange((t) => {
+          if (t <= 15 && t >= 0) {
+            countDown.value = t;
+          } else countDown.value = 16;
+          if (t === 1) setTimeout(() => (sessionState.session = false), 1000);
+        });
+      }
+    };
 
-  startSession(sessionState) {
-    if (sessionState === true) {
-      userSession.start(this, this.currentUser.exp);
-      userSession.onTimeOutChange(t => {
-        // console.log(t);
-        if (t <= 15) {
-          this.countDownState = t;
-        } else this.countDownState = 16;
-        if (t === 0) this.session = false;
-      });
-    }
-  }
+    const handleCloseRouteDrawer = () => {
+      clientFormBtn.value = null;
+      folderFormBtn.value = null;
+    };
 
-  mounted() {
-    this.startSession(this.session);
-    console.log({ form: this.formsRoute });
-  }
-}
+    watchEffect(() => {
+      startSession(sessionState.session);
+    });
+
+    return {
+      routeName,
+      formsDrawer,
+      routeDrawer,
+      sessionState,
+      countDown,
+      handleCloseRouteDrawer,
+    };
+  },
+});
 </script>
+
+<style scoped>
+.fab-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 70px;
+  top: 20px;
+  left: 40%;
+  border-radius: 50px;
+  box-shadow: 0.2px 0.2px 3px gray;
+}
+
+.fab-container div {
+  border-radius: 50px;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* .q-drawer {
+  background: red !important;
+} */
+</style>

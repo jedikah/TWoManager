@@ -1,0 +1,28 @@
+.myHeader {
+  background: white;
+  position: relative;
+  border-radius: 45px 45px 45px 45px;
+  box-shadow: 1px 1px 5px grey;
+  height: 4%;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  width: 100%;
+  z-index: 9999;
+}
+
+.myCountDownCard {
+  height: 90px;
+  width: 150px;
+  background: none;
+  color: grey;
+  opacity: 0.5;
+  line-height: 10px;
+  text-align: center;
+  position: fixed;
+  bottom: 25px;
+  zoom: 0.8;
+}
+
+.q-drawer {
+  background: transparent !important;
+}

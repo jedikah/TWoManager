@@ -1,5 +1,5 @@
 <template>
-  <q-card :class="'my-card ' + myclass.form" style="height: 100%;">
+  <q-card :class="'my-card ' + myclass.form" style="height: 100%">
     <q-card-section :class="myclass.h1" style="height: 50px">
       <div class="text-h6 text-center" style="color: #f2c037">
         Créer un compte
@@ -10,24 +10,14 @@
 
     <q-card-section>
       <div class="q-pa-md">
-        <q-form
-          @submit.prevent="
-            register({
-              userName,
-              login,
-              password,
-              pdpFile
-            })
-          "
-          class=" col"
-        >
+        <q-form @submit.prevent="submit" class="col">
           <div class="column full-width">
             <!--
               SECTION PDP
             -->
             <div
-              class=" row full-width justify-center items-center col-4"
-              style="margin: 0;"
+              class="row full-width justify-center items-center col-4"
+              style="margin: 0"
             >
               <!--Avatar-->
               <div class="col-4">
@@ -52,7 +42,7 @@
                 :dense="true"
                 outlined
                 bottom-slots
-                v-model="pdpFileInput"
+                v-model="pdpUploadVar.file"
                 max-file-size="2000048"
                 label-color="orange"
                 label="Poids max (2M)"
@@ -61,7 +51,7 @@
                 @rejected="
                   $q.notify({
                     type: 'negative',
-                    message: 'Votre photo de profile ne doit pas dépasser 2Mo'
+                    message: 'Votre photo de profile ne doit pas dépasser 2Mo',
                   })
                 "
               >
@@ -82,7 +72,7 @@
                 hint="Nom complet"
                 lazy-rules
                 :rules="[
-                  val => (val && val.length > 0) || 'Le champ est obligatoir'
+                  (val) => (val && val.length > 0) || 'Le champ est obligatoir',
                 ]"
               />
 
@@ -98,11 +88,12 @@
                 hint="Indentifiant de connexion"
                 lazy-rules
                 :rules="[
-                  val => (val && val.length > 0) || 'Le champ est obligatoir.',
-                  val => (val && val.length < 21) || '20 charactère au max.',
-                  val =>
+                  (val) =>
+                    (val && val.length > 0) || 'Le champ est obligatoir.',
+                  (val) => (val && val.length < 21) || '20 charactère au max.',
+                  (val) =>
                     val.split(' ').length <= 1 ||
-                    'Ce champ ne doit pas contenir des éspaces.'
+                    'Ce champ ne doit pas contenir des éspaces.',
                 ]"
               >
                 <template v-slot:append>
@@ -110,10 +101,10 @@
                 </template>
               </q-input>
               <!-- MOTS DE PASSE -->
-              <div class="col-12 row ">
+              <div class="col-12 row">
                 <q-input
                   :dark="myclass.dark"
-                  class="col-6 "
+                  class="col-6"
                   :dense="true"
                   outlined
                   label-color="orange"
@@ -122,7 +113,8 @@
                   v-model="password"
                   :type="!pwdVisible ? 'password' : 'text'"
                   :rules="[
-                    val => (val && val.length > 0) || 'Le champ est obligatoir'
+                    (val) =>
+                      (val && val.length > 0) || 'Le champ est obligatoir',
                   ]"
                   hint="Mot de passe de connexion"
                 >
@@ -147,7 +139,7 @@
                   v-model="passwordConfirm"
                   :type="!pwdVisible ? 'password' : 'text'"
                   :rules="[
-                    val => val === password || 'Le champ est obligatoir'
+                    (val) => val === password || 'Le champ est obligatoir',
                   ]"
                   hint="Confirmer le mot de passe"
                 >
@@ -162,12 +154,7 @@
                 </q-input>
               </div>
               <!-- BOUTON SUBMIT  -->
-              <q-btn-group
-                class=" col-12"
-                style=" box-shadow: none; "
-                spread
-                push
-              >
+              <q-btn-group class="col-12" style="box-shadow: none" spread push>
                 <q-btn
                   color="amber"
                   text-color="black"
@@ -180,10 +167,10 @@
                   text-color="black"
                   type="reset"
                   @click="
-                    userName = '';
-                    login = '';
-                    password = '';
-                    passwordConfirm = '';
+                    userName = null;
+                    login = null;
+                    password = null;
+                    passwordConfirm = null;
                   "
                   push
                   label="Reset"
@@ -198,28 +185,58 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Watch, Mixins } from 'vue-property-decorator';
+import { ref, defineComponent, Ref, watch } from 'vue';
+import { useQuasar } from 'quasar';
 
-import { RegisterProperty } from 'src/mixins/registerProperty';
+import { useRegister } from 'src/services/users/useRegister';
 
-@Component({ name: 'Register' })
-export default class Register extends RegisterProperty {
-  private pdpFileInput = null;
+export default defineComponent({
+  props: {
+    myclass: {
+      required: false,
+      type: Object,
+      default: () => ({ form: '', h1: '', dark: false }),
+    },
+  },
+  setup: () => {
+    const {
+      registerState,
+      loading: loadingRegister,
+      submit: submitRegister,
+      pdpUploadVar,
+    } = useRegister();
 
-  private passwordConfirm = '';
-  private pwdVisible = false;
-  private b64: string | ArrayBuffer = '';
+    const b64: Ref<string | ArrayBuffer> = ref('');
+    const pwdVisible = ref(false);
+    const passwordConfirm = ref('');
 
-  @Prop({ default: { form: '', h1: '', dark: false } })
-  readonly myclass?: { form: string; h1: string; dark: boolean };
+    watch(pdpUploadVar, (newPdpFile) => {
+      b64.value = URL.createObjectURL(newPdpFile.file);
 
-  @Watch('pdpFileInput')
-  changePdp(src) {
-    this.b64 = URL.createObjectURL(src);
-    this.pdpFile = src;
-    console.log({ src, b64: this.b64 });
-  }
-}
+      if (pdpUploadVar.file) {
+        pdpUploadVar.login = registerState.login;
+        registerState.photo =
+          registerState.login + '/' + registerState.login + '_pdp.JPG';
+      }
+    });
+
+    function submit() {
+      submitRegister();
+      passwordConfirm.value = null;
+    }
+
+    return {
+      $q: useQuasar,
+      ...registerState,
+      loadingRegister,
+      submit,
+      b64,
+      pwdVisible,
+      passwordConfirm,
+      pdpUploadVar,
+    };
+  },
+});
 </script>
 
 <style></style>

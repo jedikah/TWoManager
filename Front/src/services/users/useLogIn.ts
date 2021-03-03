@@ -1,32 +1,64 @@
 import { useMutation } from '@vue/apollo-composable';
 import { logErrorMessages } from '@vue/apollo-util';
-import { ref, reactive } from '@vue/composition-api';
+import { reactive, Ref } from 'vue';
 
-import { logIn } from '../store/state';
-import { LOGIN } from 'src/api/users/login';
-import { notifyThis } from '../context';
+import { LOGIN, LogInData } from './useLogin.gql';
+import { notifyThere } from '../context';
+import { LogInInput, MutationLoginArgs } from '../types';
+import { useRouter } from 'vue-router';
+import { useSession } from '../session/useSession';
 
-export const useLogIn = () => {
-  const { onDone, onError, loading } = useMutation(LOGIN, {
-    variables: {
-      input: {
-        login: logIn.login,
-        password: logIn.password
-      }
-    }
+export const useLogIn = ()=> {
+  const { mutate: sendLogIn, onDone: onSendDone, onError, loading } = useMutation<
+    LogInData,
+    MutationLoginArgs
+  >(LOGIN);
+
+  const logIn: LogInInput = reactive({
+    login: 'jedikah',
+    password: '123'
+  });
+  const router = useRouter();
+
+  const {
+    state: sessionState,
+    checkToken,
+    onDone: onChectTonkenDone
+  } = useSession();
+
+  onSendDone(({ data: logInData, errors }) => {
+    if (errors) notifyThere(errors);
+    console.log('+++++++++++++++++++++ SEND +++++++++++++++++++++++++')
+
+
+    localStorage.setItem('token', logInData.login.token);
+
+    checkToken(logInData.login.token);
   });
 
-  onDone(({ data }) => {
+  onChectTonkenDone(({ errors }) => {
+    if (errors) notifyThere(errors);
+    console.log('+++++++++++++++++++++ TOKEN +++++++++++++++++++++++++')
+
     logIn.login = '';
     logIn.password = '';
-
-    console.log({ data });
+    sessionState.session = true;
+    router.push('/main');
   });
 
   onError(error => {
     logErrorMessages(error);
-    notifyThis(error.message);
   });
 
-  return { loading };
+  const submitLogIn = () => {
+    if (logIn.login !== '' && logIn.password !== '')
+      sendLogIn({
+        input: {
+          login: logIn.login,
+          password: logIn.password
+        }
+      });
+  };
+
+  return {logIn, submitLogIn, loading};
 };

@@ -1,22 +1,22 @@
 <template>
   <q-card :class="'my-card '" :style="'background: none; margin-bottom: 5px;'">
     <div
-      class=" full-width full-height"
-      style="position: absolute;  background: white; opacity: 0.1 "
+      class="full-width full-height"
+      style="position: absolute; background: white; opacity: 0.1"
     ></div>
 
     <q-separator inset />
 
     <q-card-section class="column" style="padding: 0; margin: 0">
-      <Avatar :src="currentUser.photo" :name="currentUser.userName" />
+      <Avatar :src="photo" :name="userName" />
       <q-btn
         label="S'authentifier"
         type="button"
         color="amber"
         text-color="black"
         @click="
-          checkTokenSession();
-          toLogin = !toLogin;
+          checkTokenVariable.input = getToken();
+          toCheckTokenMutate();
         "
       />
     </q-card-section>
@@ -25,11 +25,11 @@
       v-if="toLogin"
       style="padding-top: 0; margin-top: 0; background: white"
     >
-      <div class=" q-gutter-xs">
+      <div class="q-gutter-xs">
         <q-form
           @submit.prevent="
-            checkTokenSession();
-            loginSessionSubmit();
+            toCheckTokenMutate();
+            submitLogInSession();
           "
           class="q-gutter-sx"
         >
@@ -37,18 +37,17 @@
               SECTION FORMULAIRE
             -->
 
-          <div class=" col-8 q-gutter-xs " style="padding-top: 15px; ">
+          <div class="col-8 q-gutter-xs" style="padding-top: 15px">
             <q-input
               :dense="true"
               outlined
               color="grey-3"
               label-color="orange"
-              lazy-rules
               label="Mot de passe *"
-              v-model="password"
+              v-model="logInSessionState.password"
               :type="!pwdVisible ? 'password' : 'text'"
               :rules="[
-                val => (val && val.length > 0) || 'Le champ est obligatoir'
+                (val) => (val && val.length > 0) || 'Le champ est obligatoir',
               ]"
               hint="Mot de passe de connexion"
             >
@@ -62,7 +61,7 @@
               </template>
             </q-input>
 
-            <q-btn-group class=" col-12" style=" box-shadow: none" spread push>
+            <q-btn-group class="col-12" style="box-shadow: none" spread push>
               <q-btn
                 label="Valider"
                 type="submit"
@@ -73,7 +72,7 @@
                 label="Reset"
                 color="orange"
                 text-color="black"
-                @click="password = ''"
+                @click="logInSessionState.password = ''"
               />
             </q-btn-group>
           </div>
@@ -84,24 +83,52 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop, Mixins } from 'vue-property-decorator';
-import { SessionLoginProperty } from 'src/mixins/sessionLoginProperty';
+import { defineComponent, ref } from 'vue';
+import { useSession } from 'src/services/session/useSession';
 
-@Component({
-  name: 'Login',
+import { useCheckToken } from 'src/services/users/useCheckToken';
+import { useLogInSession } from 'src/services/users/useLogInSession';
+
+export default defineComponent({
   components: {
-    Avatar: require('../templates/Avatar.vue').default
-  }
-})
-export default class Login extends SessionLoginProperty {
-  private toLogin = false;
+    Avatar: require('../public/Avatar.vue').default,
+  },
+  setup: () => {
+    const toLogin = ref(false);
+    const pwdVisible = ref(false);
 
-  private pwdVisible = false;
+    const { state: sessionState } = useSession();
 
-  mounted() {
-    // console.log({ myclass: this.myclass });
-  }
-}
+    const [logInSessionState, submitLogInSession] = useLogInSession();
+
+    const {
+      onDone: onCheckTokenDone,
+      variables: checkTokenVariable,
+      toMutate: toCheckTokenMutate,
+    } = useCheckToken();
+
+    onCheckTokenDone(() => {
+      toLogin.value = true;
+    });
+
+    const getToken = () => {
+      return localStorage.getItem('token') || '';
+    };
+
+    logInSessionState.login = sessionState.currentUser.login;
+
+    return {
+      toLogin,
+      pwdVisible,
+      ...sessionState.currentUser,
+      checkTokenVariable,
+      toCheckTokenMutate,
+      submitLogInSession,
+      logInSessionState,
+      getToken,
+    };
+  },
+});
 </script>
 
 <style></style>

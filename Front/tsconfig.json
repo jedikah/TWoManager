@@ -2,20 +2,14 @@
   "extends": "@quasar/app/tsconfig-preset",
   "compilerOptions": {
     "baseUrl": ".",
-    "experimentalDecorators": true,
+    "target": "es5",
     "noEmit": false,
+    "noImplicitAny": true,
+    "skipLibCheck": true,
+    "noImplicitUseStrict": true,
     "allowJs": true,
     "strict": false,
     "removeComments": true,
-    "target": "ESNext",
-    "module": "commonjs",
-    // "typeRoots": ["node_modules/@types", "src"],
-    "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "emitDecoratorMetadata": true,
-    "incremental": true,
-    "declaration": true
-    // "rootDir": "src",
-    // "outDir": "dist"
+    "moduleResolution": "node"
   }
 }
