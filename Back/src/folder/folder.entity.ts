@@ -11,6 +11,7 @@ import { Field, ObjectType, ID } from '@nestjs/graphql';
 import { Client } from '../client/client.entity';
 import { User } from '../user/user.entity';
 import { Facture } from '../facture/facture.entity';
+import { TypeTrav } from '../typeTrav/typetrav.entity';
 
 @ObjectType()
 @Entity({ name: 'folder' })
@@ -32,20 +33,16 @@ export class Folder {
   groundName: string;
 
   @Field()
-  @Column({ name: 'localisation_trav', length: 20 })
+  @Column({ name: 'localisation_trav', length: 20, default: '' })
   localisationTrav: string;
 
   @Field()
-  @Column({ name: 'fokontany', length: 15 })
+  @Column({ name: 'fokontany', length: 15, default: '' })
   fokontany: string;
 
   @Field()
   @Column({ name: 'date_trav',  })
   dateTrav?: Date;
-
-  @Field()
-  @Column({ name: 'type_trav' })
-  typeTrav: string;
 
   @Field({ nullable: true })
   @Column({ name: 'price', nullable: true })
@@ -71,4 +68,11 @@ export class Folder {
   facture: Facture;
   @RelationId((folder: Folder) => folder.facture)
   factureId?: number;
+
+  @ManyToOne(() => TypeTrav)
+  @Field(() => TypeTrav, {nullable: true})
+  @JoinColumn({name: 'type_trav_id'})
+  typeTrav: TypeTrav
+  @RelationId((folder: Folder) => folder.typeTrav)
+  typeTravId: number
 }

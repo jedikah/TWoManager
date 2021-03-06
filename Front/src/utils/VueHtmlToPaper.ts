@@ -7,9 +7,6 @@ function addStyles(win: any, styles: any) {
     win.document.getElementsByTagName('head')[0].appendChild(link);
   });
 }
-
-// import styles from './myStyle.css'
-
 console.log(window.location.href)
 
 interface Options {
@@ -31,7 +28,6 @@ const VueHtmlToPaper = {
         defaultReplace = true,
         defaultStyles = [
           // 'https://cdn.jsdelivr.net/npm/quasar@1.15.4/dist/quasar.min.css',
-          // () => import('myStyle.css')
           'modelView.min.css'
         ];
       let {
@@ -61,6 +57,7 @@ const VueHtmlToPaper = {
 
       const url = '';
       const win = window.open(url, name, specs as any, replace);
+      // const styles = () => import('./')
 
       // win.document.write(`
       //   <html>
@@ -80,6 +77,8 @@ const VueHtmlToPaper = {
         <body>
           ${element.innerHTML}
         </body>
+        <style>
+        </style>
       </html>
     `);
 

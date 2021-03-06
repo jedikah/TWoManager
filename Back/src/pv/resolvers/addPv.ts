@@ -21,25 +21,21 @@ export class AddPv {
     input: PvAddInput,
   ): Promise<Pv> {
     const folder = await this.folderService.FolderById(input.folderId);
-    const pv = new Pv();
 
-    if (folder) {
+    if (!folder)
+      throw new HttpException(
+        "Le dossier associé à ce PV n'existe pas encore.",
+        HttpStatus.NOT_ACCEPTABLE,
+      );
+      
+      const pv = new Pv();
       Object.assign<Pv, Partial<Pv>>(pv, {
-        typePv: input.typePv,
         pvMere: input.pvMere,
-        causeA: input.causeA,
-        causeB: input.causeB,
-        attachments: input.attachments,
         commune: input.commune,
         district: input.district,
         region: input.region,
         folder,
       });
-    } else
-      throw new HttpException(
-        "Le dossier associé à ce PV n'existe pas encore.",
-        HttpStatus.NOT_ACCEPTABLE,
-      );
 
     return this.pvServices.addPv(pv);
   }

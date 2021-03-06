@@ -1,3 +1,5 @@
+import { JustificativeModule } from './justificative/justificative.module';
+import { CauseModule } from './cause/cause.module';
 import { ModelModule } from './model/model.module';
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Module } from '@nestjs/common';
@@ -13,7 +15,6 @@ import configs, { GraphqlConfigs } from './configs';
 import { UsersModule } from './user/user.module';
 import { AuthModule } from './auths/auth.module';
 import { ClientModule } from './client/client.module';
-import { CollaborateModule } from './collaborate/collaborate.module';
 
 import { UtilsModule } from './utils/utils.module';
 import { ConnectionOptions } from 'typeorm';
@@ -22,14 +23,22 @@ import { FactureModule } from './facture/facture.module';
 import { ConvocationModule } from './convocation/convocation.module';
 import { LetterModule } from './letter/letter.module';
 import { PvModule } from './pv/pv.module';
+import { TypeTravModule } from './typeTrav/typeTrav.module';
 
 const modules = [
   UtilsModule,
   UsersModule,
   AuthModule,
   ClientModule,
-  CollaborateModule,
-  ModelModule
+  ModelModule,
+  FolderModule,
+  FactureModule,
+  ConvocationModule,
+  LetterModule,
+  PvModule,
+  TypeTravModule,
+  CauseModule,
+  JustificativeModule
 ];
 
 @Module({
@@ -59,12 +68,6 @@ const modules = [
         };
       },
     }),
-    FolderModule,
-    FactureModule,
-    ConvocationModule,
-    LetterModule,
-    PvModule,
-    ModelModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -5,20 +5,22 @@ import {
   JoinColumn,
   RelationId,
   PrimaryGeneratedColumn,
+  OneToOne,
 } from 'typeorm';
 import { Field, ObjectType, ID } from '@nestjs/graphql';
 
-import { Folder } from '../folder/folder.entity';
+import { Pv } from '../pv/pv.entity';
+import { Model } from '../model/model.entity';
 
 @ObjectType()
 @Entity({ name: 'convocation' })
 export class Convocation {
   @Field(() => ID)
-  @PrimaryGeneratedColumn({ name: 'id' })
-  id: number;
+  @PrimaryGeneratedColumn({name: 'convocation_id'})
+  convocationId: number;
 
   @Field()
-  @Column({ name: 'num_register' })
+  @Column({ name: 'num_register', unique: true })
   numRegister: number;
 
   @Field()
@@ -30,16 +32,24 @@ export class Convocation {
   convokeOn: Date;
 
   @Field()
-  @Column({ name: 'at_town', length: 20 })
+  @Column({ name: 'at_town', length: 20, default: '' })
   atTown: string;
 
   @Field()
-  @Column({ name: 'num_requisition', length: 8 })
+  @Column({ name: 'num_requisition', length: 8, default: '' })
   numRequisition: string;
 
-  @ManyToOne(() => Folder)
-  @JoinColumn({ name: 'folder_id' })
-  folder: Folder;
-  @RelationId((convocation: Convocation) => convocation.folder)
-  folderId: number;
+  @ManyToOne(() => Pv)
+  @Field(() => Pv, {nullable: true})
+  @JoinColumn({ name: 'pv_id' })
+  pv: Pv;
+  @RelationId((convocation: Convocation) => convocation.pv)
+  pvId: number;
+
+  @OneToOne(() => Model, { nullable: true })
+  @Field(() => Model, { nullable: true })
+  @JoinColumn({ name: 'model_id' })
+  model: Model;
+  @RelationId((convocation: Convocation) => convocation.model)
+  modelId?: number;
 }

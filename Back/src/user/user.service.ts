@@ -19,7 +19,7 @@ export class UserService {
   }
 
   async getUserById(userId: number): Promise<User> {
-    return this.usersRepository.findOne(userId);
+    return this.usersRepository.findOne({userId});
   }
 
   async getUserByLogin(login: string): Promise<User> {

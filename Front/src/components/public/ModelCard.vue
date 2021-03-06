@@ -1,14 +1,20 @@
 <template>
   <q-card class="my-card" style="width: 200px">
     <q-card-section horizontal>
-      <q-card-section class="q-pt-xs">
-        <div class="text-overline">{{ overline }}</div>
-        <div class="text-h5 q-mt-sm q-mb-xs">{{ title }}</div>
-        <iframe
-          style="width: 165px; height: 100px; border: 1px solid red"
-          frameborder="1"
-          :src="src"
-        ></iframe>
+      <q-card-section class="flex justify-center">
+        <div class="text-overline full-width">{{ overline }}</div>
+        <div class="text-h5 q-mt-sm q-mb-xs full-width">{{ title }}</div>
+        <div>
+          <q-avatar
+            square
+            size="160px"
+            font-size="82px"
+            color="teal"
+            text-color="white"
+            icon="directions"
+            style="margin: auto"
+          />
+        </div>
       </q-card-section>
     </q-card-section>
 

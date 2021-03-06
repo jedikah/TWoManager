@@ -2,7 +2,7 @@
   <q-card>
     <q-card-section>
       <q-card-section>
-        <div class="text-overline">Model de Procès-verbale</div>
+        <div class="text-overline">Liste des modeles</div>
         <div class="text-h5 q-mt-sm q-mb-xs">Liste</div>
       </q-card-section>
 
@@ -16,7 +16,7 @@
             name="morcellement"
             title="Morcellement"
             overline="Model de pv"
-            v-on:emitClick_morcellement="handleMorcellementEdit"
+            v-on:emitClick_morcellement="handleOpenMorcellement"
           />
         </div>
       </q-card-section>
@@ -30,21 +30,18 @@ import { defineComponent } from 'vue';
 import { useModel } from 'src/services/model/model.globaleState';
 
 export default defineComponent({
-  name: 'PvModel',
+  name: 'ModelListView',
   components: {
-    // A4Paper: require('../public/A4Paper.vue').default,
     ModelCard: require('../public/ModelCard.vue').default,
   },
   setup: () => {
-    const { modelState } = useModel();
+    const morcellement = useModel('morcellement');
 
-    function handleMorcellementEdit() {
-      modelState.mode = 'modelEditor';
-      modelState.titleMode = 'PV de Morcellement';
-      modelState.active[0] = 'pv';
-      modelState.active[1] = 'morcellement';
+    function handleOpenMorcellement() {
+      //
     }
-    return { handleMorcellementEdit };
+
+    return { handleOpenMorcellement };
   },
 });
 </script>

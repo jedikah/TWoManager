@@ -22,24 +22,24 @@ export class FolderServices {
     return paginate<Folder>(qb, options);
   }
 
-  foldersByUser({
+  foldersByUser(
+    userId: number,{
     register = '',
     numTitle = '',
     groundName = '',
-    userId,
   }): SelectQueryBuilder<Folder> {
-    return this.FolderRepository.createQueryBuilder('folder')
-      .where('folder.register like :register', { register: `%${register}%` })
-      .andWhere('folder.numTitle like :numTitle', {
+    return this.FolderRepository.createQueryBuilder()
+      .where('register like :register', { register: `%${register}%` })
+      .andWhere('num_title like :numTitle', {
         numTitle: `%${numTitle}%`,
       })
-      .andWhere('folder.groundName like :groundName', {
+      .andWhere('ground_name like :groundName', {
         groundName: `%${groundName}%`,
       })
-      .andWhere('folder.user_id = :user_id', {
+      .andWhere('user_id = :user_id', {
         user_id: userId,
       })
-      .orderBy('folder.folderId', 'DESC');
+      .orderBy('folder_id', 'DESC');
   }
 
   async addFolder(folder: Folder): Promise<Folder> {
@@ -60,6 +60,6 @@ export class FolderServices {
   }
 
   async FolderById(folderId: number): Promise<Folder> {
-    return this.FolderRepository.findOne(folderId);
+    return this.FolderRepository.findOne({folderId});
   }
 }

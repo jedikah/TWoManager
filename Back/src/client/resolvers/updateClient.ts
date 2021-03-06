@@ -16,7 +16,7 @@ export class UpdateClient {
     let client = new Client();
     client = await this.clientServices.getClientById(input.clientId);
     Object.assign<Client, Partial<Client>>(client, {
-      clientName: input.clientName,
+      name: input.name,
       domicile: input.domicile,
       contact: input.contact,
     });

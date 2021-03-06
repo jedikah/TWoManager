@@ -5,7 +5,7 @@ import { apolloClient } from 'src/services/applloClient';
 import { state as sessionState, initState } from 'src/services/session/useSession';
 import { notifyThis } from 'src/services/context';
 import { checkToken } from './../services/users/checkToken';
-import  VueHtmlToPaper from '../utils/VueHtmlToPaper';
+import  VueHtmlToPaper from '../utils/vueHtmlToPaper';
 
 export default boot(({ app, router }) => {
 
@@ -13,12 +13,14 @@ export default boot(({ app, router }) => {
     name: '_blank',
     specs: ['fullscreen=yes', 'titlebar=yes', 'scrollbars=yes'],
     styles: [
-      './modelView.min.css',
+      'http://localhost:8080/#/modelView.min.css',
       // 'https://cdn.jsdelivr.net/npm/quasar@1.14.7/dist/quasar.min.css'
     ]
   };
 
-    app.use(VueHtmlToPaper, options);
+  console.log('path', window.location.pathname)
+
+    app.use(VueHtmlToPaper);
     app.provide(DefaultApolloClient, apolloClient)
 
       // // BEFORE EACH

@@ -11,11 +11,17 @@ import { Folder } from './folder.entity';
 
 @InputType()
 export class FolderUpdateInput extends PartialType(
-  OmitType(Folder, ['client', 'facture', 'user']),
+  OmitType(Folder, ['client', 'facture', 'user', 'typeTrav']),
   InputType,
 ) {
   @Field(() => ID)
   folderId: number;
+  
+  @Field({ nullable: true })
+  factureId?: number;
+
+  @Field({ nullable: true})
+  typeTravId?: number
 
   @Field()
   register: string;
@@ -35,29 +41,30 @@ export class FolderUpdateInput extends PartialType(
   @Field()
   dateTrav: Date;
 
-  @Field()
-  typeTrav: string;
-
   @Field({ nullable: true })
   price?: number;
 
   @Field({ nullable: true })
   userId?: number;
 
-  @Field()
-  clientId: number;
+  @Field({nullable: true})
+  clientId?: number;
 
-  @Field({ nullable: true })
-  factureId?: number;
 }
 
 @InputType()
 export class FolderAddInput extends PartialType(
-  OmitType(Folder, ['client', 'facture', 'user', 'userId']),
+  OmitType(Folder, ['client', 'facture', 'user', 'userId', 'typeTrav']),
   InputType,
 ) {
   @Field(() => ID, { nullable: true })
   folderId?: number;
+
+  @Field({ nullable: true })
+  factureId?: number;
+
+  @Field({ nullable: true})
+  typeTravId?: number
 
   @Field()
   register: string;
@@ -77,17 +84,12 @@ export class FolderAddInput extends PartialType(
   @Field({ nullable: true })
   dateTrav?: Date;
 
-  @Field()
-  typeTrav: string;
-
   @Field({ nullable: true })
   price?: number;
 
   @Field()
   clientId: number;
 
-  @Field({ nullable: true })
-  factureId?: number;
 }
 
 @InputType()

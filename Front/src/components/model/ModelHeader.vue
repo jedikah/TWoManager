@@ -11,7 +11,7 @@
         @click="handleSaved"
         :disable="modelState.pv.morcellement === getItem"
       />
-      {{ contentIsSaved().value }}
+      {{ contentIsSaved() }}
     </div>
 
     <div class="col-1">

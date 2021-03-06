@@ -15,7 +15,15 @@ export class PvServices {
     return this.pvRepository.save(pv);
   }
 
-  async pvByFolder(folder: Folder): Promise<Pv[]> {
-    return this.pvRepository.find({ where: { folder } });
+  async updatePv(pv: Pv): Promise<Pv> {
+    return this.pvRepository.save(pv);
+  }
+
+  async pvByFolder(folder: Folder): Promise<Pv> {
+    return this.pvRepository.findOne({ where: { folder } });
+  }
+
+  async pvById(pvId: number): Promise<Pv> {
+    return this.pvRepository.findOne(pvId)
   }
 }

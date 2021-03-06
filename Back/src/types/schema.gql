@@ -2,6 +2,36 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Cause {
+  causeId: ID!
+  domicile: String
+  name: String!
+  numero: Float!
+  pv: Pv
+  role: String
+}
+
+input CauseAddInput {
+  domicile: String = ""
+  name: String!
+  numero: Float!
+  pvId: Float!
+  role: String = ""
+}
+
+input CauseByPvInput {
+  pvId: Float!
+}
+
+input CauseUpdateInput {
+  causeId: Float!
+  domicile: String = ""
+  name: String!
+  numero: Float!
+  pvId: Float!
+  role: String = ""
+}
+
 type CheckTokenOutput {
   exp: Int!
   iat: Int!
@@ -15,50 +45,71 @@ type CheckTokenOutput {
 
 type Client {
   clientId: ID!
-  clientName: String!
   contact: String
   domicile: String
+  name: String!
+  user: User!
 }
 
 input ClientAddInput {
   clientId: ID
-  clientName: String!
   contact: String
   domicile: String
-}
-
-type ClientsCollaborateResult {
-  clients: [Client!]!
-  paginationMeta: PaginationMeta!
-}
-
-input ClientSearchInput {
-  clientName: String!
+  name: String!
 }
 
 input ClientUpdateInput {
   clientId: ID!
-  clientName: String!
   contact: String
   domicile: String
+  name: String!
+}
+
+input ClientsFilterInput {
+  contact: String
+  domicile: String
+  name: String
+}
+
+type ClientsResult {
+  clients: [Client!]!
+  paginationMeta: PaginationMeta!
 }
 
 type Convocation {
   atTown: String!
+  convocationId: ID!
   convokeOn: DateTime!
-  id: ID!
+  model: Model
   namePersConv: String!
   numRegister: Float!
   numRequisition: String!
+  pv: Pv
 }
 
 input ConvocationAddInput {
-  atTown: String!
+  atTown: String = ""
   convokeOn: DateTime!
-  folderId: Float!
+  modelId: Float
   namePersConv: String!
   numRegister: Float!
-  numRequisition: String!
+  numRequisition: String = ""
+  pvId: Float!
+}
+
+input ConvocationFilterInput {
+  pvId: Float!
+}
+
+input ConvocationUpdateInput {
+  atTown: String = ""
+  convocationId: Float!
+  convokeOn: DateTime!
+  modelId: Float
+  namePersConv: String!
+  numRegister: Float!
+  numRequisition: String = ""
+  pvId: Float!
 }
 
 """
@@ -82,7 +133,7 @@ type Folder {
   numTitle: String
   price: Float
   register: String!
-  typeTrav: String!
+  typeTrav: TypeTrav
   user: User
 }
 
@@ -97,7 +148,22 @@ input FolderAddInput {
   numTitle: String
   price: Float
   register: String!
-  typeTrav: String!
+  typeTravId: Float
+}
+
+input FolderUpdateInput {
+  clientId: Float
+  dateTrav: DateTime!
+  factureId: Float
+  fokontany: String!
+  folderId: ID!
+  groundName: String!
+  localisationTrav: String!
+  numTitle: String
+  price: Float
+  register: String!
+  typeTravId: Float
+  userId: Float
 }
 
 input FoldersFilterInput {
@@ -111,19 +177,28 @@ type FoldersResult {
   paginationMeta: PaginationMeta!
 }
 
-input FolderUpdateInput {
-  clientId: Float!
-  dateTrav: DateTime!
-  factureId: Float
-  fokontany: String!
-  folderId: ID!
-  groundName: String!
-  localisationTrav: String!
-  numTitle: String
-  price: Float
-  register: String!
-  typeTrav: String!
-  userId: Float
+type Justificative {
+  content: String!
+  justificativeId: ID!
+  numero: Float!
+  pv: Pv!
+}
+
+input JustificativeAddInput {
+  content: String = ""
+  numero: Float!
+  pvId: Float!
+}
+
+input JustificativeByPvInput {
+  pvId: Float!
+}
+
+input JustificativeUpdateInput {
+  content: String = ""
+  justificativeId: Float!
+  numero: Float!
+  pvId: Float!
 }
 
 type Letter {
@@ -131,6 +206,7 @@ type Letter {
   folder: Folder
   id: ID!
   letterTown: String!
+  model: Folder
   numRtx: String!
   object: String!
 }
@@ -169,19 +245,44 @@ type Model {
   modelId: ID!
 }
 
+input ModelAddInput {
+  content: String = ""
+  label: String!
+}
+
+input ModelFilterInput {
+  label: String = ""
+}
+
+input ModelUpdateInput {
+  content: String = ""
+  label: String!
+  modelId: Float!
+}
+
 type Mutation {
+  addCause(input: CauseAddInput!): Cause!
   addClientByUser(input: ClientAddInput!): Client!
   addConvocation(input: ConvocationAddInput!): Convocation!
   addFolder(input: FolderAddInput!): Folder!
+  addJustificative(input: JustificativeAddInput!): Justificative!
   addLetter(input: LetterAddInput!): Letter!
+  addModel(input: ModelAddInput!): Model!
   addPv(input: PvAddInput!): Pv!
+  addTypeTrav(input: TypeTravAddInput!): TypeTrav!
   checkToken(input: String!): CheckTokenOutput!
   login(input: LogInInput!): LogInOutput!
   loginSession(input: LogInInput!): Boolean!
   register(input: RegisterInput!): UserOutput!
+  updateCause(input: CauseUpdateInput!): Cause!
   updateClient(input: ClientUpdateInput!): Client!
+  updateConvocation(input: ConvocationUpdateInput!): Convocation!
   updateFolder(input: FolderUpdateInput!): Folder!
+  updateJustificative(input: JustificativeUpdateInput!): Justificative!
   updateLetter(input: LetterUpdateInput!): Letter!
+  updateModel(input: ModelUpdateInput!): Model!
+  updatePv(input: PvUpdateInput!): Pv!
+  updateTypeTrav(input: TypeTravUpdateInput!): TypeTrav!
   uploadFile(file: Upload!, login: String!): Boolean!
 }
 
@@ -199,40 +300,44 @@ type PaginationMeta {
 }
 
 type Pv {
-  attachments: String
-  causeA: String
-  causeB: String
   commune: String
   district: String
   folder: Folder
-  model: Model
   pvId: ID!
   pvMere: String
   region: String
-  typePv: String
 }
 
 input PvAddInput {
-  attachments: String
-  causeA: String
-  causeB: String
-  commune: String
-  district: String
-  folderId: Float!
-  pvMere: String
-  region: String
-  typePv: String
+  commune: String = ""
+  district: String = ""
+  folderId: Float
+  pvMere: String = ""
+  region: String = ""
 }
 
 input PvByFolderInput {
   folderId: Float!
 }
 
+input PvUpdateInput {
+  commune: String = ""
+  district: String = ""
+  folderId: Float
+  pvId: Float!
+  pvMere: String = ""
+  region: String = ""
+}
+
 type Query {
-  clientSearch(input: ClientSearchInput!): [Client!]!
-  pvByFolder(input: PvByFolderInput!): [Pv!]!
-  userClients(paginationInput: PaginationInput!): ClientsCollaborateResult!
-  userFolders(foldersFilterInput: FoldersFilterInput!, paginationInput: PaginationInput!): FoldersResult!
+  causeByPv(input: CauseByPvInput!): [Cause!]!
+  clients(filter: ClientsFilterInput!, pagination: PaginationInput!): ClientsResult!
+  convocationsByPv(input: ConvocationFilterInput!): [Convocation!]!
+  justificativeByPv(input: JustificativeByPvInput!): [Justificative!]!
+  models(input: ModelFilterInput!): [Model!]!
+  pvByFolder(input: PvByFolderInput!): Pv!
+  typeTravs: [TypeTrav!]!
+  userFolders(filter: FoldersFilterInput!, pagination: PaginationInput!): FoldersResult!
   users: [User!]
   usersCount: Int!
 }
@@ -242,6 +347,23 @@ input RegisterInput {
   password: String!
   photo: String
   userName: String!
+}
+
+type TypeTrav {
+  label: String!
+  model: Model
+  typeTravId: ID!
+}
+
+input TypeTravAddInput {
+  label: String!
+  modelId: Float
+}
+
+input TypeTravUpdateInput {
+  label: String!
+  modelId: Float
+  typeTravId: Float!
 }
 
 """The `Upload` scalar type represents a file upload."""

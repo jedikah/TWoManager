@@ -1,8 +1,7 @@
 import { AddClients } from './addClients';
-import { ClientSearch } from '../../collaborate/resolver/clientsSearch';
-// import { ClientsList } from './clientsList';
+import { Clients } from './clients';
 import { UpdateClient } from './updateClient';
 
-const ClientsResolver = [AddClients, UpdateClient];
+const ClientsResolver = [AddClients, UpdateClient, Clients];
 
 export { ClientsResolver };

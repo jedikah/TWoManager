@@ -21,7 +21,7 @@ export default defineComponent({
     const { modelState } = useModel();
 
     function handleFinished() {
-      modelState.mode = 'list';
+      modelState.panelMode = 'liste';
     }
     return { handleFinished };
   },

@@ -1,3 +1,4 @@
+import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
@@ -15,73 +16,126 @@ export type Scalars = {
   Upload: any;
 };
 
-export type Query = {
-  __typename?: 'Query';
-  clientSearch: Array<Client>;
-  userClients: ClientsCollaborateResult;
-  userFolders: FoldersResult;
-  users?: Maybe<Array<User>>;
-  usersCount: Scalars['Int'];
+export type Cause = {
+  __typename?: 'Cause';
+  causeId: Scalars['ID'];
+  domicile?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  numero: Scalars['Float'];
+  pv?: Maybe<Pv>;
+  role?: Maybe<Scalars['String']>;
 };
 
-
-export type QueryClientSearchArgs = {
-  input: ClientSearchInput;
+export type CauseAddInput = {
+  domicile?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  numero: Scalars['Float'];
+  pvId: Scalars['Float'];
+  role?: Maybe<Scalars['String']>;
 };
 
-
-export type QueryUserClientsArgs = {
-  paginationInput: PaginationInput;
+export type CauseByPvInput = {
+  pvId: Scalars['Float'];
 };
 
-
-export type QueryUserFoldersArgs = {
-  foldersFilterInput: FoldersFilterInput;
-  paginationInput: PaginationInput;
+export type CauseUpdateInput = {
+  causeId: Scalars['Float'];
+  domicile?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  numero: Scalars['Float'];
+  pvId: Scalars['Float'];
+  role?: Maybe<Scalars['String']>;
 };
 
-export type ClientSearchInput = {
-  clientName: Scalars['String'];
+export type CheckTokenOutput = {
+  __typename?: 'CheckTokenOutput';
+  exp: Scalars['Int'];
+  iat: Scalars['Int'];
+  login: Scalars['String'];
+  photo?: Maybe<Scalars['String']>;
+  status: Scalars['Boolean'];
+  type: Scalars['String'];
+  userId: Scalars['ID'];
+  userName: Scalars['String'];
 };
 
 export type Client = {
   __typename?: 'Client';
   clientId: Scalars['ID'];
-  clientName: Scalars['String'];
   contact?: Maybe<Scalars['String']>;
   domicile?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+  user: User;
 };
 
-export type PaginationInput = {
-  limit: Scalars['Float'];
-  page: Scalars['Float'];
+export type ClientAddInput = {
+  clientId?: Maybe<Scalars['ID']>;
+  contact?: Maybe<Scalars['String']>;
+  domicile?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
 };
 
-export type ClientsCollaborateResult = {
-  __typename?: 'ClientsCollaborateResult';
+export type ClientUpdateInput = {
+  clientId: Scalars['ID'];
+  contact?: Maybe<Scalars['String']>;
+  domicile?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
+};
+
+export type ClientsFilterInput = {
+  contact?: Maybe<Scalars['String']>;
+  domicile?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type ClientsResult = {
+  __typename?: 'ClientsResult';
   clients: Array<Client>;
   paginationMeta: PaginationMeta;
 };
 
-export type PaginationMeta = {
-  __typename?: 'PaginationMeta';
-  currentPage: Scalars['Float'];
-  itemCount: Scalars['Float'];
-  itemsPerPage: Scalars['Float'];
-  totalItems: Scalars['Float'];
-  totalPages: Scalars['Float'];
+export type Convocation = {
+  __typename?: 'Convocation';
+  atTown: Scalars['String'];
+  convocationId: Scalars['ID'];
+  convokeOn: Scalars['DateTime'];
+  model?: Maybe<Model>;
+  namePersConv: Scalars['String'];
+  numRegister: Scalars['Float'];
+  numRequisition: Scalars['String'];
+  pv?: Maybe<Pv>;
 };
 
-export type FoldersFilterInput = {
-  groundName?: Maybe<Scalars['String']>;
-  numTitle?: Maybe<Scalars['String']>;
-  register?: Maybe<Scalars['String']>;
+export type ConvocationAddInput = {
+  atTown?: Maybe<Scalars['String']>;
+  convokeOn: Scalars['DateTime'];
+  modelId?: Maybe<Scalars['Float']>;
+  namePersConv: Scalars['String'];
+  numRegister: Scalars['Float'];
+  numRequisition?: Maybe<Scalars['String']>;
+  pvId: Scalars['Float'];
 };
 
-export type FoldersResult = {
-  __typename?: 'FoldersResult';
-  folders: Array<Folder>;
-  paginationMeta: PaginationMeta;
+export type ConvocationFilterInput = {
+  pvId: Scalars['Float'];
+};
+
+export type ConvocationUpdateInput = {
+  atTown?: Maybe<Scalars['String']>;
+  convocationId: Scalars['Float'];
+  convokeOn: Scalars['DateTime'];
+  modelId?: Maybe<Scalars['Float']>;
+  namePersConv: Scalars['String'];
+  numRegister: Scalars['Float'];
+  numRequisition?: Maybe<Scalars['String']>;
+  pvId: Scalars['Float'];
+};
+
+
+export type Facture = {
+  __typename?: 'Facture';
+  dateFacture: Scalars['Float'];
+  factureId: Scalars['ID'];
 };
 
 export type Folder = {
@@ -96,44 +150,168 @@ export type Folder = {
   numTitle?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Float']>;
   register: Scalars['String'];
-  typeTrav: Scalars['String'];
+  typeTrav?: Maybe<TypeTrav>;
   user?: Maybe<User>;
 };
 
-
-export type Facture = {
-  __typename?: 'Facture';
-  dateFacture: Scalars['Float'];
-  factureId: Scalars['ID'];
+export type FolderAddInput = {
+  clientId: Scalars['Float'];
+  dateTrav?: Maybe<Scalars['DateTime']>;
+  factureId?: Maybe<Scalars['Float']>;
+  fokontany: Scalars['String'];
+  folderId?: Maybe<Scalars['ID']>;
+  groundName: Scalars['String'];
+  localisationTrav: Scalars['String'];
+  numTitle?: Maybe<Scalars['String']>;
+  price?: Maybe<Scalars['Float']>;
+  register: Scalars['String'];
+  typeTravId?: Maybe<Scalars['Float']>;
 };
 
-export type User = {
-  __typename?: 'User';
+export type FolderUpdateInput = {
+  clientId?: Maybe<Scalars['Float']>;
+  dateTrav: Scalars['DateTime'];
+  factureId?: Maybe<Scalars['Float']>;
+  fokontany: Scalars['String'];
+  folderId: Scalars['ID'];
+  groundName: Scalars['String'];
+  localisationTrav: Scalars['String'];
+  numTitle?: Maybe<Scalars['String']>;
+  price?: Maybe<Scalars['Float']>;
+  register: Scalars['String'];
+  typeTravId?: Maybe<Scalars['Float']>;
+  userId?: Maybe<Scalars['Float']>;
+};
+
+export type FoldersFilterInput = {
+  groundName?: Maybe<Scalars['String']>;
+  numTitle?: Maybe<Scalars['String']>;
+  register?: Maybe<Scalars['String']>;
+};
+
+export type FoldersResult = {
+  __typename?: 'FoldersResult';
   folders: Array<Folder>;
+  paginationMeta: PaginationMeta;
+};
+
+export type Justificative = {
+  __typename?: 'Justificative';
+  content: Scalars['String'];
+  justificativeId: Scalars['ID'];
+  numero: Scalars['Float'];
+  pv: Pv;
+};
+
+export type JustificativeAddInput = {
+  content?: Maybe<Scalars['String']>;
+  numero: Scalars['Float'];
+  pvId: Scalars['Float'];
+};
+
+export type JustificativeByPvInput = {
+  pvId: Scalars['Float'];
+};
+
+export type JustificativeUpdateInput = {
+  content?: Maybe<Scalars['String']>;
+  justificativeId: Scalars['Float'];
+  numero: Scalars['Float'];
+  pvId: Scalars['Float'];
+};
+
+export type Letter = {
+  __typename?: 'Letter';
+  dateRtx: Scalars['DateTime'];
+  folder?: Maybe<Folder>;
+  id: Scalars['ID'];
+  letterTown: Scalars['String'];
+  model?: Maybe<Folder>;
+  numRtx: Scalars['String'];
+  object: Scalars['String'];
+};
+
+export type LetterAddInput = {
+  dateRtx: Scalars['DateTime'];
+  folderId: Scalars['Float'];
+  id?: Maybe<Scalars['ID']>;
+  letterTown: Scalars['String'];
+  numRtx: Scalars['String'];
+  object: Scalars['String'];
+};
+
+export type LetterUpdateInput = {
+  dateRtx: Scalars['DateTime'];
+  folderId: Scalars['Float'];
+  id?: Maybe<Scalars['ID']>;
+  letterTown: Scalars['String'];
+  numRtx: Scalars['String'];
+  object: Scalars['String'];
+};
+
+export type LogInInput = {
   login: Scalars['String'];
   password: Scalars['String'];
-  photo?: Maybe<Scalars['String']>;
-  status?: Maybe<Scalars['Boolean']>;
+};
+
+export type LogInOutput = {
+  __typename?: 'LogInOutput';
+  token?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
-  userId: Scalars['ID'];
-  userName: Scalars['String'];
+};
+
+export type Model = {
+  __typename?: 'Model';
+  content?: Maybe<Scalars['String']>;
+  label: Scalars['String'];
+  modelId: Scalars['ID'];
+};
+
+export type ModelAddInput = {
+  content?: Maybe<Scalars['String']>;
+  label: Scalars['String'];
+};
+
+export type ModelFilterInput = {
+  label?: Maybe<Scalars['String']>;
+};
+
+export type ModelUpdateInput = {
+  content?: Maybe<Scalars['String']>;
+  label: Scalars['String'];
+  modelId: Scalars['Float'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addCause: Cause;
   addClientByUser: Client;
   addConvocation: Convocation;
   addFolder: Folder;
+  addJustificative: Justificative;
   addLetter: Letter;
+  addModel: Model;
   addPv: Pv;
+  addTypeTrav: TypeTrav;
   checkToken: CheckTokenOutput;
   login: LogInOutput;
   loginSession: Scalars['Boolean'];
   register: UserOutput;
+  updateCause: Cause;
   updateClient: Client;
+  updateConvocation: Convocation;
   updateFolder: Folder;
+  updateJustificative: Justificative;
   updateLetter: Letter;
+  updateModel: Model;
+  updatePv: Pv;
+  updateTypeTrav: TypeTrav;
   uploadFile: Scalars['Boolean'];
+};
+
+
+export type MutationAddCauseArgs = {
+  input: CauseAddInput;
 };
 
 
@@ -152,13 +330,28 @@ export type MutationAddFolderArgs = {
 };
 
 
+export type MutationAddJustificativeArgs = {
+  input: JustificativeAddInput;
+};
+
+
 export type MutationAddLetterArgs = {
   input: LetterAddInput;
 };
 
 
+export type MutationAddModelArgs = {
+  input: ModelAddInput;
+};
+
+
 export type MutationAddPvArgs = {
   input: PvAddInput;
+};
+
+
+export type MutationAddTypeTravArgs = {
+  input: TypeTravAddInput;
 };
 
 
@@ -182,8 +375,18 @@ export type MutationRegisterArgs = {
 };
 
 
+export type MutationUpdateCauseArgs = {
+  input: CauseUpdateInput;
+};
+
+
 export type MutationUpdateClientArgs = {
   input: ClientUpdateInput;
+};
+
+
+export type MutationUpdateConvocationArgs = {
+  input: ConvocationUpdateInput;
 };
 
 
@@ -192,8 +395,28 @@ export type MutationUpdateFolderArgs = {
 };
 
 
+export type MutationUpdateJustificativeArgs = {
+  input: JustificativeUpdateInput;
+};
+
+
 export type MutationUpdateLetterArgs = {
   input: LetterUpdateInput;
+};
+
+
+export type MutationUpdateModelArgs = {
+  input: ModelUpdateInput;
+};
+
+
+export type MutationUpdatePvArgs = {
+  input: PvUpdateInput;
+};
+
+
+export type MutationUpdateTypeTravArgs = {
+  input: TypeTravUpdateInput;
 };
 
 
@@ -202,112 +425,137 @@ export type MutationUploadFileArgs = {
   login: Scalars['String'];
 };
 
-export type ClientAddInput = {
-  clientId?: Maybe<Scalars['ID']>;
-  clientName: Scalars['String'];
-  contact?: Maybe<Scalars['String']>;
-  domicile?: Maybe<Scalars['String']>;
+export type PaginationInput = {
+  limit: Scalars['Float'];
+  page: Scalars['Float'];
 };
 
-export type ConvocationAddInput = {
-  atTown: Scalars['String'];
-  convokeOn: Scalars['DateTime'];
-  folderId: Scalars['Float'];
-  namePersConv: Scalars['String'];
-  numRegister: Scalars['Float'];
-  numRequisition: Scalars['String'];
-};
-
-export type Convocation = {
-  __typename?: 'Convocation';
-  atTown: Scalars['String'];
-  convokeOn: Scalars['DateTime'];
-  id: Scalars['ID'];
-  namePersConv: Scalars['String'];
-  numRegister: Scalars['Float'];
-  numRequisition: Scalars['String'];
-};
-
-export type FolderAddInput = {
-  clientId: Scalars['Float'];
-  dateTrav?: Maybe<Scalars['DateTime']>;
-  factureId?: Maybe<Scalars['Float']>;
-  fokontany: Scalars['String'];
-  folderId?: Maybe<Scalars['ID']>;
-  groundName: Scalars['String'];
-  localisationTrav: Scalars['String'];
-  numTitle?: Maybe<Scalars['String']>;
-  price?: Maybe<Scalars['Float']>;
-  register: Scalars['String'];
-  typeTrav: Scalars['String'];
-};
-
-export type LetterAddInput = {
-  dateRtx: Scalars['DateTime'];
-  folderId: Scalars['Float'];
-  id?: Maybe<Scalars['ID']>;
-  letterTown: Scalars['String'];
-  numRtx: Scalars['String'];
-  object: Scalars['String'];
-};
-
-export type Letter = {
-  __typename?: 'Letter';
-  dateRtx: Scalars['DateTime'];
-  folder?: Maybe<Folder>;
-  id: Scalars['ID'];
-  letterTown: Scalars['String'];
-  numRtx: Scalars['String'];
-  object: Scalars['String'];
-};
-
-export type PvAddInput = {
-  attachments?: Maybe<Scalars['String']>;
-  cause?: Maybe<Scalars['String']>;
-  commune?: Maybe<Scalars['String']>;
-  district?: Maybe<Scalars['String']>;
-  folderId: Scalars['Float'];
-  region?: Maybe<Scalars['String']>;
+export type PaginationMeta = {
+  __typename?: 'PaginationMeta';
+  currentPage: Scalars['Float'];
+  itemCount: Scalars['Float'];
+  itemsPerPage: Scalars['Float'];
+  totalItems: Scalars['Float'];
+  totalPages: Scalars['Float'];
 };
 
 export type Pv = {
   __typename?: 'Pv';
-  attachments: Scalars['String'];
-  cause: Scalars['String'];
-  commune: Scalars['String'];
-  district: Scalars['String'];
+  commune?: Maybe<Scalars['String']>;
+  district?: Maybe<Scalars['String']>;
   folder?: Maybe<Folder>;
   pvId: Scalars['ID'];
-  region: Scalars['String'];
+  pvMere?: Maybe<Scalars['String']>;
+  region?: Maybe<Scalars['String']>;
 };
 
-export type CheckTokenOutput = {
-  __typename?: 'CheckTokenOutput';
-  exp: Scalars['Int'];
-  iat: Scalars['Int'];
-  login: Scalars['String'];
-  photo?: Maybe<Scalars['String']>;
-  status: Scalars['Boolean'];
-  type: Scalars['String'];
-  userId: Scalars['ID'];
-  userName: Scalars['String'];
+export type PvAddInput = {
+  commune?: Maybe<Scalars['String']>;
+  district?: Maybe<Scalars['String']>;
+  folderId?: Maybe<Scalars['Float']>;
+  pvMere?: Maybe<Scalars['String']>;
+  region?: Maybe<Scalars['String']>;
 };
 
-export type LogInInput = {
-  login: Scalars['String'];
-  password: Scalars['String'];
+export type PvByFolderInput = {
+  folderId: Scalars['Float'];
 };
 
-export type LogInOutput = {
-  __typename?: 'LogInOutput';
-  token?: Maybe<Scalars['String']>;
-  type?: Maybe<Scalars['String']>;
+export type PvUpdateInput = {
+  commune?: Maybe<Scalars['String']>;
+  district?: Maybe<Scalars['String']>;
+  folderId?: Maybe<Scalars['Float']>;
+  pvId: Scalars['Float'];
+  pvMere?: Maybe<Scalars['String']>;
+  region?: Maybe<Scalars['String']>;
+};
+
+export type Query = {
+  __typename?: 'Query';
+  causeByPv: Array<Cause>;
+  clients: ClientsResult;
+  convocationsByPv: Array<Convocation>;
+  justificativeByPv: Array<Justificative>;
+  models: Array<Model>;
+  pvByFolder: Pv;
+  typeTravs: Array<TypeTrav>;
+  userFolders: FoldersResult;
+  users?: Maybe<Array<User>>;
+  usersCount: Scalars['Int'];
+};
+
+
+export type QueryCauseByPvArgs = {
+  input: CauseByPvInput;
+};
+
+
+export type QueryClientsArgs = {
+  filter: ClientsFilterInput;
+  pagination: PaginationInput;
+};
+
+
+export type QueryConvocationsByPvArgs = {
+  input: ConvocationFilterInput;
+};
+
+
+export type QueryJustificativeByPvArgs = {
+  input: JustificativeByPvInput;
+};
+
+
+export type QueryModelsArgs = {
+  input: ModelFilterInput;
+};
+
+
+export type QueryPvByFolderArgs = {
+  input: PvByFolderInput;
+};
+
+
+export type QueryUserFoldersArgs = {
+  filter: FoldersFilterInput;
+  pagination: PaginationInput;
 };
 
 export type RegisterInput = {
   login: Scalars['String'];
   password: Scalars['String'];
   photo?: Maybe<Scalars['String']>;
+  userName: Scalars['String'];
+};
+
+export type TypeTrav = {
+  __typename?: 'TypeTrav';
+  label: Scalars['String'];
+  model?: Maybe<Model>;
+  typeTravId: Scalars['ID'];
+};
+
+export type TypeTravAddInput = {
+  label: Scalars['String'];
+  modelId?: Maybe<Scalars['Float']>;
+};
+
+export type TypeTravUpdateInput = {
+  label: Scalars['String'];
+  modelId?: Maybe<Scalars['Float']>;
+  typeTravId: Scalars['Float'];
+};
+
+
+export type User = {
+  __typename?: 'User';
+  folders: Array<Folder>;
+  login: Scalars['String'];
+  password: Scalars['String'];
+  photo?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['Boolean']>;
+  type?: Maybe<Scalars['String']>;
+  userId: Scalars['ID'];
   userName: Scalars['String'];
 };
 
@@ -320,35 +568,3 @@ export type UserOutput = {
   userId: Scalars['ID'];
   userName: Scalars['String'];
 };
-
-export type ClientUpdateInput = {
-  clientId: Scalars['ID'];
-  clientName: Scalars['String'];
-  contact?: Maybe<Scalars['String']>;
-  domicile?: Maybe<Scalars['String']>;
-};
-
-export type FolderUpdateInput = {
-  clientId: Scalars['Float'];
-  dateTrav: Scalars['DateTime'];
-  factureId?: Maybe<Scalars['Float']>;
-  fokontany: Scalars['String'];
-  folderId: Scalars['ID'];
-  groundName: Scalars['String'];
-  localisationTrav: Scalars['String'];
-  numTitle?: Maybe<Scalars['String']>;
-  price?: Maybe<Scalars['Float']>;
-  register: Scalars['String'];
-  typeTrav: Scalars['String'];
-  userId?: Maybe<Scalars['Float']>;
-};
-
-export type LetterUpdateInput = {
-  dateRtx: Scalars['DateTime'];
-  folderId: Scalars['Float'];
-  id?: Maybe<Scalars['ID']>;
-  letterTown: Scalars['String'];
-  numRtx: Scalars['String'];
-  object: Scalars['String'];
-};
-

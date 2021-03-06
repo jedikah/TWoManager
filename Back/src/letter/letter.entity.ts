@@ -9,6 +9,7 @@ import {
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 
 import { Folder } from '../folder/folder.entity';
+import { Model } from '../model/model.entity';
 
 @ObjectType()
 @Entity({ name: 'letter' })
@@ -39,4 +40,11 @@ export class Letter {
   folder: Folder;
   @RelationId((letter: Letter) => letter.folder)
   folderId?: number;
+
+  @OneToOne(() => Model, { nullable: true })
+  @Field(() => Folder, { nullable: true })
+  @JoinColumn({ name: 'model' })
+  model: Model;
+  @RelationId((letter: Letter) => letter.model)
+  modelId?: number;
 }

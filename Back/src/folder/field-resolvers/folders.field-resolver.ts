@@ -1,3 +1,5 @@
+import { TypeTravServices } from './../../typeTrav/typetrav.service';
+import { TypeTrav } from './../../typeTrav/typetrav.entity';
 import { ResolveField, Resolver, Root } from '@nestjs/graphql';
 import { Client } from '../../client/client.entity';
 import { ClientServices } from '../../client/client.service';
@@ -10,6 +12,7 @@ export class FoldersFieldResolver {
   constructor(
     private userServices: UserService,
     private clientServices: ClientServices,
+    private typeTravServices: TypeTravServices
   ) {}
 
   @ResolveField(() => Client)
@@ -20,5 +23,10 @@ export class FoldersFieldResolver {
   @ResolveField(() => User)
   async user(@Root() folder: Folder): Promise<User> {
     return this.userServices.getUserById(folder.userId);
+  }
+
+  @ResolveField(() => TypeTrav)
+  async typeTrav(@Root() folder: Folder): Promise<TypeTrav> {
+    return this.typeTravServices.typetravById(folder.typeTravId)
   }
 }

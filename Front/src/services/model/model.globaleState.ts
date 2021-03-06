@@ -1,52 +1,83 @@
+import { modelState } from './model.globaleState';
 import { reactive } from 'vue';
+import { computed } from 'vue-demi';
 import { notifyThis } from '../context';
 
-export const modelState = reactive({
-  active: ['', ''],
-  isSaved: false,
-  mode: 'list',
-  titleMode: '',
-  pv: {
-    morcellement: localStorage.getItem('pv_morcellement') || ''
+
+type ModelName = 'morcellement' | 'bornage'
+type ViewMode = 'readOnly' | 'editable'
+
+interface Model {
+  viewMode: ViewMode;
+  titleMode: string;
+  texte: string
+}
+
+interface ModelState {
+  panelMode: 'liste' | 'editor';
+  morcellement: Model
+}
+
+const modelState = reactive<ModelState>({
+  panelMode: 'liste',
+  morcellement: {
+    viewMode: 'readOnly',
+    titleMode: 'PV de Morcellement',
+    texte: ''
   }
 });
 
-export const useModel = () => {
-  function handleChangeContent(val: any) {
-    if (modelState.active[0] !== '' && modelState.active[1] !== '') {
-      // modelState[modelState.active[0]][modelState.active[1]] = val;
+export const useModel = (pvName: ModelName | void) => {
+  //  GETTER
+
+  const viewMode = computed(() => {
+    switch(pvName){
+      case 'morcellement':
+        return modelState[pvName].viewMode
+    }
+  })
+
+  const titleMode = () => {
+    switch(pvName){
+      case 'morcellement':
+        return modelState[pvName].viewMode
     }
   }
 
-  function checkActiveEditor() {
-    if (modelState.active[0] !== '' && modelState.active[1] !== '')
-      return modelState.active[0] + '_' + modelState.active[1];
+  const text = computed(() => {
+    switch(pvName){
+      case 'morcellement':
+        return modelState.morcellement
+    }
+  })
 
-    return null;
+  // SETTER
+  function setText( text: string) {
+    switch(pvName){
+      case 'morcellement':
+        modelState[pvName].texte = text
+        break
+    }
   }
 
-  function activeEditorContent() {
-    return modelState.active[0] !== '' && modelState.active[1] !== ''
-      // ? (modelState[modelState.active[0]][modelState.active[1]] as string)
-      // : '';
+  function setMode(viewMode: ViewMode) {
+    switch(pvName){
+      case 'morcellement':
+        modelState[pvName].viewMode = viewMode
+    }
   }
 
-  function saveModel() {
-    localStorage.setItem(checkActiveEditor(), modelState.pv.morcellement);
-  }
 
-  function contentIsSaved() {
-    // return computed(
-    //   () => activeEditorContent() === localStorage.getItem(checkActiveEditor())
-    // );
-  }
-
+if(pvName)
   return {
-    modelState,
-    handleChangeContent,
-    saveModel,
-    notifyThis,
-    contentIsSaved,
-    activeEditorContent
-  };
+    viewMode,
+    titleMode,
+    text,
+    setText,
+    setMode
+  }
+else
+return {
+  modelState
+}
 };

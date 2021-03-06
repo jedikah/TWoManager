@@ -3,7 +3,7 @@ import { Letter } from './letter.entity';
 
 @InputType()
 export class LetterAddInput extends PartialType(
-  OmitType(Letter, ['folder']),
+  OmitType(Letter, ['folder', 'model']),
   InputType,
 ) {
   @Field()

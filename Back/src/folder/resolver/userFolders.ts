@@ -24,8 +24,8 @@ export class UserFolders {
   @UseGuards(GqlAuthGuard)
   async userFolders(
     @CurrentUser() currentUser: UserOutput,
-    @Args('paginationInput') paginationInput: PaginationInput,
-    @Args('foldersFilterInput') foldersFilterInput: FoldersFilterInput,
+    @Args('pagination') paginationInput: PaginationInput,
+    @Args('filter') foldersFilterInput: FoldersFilterInput,
   ): Promise<FoldersResult> {
     const getUser = await this.userServices.getUserByLogin(currentUser.login);
 
@@ -35,27 +35,9 @@ export class UserFolders {
         HttpStatus.NOT_ACCEPTABLE,
       );
 
-    let register = '',
-      numTitle = '',
-      groundName = '';
-
-    foldersFilterInput.register
-      ? (register = foldersFilterInput.register)
-      : (register = '');
-    foldersFilterInput.numTitle
-      ? (numTitle = foldersFilterInput.numTitle)
-      : (numTitle = '');
-    foldersFilterInput.groundName
-      ? (groundName = foldersFilterInput.groundName)
-      : (groundName = '');
-
     const request: SelectQueryBuilder<Folder> = this.folderServicess.foldersByUser(
-      {
-        userId: getUser.userId,
-        register,
-        numTitle,
-        groundName,
-      },
+      getUser.userId,
+      foldersFilterInput
     );
 
     const paginateFolders = await this.folderServicess.paginate(
