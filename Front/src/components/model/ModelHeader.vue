@@ -50,7 +50,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { useModel } from 'src/services/model/model.globaleState';
+import { useModelState } from 'src/services/model/model.globaleState';
 
 export default defineComponent({
   name: 'ModelHeader',
@@ -62,7 +62,7 @@ export default defineComponent({
       notifyThis,
       contentIsSaved,
       // activeEditorContent,
-    } = useModel();
+    } = useModelState();
     const confirm = ref(false);
     const getItem = ref(localStorage.getItem('pv_morcellement'));
 

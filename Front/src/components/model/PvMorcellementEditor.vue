@@ -57,12 +57,12 @@ import { defineComponent } from 'vue';
 // import { useSession } from 'src/services/session/useSession';
 // import { dateParse } from '../../utils/dateParse';
 import { toolbar } from './PvMorcellementEditor.toolbar';
-import { useModel } from '../../services/model/model.globaleState';
+import { useModelState } from '../../services/model/model.globaleState';
 
 export default defineComponent({
   name: 'PvMorcellementEditor',
   setup() {
-    const { modelState } = useModel();
+    const { modelState } = useModelState();
 
     function add(name: string) {
       const edit = this.$refs.pv_morcellement_editor;

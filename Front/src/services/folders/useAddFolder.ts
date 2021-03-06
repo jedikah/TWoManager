@@ -1,56 +1,40 @@
-import { useQuasar, Notify } from 'quasar';
 import { useMutation } from '@vue/apollo-composable';
 
-import {
-  QueryUserClientsArgs,
-  MutationAddFolderArgs,
-  FolderAddInput
-} from '../types';
+import { MutationAddFolderArgs, QueryUserFoldersArgs } from '../types';
 import { reactive } from 'vue';
 import { notifyThere, notifyThis } from '../context';
 import { logErrorMessages } from '@vue/apollo-util';
 import { ADDFOLDER, AddFolderData } from './useAddFolder.gql';
 import { UserFoldersData, USER_FOLDERS } from './useUserFolders.gql';
+import { userFoldersvariable } from './useUserFolders';
 
-const state: FolderAddInput = reactive({
-  clientId: null,
-  dateTrav: null,
-  factureId: null,
-  fokontany: 'foko 1',
-  folderId: null,
-  groundName: 'villa 1',
-  localisationTrav: 'local 1',
-  numTitle: '',
-  price: null,
-  register: '0001gk',
-  typeTrav: null
+export const addFoldersVariable = reactive<MutationAddFolderArgs>({
+  input: {
+    clientId: null,
+    dateTrav: null,
+    factureId: null,
+    fokontany: 'foko 1',
+    groundName: 'villa 1',
+    localisationTrav: 'local 1',
+    numTitle: '',
+    price: null,
+    register: '0001gk',
+    typeTravId: null
+  }
 });
 
 export const useAddFolder = () => {
 
-
-  const variables: QueryUserClientsArgs = reactive({
-    foldersFilterInput: {
-      register: '',
-      numTitle: '',
-      groundName: ''
-    },
-    paginationInput: {
-      limit: 30,
-      page: 1
-    }
-  });
-
-  const { mutate: senAddFolder, onDone, onError } = useMutation<
+  const { mutate, onDone, onError } = useMutation<
     AddFolderData,
     MutationAddFolderArgs
   >(ADDFOLDER, {
     update: (cache, { data: {addFolder} }) => {
       if (addFolder) {
-        const dataCache = cache.readQuery<UserFoldersData, QueryUserClientsArgs>(
+        const dataCache = cache.readQuery<UserFoldersData, QueryUserFoldersArgs>(
         {
           query: USER_FOLDERS,
-          variables
+          variables: userFoldersvariable
         });
 
         cache.writeQuery<UserFoldersData>({
@@ -59,9 +43,7 @@ export const useAddFolder = () => {
         });
 
         notifyThis({
-          message: 'Client ' +
-            addFolder.groundName +
-            ' enregisté.',
+          message: 'Le dossier a bien été enregisté.',
           type: 'positive'
         });
 
@@ -81,16 +63,9 @@ export const useAddFolder = () => {
   });
 
   const submit = () => {
-    if (
-      state.clientId &&
-      state.fokontany &&
-      state.groundName &&
-      state.localisationTrav &&
-      state.register &&
-      state.typeTrav
-    )
-      senAddFolder({ input: state });
+    if ( addFoldersVariable.input.clientId )
+      mutate(addFoldersVariable);
   };
 
-  return { state, submit };
+  return { addFoldersVariable, submit };
 };

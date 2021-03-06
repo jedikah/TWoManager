@@ -158,13 +158,12 @@ export type FolderAddInput = {
   clientId: Scalars['Float'];
   dateTrav?: Maybe<Scalars['DateTime']>;
   factureId?: Maybe<Scalars['Float']>;
-  fokontany: Scalars['String'];
-  folderId?: Maybe<Scalars['ID']>;
-  groundName: Scalars['String'];
-  localisationTrav: Scalars['String'];
+  fokontany?: Maybe<Scalars['String']>;
+  groundName?: Maybe<Scalars['String']>;
+  localisationTrav?: Maybe<Scalars['String']>;
   numTitle?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Float']>;
-  register: Scalars['String'];
+  register?: Maybe<Scalars['String']>;
   typeTravId?: Maybe<Scalars['Float']>;
 };
 
@@ -172,13 +171,13 @@ export type FolderUpdateInput = {
   clientId?: Maybe<Scalars['Float']>;
   dateTrav: Scalars['DateTime'];
   factureId?: Maybe<Scalars['Float']>;
-  fokontany: Scalars['String'];
+  fokontany?: Maybe<Scalars['String']>;
   folderId: Scalars['ID'];
-  groundName: Scalars['String'];
-  localisationTrav: Scalars['String'];
+  groundName?: Maybe<Scalars['String']>;
+  localisationTrav?: Maybe<Scalars['String']>;
   numTitle?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Float']>;
-  register: Scalars['String'];
+  register?: Maybe<Scalars['String']>;
   typeTravId?: Maybe<Scalars['Float']>;
   userId?: Maybe<Scalars['Float']>;
 };
@@ -285,7 +284,7 @@ export type ModelUpdateInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   addCause: Cause;
-  addClientByUser: Client;
+  addClients: Client;
   addConvocation: Convocation;
   addFolder: Folder;
   addJustificative: Justificative;
@@ -315,7 +314,7 @@ export type MutationAddCauseArgs = {
 };
 
 
-export type MutationAddClientByUserArgs = {
+export type MutationAddClientsArgs = {
   input: ClientAddInput;
 };
 

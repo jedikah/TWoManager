@@ -1,11 +1,11 @@
 <template>
   <FormCard title="Ajouter un Client">
     <q-form
-      @submit.prevent="submitAddClient"
+      @submit.prevent="submit"
       @reset="
-        state.clientName = '';
-        state.domicile = '';
-        state.contact = '';
+        addClientsVariable.input.name = '';
+        addClientsVariable.input.domicile = '';
+        addClientsVariable.input.contact = '';
       "
       class="full-width"
     >
@@ -15,7 +15,7 @@
           dense
           rounded
           outlined
-          v-model="state.clientName"
+          v-model="addClientsVariable.input.name"
           label="Nom complet *"
           :rules="[
             (val) =>
@@ -28,7 +28,7 @@
           dense
           rounded
           outlined
-          v-model="state.domicile"
+          v-model="addClientsVariable.input.domicile"
           label="Domicile"
         />
 
@@ -39,7 +39,7 @@
           dense
           rounded
           outlined
-          v-model="state.contact"
+          v-model="addClientsVariable.input.contact"
           unmasked-value
           mask="### ## ### ##"
           fill-mask="#"
@@ -71,7 +71,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useAddClientByUser } from '../../services/clients/useAddClientByUser';
+import { useAddClients } from '../../services/clients/useAddClients';
 import FormCard from '../public/FormCard.vue';
 
 export default defineComponent({
@@ -80,11 +80,11 @@ export default defineComponent({
     FormCard,
   },
   setup: () => {
-    const [state, submitAddClient] = useAddClientByUser();
+    const { addClientsVariable, submit } = useAddClients();
 
     return {
-      state,
-      submitAddClient,
+      addClientsVariable,
+      submit,
     };
   },
 });

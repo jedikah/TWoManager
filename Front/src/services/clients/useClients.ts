@@ -1,18 +1,20 @@
 import { useQuery, useResult } from '@vue/apollo-composable';
 import { reactive, watch } from 'vue';
 
-import { CLIENTSUSER, UserClientData } from './useClientsUser.gql';
-import { QueryUserClientsArgs } from '../types';
+import { CLIENTSUSER, UserClientData } from './useClients.gql';
+import { QueryClientsArgs } from '../types';
 import { notifyThere } from '../context';
 import { logErrorMessages } from '@vue/apollo-util';
 
-export const useClientsUser = () => {
-  const variables: QueryUserClientsArgs = reactive({
-    paginationInput: {
-      limit: 30,
-      page: 1
-    }
-  });
+export const clientsVariable = reactive<QueryClientsArgs>({
+  filter: {},
+  pagination: {
+    limit: 30,
+    page: 1
+  }
+});
+
+export const useClients= () => {
 
   const state = reactive({
     pagination: {
@@ -30,7 +32,7 @@ export const useClientsUser = () => {
     onError,
     refetch,
     result,
-  } = useQuery<UserClientData, QueryUserClientsArgs>(CLIENTSUSER, variables, {
+  } = useQuery<UserClientData, QueryClientsArgs>(CLIENTSUSER, clientsVariable, {
     fetchPolicy: 'cache-and-network',
   });
 
@@ -52,20 +54,16 @@ export const useClientsUser = () => {
 
   const clients = useResult(result, [], data => data.userClients.clients)
 
-  watch(clients, (addFolders) => {
-    console.log({addFolders})
-  })
-
   function fetchMoreclient(page: number, limit = 30) {
-    variables.paginationInput.page = page;
-    variables.paginationInput.limit = limit;
-    refetch(variables);
+    clientsVariable.pagination.page = page;
+    clientsVariable.pagination.limit = limit;
+    refetch(clientsVariable);
   }
 
   return {
     state,
-    clients: useResult(result, [], data => data.userClients.clients),
-    variables,
+    clients,
+    clientsVariable,
     fetchMoreclient,
     loadingClient
   };

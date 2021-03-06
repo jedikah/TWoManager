@@ -27,7 +27,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useModel } from 'src/services/model/model.globaleState';
+import { useModelState } from 'src/services/model/model.globaleState';
 
 export default defineComponent({
   name: 'ModelListView',
@@ -35,7 +35,7 @@ export default defineComponent({
     ModelCard: require('../public/ModelCard.vue').default,
   },
   setup: () => {
-    const morcellement = useModel('morcellement');
+    const morcellement = useModelState('morcellement');
 
     function handleOpenMorcellement() {
       //

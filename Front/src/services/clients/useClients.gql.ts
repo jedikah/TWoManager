@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
-import { ClientsCollaborateResult } from '../types';
+import { ClientsResult } from '../types';
 
 export interface UserClientData {
-  userClients: ClientsCollaborateResult;
+  userClients: ClientsResult;
 }
 
 export const CLIENTSUSER = gql`

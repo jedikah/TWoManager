@@ -11,14 +11,14 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useModel } from 'src/services/model/model.globaleState';
+import { useModelState } from 'src/services/model/model.globaleState';
 // import { formsDrawer } from '../../layouts/MainLayout.vue';
 
 export default defineComponent({
   name: 'FolderHeader',
   components: {},
   setup: () => {
-    const { modelState } = useModel();
+    const { modelState } = useModelState();
 
     function handleFinished() {
       modelState.panelMode = 'liste';

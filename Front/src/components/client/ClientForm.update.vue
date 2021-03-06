@@ -6,11 +6,11 @@
 
     <q-card-section class="q-gutter-lg col">
       <q-form
-        @submit="submitAddClient()"
+        @submit="submit()"
         @reset="
-          state.clientName = '';
-          state.domicile = '';
-          state.contact = '';
+          addClientsVariable.input.name = '';
+          addClientsVariable.input.domicile = '';
+          addClientsVariable.input.contact = '';
         "
         class="q-gutter-md row full-width"
       >
@@ -19,7 +19,7 @@
           dense
           rounded
           outlined
-          v-model="state.clientName"
+          v-model="addClientsVariable.input.name"
           label="Nom complet *"
           :rules="[
             (val) =>
@@ -32,7 +32,7 @@
           dense
           rounded
           outlined
-          v-model="state.domicile"
+          v-model="addClientsVariable.input.domicile"
           label="Domicile"
         />
 
@@ -41,7 +41,7 @@
           dense
           rounded
           outlined
-          v-model="state.contact"
+          v-model="addClientsVariable.input.contact"
           mask="### ## ### ##"
           fill-mask="*"
           label="Contact"
@@ -67,16 +67,16 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useAddClientByUser } from '../../services/clients/useAddClientByUser';
+import { useAddClients } from '../../services/clients/useAddClients';
 
 export default defineComponent({
   name: 'clientUpdateForm',
   setup: () => {
-    const [state, submitAddClient] = useAddClientByUser();
+    const { addClientsVariable, submit } = useAddClients();
 
     return {
-      state,
-      submitAddClient,
+      addClientsVariable,
+      submit,
     };
   },
 });

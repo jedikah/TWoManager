@@ -1,4 +1,3 @@
-import { modelState } from './model.globaleState';
 import { reactive } from 'vue';
 import { computed } from 'vue-demi';
 import { notifyThis } from '../context';
@@ -27,7 +26,7 @@ const modelState = reactive<ModelState>({
   }
 });
 
-export const useModel = (pvName: ModelName | void) => {
+export const useModelState = (pvName: ModelName | void) => {
   //  GETTER
 
   const viewMode = computed(() => {

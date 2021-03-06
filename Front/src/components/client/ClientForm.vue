@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue';
-import { useAddClientByUser } from '../../services/clients/useAddClientByUser';
+import { useAddClients } from '../../services/clients/useAddClients';
 
 type ClientFormBtn = null | 'add' | 'update';
 
@@ -20,11 +20,7 @@ export default defineComponent({
     ClientUpdateForm: require('./ClientForm.update.vue').default,
   },
   setup: () => {
-    const [state, submitAddClient] = useAddClientByUser();
-
     return {
-      state,
-      submitAddClient,
       clientFormBtn,
     };
   },

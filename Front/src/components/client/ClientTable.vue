@@ -90,7 +90,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { columns } from './client.column';
-import { useClientsUser } from '../../services/clients/useClientsUser';
+import { useClients } from '../../services/clients/useClients';
 import { formsDrawer } from '../../layouts/MainLayout.vue';
 import { clientFormBtn } from './ClientForm.vue';
 
@@ -99,10 +99,10 @@ export default defineComponent({
     const {
       state,
       clients,
-      variables,
+      clientsVariable,
       fetchMoreclient,
       loadingClient,
-    } = useClientsUser();
+    } = useClients();
 
     function handleOpenAddClientForm() {
       formsDrawer.value = true;
@@ -112,11 +112,10 @@ export default defineComponent({
     return {
       state,
       clients,
-      variables,
+      clientsVariable,
       fetchMoreclient,
       loadingClient,
       columns,
-      ...useClientsUser,
       handleOpenAddClientForm,
     };
   },
