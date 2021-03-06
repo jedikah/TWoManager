@@ -16,7 +16,7 @@ export class AddClients {
 
   @Mutation(() => Client)
   @UseGuards(GqlAuthGuard)
-  async addClientByUser(
+  async addClients(
     @CurrentUser() user: UserOutput,
     @Args('input')
     input: ClientAddInput,

@@ -23,20 +23,20 @@ export class FolderUpdateInput extends PartialType(
   @Field({ nullable: true})
   typeTravId?: number
 
-  @Field()
-  register: string;
+  @Field({defaultValue: ''})
+  register?: string;
 
   @Field({ nullable: true })
   numTitle?: string;
 
-  @Field()
-  groundName: string;
+  @Field({defaultValue: ''})
+  groundName?: string;
 
-  @Field()
-  localisationTrav: string;
+  @Field({defaultValue: ''})
+  localisationTrav?: string;
 
-  @Field()
-  fokontany: string;
+  @Field({defaultValue: ''})
+  fokontany?: string;
 
   @Field()
   dateTrav: Date;
@@ -54,32 +54,29 @@ export class FolderUpdateInput extends PartialType(
 
 @InputType()
 export class FolderAddInput extends PartialType(
-  OmitType(Folder, ['client', 'facture', 'user', 'userId', 'typeTrav']),
+  OmitType(Folder, ['client', 'facture', 'user', 'userId', 'typeTrav', 'folderId']),
   InputType,
 ) {
-  @Field(() => ID, { nullable: true })
-  folderId?: number;
-
   @Field({ nullable: true })
   factureId?: number;
 
   @Field({ nullable: true})
   typeTravId?: number
 
-  @Field()
-  register: string;
+  @Field({defaultValue: ''})
+  register?: string;
 
   @Field({ nullable: true })
   numTitle?: string;
 
-  @Field()
-  groundName: string;
+  @Field({defaultValue: ''})
+  groundName?: string;
 
-  @Field()
-  localisationTrav: string;
+  @Field({defaultValue: ''})
+  localisationTrav?: string;
 
-  @Field()
-  fokontany: string;
+  @Field({defaultValue: ''})
+  fokontany?: string;
 
   @Field({ nullable: true })
   dateTrav?: Date;

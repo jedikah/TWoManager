@@ -141,13 +141,12 @@ input FolderAddInput {
   clientId: Float!
   dateTrav: DateTime
   factureId: Float
-  fokontany: String!
-  folderId: ID
-  groundName: String!
-  localisationTrav: String!
+  fokontany: String = ""
+  groundName: String = ""
+  localisationTrav: String = ""
   numTitle: String
   price: Float
-  register: String!
+  register: String = ""
   typeTravId: Float
 }
 
@@ -155,13 +154,13 @@ input FolderUpdateInput {
   clientId: Float
   dateTrav: DateTime!
   factureId: Float
-  fokontany: String!
+  fokontany: String = ""
   folderId: ID!
-  groundName: String!
-  localisationTrav: String!
+  groundName: String = ""
+  localisationTrav: String = ""
   numTitle: String
   price: Float
-  register: String!
+  register: String = ""
   typeTravId: Float
   userId: Float
 }
@@ -262,7 +261,7 @@ input ModelUpdateInput {
 
 type Mutation {
   addCause(input: CauseAddInput!): Cause!
-  addClientByUser(input: ClientAddInput!): Client!
+  addClients(input: ClientAddInput!): Client!
   addConvocation(input: ConvocationAddInput!): Convocation!
   addFolder(input: FolderAddInput!): Folder!
   addJustificative(input: JustificativeAddInput!): Justificative!
