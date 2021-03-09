@@ -26,16 +26,15 @@ export class ClientServices {
   }
 
   async getClientByName(
-    clientsId: number[],
-    clientName: string,
+    name: string,
+    limit = 5,
   ): Promise<Client[]> {
     return this.clientsRepository
       .createQueryBuilder('client')
-      .whereInIds(clientsId)
-      .andWhere('client.clientName like :clientName', {
-        clientName: `%${clientName}%`,
+      .where('client.name like :name', {
+        name: `%${name}%`,
       })
-      .limit(5)
+      .limit(limit)
       .getMany();
   }
 

@@ -30,13 +30,20 @@ export function useUserFolders() {
     }
   });
 
-  const { result, loading, onResult, onError, refetch } = useQuery<
-    UserFoldersData,
-    QueryUserFoldersArgs
-  >(USER_FOLDERS, userFoldersvariable, {fetchPolicy: 'cache-and-network'});
+  const {
+    result,
+    loading,
+    onResult,
+    onError,
+    refetch
+  } = useQuery<UserFoldersData,QueryUserFoldersArgs >(USER_FOLDERS, userFoldersvariable, {
+    fetchPolicy: 'cache-and-network'
+  });
 
   onResult(({ data, errors }) => {
     if (errors) notifyThere(errors);
+
+    console.log({ data })
 
     if (data) {
       state.pagination.rowsPerPage =

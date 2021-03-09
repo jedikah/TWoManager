@@ -1,14 +1,14 @@
 import { useMutation } from '@vue/apollo-composable';
 
-import { ADDCLIENTBYUSER, AddClientByUserData } from './useAddClients.gql';
-import { MutationAddClientsArgs, QueryClientsArgs } from '../types';
+import { ADDCLIENT, AddClientData } from './useAddClients.gql';
+import { MutationAddClientArgs, QueryClientsArgs } from '../types';
 import { reactive } from 'vue';
 import { notifyThere, notifyThis } from '../context';
 import { CLIENTSUSER, UserClientData } from './useClients.gql';
 import { clientsVariable } from './useClients';
 
 export const useAddClients = () => {
-  const addClientsVariable = reactive<MutationAddClientsArgs>({
+  const addClientsVariable = reactive<MutationAddClientArgs>({
     input: {
       name: 'client ',
       domicile: 'domicile ',
@@ -19,12 +19,12 @@ export const useAddClients = () => {
 
 
   const { mutate, onDone, onError } = useMutation<
-    AddClientByUserData,
-    MutationAddClientsArgs
-  >(ADDCLIENTBYUSER, {
-    update: (cache, { data: {addClientByUser} }) => {
+    AddClientData,
+    MutationAddClientArgs
+  >(ADDCLIENT, {
+    update: (cache, { data: {addClient} }) => {
 
-      if (addClientByUser) {
+      if (addClient) {
 
         clientsVariable.pagination.page = 1;
         clientsVariable.pagination.limit = 30;
@@ -42,9 +42,9 @@ export const useAddClients = () => {
           });
 
           notifyThis({
-            message: 'Client client ' +
-              addClientByUser.name +
-              ' a bien été enregisté.',
+            message: 'Client ' +
+              addClient.name +
+              ' enregisté.',
             type: 'positive'
           });
       }

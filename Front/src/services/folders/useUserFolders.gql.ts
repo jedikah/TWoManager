@@ -7,22 +7,39 @@ export interface UserFoldersData {
 }
 
 export const USER_FOLDERS = gql`
-  query UserFolders(
-    $foldersFilterInput: FoldersFilterInput!
-    $paginationInput: PaginationInput!
-  ) {
-    userFolders(
-      foldersFilterInput: $foldersFilterInput
-      paginationInput: $paginationInput
-    ) {
-      folders {
-        ...FolderFrag
+query($filter: FoldersFilterInput!, $pagination: PaginationInput!){
+  userFolders(filter: $filter, pagination: $pagination){
+    folders {
+      folderId
+      client {
+        clientId
+        name
       }
-      paginationMeta {
-        ...PaginationMetaFrag
+      dateTrav
+      facture {
+        factureId
+      }
+      typeTrav {
+        typeTravId
+        label
+      }
+      fokontany
+      groundName
+      localisationTrav
+      numTitle
+      price
+      register
+      user {
+        userId
       }
     }
+     paginationMeta {
+      currentPage
+      itemCount
+      itemsPerPage
+      totalItems
+      totalPages
+    }
   }
-  ${FOLDER_FRAG}
-  ${PAGINATION_META_FRAG}
+}
 `;

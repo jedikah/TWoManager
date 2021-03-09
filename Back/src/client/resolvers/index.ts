@@ -1,7 +1,8 @@
-import { AddClients } from './addClients';
+import { AddClient } from './addClients';
 import { Clients } from './clients';
+import { ClientsSearch } from './clientsSearch';
 import { UpdateClient } from './updateClient';
 
-const ClientsResolver = [AddClients, UpdateClient, Clients];
+const ClientsResolver = [AddClient, UpdateClient, Clients, ClientsSearch];
 
 export { ClientsResolver };

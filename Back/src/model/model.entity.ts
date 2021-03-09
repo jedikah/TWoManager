@@ -9,7 +9,11 @@ export class Model {
   modelId: number;
 
   @Field()
-  @Column({ name: 'label', default: '', length: 20 })
+  @Column({name: 'name', default: '', length: 25})
+  name: string;
+
+  @Field()
+  @Column({ name: 'label', default: '', length: 50 })
   label: string;
 
   @Field({ nullable: true })

@@ -9,7 +9,8 @@ import { reactive } from 'vue-demi';
 export const addModelVariable = reactive<MutationAddModelArgs>({
   input: {
     content: '',
-    label: ''
+    label: '',
+    name: ''
   }
 })
 

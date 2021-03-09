@@ -40,7 +40,7 @@
       <!-- // FORM DRAWER  -->
       <q-drawer
         :mini-width="400"
-        :width="400"
+        :width="450"
         v-model="formsDrawer"
         side="right"
         behavior="desktop"
@@ -64,6 +64,11 @@
             />
           </div>
         </div>
+
+        <div
+          class="absolute full-height full-width"
+          style="background: #00263117; backdrop-filter: blur(5px)"
+        ></div>
 
         <div style="margin-top: 55px">
           <router-view name="form" />

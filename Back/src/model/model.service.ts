@@ -22,9 +22,10 @@ export class ModelServices {
         return this.modelService.findOne({modelId})
     }
 
-    async getModels(label: string): Promise<Model[]> {
+    async getModels(label: string, name: string): Promise<Model[]> {
         return this.modelService.createQueryBuilder()
         .where('label like :label', {label: `%${label}%`})
+        .andWhere('name like :name', {name: `%${name}%`})
         .getMany()
     }
 }

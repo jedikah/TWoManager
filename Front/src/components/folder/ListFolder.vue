@@ -36,9 +36,11 @@
 
               <q-item-section style="color: grey">
                 <q-item-label lines="1" style="font-weight: 500">{{
-                  folder.client.clientName
+                  folder.client.name
                 }}</q-item-label>
-                <q-item-label lines="2">{{ folder.typeTrav }}</q-item-label>
+                <q-item-label lines="2">{{
+                  folder.typeTrav.label
+                }}</q-item-label>
                 <q-item-label caption class="q-mb-sm">{{
                   formatDate(folder.dateTrav)
                 }}</q-item-label>

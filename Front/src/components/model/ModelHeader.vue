@@ -5,13 +5,7 @@
     </div>
 
     <div class="col-1">
-      <q-btn
-        icon="save"
-        color="secondary"
-        @click="handleSaved"
-        :disable="modelState.pv.morcellement === getItem"
-      />
-      {{ contentIsSaved() }}
+      <q-btn icon="save" color="secondary" @click="handleSave" />
     </div>
 
     <div class="col-1">
@@ -49,65 +43,42 @@
 </template>
 
 <script lang="ts">
+import { editorViewerState, useModel } from 'src/services/model/useModels';
 import { defineComponent, ref } from 'vue';
-import { useModelState } from 'src/services/model/model.globaleState';
 
 export default defineComponent({
   name: 'ModelHeader',
   components: {},
   setup: () => {
-    const {
-      modelState,
-      saveModel,
-      notifyThis,
-      contentIsSaved,
-      // activeEditorContent,
-    } = useModelState();
+    const {} = useModel();
+
     const confirm = ref(false);
-    const getItem = ref(localStorage.getItem('pv_morcellement'));
 
-    window.addEventListener(
-      'storage',
-      (e) => {
-        console.log(e.storageArea);
-      },
-      true
-    );
-
-    function handleCancel() {
-      modelState.pv.morcellement = getItem.value;
-    }
-
-    function handleSaved() {
-      saveModel();
-      // modelState.isSaved = contentIsSaved();
-      notifyThis({ message: 'Model enrégistrée.', type: 'positive' });
+    function handleSave() {
+      //
     }
 
     function handleFinished() {
-      if (modelState.pv.morcellement !== getItem.value) {
-        confirm.value = true;
-      } else modelState.mode = 'list';
+      confirm.value = true; //s'il y aeu modification
     }
 
     function handleConfirm(accept: boolean) {
-      if (accept) {
-        handleSaved();
-        modelState.mode = 'list';
-      } else {
-        handleCancel();
-        modelState.mode = 'list';
+      switch (accept) {
+        case true:
+          break;
+        case false:
+          break;
       }
+
+      editorViewerState.panelMode = 'list';
     }
 
     return {
-      modelState,
+      editorViewerState,
       handleConfirm,
       confirm,
       handleFinished,
-      handleSaved,
-      getItem,
-      contentIsSaved,
+      handleSave,
     };
   },
 });

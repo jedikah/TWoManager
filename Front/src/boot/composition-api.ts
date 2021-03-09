@@ -5,7 +5,7 @@ import { apolloClient } from 'src/services/applloClient';
 import { state as sessionState, initState } from 'src/services/session/useSession';
 import { notifyThis } from 'src/services/context';
 import { checkToken } from './../services/users/checkToken';
-import  VueHtmlToPaper from '../utils/vueHtmlToPaper';
+import  VueHtmlToPaper from '../utils/VueHtmlToPaper';
 
 export default boot(({ app, router }) => {
 

@@ -9,14 +9,14 @@ import { GqlAuthGuard } from '../../auths/jwt-auth.guard';
 import { UserOutput } from '../../user/user.types';
 
 @Resolver(of => Client)
-export class AddClients {
+export class AddClient {
   constructor(
     private clientServices: ClientServices,
   ) {}
 
   @Mutation(() => Client)
   @UseGuards(GqlAuthGuard)
-  async addClients(
+  async addClient(
     @CurrentUser() user: UserOutput,
     @Args('input')
     input: ClientAddInput,

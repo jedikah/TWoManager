@@ -94,6 +94,11 @@ export type ClientsResult = {
   paginationMeta: PaginationMeta;
 };
 
+export type ClientsSearchFilterInput = {
+  limit?: Maybe<Scalars['Float']>;
+  name?: Maybe<Scalars['String']>;
+};
+
 export type Convocation = {
   __typename?: 'Convocation';
   atTown: Scalars['String'];
@@ -264,27 +269,31 @@ export type Model = {
   content?: Maybe<Scalars['String']>;
   label: Scalars['String'];
   modelId: Scalars['ID'];
+  name: Scalars['String'];
 };
 
 export type ModelAddInput = {
   content?: Maybe<Scalars['String']>;
-  label: Scalars['String'];
+  label?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
 };
 
 export type ModelFilterInput = {
   label?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
 };
 
 export type ModelUpdateInput = {
   content?: Maybe<Scalars['String']>;
-  label: Scalars['String'];
+  label?: Maybe<Scalars['String']>;
   modelId: Scalars['Float'];
+  name?: Maybe<Scalars['String']>;
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
   addCause: Cause;
-  addClients: Client;
+  addClient: Client;
   addConvocation: Convocation;
   addFolder: Folder;
   addJustificative: Justificative;
@@ -314,7 +323,7 @@ export type MutationAddCauseArgs = {
 };
 
 
-export type MutationAddClientsArgs = {
+export type MutationAddClientArgs = {
   input: ClientAddInput;
 };
 
@@ -473,6 +482,7 @@ export type Query = {
   __typename?: 'Query';
   causeByPv: Array<Cause>;
   clients: ClientsResult;
+  clientsSearch: Array<Client>;
   convocationsByPv: Array<Convocation>;
   justificativeByPv: Array<Justificative>;
   models: Array<Model>;
@@ -492,6 +502,11 @@ export type QueryCauseByPvArgs = {
 export type QueryClientsArgs = {
   filter: ClientsFilterInput;
   pagination: PaginationInput;
+};
+
+
+export type QueryClientsSearchArgs = {
+  filter: ClientsSearchFilterInput;
 };
 
 

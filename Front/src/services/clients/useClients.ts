@@ -39,12 +39,14 @@ export const useClients= () => {
   onResult(({ data, errors }) => {
     if (errors) notifyThere(errors);
 
+    console.log({data})
+
     if (data) {
       state.pagination.rowsPerPage =
-        data.userClients.paginationMeta.itemsPerPage;
-      state.pagination.itemCount = data.userClients.paginationMeta.totalItems;
-      state.pagination.page = data.userClients.paginationMeta.currentPage;
-      state.pagination.totalPages = data.userClients.paginationMeta.totalPages;
+        data.clients.paginationMeta.itemsPerPage;
+      state.pagination.itemCount = data.clients.paginationMeta.totalItems;
+      state.pagination.page = data.clients.paginationMeta.currentPage;
+      state.pagination.totalPages = data.clients.paginationMeta.totalPages;
     }
   });
 
@@ -52,7 +54,7 @@ export const useClients= () => {
     logErrorMessages(error);
   });
 
-  const clients = useResult(result, [], data => data.userClients.clients)
+  const clients = useResult(result, [], data => data.clients.clients)
 
   function fetchMoreclient(page: number, limit = 30) {
     clientsVariable.pagination.page = page;

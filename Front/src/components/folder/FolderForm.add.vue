@@ -12,12 +12,17 @@
           rounded
           outlined
           label="Saisir pour chercher un nom de client *"
-          v-model="selectClientModel"
+          v-model="selectedClient"
           :loading="loadingSearch"
           use-input
-          @new-value="createValue"
           :options="searchOptions"
-          @filter="filterClient"
+          @input-value="(value) => handleClientFormSearch(value)"
+          @update:modelValue="(option) => handleSelectedClient(option.value)"
+          :rules="[
+            (option) =>
+              (option && option.value.length > 0) ||
+              'Ce champ ne doit pas être vide.',
+          ]"
         />
 
         <q-separator class="q-ma-sm col-12" />
@@ -25,7 +30,7 @@
         <q-input
           class="col-6"
           dense
-          v-model="state.register"
+          v-model="addFoldersVariable.input.register"
           rounded
           outlined
           label="Numero de registre *"
@@ -40,7 +45,7 @@
           dense
           rounded
           outlined
-          v-model="state.numTitle"
+          v-model="addFoldersVariable.input.numTitle"
           label="Numero de titre"
           :rules="['']"
         />
@@ -50,7 +55,7 @@
           dense
           rounded
           outlined
-          v-model="state.groundName"
+          v-model="addFoldersVariable.input.groundName"
           label="Nom de terrain *"
           :rules="[
             (val) =>
@@ -63,7 +68,7 @@
           dense
           rounded
           outlined
-          v-model="state.localisationTrav"
+          v-model="addFoldersVariable.input.localisationTrav"
           label="Localisation *"
           :rules="[
             (val) =>
@@ -76,7 +81,7 @@
           dense
           rounded
           outlined
-          v-model="state.fokontany"
+          v-model="addFoldersVariable.input.fokontany"
           label="Fokontany *"
           :rules="[
             (val) =>
@@ -89,19 +94,22 @@
           class="col-6"
           rounded
           outlined
-          v-model="state.typeTrav"
-          :options="typeTravOptions"
+          v-model="selectedTypeTravs"
+          :loading="loadTypetravs"
+          :options="typeTravsOption"
           label="Type de travaux *"
+          @update:modelValue="(option) => handleSelectedTypeTravs(option.value)"
           :rules="[
-            (val) =>
-              (val && val.length > 0) || 'Ce champ ne doit pas être vide.',
+            (option) =>
+              (option && option.value.length > 0) ||
+              'Ce champ ne doit pas être vide.',
           ]"
         />
 
         <DateTimePicker
           class="col-12"
-          val="2019-02-01 12:06"
-          v-model:val="state.dateTrav"
+          :val="date.formatDate(Date.now(), 'YYYY-MM-DD HH:mm:ss')"
+          v-model:val="addFoldersVariable.input.dateTrav"
         />
 
         <q-separator class="q-ma-sm col-12" />
@@ -116,12 +124,12 @@
 </template>
 
 <script lang="ts">
-import { Notify } from 'quasar';
 import { defineComponent, Ref, ref, watch } from 'vue';
+import { date } from 'quasar';
 
-import { scrollAreaStyle } from '../../utils/scrollAreaStyle';
 import { useClientSearch } from '../../services/clients/useClientSearch';
 import { useAddFolder } from '../../services/folders/useAddFolder';
+import { useTypeTravs } from '../../services/typeTrav/useTypeTravs';
 import FormCard from '../public/FormCard.vue';
 import DateTimePicker from '../public/DateTimePicker.vue';
 
@@ -133,53 +141,46 @@ export default defineComponent({
   },
   setup: () => {
     const {
-      result,
-      state: searchState,
       searchOptions,
       handleClientFormSearch,
       loading: loadingSearch,
     } = useClientSearch();
 
-    const { state, submit } = useAddFolder();
+    const { typeTravsOption, loadTypetravs } = useTypeTravs();
 
-    const typeTravOptions = ['Délimitation', 'Bornage'];
+    const { addFoldersVariable, submit } = useAddFolder();
 
-    const selectClientModel: Ref<{ label: string; value: string }> = ref();
+    const selectedClient: Ref<{ label: string; value: string }> = ref();
+    const selectedTypeTravs: Ref<{ label: string; value: string }> = ref();
 
-    watch(selectClientModel, (val) => (state.clientId = parseInt(val.value)));
-
-    function filterClient(val: any, update: any) {
-      update(() => {
-        if (val === '') {
-          handleClientFormSearch('');
-        } else {
-          handleClientFormSearch(val);
-        }
-      });
+    function handleSelectedClient(clientId: string) {
+      addFoldersVariable.input.clientId = parseInt(clientId);
     }
 
-    function createValue(val: any, done: any) {
-      console.log(val);
-      if (val.length > 2) {
-        if (!searchOptions.value.includes(val)) {
-          done(val, 'toggle');
-        }
-      }
+    function handleSelectedTypeTravs(typeTravId: string) {
+      addFoldersVariable.input.typeTravId = parseInt(typeTravId);
     }
 
     return {
-      state,
-      result,
+      addFoldersVariable,
       searchOptions,
-      typeTravOptions,
-      filterClient,
-      createValue,
-      selectClientModel,
+      typeTravsOption,
+      handleClientFormSearch,
+      selectedClient,
+      selectedTypeTravs,
+      handleSelectedClient,
+      handleSelectedTypeTravs,
       loadingSearch,
+      loadTypetravs,
       submit,
+      date,
     };
   },
 });
 </script>
 
 <style></style>
+
+function useTypeTravs(): {} { throw new Error('Function not implemented.'); }
+function useTypeTravs(): {} { throw new Error('Function not implemented.'); }
+function useTypeTravs(): {} { throw new Error('Function not implemented.'); }

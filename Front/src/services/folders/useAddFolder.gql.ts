@@ -9,7 +9,7 @@ export const ADDFOLDER = gql`
   mutation AddFolder($input: FolderAddInput!) {
     addFolder(input: $input) {
       client {
-        clientName
+        name
       }
       user {
         userName

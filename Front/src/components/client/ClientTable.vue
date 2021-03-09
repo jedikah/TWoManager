@@ -52,7 +52,7 @@
     <template v-slot:body="props">
       <q-tr :props="props">
         <q-td key="clientName" :props="props">
-          {{ props.row.clientName }}
+          {{ props.row.name }}
         </q-td>
         <q-td key="domicile" :props="props">
           {{ props.row.domicile }}

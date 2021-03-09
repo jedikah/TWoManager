@@ -9,7 +9,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useModelState } from 'src/services/model/model.globaleState';
 import { scrollAreaStyle } from '../../utils/scrollAreaStyle';
 export default defineComponent({
   name: 'ModelView',
@@ -19,8 +18,7 @@ export default defineComponent({
     // Test: require('../pv/Test.vue'),
   },
   setup: () => {
-    const { modelState } = useModelState();
-    return { ...scrollAreaStyle, modelState };
+    return { ...scrollAreaStyle };
   },
 });
 </script>

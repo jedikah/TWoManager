@@ -21,6 +21,7 @@ export class AddModel {
         const model = new Model()
 
         Object.assign<Model, Partial<Model>>(model, {
+            name: input.name,
             label: input.label,
             content: input.content
         })

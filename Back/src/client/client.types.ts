@@ -50,6 +50,15 @@ export class ClientsFilterInput {
   contact?: string
 }
 
+@InputType()
+export class ClientsSearchFilterInput {
+  @Field({defaultValue: ''})
+  name?: string
+
+  @Field({ nullable: true })
+  limit?: number
+}
+
 @ObjectType()
 export class ClientsResult {
   @Field(() => [Client])

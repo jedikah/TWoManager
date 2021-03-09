@@ -1,11 +1,11 @@
 <template>
   <div class="">
     <q-editor
+      :readonly="readOnly"
       style="width: 210mm"
       height="70vh"
       max-height="297mm"
-      v-model="content"
-      :model-value="currentModel"
+      v-model="editedModel"
       :dense="$q.screen.lt.md"
       ref="editorRef"
       :toolbar="toolbar_pv($q)"
@@ -23,6 +23,28 @@
         verdana: 'Verdana',
       }"
     >
+      <template v-slot:viewMode>
+        <q-btn
+          :disable="!readOnly"
+          color="white"
+          text-color="primary"
+          size="sm"
+          label="Editer"
+          @click="handleEdit"
+        />
+      </template>
+
+      <template v-slot:save>
+        <q-btn
+          :disable="readOnly || contentNotModified"
+          color="white"
+          text-color="primary"
+          size="sm"
+          label="Enregistrer"
+          @click="handleSave"
+        />
+      </template>
+
       <template v-slot:paragraph1>
         <q-btn-dropdown
           dense
@@ -178,10 +200,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, Ref, ref, watch } from 'vue';
+import { computed, defineComponent, Ref, ref, watch } from 'vue';
 
-import { toolbar_pv, data_pv } from './Editor.pvOptions';
+import { toolbar_pv, data_pv } from './model.editorOption.ts';
 import { editorViewerState, useModel } from '../../services/model/useModels';
+import { formsDrawer } from 'src/layouts/MainLayout.vue';
 
 export default defineComponent({
   name: 'Editor',
@@ -200,10 +223,10 @@ export default defineComponent({
       default: () => ({ data1: [], data2: [], data3: [] }),
     },
   },
-  setup: (props) => {
-    const { currentModel } = useModel();
-
-    const content = ref();
+  setup: () => {
+    formsDrawer.value = false;
+    const { currentModel, editedModel } = useModel();
+    const readOnly = ref(true);
     const editorRef = ref(null);
 
     const refs: { [T: string]: Ref } = {
@@ -221,19 +244,46 @@ export default defineComponent({
       // edit.caret.restore();
       edit.runCmd(
         'insertHTML',
-        `&nbsp;<span class="editor_token row inline items-center" contenteditable="false">&nbsp;<span>${name}</span></span>&nbsp;`
+        `&nbsp;
+        <span class="editor_token row inline items-center" contenteditable="false">
+        &nbsp;
+        <span>${name}</span>
+        </span>&nbsp;`
       );
       edit.focus();
+    }
+
+    const contentNotModified = computed(() =>
+      currentModel.value != '' && editedModel.value != ''
+        ? currentModel.value == editedModel.value
+          ? true
+          : false
+        : true
+    );
+
+    watch(currentModel, (val) => console.log({ val }), { immediate: true });
+
+    function handleEdit() {
+      readOnly.value = false;
+      editorViewerState.viewMode = 'editable';
+    }
+
+    function handleSave() {
+      console.log(editedModel.value);
     }
 
     return {
       add,
       toolbar_pv,
-      content,
+      editedModel,
       data_pv,
       ...refs,
       editorRef,
       currentModel,
+      readOnly,
+      handleEdit,
+      contentNotModified,
+      handleSave,
     };
   },
 });

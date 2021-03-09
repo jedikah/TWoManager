@@ -41,7 +41,8 @@ const routes: RouteRecordRaw[] = [
         path: 'models',
         components: {
           default: () => import('pages/Model.vue'),
-          header: () => import('components/model/ModelHeader.vue')
+          header: () => import('components/model/ModelHeader.vue'),
+          form: () => import('components/model/ModelForm.vue')
         }
       }
     ]

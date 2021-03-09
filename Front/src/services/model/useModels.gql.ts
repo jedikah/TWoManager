@@ -4,13 +4,14 @@ import { Model } from './../types';
 
 
 export interface ModelsData {
-  models: Model
+  models: Model[]
 }
 
 export const MODELS = gql`
   query($input: ModelFilterInput!){
     models(input: $input) {
       modelId
+      name
       label
       content
     }

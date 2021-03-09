@@ -76,6 +76,11 @@ type ClientsResult {
   paginationMeta: PaginationMeta!
 }
 
+input ClientsSearchFilterInput {
+  limit: Float
+  name: String = ""
+}
+
 type Convocation {
   atTown: String!
   convocationId: ID!
@@ -242,26 +247,30 @@ type Model {
   content: String
   label: String!
   modelId: ID!
+  name: String!
 }
 
 input ModelAddInput {
   content: String = ""
-  label: String!
+  label: String = ""
+  name: String = ""
 }
 
 input ModelFilterInput {
   label: String = ""
+  name: String = ""
 }
 
 input ModelUpdateInput {
   content: String = ""
-  label: String!
+  label: String = ""
   modelId: Float!
+  name: String = ""
 }
 
 type Mutation {
   addCause(input: CauseAddInput!): Cause!
-  addClients(input: ClientAddInput!): Client!
+  addClient(input: ClientAddInput!): Client!
   addConvocation(input: ConvocationAddInput!): Convocation!
   addFolder(input: FolderAddInput!): Folder!
   addJustificative(input: JustificativeAddInput!): Justificative!
@@ -331,6 +340,7 @@ input PvUpdateInput {
 type Query {
   causeByPv(input: CauseByPvInput!): [Cause!]!
   clients(filter: ClientsFilterInput!, pagination: PaginationInput!): ClientsResult!
+  clientsSearch(filter: ClientsSearchFilterInput!): [Client!]!
   convocationsByPv(input: ConvocationFilterInput!): [Convocation!]!
   justificativeByPv(input: JustificativeByPvInput!): [Justificative!]!
   models(input: ModelFilterInput!): [Model!]!

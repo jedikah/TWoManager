@@ -43,7 +43,7 @@ export const useAddFolder = () => {
         });
 
         notifyThis({
-          message: 'Le dossier a bien été enregisté.',
+          message: 'Le dossier enregisté.',
           type: 'positive'
         });
 

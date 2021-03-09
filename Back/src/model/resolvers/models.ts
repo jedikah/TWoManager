@@ -17,7 +17,7 @@ export class Models {
     async models(
         @Args('input') input: ModelFilterInput
     ): Promise<Model[]> {
-        return await this.modelServices.getModels(input.label)
+        return await this.modelServices.getModels(input.label, input.name)
     }
     
 }

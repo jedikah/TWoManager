@@ -1,15 +1,15 @@
 import gql from 'graphql-tag';
 import { Client } from '../types';
 
-export interface AddClientByUserData {
-  addClientByUser: Client;
+export interface AddClientData {
+  addClient: Client;
 }
 
-export const ADDCLIENTBYUSER = gql`
-  mutation AddClientByUser($input: ClientAddInput!) {
-    addClientByUser(input: $input) {
+export const ADDCLIENT = gql`
+  mutation($input: ClientAddInput!) {
+    addClient(input: $input){
       clientId
-      clientName
+      name
       domicile
       contact
     }

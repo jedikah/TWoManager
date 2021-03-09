@@ -2,25 +2,26 @@ import gql from 'graphql-tag';
 import { ClientsResult } from '../types';
 
 export interface UserClientData {
-  userClients: ClientsResult;
+  clients: ClientsResult;
 }
 
 export const CLIENTSUSER = gql`
-  query UserClients($paginationInput: PaginationInput!) {
-    userClients(paginationInput: $paginationInput) {
-      clients {
-        clientId
-        clientName
-        domicile
-        contact
-      }
-      paginationMeta {
-        currentPage
-        itemCount
-        itemsPerPage
-        totalItems
-        totalPages
+    query($filter: ClientsFilterInput!, $pagination: PaginationInput!){
+      clients(filter: $filter, pagination: $pagination)
+      {
+        clients {
+            clientId
+            name
+            domicile
+            contact
+          }
+        paginationMeta {
+          currentPage
+          itemCount
+          itemsPerPage
+          totalItems
+          totalPages
+        }
       }
     }
-  }
 `;
