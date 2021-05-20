@@ -31,6 +31,10 @@ export default async function (createAppFn) {
   const store = typeof createStore === 'function'
     ? await createStore({})
     : createStore
+
+
+  // obtain Vuex injection key in case we use TypeScript
+  const { storeKey } = await import('app/src/store/index');
   
   const router = typeof createRouter === 'function'
     ? await createRouter({store})
@@ -57,7 +61,7 @@ export default async function (createAppFn) {
   // different depending on whether we are in a browser or on the server.
   return {
     app,
-    store,
+    store, storeKey,
     router
   }
 }

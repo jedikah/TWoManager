@@ -17,6 +17,8 @@ import { createApp } from 'vue'
 
 
 
+
+
 import '@quasar/extras/roboto-font/roboto-font.css'
 
 import '@quasar/extras/material-icons/material-icons.css'
@@ -51,7 +53,7 @@ console.info('[Quasar] Running SPA.')
 const publicPath = ``
 
 
-async function start ({ app, router, store }, bootFiles) {
+async function start ({ app, router, store, storeKey }, bootFiles) {
   
 
   
@@ -96,7 +98,7 @@ async function start ({ app, router, store }, bootFiles) {
   
 
   app.use(router)
-  app.use(store)
+  app.use(store, storeKey)
 
   
 
@@ -104,6 +106,8 @@ async function start ({ app, router, store }, bootFiles) {
 
     
       app.mount('#q-app')
+    
+
     
 
   

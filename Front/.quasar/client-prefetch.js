@@ -16,6 +16,13 @@
 
 import App from 'app/src/App.vue'
 let appPrefetch = typeof App.preFetch === 'function'
+  ? App.preFetch
+  : (
+    // Class components return the component options (and the preFetch hook) inside __c property
+    App.__c !== void 0 && typeof App.__c.preFetch === 'function'
+      ? App.__c.preFetch
+      : false
+    )
 
 
 function getMatchedComponents (to, router) {
@@ -56,13 +63,17 @@ export function addPreFetchHooks (router, store, publicPath) {
           m.path.indexOf('/:') > -1 // does it has params?
         ))
       })
-      .filter(m => m.c && typeof m.c.preFetch === 'function')
-      .map(m => m.c.preFetch)
+      .filter(m => m.c !== void 0 && (
+        typeof m.c.preFetch === 'function'
+        // Class components return the component options (and the preFetch hook) inside __c property
+        || (m.c.__c !== void 0 && typeof m.c.__c.preFetch === 'function')
+      ))
+      .map(m => m.c.__c !== void 0 ? m.c.__c.preFetch : m.c.preFetch)
 
     
-    if (appPrefetch === true) {
+    if (appPrefetch !== false) {
+      preFetchList.unshift(appPrefetch)
       appPrefetch = false
-      preFetchList.unshift(App.preFetch)
     }
     
 
