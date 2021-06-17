@@ -197,7 +197,7 @@ export default defineComponent({
     items: {
       require: false,
       type: Object,
-      default: () => ({ data1: [], data2: [], data3: [] }),
+      default: () => ({ data1: Array, data2: Array, data3: Array }),
     },
   },
   setup: (props) => {

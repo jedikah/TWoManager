@@ -38,13 +38,14 @@ import 'src/css/mainLayout.scss'
 
 
 import createQuasarApp from './app.js'
+import quasarUserOptions from './quasar-user-options.js'
 
 
 
 
 
 
-console.info('[Quasar] Running CAPACITOR.')
+console.info('[Quasar] Running SPA.')
 
 
 
@@ -114,7 +115,7 @@ async function start ({ app, router, store, storeKey }, bootFiles) {
 
 }
 
-createQuasarApp(createApp)
+createQuasarApp(createApp, quasarUserOptions)
 
   .then(app => {
     return Promise.all([
