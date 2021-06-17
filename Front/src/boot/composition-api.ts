@@ -28,8 +28,9 @@ export default boot(({ app, router }) => {
   // // BEFORE EACH
   router.beforeEach(async (to, from, next) => {
     const token = localStorage.getItem('token');
-    const data = await checkToken(token);
+
     if (token) {
+      const data = await checkToken(token);
       if (data) {
         sessionState.session = true;
         sessionState.currentUser = data;
@@ -44,7 +45,7 @@ export default boot(({ app, router }) => {
       }
     } else {
       notifyThis({
-        message: 'Page protégée, connexion requise !',
+        message: 'Connexion requise !',
         type: 'warning',
         position: 'bottom',
       });

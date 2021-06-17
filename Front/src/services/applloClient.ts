@@ -1,16 +1,21 @@
-import { ApolloClient, DefaultOptions, HttpLink, InMemoryCache } from '@apollo/client/core'
+import {
+  ApolloClient,
+  DefaultOptions,
+  HttpLink,
+  InMemoryCache,
+} from '@apollo/client/core';
 import { setContext } from '@apollo/client/link/context';
-import { split } from '@apollo/client/core'
-import { WebSocketLink } from '@apollo/client/link/ws'
-import { getMainDefinition } from '@apollo/client/utilities'
+import { split } from '@apollo/client/core';
+import { WebSocketLink } from '@apollo/client/link/ws';
+import { getMainDefinition } from '@apollo/client/utilities';
 
 const authLink = setContext((_, { headers, ...context }) => {
-  let token = ''
+  let token = '';
   token = localStorage.getItem('token'); // survive a refresh
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : '' ,
+      authorization: token ? `Bearer ${token}` : '',
     },
     ...context,
   };
@@ -23,15 +28,14 @@ const defaultOptions: DefaultOptions = {
     fetchPolicy: 'cache-first',
     context: {
       headers: {
-        authorization: `Bearer ${localStorage.getItem('token') || ''}`
-      }
-    }
+        authorization: `Bearer ${localStorage.getItem('token') || ''}`,
+      },
+    },
   },
   mutate: {
     errorPolicy: 'all',
   },
 };
-
 
 const wsLink = new WebSocketLink({
   uri: 'ws://localhost:3000/subscriptions',
@@ -42,15 +46,17 @@ const wsLink = new WebSocketLink({
 
 const httpLink = new HttpLink({
   // You should use an absolute URL here
-  uri: 'http://localhost:4000/graphql',
+  uri: 'http://192.168.0.104:4000/graphql',
 });
 
 const link = split(
   // split based on operation type
   ({ query }) => {
     const definition = getMainDefinition(query);
-        return definition.kind === 'OperationDefinition' &&
-            definition.operation === 'subscription';
+    return (
+      definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
+    );
   },
   wsLink,
   httpLink
@@ -63,4 +69,3 @@ export const apolloClient = new ApolloClient({
   connectToDevTools: true,
   defaultOptions,
 });
-

@@ -12,13 +12,13 @@
     "codegen": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
+    "@capacitor/splash-screen": "^1.0.0",
     "@quasar/extras": "^1.9.18",
     "@types/dotenv": "^8.2.0",
     "@types/graphql": "^14.5.0",
     "@vue/apollo-composable": "^4.0.0-alpha.12",
     "@vue/apollo-option": "^4.0.0-alpha.11",
     "@vue/apollo-util": "^4.0.0-alpha.11",
-    "@vue/composition-api": "^1.0.0-rc.9",
     "apollo-link-context": "^1.0.20",
     "babel-plugin-graphql-tag": "^3.2.0",
     "child_process": "^1.0.2",
@@ -44,12 +44,10 @@
     "simple-ajax-uploader": "^2.6.7",
     "subscriptions-transport-ws": "^0.9.18",
     "tauri": "^0.14.1",
-    "vue": "3.0.11",
     "vue-demi": "^0.6.0",
     "vue-html-print": "^1.3.1",
     "vue-html-to-paper": "^1.3.1",
-    "vue-print-nb": "^1.5.0",
-    "vue-router": "4"
+    "vue-print-nb": "^1.5.0"
   },
   "devDependencies": {
     "@apollo/client": "^3.3.19",
