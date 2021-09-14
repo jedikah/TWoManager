@@ -1,8 +1,12 @@
 <template>
   <q-page>
-    <div class="q-pa-md row justify-center" style="height: 100%">
-      <ListFolder style="width: 25%; height: 95%; z-index: 10" />
-      <ModelView style="width: 74%" />
+    <div class="q-pa-md" style="min-height: 720px; max-height: 900px">
+      <q-card flat style="height: calc(100vh - 75px)">
+        <q-card-section class="flex row full-height q-gutter-md full-height">
+          <ListFolder style="width: 20%" />
+          <ModelView style="width: 75%" />
+        </q-card-section>
+      </q-card>
     </div>
   </q-page>
 </template>

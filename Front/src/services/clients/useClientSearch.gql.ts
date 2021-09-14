@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+
 import { Client } from '../types';
 
 export interface ClientsSearchData {
@@ -6,9 +7,9 @@ export interface ClientsSearchData {
 }
 
 export const CLIENTSEARCH = gql`
-  query($filter: ClientsSearchFilterInput!){
-    clientsSearch(filter: $filter){
-      clientId
+  query ($filter: ClientsSearchFilterInput!) {
+    clientsSearch(filter: $filter) {
+      id
       name
       contact
       domicile

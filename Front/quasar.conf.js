@@ -19,7 +19,7 @@ module.exports = configure(function (ctx) {
           enabled: true,
           files: './src/**/*.{ts,tsx,js,jsx,vue}',
         },
-      }
+      },
     },
 
     // https://quasar.dev/quasar-cli/prefetch-feature
@@ -28,14 +28,10 @@ module.exports = configure(function (ctx) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://quasar.dev/quasar-cli/boot-files
-    boot: [
-      'composition-api', 'notify-defaults'
-    ],
+    boot: ['composition-api', 'notify-defaults', 'custom-elements'],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
-    css: [
-      'app.scss', 'mainLayout.scss'
-    ],
+    css: ['app.scss', 'mainLayout.scss'],
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [
@@ -81,7 +77,7 @@ module.exports = configure(function (ctx) {
               enforce: 'pre',
               test: /\.(js|vue|ts)$/,
               loader: 'eslint-loader',
-              exclude: [/node_modules/]
+              exclude: [/node_modules/],
             });
           }
         }
@@ -92,29 +88,34 @@ module.exports = configure(function (ctx) {
           .rule('vue')
           .use('vue-loader')
           .loader('vue-loader')
-          .tap(options => {
+          .tap((options) => {
             options.transpileOptions = {
               transforms: {
-                dangerousTaggedTemplateString: true
-              }
+                dangerousTaggedTemplateString: true,
+              },
+            };
+
+            options.compilerOptions = {
+              isCustomElement: (tag) => tag.startsWith('ion-'),
             };
             return options;
           });
       },
-
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
       https: false,
       port: 8080,
-      open: true // opens browser window automatically
+      open: true, // opens browser window automatically
     },
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-framework
     framework: {
       config: {
-        notify: { /* look at QuasarConfOptions from the API card */ }
+        notify: {
+          /* look at QuasarConfOptions from the API card */
+        },
       },
 
       // iconSet: 'material-icons', // Quasar icon set
@@ -128,7 +129,7 @@ module.exports = configure(function (ctx) {
       // directives: [],
 
       // Quasar plugins
-      plugins: ['Notify']
+      plugins: ['Notify'],
     },
 
     // animations: 'all', // --- includes all animations
@@ -137,7 +138,7 @@ module.exports = configure(function (ctx) {
 
     // https://quasar.dev/quasar-cli/developing-ssr/configuring-ssr
     ssr: {
-      pwa: false
+      pwa: false,
     },
 
     // https://quasar.dev/quasar-cli/developing-pwa/configuring-pwa
@@ -156,30 +157,30 @@ module.exports = configure(function (ctx) {
           {
             src: 'icons/icon-128x128.png',
             sizes: '128x128',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: 'icons/icon-192x192.png',
             sizes: '192x192',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: 'icons/icon-256x256.png',
             sizes: '256x256',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: 'icons/icon-384x384.png',
             sizes: '384x384',
-            type: 'image/png'
+            type: 'image/png',
           },
           {
             src: 'icons/icon-512x512.png',
             sizes: '512x512',
-            type: 'image/png'
-          }
-        ]
-      }
+            type: 'image/png',
+          },
+        ],
+      },
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/developing-cordova-apps/configuring-cordova
@@ -189,12 +190,12 @@ module.exports = configure(function (ctx) {
 
     // Full list of options: https://quasar.dev/quasar-cli/developing-capacitor-apps/configuring-capacitor
     capacitor: {
-      hideSplashscreen: true
+      hideSplashscreen: true,
     },
 
     sourceFiles: {
       electronMainDev: 'src-electron/main-process/electron-main.dev.ts',
-      electronMainProd: 'src-electron/main-process/electron-main.ts'
+      electronMainProd: 'src-electron/main-process/electron-main.ts',
     },
 
     // Full list of options: https://quasar.dev/quasar-cli/developing-electron-apps/configuring-electron
@@ -203,13 +204,11 @@ module.exports = configure(function (ctx) {
 
       packager: {
         // https://github.com/electron-userland/electron-packager/blob/master/docs/api.md#options
-
         // OS X / Mac App Store
         // appBundleId: '',
         // appCategoryType: '',
         // osxSign: '',
         // protocol: 'myapp://path',
-
         // Windows only
         // win32metadata: { ... }
       },
@@ -221,13 +220,13 @@ module.exports = configure(function (ctx) {
         appId: 'twom',
         directories: {
           output: 'dist',
-          buildResources: 'build'
+          buildResources: 'build',
         },
         files: [
           {
             from: '../../../../Back',
             to: 'child',
-            filter: ['**/*', '!../../../../Back/src/**/*']
+            filter: ['**/*', '!../../../../Back/src/**/*'],
           },
           '**/*',
           '!**/node_modules/*/{CHANGELOG.md,README.md,README,readme.md,readme}',
@@ -240,12 +239,12 @@ module.exports = configure(function (ctx) {
           '!**/{.DS_Store,.git,.hg,.svn,CVS,RCS,SCCS,.gitignore,.gitattributes}',
           '!**/{__pycache__,thumbs.db,.flowconfig,.idea,.vs,.nyc_output}',
           '!**/{appveyor.yml,.travis.yml,circle.yml}',
-          '!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}'
+          '!**/{npm-debug.log,yarn.lock,.yarn-integrity,.yarn-metadata.json}',
         ],
         extraResources: [],
         win: {
-          icon: 'build/icons/icon.ico'
-        }
+          icon: 'build/icons/icon.ico',
+        },
       },
 
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration
@@ -258,11 +257,12 @@ module.exports = configure(function (ctx) {
           '.ts',
           '.js',
           '.jsx',
+          'tsx',
           '.css',
           '.png',
           '.jpg',
           '.gif',
-          '.jpeg'
+          '.jpeg',
         ];
         cfg.module.rules.push({
           enforce: 'pre',
@@ -271,10 +271,10 @@ module.exports = configure(function (ctx) {
           exclude: /node_modules/,
           options: {
             onlyCompileBundledFiles: true,
-            transpileOnly: false
-          }
+            transpileOnly: false,
+          },
         });
-      }
-    }
-  }
+      },
+    },
+  };
 });

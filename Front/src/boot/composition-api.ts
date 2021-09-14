@@ -1,28 +1,27 @@
 import { boot } from 'quasar/wrappers';
-import { DefaultApolloClient } from '@vue/apollo-composable';
 import { apolloClient } from 'src/services/applloClient';
-
-import {
-  state as sessionState,
-  initState,
-} from 'src/services/session/useSession';
 import { notifyThis } from 'src/services/context';
-import { checkToken } from './../services/users/checkToken';
-import VueHtmlToPaper from '../utils/VueHtmlToPaper';
+import {
+  initState,
+  state as sessionState,
+} from 'src/services/session/useSession';
+
+import { DefaultApolloClient } from '@vue/apollo-composable';
+
+import { checkToken } from '../services/users/checkToken';
 
 export default boot(({ app, router }) => {
-  const options = {
-    name: '_blank',
-    specs: ['fullscreen=yes', 'titlebar=yes', 'scrollbars=yes'],
-    styles: [
-      'http://localhost:8080/#/modelView.min.css',
-      // 'https://cdn.jsdelivr.net/npm/quasar@1.14.7/dist/quasar.min.css'
-    ],
-  };
+  // const options = {
+  //   name: '_blank',
+  //   specs: ['fullscreen=yes', 'titlebar=yes', 'scrollbars=yes'],
+  //   styles: [
+  //     'http://localhost:8080/#/modelView.min.css',
+  //     'https://cdn.jsdelivr.net/npm/quasar@1.14.7/dist/quasar.min.css',
 
-  console.log('path', window.location.pathname);
+  //   ],
+  // };
 
-  app.use(VueHtmlToPaper);
+  // app.use(VueHtmlToPaper, options);
   app.provide(DefaultApolloClient, apolloClient);
 
   // // BEFORE EACH

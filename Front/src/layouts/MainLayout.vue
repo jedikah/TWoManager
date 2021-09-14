@@ -2,14 +2,14 @@
   <div>
     <q-layout
       :class="!sessionState.session && 'sessionFilter'"
-      view="hHh LpR fff"
+      view="hHh Lpr fff"
       class="fullscreen column"
-      style="padding-top: 10px; min-width: 1280px"
+      style="padding-top: 10px; min-width: 1200px; min-height: 37.47px"
     >
       <q-header reveal class="text-white myHeader">
         <q-toolbar
-          class="full-height row"
-          style="min-height: 35px; color: black; padding-right: 50px"
+          class="row"
+          style="min-height: 37.47px; color: black; padding-right: 50px"
         >
           <div class="col-1">
             <q-btn
@@ -35,49 +35,11 @@
 
       <!-- //Route based drawer -->
 
-      <RouteDrawer />
-
-      <!-- // FORM DRAWER  -->
-      <q-drawer
-        :mini-width="400"
-        :width="450"
-        v-model="formsDrawer"
-        side="right"
-        behavior="desktop"
-        style="padding-right: 20px; margin-top: 20px"
-        overlay
-        mini-to-overlay
-      >
-        <div
-          class="q-mini-drawer-hide absolute-top fab-container"
-          style="margin-top: 20px"
-        >
-          <div class="full-width full-height bg-white">
-            <q-fab
-              v-model="formsDrawer"
-              @click="handleCloseRouteDrawer"
-              color="amber"
-              text-color="black"
-              icon="keyboard_arrow_left"
-              direction="right"
-              style="z-index: 1000"
-            />
-          </div>
-        </div>
-
-        <div
-          class="absolute full-height full-width"
-          style="background: #00263117; backdrop-filter: blur(5px)"
-        ></div>
-
-        <div style="margin-top: 55px">
-          <router-view name="form" />
-        </div>
-      </q-drawer>
+      <RouteDrawer v-model="routeDrawer" />
 
       <q-page-container class="col" style="padding-top: 0">
-        <div class="row" style="width: 100%">
-          <router-view style="width: 100%" />
+        <div style="min-width: calc(100vw - 55px)">
+          <router-view style="min-width: 100%" />
         </div>
 
         <q-card v-if="countDown <= 15 && countDown > 0" class="myCountDownCard">
@@ -88,6 +50,7 @@
         </q-card>
       </q-page-container>
     </q-layout>
+
     <q-layout>
       <OutSession />
     </q-layout>
@@ -97,14 +60,10 @@
 <script lang="ts">
 import { useRoute } from 'vue-router';
 import { computed, defineComponent, ref, watchEffect } from 'vue';
-import { clientFormBtn } from 'src/components/client/ClientForm.vue';
-import { folderFormBtn } from 'src/components/folder/FolderForm.vue';
 
 import userSession from 'src/utils/session.module';
 import { useSession } from 'src/services/session/useSession';
 
-export const formsDrawer = ref(false);
-export const routeDrawer = ref(true);
 export const formWidth = ref(400);
 
 export default defineComponent({
@@ -119,6 +78,7 @@ export default defineComponent({
     const route = useRoute();
     const countDown = ref(16);
     const routeName = computed(() => route.name);
+    const routeDrawer = ref(true);
 
     const { state: sessionState } = useSession();
 
@@ -134,22 +94,15 @@ export default defineComponent({
       }
     };
 
-    const handleCloseRouteDrawer = () => {
-      clientFormBtn.value = null;
-      folderFormBtn.value = null;
-    };
-
     watchEffect(() => {
       startSession(sessionState.session);
     });
 
     return {
       routeName,
-      formsDrawer,
       routeDrawer,
       sessionState,
       countDown,
-      handleCloseRouteDrawer,
     };
   },
 });

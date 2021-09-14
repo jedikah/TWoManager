@@ -11,7 +11,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { editorViewerState } from 'src/services/model/useModels';
 // import { formsDrawer } from '../../layouts/MainLayout.vue';
 
 export default defineComponent({
@@ -19,7 +18,7 @@ export default defineComponent({
   components: {},
   setup: () => {
     function handleFinished() {
-      editorViewerState.panelMode = 'list';
+      // editorViewerState.panelMode = 'list';
     }
     return { handleFinished };
   },

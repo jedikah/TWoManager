@@ -1,8 +1,5 @@
 <template>
-  <div
-    style="width: 210mm; height: 297mm; background: white"
-    :id="'printPv-' + name"
-  >
+  <div style="width: 29.7cm; height: 21cm; background: white">
     <slot></slot>
   </div>
 </template>

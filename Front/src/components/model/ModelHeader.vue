@@ -4,12 +4,34 @@
       <div class="text-center">Modele</div>
     </div>
 
-    <div class="col-1">
-      <q-btn icon="save" color="secondary" @click="handleSave" />
-    </div>
+    <div v-if="modelState.panelName === 'editor'" class="col-2 row">
+      <q-btn
+        dense
+        :icon="modelState.readOnly ? 'layers_clear' : 'layers'"
+        round
+        color="primary"
+        @click="toogleReadOnly"
+      >
+        <q-tooltip>Basculer en mode previvisualisation ou edition</q-tooltip>
+      </q-btn>
 
-    <div class="col-1">
-      <q-btn color="secondary" @click="handleFinished">Terminer</q-btn>
+      <q-space />
+
+      <q-btn dense round icon="save" color="primary" @click="handleSave">
+        <q-tooltip>Enregistrer les modifications</q-tooltip>
+      </q-btn>
+
+      <q-space />
+
+      <q-btn
+        dense
+        round
+        color="positive"
+        icon="done_all"
+        @click="handleFinished"
+      >
+        <q-tooltip>Termner</q-tooltip>
+      </q-btn>
     </div>
 
     <q-dialog v-model="confirm" persistent>
@@ -43,19 +65,21 @@
 </template>
 
 <script lang="ts">
-import { editorViewerState, useModel } from 'src/services/model/useModels';
+import { useUpdateModel } from 'src/services/model/useUpdateModel';
 import { defineComponent, ref } from 'vue';
+
+import { modelState, toogleReadOnly } from './model';
 
 export default defineComponent({
   name: 'ModelHeader',
   components: {},
   setup: () => {
-    const {} = useModel();
+    const { submit, updateModelArgs } = useUpdateModel();
 
     const confirm = ref(false);
 
     function handleSave() {
-      //
+      submit();
     }
 
     function handleFinished() {
@@ -65,16 +89,18 @@ export default defineComponent({
     function handleConfirm(accept: boolean) {
       switch (accept) {
         case true:
+          handleSave();
           break;
         case false:
           break;
       }
 
-      editorViewerState.panelMode = 'list';
+      modelState.panelName = 'list';
     }
 
     return {
-      editorViewerState,
+      modelState,
+      toogleReadOnly,
       handleConfirm,
       confirm,
       handleFinished,

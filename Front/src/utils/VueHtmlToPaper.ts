@@ -1,3 +1,4 @@
+// const printCss = require('./print.css');
 function addStyles(win: any, styles: any) {
   styles.forEach((style: any) => {
     const link = win.document.createElement('link');
@@ -7,13 +8,13 @@ function addStyles(win: any, styles: any) {
     win.document.getElementsByTagName('head')[0].appendChild(link);
   });
 }
-console.log(window.location.href)
+console.log(window.location.href);
 
 interface Options {
-  name? : string,
-        specs? : Array<string>,
-        replace? : boolean,
-        styles? : Array<string>
+  name?: string;
+  specs?: Array<string>;
+  replace?: boolean;
+  styles?: Array<string>;
 }
 
 const VueHtmlToPaper = {
@@ -27,14 +28,13 @@ const VueHtmlToPaper = {
         defaultSpecs = ['fullscreen=yes', 'titlebar=yes', 'scrollbars=yes'],
         defaultReplace = true,
         defaultStyles = [
-          // 'https://cdn.jsdelivr.net/npm/quasar@1.15.4/dist/quasar.min.css',
-          'modelView.min.css'
+          'https://cdn.jsdelivr.net/npm/quasar@1.15.4/dist/quasar.min.css',
         ];
       let {
         name = defaultName,
         specs = defaultSpecs,
         replace = defaultReplace,
-        styles = defaultStyles
+        styles = defaultStyles,
       } = options;
 
       // If has localOptions
@@ -46,7 +46,7 @@ const VueHtmlToPaper = {
         if (localOptions.styles) styles = localOptions.styles;
       }
 
-      specs = !!specs.length ? specs.join(',') : '' as any;
+      specs = !!specs.length ? specs.join(',') : ('' as any);
 
       const element = window.document.getElementById(el);
 
@@ -59,20 +59,17 @@ const VueHtmlToPaper = {
       const win = window.open(url, name, specs as any, replace);
       // const styles = () => import('./')
 
-      // win.document.write(`
-      //   <html>
-      //     <head>
-      //       <title>${window.document.title}</title>
-      //     </head>
-      //     <body>
-      //       ${element.innerHTML}
-      //     </body>
-      //   </html>
-      // `);
+      let styleHtml = '';
+      for (const node of [
+        ...(document.querySelectorAll('link[rel="stylesheet"], style') as any),
+      ]) {
+        styleHtml += node.outerHTML;
+      }
 
       win.document.write(`
       <html>
         <head>
+        ${styleHtml}
         </head>
         <body>
           ${element.innerHTML}
@@ -94,7 +91,7 @@ const VueHtmlToPaper = {
 
       return true;
     };
-  }
+  },
 };
 
 export default VueHtmlToPaper;

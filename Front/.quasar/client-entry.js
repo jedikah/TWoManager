@@ -122,7 +122,9 @@ createQuasarApp(createApp, quasarUserOptions)
       
       import(/* webpackMode: "eager" */ 'boot/composition-api'),
       
-      import(/* webpackMode: "eager" */ 'boot/notify-defaults')
+      import(/* webpackMode: "eager" */ 'boot/notify-defaults'),
+      
+      import(/* webpackMode: "eager" */ 'boot/custom-elements')
       
     ]).then(bootFiles => {
       const boot = bootFiles

@@ -8,9 +8,9 @@ const routes: RouteRecordRaw[] = [
       {
         name: 'LOGIN',
         path: '',
-        component: () => import('pages/Authentification.vue')
-      }
-    ]
+        component: () => import('pages/Authentification.vue'),
+      },
+    ],
   },
   {
     path: '/main',
@@ -22,8 +22,8 @@ const routes: RouteRecordRaw[] = [
         components: {
           default: () => import('pages/Client.vue'),
           header: () => import('components/client/ClientHeader.vue'),
-          form: () => import('components/client/ClientForm.vue')
-        }
+          form: () => import('components/client/ClientForm.vue'),
+        },
       },
 
       {
@@ -32,8 +32,8 @@ const routes: RouteRecordRaw[] = [
         components: {
           default: () => import('pages/Folder.vue'),
           header: () => import('components/folder/FolderHeader.vue'),
-          form: () => import('components/folder/FolderForm.vue')
-        }
+          form: () => import('components/folder/FolderForm.vue'),
+        },
       },
 
       {
@@ -42,10 +42,10 @@ const routes: RouteRecordRaw[] = [
         components: {
           default: () => import('pages/Model.vue'),
           header: () => import('components/model/ModelHeader.vue'),
-          form: () => import('components/model/ModelForm.vue')
-        }
-      }
-    ]
+          form: () => import('components/model/ModelForm.vue'),
+        },
+      },
+    ],
   },
 
   // Always leave this as last one,

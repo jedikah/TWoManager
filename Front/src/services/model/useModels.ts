@@ -1,64 +1,42 @@
+import { reactive } from 'vue';
+
 import { useQuery, useResult } from '@vue/apollo-composable';
 import { logErrorMessages } from '@vue/apollo-util';
-import { reactive } from 'vue';
-import { ref } from 'vue-demi';
-import { notifyThere } from '../context';
-import { QueryModelsArgs } from './../types';
-import { ModelsData, MODELS } from './useModels.gql';
 
+import { notifyThere } from '../context';
+import { QueryModelsArgs } from '../types';
+import { MODELS, ModelsData } from './useModels.gql';
 
 export const modelsVariable = reactive<QueryModelsArgs>({
   input: {
     label: '',
-    name: ''
-  }
-});
-
-interface EditorViewerState {
-  panelMode: 'list' | 'editor';
-  viewMode: 'readOnly' | 'editable';
-  currentModel: string
-}
-
-export const editorViewerState = reactive<EditorViewerState>({
-  panelMode: 'list',
-  viewMode: 'readOnly',
-  currentModel: ''
+    name: '',
+  },
 });
 
 export const useModel = () => {
-
   const {
     loading: loadingModels,
     onResult,
     onError,
-    result
-  } = useQuery<ModelsData, QueryModelsArgs>(
-    MODELS, modelsVariable, {
-      fetchPolicy: 'cache-and-network',
-    }
-  );
-  const currentModel = ref('');
-  const editedModel = ref('')
+    result,
+  } = useQuery<ModelsData, QueryModelsArgs>(MODELS, modelsVariable, {
+    fetchPolicy: 'cache-first',
+  });
 
   onResult(({ data, errors }) => {
     if (errors) notifyThere(errors);
-    console.log({ data })
-
-    if(data.models.length > 0 && editorViewerState.currentModel !== '') {
-      currentModel.value =  data.models.find(item => item.name == editorViewerState.currentModel).content;
-      editedModel.value =  data.models.find(item => item.name == editorViewerState.currentModel).content;
-    }
-
   });
 
-  onError(error => {
+  onError((error) => {
     logErrorMessages(error);
   });
 
-  const models = useResult(result, [], data => data.models)
+  const models = useResult(result, [], (data) => data.models);
 
-
-
-  return {modelsVariable, loadingModels, models, currentModel, editorViewerState, editedModel}
-}
+  return {
+    modelsVariable,
+    loadingModels,
+    models,
+  };
+};

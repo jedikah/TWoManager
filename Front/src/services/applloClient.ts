@@ -3,9 +3,9 @@ import {
   DefaultOptions,
   HttpLink,
   InMemoryCache,
+  split,
 } from '@apollo/client/core';
 import { setContext } from '@apollo/client/link/context';
-import { split } from '@apollo/client/core';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 
@@ -46,7 +46,7 @@ const wsLink = new WebSocketLink({
 
 const httpLink = new HttpLink({
   // You should use an absolute URL here
-  uri: 'http://192.168.0.104:4000/graphql',
+  uri: 'http://localhost:4000/graphql',
 });
 
 const link = split(

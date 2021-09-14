@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { FOLDER_FRAG, PAGINATION_META_FRAG } from '../fragments';
+
 import { FoldersResult } from '../types';
 
 export interface UserFoldersData {
@@ -7,39 +7,43 @@ export interface UserFoldersData {
 }
 
 export const USER_FOLDERS = gql`
-query($filter: FoldersFilterInput!, $pagination: PaginationInput!){
-  userFolders(filter: $filter, pagination: $pagination){
-    folders {
-      folderId
-      client {
-        clientId
-        name
+  query ($filter: FoldersFilterInput!, $pagination: PaginationInput!) {
+    userFolders(filter: $filter, pagination: $pagination) {
+      folders {
+        id
+        client {
+          id
+          name
+        }
+        dateTrav
+        facture {
+          id
+        }
+        typeTrav {
+          id
+          label
+          model {
+            id
+            name
+          }
+        }
+        fokontany
+        groundName
+        localisationTrav
+        numTitle
+        price
+        register
+        user {
+          userId
+        }
       }
-      dateTrav
-      facture {
-        factureId
+      paginationMeta {
+        currentPage
+        itemCount
+        itemsPerPage
+        totalItems
+        totalPages
       }
-      typeTrav {
-        typeTravId
-        label
-      }
-      fokontany
-      groundName
-      localisationTrav
-      numTitle
-      price
-      register
-      user {
-        userId
-      }
-    }
-     paginationMeta {
-      currentPage
-      itemCount
-      itemsPerPage
-      totalItems
-      totalPages
     }
   }
-}
 `;

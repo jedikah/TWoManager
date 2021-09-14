@@ -90,3 +90,23 @@
 .sessionFilter {
   filter: blur(5px);
 }
+
+// html {
+//   scroll-behavior: smooth;
+// }
+
+*::-webkit-scrollbar-track {
+  background-color: #fce4a4;
+}
+
+*::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+  background-color: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #e18700;
+  border-radius: 20px;
+  width: 80px;
+}

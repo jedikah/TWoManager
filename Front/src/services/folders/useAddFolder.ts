@@ -1,14 +1,15 @@
-import { useMutation } from '@vue/apollo-composable';
-
-import { MutationAddFolderArgs, QueryUserFoldersArgs } from '../types';
 import { reactive } from 'vue';
-import { notifyThere, notifyThis } from '../context';
-import { logErrorMessages } from '@vue/apollo-util';
-import { ADDFOLDER, AddFolderData } from './useAddFolder.gql';
-import { UserFoldersData, USER_FOLDERS } from './useUserFolders.gql';
-import { userFoldersvariable } from './useUserFolders';
 
-export const addFoldersVariable = reactive<MutationAddFolderArgs>({
+import { useMutation } from '@vue/apollo-composable';
+import { logErrorMessages } from '@vue/apollo-util';
+
+import { notifyThere, notifyThis } from '../context';
+import { MutationAddFolderArgs, QueryUserFoldersArgs } from '../types';
+import { ADDFOLDER, AddFolderData } from './useAddFolder.gql';
+import { userFoldersvariable } from './useUserFolders';
+import { USER_FOLDERS, UserFoldersData } from './useUserFolders.gql';
+
+export const addFoldersArgs = reactive<MutationAddFolderArgs>({
   input: {
     clientId: null,
     dateTrav: null,
@@ -19,53 +20,51 @@ export const addFoldersVariable = reactive<MutationAddFolderArgs>({
     numTitle: '',
     price: null,
     register: '0001gk',
-    typeTravId: null
-  }
+    typeTravId: null,
+  },
 });
 
 export const useAddFolder = () => {
-
   const { mutate, onDone, onError } = useMutation<
     AddFolderData,
     MutationAddFolderArgs
   >(ADDFOLDER, {
-    update: (cache, { data: {addFolder} }) => {
+    update: (cache, { data: { addFolder } }) => {
       if (addFolder) {
-        const dataCache = cache.readQuery<UserFoldersData, QueryUserFoldersArgs>(
-        {
+        const dataCache = cache.readQuery<
+          UserFoldersData,
+          QueryUserFoldersArgs
+        >({
           query: USER_FOLDERS,
-          variables: userFoldersvariable
+          variables: userFoldersvariable,
         });
 
         cache.writeQuery<UserFoldersData>({
           query: USER_FOLDERS,
-          data: dataCache
+          data: dataCache,
         });
 
         notifyThis({
           message: 'Le dossier enregisté.',
-          type: 'positive'
+          type: 'positive',
         });
-
       }
-    }
+    },
   });
-
 
   onDone(({ data, errors }) => {
     if (errors) notifyThere(errors);
-    console.log({data})
+    console.log({ data });
   });
 
-  onError(error => {
+  onError((error) => {
     console.log(error);
     logErrorMessages(error);
   });
 
   const submit = () => {
-    if ( addFoldersVariable.input.clientId )
-      mutate(addFoldersVariable);
+    if (addFoldersArgs.input.clientId) mutate(addFoldersArgs);
   };
 
-  return { addFoldersVariable, submit };
+  return { addFoldersArgs, submit };
 };

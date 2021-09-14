@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+
 import { Model } from '../types';
 
 export interface AddModelData {
@@ -6,11 +7,11 @@ export interface AddModelData {
 }
 
 export const ADDMODEL = gql`
-  mutation($input: ModelAddInput!){
-  addModel(input: $input){
-    modelId
-    label
-    content
+  mutation ($input: ModelAddInput!) {
+    addModel(input: $input) {
+      id
+      label
+      content
+    }
   }
-}
 `;

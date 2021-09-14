@@ -1,6 +1,6 @@
 export const columns = [
   {
-    name: 'clientName',
+    name: 'name',
     required: true,
     label: 'Nom et Prenom',
     align: 'left',

@@ -1,5 +1,3 @@
-const style = `
-
 *,
 :after,
 :before {
@@ -11984,7 +11982,3 @@ body.body--dark {
     opacity: 0.5;
   }
 }
-
-`
-
-export default style

@@ -1,21 +1,20 @@
-import { useQuery, useResult } from '@vue/apollo-composable';
 import { reactive } from 'vue';
 
-import { Client, QueryClientsSearchArgs } from '../types';
-import { notifyThere } from '../context';
+import { useQuery, useResult } from '@vue/apollo-composable';
 import { logErrorMessages } from '@vue/apollo-util';
+
+import { notifyThere } from '../context';
+import { QueryClientsSearchArgs } from '../types';
 import { CLIENTSEARCH, ClientsSearchData } from './useClientSearch.gql';
 
 const clientsSearchVariables = reactive<QueryClientsSearchArgs>({
   filter: {
     name: '',
-    limit: 5
-  }
+    limit: 5,
+  },
 });
 
 export const useClientSearch = () => {
-
-
   const { loading, onResult, onError, refetch, result } = useQuery<
     ClientsSearchData,
     QueryClientsSearchArgs
@@ -26,23 +25,19 @@ export const useClientSearch = () => {
   onResult(({ errors, data }) => {
     if (errors) notifyThere(errors);
 
-    console.log({data})
+    console.log({ data });
   });
 
-
-  onError(error => {
+  onError((error) => {
     logErrorMessages(error);
   });
 
-  const searchOptions = useResult(result,
-    [],
-    data => data.clientsSearch.map(client =>
-      ({
-        label: client.name,
-        value: client.clientId
-      }))
-    )
-
+  const searchOptions = useResult(result, [], (data) =>
+    data.clientsSearch.map((client) => ({
+      label: client.name,
+      value: client.id,
+    }))
+  );
 
   function handleClientFormSearch(name = '') {
     clientsSearchVariables.filter.name = name;
@@ -53,6 +48,6 @@ export const useClientSearch = () => {
     clientsSearchVariables,
     handleClientFormSearch,
     searchOptions,
-    loading
+    loading,
   };
 };

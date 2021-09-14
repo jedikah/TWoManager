@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-xs">
+  <div class="q-pa-xs" @mouseover="show = true" @mouseleave="show = false">
     <q-input dense rounded outlined v-model="date" readonly>
       <template v-slot:prepend>
         <q-icon name="event" class="cursor-pointer">
@@ -14,6 +14,10 @@
               </div>
             </q-date>
           </q-popup-proxy>
+
+          <q-tooltip v-model="show">
+            Cliquer <q-icon name="event" /> pour changer la date.
+          </q-tooltip>
         </q-icon>
       </template>
 
@@ -27,10 +31,15 @@
               format24h
             >
               <div class="row items-center justify-end">
-                <q-btn v-close-popup label="Close" color="primary" flat />
+                <q-btn v-close-popup label="Close" color="primary" flat>
+                </q-btn>
               </div>
             </q-time>
           </q-popup-proxy>
+
+          <q-tooltip v-model="show">
+            Cliquer <q-icon name="access_time" /> pour changer l'heure.
+          </q-tooltip>
         </q-icon>
       </template>
     </q-input>
@@ -49,6 +58,8 @@ export default {
   setup(prop: Prop, { emit }: SetupContext) {
     const date = ref(prop.val);
 
+    const show = ref(false);
+
     function handleChange(date: string) {
       emit('update:val', date);
     }
@@ -60,6 +71,7 @@ export default {
     return {
       date,
       handleChange,
+      show,
     };
   },
 };

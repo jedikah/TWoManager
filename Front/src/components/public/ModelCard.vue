@@ -2,7 +2,12 @@
   <div>
     <q-card class="my-card" style="width: 250px">
       <q-card-section style="padding-top: 0">
-        <div class="text-overline full-width">{{ overline }}</div>
+        <div
+          class="text-overline full-width"
+          style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis"
+        >
+          {{ overline }}
+        </div>
         <div class="text-h6 full-width">{{ title }}</div>
       </q-card-section>
 

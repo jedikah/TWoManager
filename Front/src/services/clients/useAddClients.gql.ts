@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+
 import { Client } from '../types';
 
 export interface AddClientData {
@@ -6,9 +7,9 @@ export interface AddClientData {
 }
 
 export const ADDCLIENT = gql`
-  mutation($input: ClientAddInput!) {
-    addClient(input: $input){
-      clientId
+  mutation ($input: ClientAddInput!) {
+    addClient(input: $input) {
+      id
       name
       domicile
       contact

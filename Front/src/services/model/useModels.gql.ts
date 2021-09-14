@@ -1,19 +1,18 @@
 import gql from 'graphql-tag';
-import { Model } from './../types';
 
-
+import { Model } from '../types';
 
 export interface ModelsData {
-  models: Model[]
+  models: Model[];
 }
 
 export const MODELS = gql`
-  query($input: ModelFilterInput!){
+  query ($input: ModelFilterInput!) {
     models(input: $input) {
-      modelId
+      id
       name
       label
       content
     }
-}
-`
+  }
+`;

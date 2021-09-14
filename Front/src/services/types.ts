@@ -18,8 +18,8 @@ export type Scalars = {
 
 export type Cause = {
   __typename?: 'Cause';
-  causeId: Scalars['ID'];
   domicile?: Maybe<Scalars['String']>;
+  id: Scalars['Float'];
   name: Scalars['String'];
   numero: Scalars['Float'];
   pv?: Maybe<Pv>;
@@ -39,8 +39,8 @@ export type CauseByPvInput = {
 };
 
 export type CauseUpdateInput = {
-  causeId: Scalars['Float'];
   domicile?: Maybe<Scalars['String']>;
+  id: Scalars['Float'];
   name: Scalars['String'];
   numero: Scalars['Float'];
   pvId: Scalars['Float'];
@@ -55,30 +55,30 @@ export type CheckTokenOutput = {
   photo?: Maybe<Scalars['String']>;
   status: Scalars['Boolean'];
   type: Scalars['String'];
-  userId: Scalars['ID'];
+  userId: Scalars['Float'];
   userName: Scalars['String'];
 };
 
 export type Client = {
   __typename?: 'Client';
-  clientId: Scalars['ID'];
   contact?: Maybe<Scalars['String']>;
   domicile?: Maybe<Scalars['String']>;
+  id: Scalars['Float'];
   name: Scalars['String'];
   user: User;
 };
 
 export type ClientAddInput = {
-  clientId?: Maybe<Scalars['ID']>;
   contact?: Maybe<Scalars['String']>;
   domicile?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Float']>;
   name: Scalars['String'];
 };
 
 export type ClientUpdateInput = {
-  clientId: Scalars['ID'];
   contact?: Maybe<Scalars['String']>;
   domicile?: Maybe<Scalars['String']>;
+  id: Scalars['Float'];
   name: Scalars['String'];
 };
 
@@ -102,8 +102,8 @@ export type ClientsSearchFilterInput = {
 export type Convocation = {
   __typename?: 'Convocation';
   atTown: Scalars['String'];
-  convocationId: Scalars['ID'];
   convokeOn: Scalars['DateTime'];
+  id: Scalars['Float'];
   model?: Maybe<Model>;
   namePersConv: Scalars['String'];
   numRegister: Scalars['Float'];
@@ -127,8 +127,8 @@ export type ConvocationFilterInput = {
 
 export type ConvocationUpdateInput = {
   atTown?: Maybe<Scalars['String']>;
-  convocationId: Scalars['Float'];
   convokeOn: Scalars['DateTime'];
+  id: Scalars['Float'];
   modelId?: Maybe<Scalars['Float']>;
   namePersConv: Scalars['String'];
   numRegister: Scalars['Float'];
@@ -140,7 +140,7 @@ export type ConvocationUpdateInput = {
 export type Facture = {
   __typename?: 'Facture';
   dateFacture: Scalars['Float'];
-  factureId: Scalars['ID'];
+  id: Scalars['Float'];
 };
 
 export type Folder = {
@@ -149,8 +149,8 @@ export type Folder = {
   dateTrav: Scalars['DateTime'];
   facture?: Maybe<Facture>;
   fokontany: Scalars['String'];
-  folderId: Scalars['ID'];
   groundName: Scalars['String'];
+  id: Scalars['Float'];
   localisationTrav: Scalars['String'];
   numTitle?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Float']>;
@@ -177,8 +177,9 @@ export type FolderUpdateInput = {
   dateTrav: Scalars['DateTime'];
   factureId?: Maybe<Scalars['Float']>;
   fokontany?: Maybe<Scalars['String']>;
-  folderId: Scalars['ID'];
+  folderId: Scalars['Float'];
   groundName?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Float']>;
   localisationTrav?: Maybe<Scalars['String']>;
   numTitle?: Maybe<Scalars['String']>;
   price?: Maybe<Scalars['Float']>;
@@ -202,7 +203,7 @@ export type FoldersResult = {
 export type Justificative = {
   __typename?: 'Justificative';
   content: Scalars['String'];
-  justificativeId: Scalars['ID'];
+  id: Scalars['Float'];
   numero: Scalars['Float'];
   pv: Pv;
 };
@@ -219,7 +220,7 @@ export type JustificativeByPvInput = {
 
 export type JustificativeUpdateInput = {
   content?: Maybe<Scalars['String']>;
-  justificativeId: Scalars['Float'];
+  id: Scalars['Float'];
   numero: Scalars['Float'];
   pvId: Scalars['Float'];
 };
@@ -228,7 +229,7 @@ export type Letter = {
   __typename?: 'Letter';
   dateRtx: Scalars['DateTime'];
   folder?: Maybe<Folder>;
-  id: Scalars['ID'];
+  id: Scalars['Float'];
   letterTown: Scalars['String'];
   model?: Maybe<Folder>;
   numRtx: Scalars['String'];
@@ -238,7 +239,7 @@ export type Letter = {
 export type LetterAddInput = {
   dateRtx: Scalars['DateTime'];
   folderId: Scalars['Float'];
-  id?: Maybe<Scalars['ID']>;
+  id?: Maybe<Scalars['Float']>;
   letterTown: Scalars['String'];
   numRtx: Scalars['String'];
   object: Scalars['String'];
@@ -247,7 +248,7 @@ export type LetterAddInput = {
 export type LetterUpdateInput = {
   dateRtx: Scalars['DateTime'];
   folderId: Scalars['Float'];
-  id?: Maybe<Scalars['ID']>;
+  id?: Maybe<Scalars['Float']>;
   letterTown: Scalars['String'];
   numRtx: Scalars['String'];
   object: Scalars['String'];
@@ -267,8 +268,8 @@ export type LogInOutput = {
 export type Model = {
   __typename?: 'Model';
   content?: Maybe<Scalars['String']>;
+  id: Scalars['Float'];
   label: Scalars['String'];
-  modelId: Scalars['ID'];
   name: Scalars['String'];
 };
 
@@ -285,8 +286,8 @@ export type ModelFilterInput = {
 
 export type ModelUpdateInput = {
   content?: Maybe<Scalars['String']>;
+  id: Scalars['Float'];
   label?: Maybe<Scalars['String']>;
-  modelId: Scalars['Float'];
   name?: Maybe<Scalars['String']>;
 };
 
@@ -452,7 +453,7 @@ export type Pv = {
   commune?: Maybe<Scalars['String']>;
   district?: Maybe<Scalars['String']>;
   folder?: Maybe<Folder>;
-  pvId: Scalars['ID'];
+  id: Scalars['Float'];
   pvMere?: Maybe<Scalars['String']>;
   region?: Maybe<Scalars['String']>;
 };
@@ -473,7 +474,7 @@ export type PvUpdateInput = {
   commune?: Maybe<Scalars['String']>;
   district?: Maybe<Scalars['String']>;
   folderId?: Maybe<Scalars['Float']>;
-  pvId: Scalars['Float'];
+  id: Scalars['Float'];
   pvMere?: Maybe<Scalars['String']>;
   region?: Maybe<Scalars['String']>;
 };
@@ -544,9 +545,9 @@ export type RegisterInput = {
 
 export type TypeTrav = {
   __typename?: 'TypeTrav';
+  id: Scalars['Float'];
   label: Scalars['String'];
   model?: Maybe<Model>;
-  typeTravId: Scalars['ID'];
 };
 
 export type TypeTravAddInput = {
@@ -555,9 +556,9 @@ export type TypeTravAddInput = {
 };
 
 export type TypeTravUpdateInput = {
+  id: Scalars['Float'];
   label: Scalars['String'];
   modelId?: Maybe<Scalars['Float']>;
-  typeTravId: Scalars['Float'];
 };
 
 
@@ -569,7 +570,7 @@ export type User = {
   photo?: Maybe<Scalars['String']>;
   status?: Maybe<Scalars['Boolean']>;
   type?: Maybe<Scalars['String']>;
-  userId: Scalars['ID'];
+  userId: Scalars['Float'];
   userName: Scalars['String'];
 };
 
@@ -579,6 +580,6 @@ export type UserOutput = {
   photo?: Maybe<Scalars['String']>;
   status?: Maybe<Scalars['Boolean']>;
   type?: Maybe<Scalars['String']>;
-  userId: Scalars['ID'];
+  userId: Scalars['Float'];
   userName: Scalars['String'];
 };

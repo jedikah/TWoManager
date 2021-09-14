@@ -1,82 +1,64 @@
 <template>
-  <q-card class="columns" style="width: 99%; padding: 15px">
-    <q-card-section class="col-1 text-center" style="height: 5%">
-      <p class="text-bold">Modifier un Client</p>
-    </q-card-section>
-
-    <q-card-section class="q-gutter-lg col">
-      <q-form
-        @submit="submit()"
-        @reset="
-          addClientsVariable.input.name = '';
-          addClientsVariable.input.domicile = '';
-          addClientsVariable.input.contact = '';
-        "
-        class="q-gutter-md row full-width"
-      >
-        <q-input
-          class="col-12"
-          dense
-          rounded
-          outlined
-          v-model="addClientsVariable.input.name"
-          label="Nom complet *"
-          :rules="[
-            (val) =>
-              (val && val.length > 0) || 'Ce champ ne doit pas être vide.',
-          ]"
-        />
-
-        <q-input
-          class="col-12"
-          dense
-          rounded
-          outlined
-          v-model="addClientsVariable.input.domicile"
-          label="Domicile"
-        />
-
-        <q-input
-          class="col-12"
-          dense
-          rounded
-          outlined
-          v-model="addClientsVariable.input.contact"
-          mask="### ## ### ##"
-          fill-mask="*"
-          label="Contact"
-        />
-        <q-btn
-          class="col-5"
-          rounded
-          label="Valider"
-          type="submit"
-          color="amber"
-        />
-        <q-btn
-          class="col-5"
-          rounded
-          label="Reset"
-          color="orange"
-          type="reset"
-        />
-      </q-form>
-    </q-card-section>
-  </q-card>
+  <client-form
+    title="Modifier le client"
+    v-model:name="updateClientArgs.input.name"
+    v-model:domicile="updateClientArgs.input.domicile"
+    v-model:contact="updateClientArgs.input.contact"
+    @valider="submit"
+  >
+    <q-btn
+      class="full-width"
+      style="margin: 20px"
+      rounded
+      @click="cancel"
+      no-caps
+      label="Annuler"
+    />
+  </client-form>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { useAddClients } from '../../services/clients/useAddClients';
+import { Client } from 'src/services/types';
+import { defineComponent, onMounted, Prop, onUpdated } from 'vue';
+import { SetupContext } from 'vue-demi';
+import { useUpdateClient } from '../../services/clients/useUpdateClient';
 
 export default defineComponent({
   name: 'clientUpdateForm',
-  setup: () => {
-    const { addClientsVariable, submit } = useAddClients();
+  props: {
+    client: Object as Prop<Client>,
+  },
+  components: {
+    clientForm: require('./ClientForm.vue').default,
+  },
+  setup: (props, { emit }: SetupContext) => {
+    const { updateClientArgs, submit } = useUpdateClient();
+
+    onMounted(() => {
+      setUpdateClient();
+    });
+
+    onUpdated(() => {
+      setUpdateClient();
+    });
+
+    function setUpdateClient() {
+      if (updateClientArgs.input.id !== Number(props.client.id)) {
+        updateClientArgs.input.id = Number(props.client.id);
+        updateClientArgs.input.name = props.client.name;
+        updateClientArgs.input.domicile = props.client.domicile;
+        updateClientArgs.input.contact = props.client.contact;
+      }
+    }
+
+    function cancel() {
+      emit('annuler');
+    }
 
     return {
-      addClientsVariable,
+      updateClientArgs,
       submit,
+      cancel,
     };
   },
 });

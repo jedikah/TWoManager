@@ -14,7 +14,7 @@
             glossy
             text-color="black"
             icon="add"
-            @click="handleOpenAddModelForm"
+            @click="() => {}"
           />
         </div>
       </q-card-section>
@@ -26,12 +26,12 @@
 
         <ModelCard
           v-for="model in models"
-          :key="model.modelId"
+          :key="model.id"
           :name="model.name"
           :title="model.name"
           :overline="model.label"
           style="margin: 5px 10px"
-          @click="() => handleOpenMorcellement(model.name)"
+          @click="() => handleOpenMorcellement(model)"
         />
       </q-card-section>
       <q-separator />
@@ -40,37 +40,40 @@
 </template>
 
 <script lang="ts">
-import { formsDrawer } from 'src/layouts/MainLayout.vue';
 import { useAddModel } from 'src/services/model/useAddModel';
-import { useModel } from 'src/services/model/useModels';
-import { defineComponent } from 'vue';
-import { modelFormBtn } from './ModelForm.vue';
+import { defineComponent, PropType } from 'vue';
+import { modelState } from './model';
+import { Model } from 'src/services/types';
+import { updateModelArgs } from '../../services/model/useUpdateModel';
 
 export default defineComponent({
   name: 'ModelListView',
+  props: {
+    models: {
+      type: Array as PropType<Model[]>,
+      require: true,
+    },
+    loading: {
+      default: false,
+    },
+  },
   components: {
     ModelCard: require('../public/ModelCard.vue').default,
   },
   setup: () => {
-    const {
-      modelsVariable,
-      loadingModels,
-      models,
-      editorViewerState,
-    } = useModel();
-
     const {} = useAddModel();
-    function handleOpenMorcellement(currentModel: string) {
-      editorViewerState.currentModel = currentModel;
-      editorViewerState.panelMode = 'editor';
+    function handleOpenMorcellement(currentModel: Model) {
+      updateModelArgs.input.content = currentModel.content;
+      updateModelArgs.input.label = currentModel.label;
+      updateModelArgs.input.id = currentModel.id;
+      updateModelArgs.input.name = currentModel.name;
+      modelState.panelName = 'editor';
     }
 
-    function handleOpenAddModelForm() {
-      formsDrawer.value = true;
-      modelFormBtn.value = 'add';
-    }
-
-    return { handleOpenMorcellement, models, handleOpenAddModelForm };
+    return {
+      modelState,
+      handleOpenMorcellement,
+    };
   },
 });
 </script>

@@ -1,13 +1,12 @@
 <template>
   <q-drawer
-    v-model="routeDrawer"
+    v-model="model"
     side="left"
     :mini="miniState"
     @mouseover="miniState = false"
     @mouseout="miniState = true"
     behavior="desktop"
     bordered
-    show-if-above
     :width="200"
     :breakpoint="500"
     class="drawer"
@@ -21,11 +20,12 @@
     >
       <q-list padding>
         <q-item
-          @click="state.router.push('/main')"
-          :active="state.active.clients"
-          :clickable="!state.active.clients"
-          :style="!state.active.clients && 'color: white'"
+          dark
+          @click="$router.push('/main')"
+          :active="$route.path === '/main'"
+          :clickable="$route.path !== '/main'"
           v-ripple
+          active-class="text-primary"
         >
           <q-item-section avatar>
             <q-icon name="perm_contact_calendar" />
@@ -35,11 +35,12 @@
         </q-item>
 
         <q-item
-          @click="state.router.push('/main/folders')"
-          :style="!state.active.folders && 'color: white'"
-          :active="state.active.folders"
-          :clickable="!state.active.folders"
+          dark
+          @click="$router.push('/main/folders')"
+          :active="$route.path === '/main/folders'"
+          :clickable="$route.path !== '/main/folders'"
           v-ripple
+          active-class="text-primary"
         >
           <q-item-section avatar>
             <q-icon name="folder_shared" />
@@ -49,11 +50,12 @@
         </q-item>
 
         <q-item
-          @click="state.router.push('/main/models')"
-          :style="!state.active.models && 'color: white'"
-          :active="state.active.models"
-          :clickable="!state.active.models"
+          dark
+          @click="$router.push('/main/models')"
+          :active="$route.path === '/main/models'"
+          :clickable="$route.path !== '/main/models'"
           v-ripple
+          active-class="text-primary"
         >
           <q-item-section avatar>
             <q-icon name="book" />
@@ -62,7 +64,7 @@
           <q-item-section> Model </q-item-section>
         </q-item>
 
-        <q-item :style="'color: white'" clickable v-ripple>
+        <q-item dark clickable v-ripple active-class="text-primary">
           <q-item-section avatar>
             <q-icon name="fact_check" color="white" />
           </q-item-section>
@@ -78,7 +80,13 @@
       style="height: 150px"
     >
       <div
-        class="absolute-bottom bg-transparent column justify-center items-center"
+        class="
+          absolute-bottom
+          bg-transparent
+          column
+          justify-center
+          items-center
+        "
         :style="miniState && 'padding-left: 0'"
       >
         <q-avatar size="56px" class="q-mb-md">
@@ -96,31 +104,24 @@
 </template>
 
 <script lang="ts">
-import { useRouter, useRoute } from 'vue-router';
-import { defineComponent, computed, ref } from 'vue';
+import { defineComponent, computed, ref, SetupContext } from 'vue';
 import { useSession } from 'src/services/session/useSession';
-import { routeDrawer } from './MainLayout.vue';
 
 export default defineComponent({
   name: 'DrawerRoute',
-  setup: () => {
+  props: {
+    modelValue: Boolean,
+  },
+  setup: (props, { emit }: SetupContext) => {
     const miniState = ref(true);
-    const router = useRouter();
-    const route = useRoute();
     const { state: sessionState } = useSession();
 
-    const state = computed(() => {
-      return {
-        active: {
-          clients: route.name === 'CLIENT' ? true : false,
-          folders: route.name === 'FOLDER' ? true : false,
-          models: route.name === 'MODEL' ? true : false,
-        },
-        router,
-      };
+    const model = computed({
+      get: () => props.modelValue,
+      set: (val) => emit('update:modelValue', val),
     });
 
-    return { routeDrawer, state, miniState, sessionState };
+    return { model, miniState, sessionState };
   },
 });
 </script>

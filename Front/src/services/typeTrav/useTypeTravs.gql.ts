@@ -1,21 +1,21 @@
 import gql from 'graphql-tag';
+
 import { TypeTrav } from '../types';
 
-
 export interface TypeTravsData {
-  typeTravs: TypeTrav[]
+  typeTravs: TypeTrav[];
 }
 
 export const TYPETRAVS = gql`
-  query{
-    typeTravs{
-      typeTravId
+  query {
+    typeTravs {
+      id
       label
-      model{
-        modelId
+      model {
+        id
         label
         content
       }
     }
   }
-`
+`;

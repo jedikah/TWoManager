@@ -1,22 +1,12 @@
 import { reactive } from 'vue';
-import { useCheckToken } from '../users/useCheckToken';
 
-export type CurrentUser = {
-  __typename?: 'CheckTokenOutput';
-  userId: string;
-  userName: string;
-  login: string;
-  photo?: string;
-  type: string;
-  status: boolean;
-  iat: number;
-  exp: number;
-};
+import { CheckTokenOutput } from '../types';
+import { useCheckToken } from '../users/useCheckToken';
 
 export interface StateSession {
   session?: boolean;
-  currentUser: CurrentUser;
-  left: boolean
+  currentUser: CheckTokenOutput;
+  left: boolean;
 }
 
 export const initState: StateSession = {
@@ -29,10 +19,10 @@ export const initState: StateSession = {
     type: '',
     status: false,
     iat: null,
-    exp: null
+    exp: null,
   },
-  left: true
-}
+  left: true,
+};
 
 export const state: StateSession = reactive({
   session: false,
@@ -44,9 +34,9 @@ export const state: StateSession = reactive({
     type: '',
     status: false,
     iat: null,
-    exp: null
+    exp: null,
   },
-  left: true
+  left: true,
 });
 
 export const useSession = () => {

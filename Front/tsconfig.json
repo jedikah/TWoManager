@@ -1,15 +1,24 @@
 {
   "extends": "@quasar/app/tsconfig-preset",
   "compilerOptions": {
+    "jsx": "preserve",
     "baseUrl": ".",
     "target": "es5",
     "noEmit": false,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "skipLibCheck": true,
     "noImplicitUseStrict": true,
     "allowJs": true,
     "strict": false,
     "removeComments": true,
-    "moduleResolution": "node"
-  }
+    "moduleResolution": "node",
+    "importHelpers": true
+  },
+  "include": [
+    "src/**/*.js",
+    "src/**/*.ts",
+    // "src/**/*.jsx",
+    "src/**/*.tsx",
+    "src/**/*.vue"
+  ]
 }

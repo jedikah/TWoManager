@@ -1,5 +1,5 @@
 <template>
-  <q-page class="">
+  <q-page>
     <div class="q-pa-md" style="min-height: 720px; max-height: 900px">
       <ClientTable />
     </div>
