@@ -1,13 +1,22 @@
-import { Entity, Column, PrimaryGeneratedColumn, JoinColumn, OneToOne, RelationId } from 'typeorm';
-import { Field, ObjectType, ID } from '@nestjs/graphql';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+  RelationId,
+} from 'typeorm';
+
+import { Field, ObjectType } from '@nestjs/graphql';
+
 import { Model } from '../model/model.entity';
 
 @ObjectType()
 @Entity({ name: 'type_trav' })
 export class TypeTrav {
-  @Field(() => ID)
-  @PrimaryGeneratedColumn({ name: 'type_trav_id' })
-  typeTravId: number;
+  @Field()
+  @PrimaryGeneratedColumn({ name: 'id' })
+  id: number;
 
   @Field()
   @Column({ name: 'label', length: 30 })

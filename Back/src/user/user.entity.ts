@@ -6,7 +6,7 @@ import { Folder } from '../folder/folder.entity';
 @ObjectType()
 @Entity({ name: 'user' })
 export class User {
-  @Field(() => ID)
+  @Field()
   @PrimaryGeneratedColumn({ name: 'user_id' })
   userId: number;
 

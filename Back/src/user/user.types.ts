@@ -17,7 +17,7 @@ export class RegisterInput {
 
 @ObjectType()
 export class UserOutput {
-  @Field(() => ID)
+  @Field()
   userId: number;
 
   @Field()
@@ -47,7 +47,7 @@ export class LogInInput {
 
 @ObjectType()
 export class TokenCreator {
-  @Field(() => ID)
+  @Field()
   userId?: number;
 
   @Field()
@@ -68,7 +68,7 @@ export class LogInOutput {
 
 @ObjectType()
 export class CheckTokenOutput {
-  @Field(() => ID)
+  @Field()
   userId: number;
 
   @Field()

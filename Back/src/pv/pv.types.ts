@@ -1,9 +1,10 @@
 import { Field, InputType, OmitType, PartialType } from '@nestjs/graphql';
+
 import { Pv } from './pv.entity';
 
 @InputType()
 export class PvAddInput extends PartialType(
-  OmitType(Pv, ['folder', 'pvId']),
+  OmitType(Pv, ['folder', 'id']),
   InputType,
 ) {
   @Field({ nullable: true })
@@ -28,7 +29,7 @@ export class PvUpdateInput extends PartialType(
   InputType,
 ) {
   @Field()
-  pvId: number;
+  id: number;
 
   @Field({ nullable: true })
   folderId?: number;

@@ -3,8 +3,8 @@
 # ------------------------------------------------------
 
 type Cause {
-  causeId: ID!
   domicile: String
+  id: Float!
   name: String!
   numero: Float!
   pv: Pv
@@ -24,8 +24,8 @@ input CauseByPvInput {
 }
 
 input CauseUpdateInput {
-  causeId: Float!
   domicile: String = ""
+  id: Float!
   name: String!
   numero: Float!
   pvId: Float!
@@ -39,29 +39,29 @@ type CheckTokenOutput {
   photo: String
   status: Boolean!
   type: String!
-  userId: ID!
+  userId: Float!
   userName: String!
 }
 
 type Client {
-  clientId: ID!
   contact: String
   domicile: String
+  id: Float!
   name: String!
   user: User!
 }
 
 input ClientAddInput {
-  clientId: ID
   contact: String
   domicile: String
+  id: Float
   name: String!
 }
 
 input ClientUpdateInput {
-  clientId: ID!
   contact: String
   domicile: String
+  id: Float!
   name: String!
 }
 
@@ -83,8 +83,8 @@ input ClientsSearchFilterInput {
 
 type Convocation {
   atTown: String!
-  convocationId: ID!
   convokeOn: DateTime!
+  id: Float!
   model: Model
   namePersConv: String!
   numRegister: Float!
@@ -108,8 +108,8 @@ input ConvocationFilterInput {
 
 input ConvocationUpdateInput {
   atTown: String = ""
-  convocationId: Float!
   convokeOn: DateTime!
+  id: Float!
   modelId: Float
   namePersConv: String!
   numRegister: Float!
@@ -124,7 +124,7 @@ scalar DateTime
 
 type Facture {
   dateFacture: Float!
-  factureId: ID!
+  id: Float!
 }
 
 type Folder {
@@ -132,8 +132,8 @@ type Folder {
   dateTrav: DateTime!
   facture: Facture
   fokontany: String!
-  folderId: ID!
   groundName: String!
+  id: Float!
   localisationTrav: String!
   numTitle: String
   price: Float
@@ -160,8 +160,9 @@ input FolderUpdateInput {
   dateTrav: DateTime!
   factureId: Float
   fokontany: String = ""
-  folderId: ID!
+  folderId: Float!
   groundName: String = ""
+  id: Float
   localisationTrav: String = ""
   numTitle: String
   price: Float
@@ -183,7 +184,7 @@ type FoldersResult {
 
 type Justificative {
   content: String!
-  justificativeId: ID!
+  id: Float!
   numero: Float!
   pv: Pv!
 }
@@ -200,7 +201,7 @@ input JustificativeByPvInput {
 
 input JustificativeUpdateInput {
   content: String = ""
-  justificativeId: Float!
+  id: Float!
   numero: Float!
   pvId: Float!
 }
@@ -208,7 +209,7 @@ input JustificativeUpdateInput {
 type Letter {
   dateRtx: DateTime!
   folder: Folder
-  id: ID!
+  id: Float!
   letterTown: String!
   model: Folder
   numRtx: String!
@@ -218,7 +219,7 @@ type Letter {
 input LetterAddInput {
   dateRtx: DateTime!
   folderId: Float!
-  id: ID
+  id: Float
   letterTown: String!
   numRtx: String!
   object: String!
@@ -227,7 +228,7 @@ input LetterAddInput {
 input LetterUpdateInput {
   dateRtx: DateTime!
   folderId: Float!
-  id: ID
+  id: Float
   letterTown: String!
   numRtx: String!
   object: String!
@@ -245,8 +246,8 @@ type LogInOutput {
 
 type Model {
   content: String
+  id: Float!
   label: String!
-  modelId: ID!
   name: String!
 }
 
@@ -263,8 +264,8 @@ input ModelFilterInput {
 
 input ModelUpdateInput {
   content: String = ""
+  id: Float!
   label: String = ""
-  modelId: Float!
   name: String = ""
 }
 
@@ -311,7 +312,7 @@ type Pv {
   commune: String
   district: String
   folder: Folder
-  pvId: ID!
+  id: Float!
   pvMere: String
   region: String
 }
@@ -332,7 +333,7 @@ input PvUpdateInput {
   commune: String = ""
   district: String = ""
   folderId: Float
-  pvId: Float!
+  id: Float!
   pvMere: String = ""
   region: String = ""
 }
@@ -359,9 +360,9 @@ input RegisterInput {
 }
 
 type TypeTrav {
+  id: Float!
   label: String!
   model: Model
-  typeTravId: ID!
 }
 
 input TypeTravAddInput {
@@ -370,9 +371,9 @@ input TypeTravAddInput {
 }
 
 input TypeTravUpdateInput {
+  id: Float!
   label: String!
   modelId: Float
-  typeTravId: Float!
 }
 
 """The `Upload` scalar type represents a file upload."""
@@ -385,7 +386,7 @@ type User {
   photo: String
   status: Boolean
   type: String
-  userId: ID!
+  userId: Float!
   userName: String!
 }
 
@@ -394,6 +395,6 @@ type UserOutput {
   photo: String
   status: Boolean
   type: String
-  userId: ID!
+  userId: Float!
   userName: String!
 }

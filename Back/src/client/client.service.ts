@@ -1,11 +1,15 @@
-import { Clients } from './resolvers/clients';
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import {
+  IPaginationOptions,
+  paginate,
+  Pagination,
+} from 'nestjs-typeorm-paginate';
 import { Repository, SelectQueryBuilder } from 'typeorm';
 
-import { Client } from './client.entity';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+
 import { UserOutput } from '../user/user.types';
-import { IPaginationOptions, Pagination, paginate } from 'nestjs-typeorm-paginate';
+import { Client } from './client.entity';
 
 @Injectable()
 export class ClientServices {
@@ -21,14 +25,11 @@ export class ClientServices {
     return paginate<Client>(qb, options);
   }
 
-  async getClientById(clientId: number): Promise<Client> {
-    return this.clientsRepository.findOne({clientId});
+  async getClientById(id: number): Promise<Client> {
+    return this.clientsRepository.findOne({ id });
   }
 
-  async getClientByName(
-    name: string,
-    limit = 5,
-  ): Promise<Client[]> {
+  async getClientByName(name: string, limit = 5): Promise<Client[]> {
     return this.clientsRepository
       .createQueryBuilder('client')
       .where('client.name like :name', {
@@ -55,13 +56,17 @@ export class ClientServices {
     return response;
   }
 
-  getClients({name = '', domicile = '', contact = ''}): SelectQueryBuilder<Client> {
-    return this.clientsRepository.createQueryBuilder()
-    .where('name like :name', {name: `%${name}%`})
-    .andWhere('domicile like :domicile', {domicile: `%${domicile}%`})
-    .andWhere('contact like :contact', {contact: `%${contact}%`})
-    .orderBy('client_id', 'DESC')
-
+  getClients({
+    name = '',
+    domicile = '',
+    contact = '',
+  }): SelectQueryBuilder<Client> {
+    return this.clientsRepository
+      .createQueryBuilder()
+      .where('name like :name', { name: `%${name}%` })
+      .andWhere('domicile like :domicile', { domicile: `%${domicile}%` })
+      .andWhere('contact like :contact', { contact: `%${contact}%` })
+      .orderBy('client_id', 'DESC');
   }
 
   async updateClient(client: Client): Promise<Client> {

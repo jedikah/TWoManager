@@ -50,7 +50,8 @@
     "vue-demi": "^0.6.0",
     "vue-html-print": "^1.3.1",
     "vue-html-to-paper": "^1.3.1",
-    "vue-print-nb": "^1.5.0"
+    "vue-print-nb": "^1.5.0",
+    "vue3-openlayers": "^0.1.47"
   },
   "devDependencies": {
     "@apollo/client": "^3.3.19",

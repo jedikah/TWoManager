@@ -6,6 +6,7 @@ import {
   OmitType,
   PartialType,
 } from '@nestjs/graphql';
+
 import { PaginationMeta } from '../types';
 import { Folder } from './folder.entity';
 
@@ -14,28 +15,28 @@ export class FolderUpdateInput extends PartialType(
   OmitType(Folder, ['client', 'facture', 'user', 'typeTrav']),
   InputType,
 ) {
-  @Field(() => ID)
+  @Field()
   folderId: number;
-  
+
   @Field({ nullable: true })
   factureId?: number;
 
-  @Field({ nullable: true})
-  typeTravId?: number
+  @Field({ nullable: true })
+  typeTravId?: number;
 
-  @Field({defaultValue: ''})
+  @Field({ defaultValue: '' })
   register?: string;
 
   @Field({ nullable: true })
   numTitle?: string;
 
-  @Field({defaultValue: ''})
+  @Field({ defaultValue: '' })
   groundName?: string;
 
-  @Field({defaultValue: ''})
+  @Field({ defaultValue: '' })
   localisationTrav?: string;
 
-  @Field({defaultValue: ''})
+  @Field({ defaultValue: '' })
   fokontany?: string;
 
   @Field()
@@ -47,35 +48,34 @@ export class FolderUpdateInput extends PartialType(
   @Field({ nullable: true })
   userId?: number;
 
-  @Field({nullable: true})
+  @Field({ nullable: true })
   clientId?: number;
-
 }
 
 @InputType()
 export class FolderAddInput extends PartialType(
-  OmitType(Folder, ['client', 'facture', 'user', 'userId', 'typeTrav', 'folderId']),
+  OmitType(Folder, ['client', 'facture', 'user', 'userId', 'typeTrav', 'id']),
   InputType,
 ) {
   @Field({ nullable: true })
   factureId?: number;
 
-  @Field({ nullable: true})
-  typeTravId?: number
+  @Field({ nullable: true })
+  typeTravId?: number;
 
-  @Field({defaultValue: ''})
+  @Field({ defaultValue: '' })
   register?: string;
 
   @Field({ nullable: true })
   numTitle?: string;
 
-  @Field({defaultValue: ''})
+  @Field({ defaultValue: '' })
   groundName?: string;
 
-  @Field({defaultValue: ''})
+  @Field({ defaultValue: '' })
   localisationTrav?: string;
 
-  @Field({defaultValue: ''})
+  @Field({ defaultValue: '' })
   fokontany?: string;
 
   @Field({ nullable: true })
@@ -86,7 +86,6 @@ export class FolderAddInput extends PartialType(
 
   @Field()
   clientId: number;
-
 }
 
 @InputType()

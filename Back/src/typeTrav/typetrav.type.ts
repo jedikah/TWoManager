@@ -1,23 +1,30 @@
+import { Field, InputType, OmitType, PartialType } from '@nestjs/graphql';
+
 import { TypeTrav } from './typetrav.entity';
-import { Field, InputType, OmitType, PartialType } from "@nestjs/graphql";
 
 @InputType()
-export class TypeTravAddInput extends PartialType(OmitType(TypeTrav, ['model', 'typeTravId']), InputType) {
-    @Field()
-    label: string;
+export class TypeTravAddInput extends PartialType(
+  OmitType(TypeTrav, ['model', 'id']),
+  InputType,
+) {
+  @Field()
+  label: string;
 
-    @Field({nullable: true})
-    modelId?: number;
+  @Field({ nullable: true })
+  modelId?: number;
 }
 
 @InputType()
-export class TypeTravUpdateInput extends PartialType(OmitType(TypeTrav, ['model']), InputType) {
-    @Field()
-    typeTravId: number;
+export class TypeTravUpdateInput extends PartialType(
+  OmitType(TypeTrav, ['model']),
+  InputType,
+) {
+  @Field()
+  id: number;
 
-    @Field()
-    label: string;
+  @Field()
+  label: string;
 
-    @Field({nullable: true})
-    modelId?: number;
+  @Field({ nullable: true })
+  modelId?: number;
 }

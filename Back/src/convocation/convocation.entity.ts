@@ -1,23 +1,24 @@
 import {
-  Entity,
   Column,
-  ManyToOne,
+  Entity,
   JoinColumn,
-  RelationId,
-  PrimaryGeneratedColumn,
+  ManyToOne,
   OneToOne,
+  PrimaryGeneratedColumn,
+  RelationId,
 } from 'typeorm';
-import { Field, ObjectType, ID } from '@nestjs/graphql';
 
-import { Pv } from '../pv/pv.entity';
+import { Field, ObjectType } from '@nestjs/graphql';
+
 import { Model } from '../model/model.entity';
+import { Pv } from '../pv/pv.entity';
 
 @ObjectType()
 @Entity({ name: 'convocation' })
 export class Convocation {
-  @Field(() => ID)
-  @PrimaryGeneratedColumn({name: 'convocation_id'})
-  convocationId: number;
+  @Field()
+  @PrimaryGeneratedColumn({ name: 'id' })
+  id: number;
 
   @Field()
   @Column({ name: 'num_register', unique: true })
@@ -40,7 +41,7 @@ export class Convocation {
   numRequisition: string;
 
   @ManyToOne(() => Pv)
-  @Field(() => Pv, {nullable: true})
+  @Field(() => Pv, { nullable: true })
   @JoinColumn({ name: 'pv_id' })
   pv: Pv;
   @RelationId((convocation: Convocation) => convocation.pv)

@@ -1,24 +1,25 @@
 import {
-  Entity,
   Column,
-  PrimaryGeneratedColumn,
-  ManyToOne,
+  Entity,
   JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
   RelationId,
 } from 'typeorm';
-import { Field, ObjectType, ID } from '@nestjs/graphql';
+
+import { Field, ObjectType } from '@nestjs/graphql';
 
 import { Client } from '../client/client.entity';
-import { User } from '../user/user.entity';
 import { Facture } from '../facture/facture.entity';
 import { TypeTrav } from '../typeTrav/typetrav.entity';
+import { User } from '../user/user.entity';
 
 @ObjectType()
 @Entity({ name: 'folder' })
 export class Folder {
-  @Field(() => ID)
-  @PrimaryGeneratedColumn({ name: 'folder_id' })
-  folderId: number;
+  @Field()
+  @PrimaryGeneratedColumn({ name: 'id' })
+  id: number;
 
   @Field()
   @Column({ name: 'register', length: 8, default: '' })
@@ -41,7 +42,7 @@ export class Folder {
   fokontany: string;
 
   @Field()
-  @Column({ name: 'date_trav',  })
+  @Column({ name: 'date_trav' })
   dateTrav?: Date;
 
   @Field({ nullable: true })
@@ -70,9 +71,9 @@ export class Folder {
   factureId?: number;
 
   @ManyToOne(() => TypeTrav)
-  @Field(() => TypeTrav, {nullable: true})
-  @JoinColumn({name: 'type_trav_id'})
-  typeTrav: TypeTrav
+  @Field(() => TypeTrav, { nullable: true })
+  @JoinColumn({ name: 'type_trav_id' })
+  typeTrav: TypeTrav;
   @RelationId((folder: Folder) => folder.typeTrav)
-  typeTravId: number
+  typeTravId: number;
 }

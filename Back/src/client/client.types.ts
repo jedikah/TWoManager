@@ -1,11 +1,21 @@
-import { Field, InputType, ID, PartialType, OmitType,  ObjectType } from '@nestjs/graphql';
+import {
+  Field,
+  InputType,
+  ObjectType,
+  OmitType,
+  PartialType,
+} from '@nestjs/graphql';
+
 import { PaginationMeta } from '../types';
 import { Client } from './client.entity';
 
 @InputType()
-export class ClientAddInput extends PartialType(OmitType(Client, ['user']), InputType) {
-  @Field(() => ID, { nullable: true })
-  clientId?: number;
+export class ClientAddInput extends PartialType(
+  OmitType(Client, ['user']),
+  InputType,
+) {
+  @Field({ nullable: true })
+  id?: number;
 
   @Field()
   name: string;
@@ -18,9 +28,12 @@ export class ClientAddInput extends PartialType(OmitType(Client, ['user']), Inpu
 }
 
 @InputType()
-export class ClientUpdateInput extends PartialType(OmitType(Client, ['user']), InputType) {
-  @Field(() => ID)
-  clientId: number;
+export class ClientUpdateInput extends PartialType(
+  OmitType(Client, ['user']),
+  InputType,
+) {
+  @Field()
+  id: number;
 
   @Field()
   name: string;
@@ -41,22 +54,22 @@ export class ClientSearchInput {
 @InputType()
 export class ClientsFilterInput {
   @Field({ nullable: true })
-  name?: string
+  name?: string;
 
   @Field({ nullable: true })
-  domicile?: string
+  domicile?: string;
 
   @Field({ nullable: true })
-  contact?: string
+  contact?: string;
 }
 
 @InputType()
 export class ClientsSearchFilterInput {
-  @Field({defaultValue: ''})
-  name?: string
+  @Field({ defaultValue: '' })
+  name?: string;
 
   @Field({ nullable: true })
-  limit?: number
+  limit?: number;
 }
 
 @ObjectType()

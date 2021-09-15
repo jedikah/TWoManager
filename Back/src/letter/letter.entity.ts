@@ -1,12 +1,13 @@
 import {
-  Entity,
   Column,
-  OneToOne,
+  Entity,
   JoinColumn,
-  RelationId,
+  OneToOne,
   PrimaryGeneratedColumn,
+  RelationId,
 } from 'typeorm';
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+
+import { Field, ObjectType } from '@nestjs/graphql';
 
 import { Folder } from '../folder/folder.entity';
 import { Model } from '../model/model.entity';
@@ -14,7 +15,7 @@ import { Model } from '../model/model.entity';
 @ObjectType()
 @Entity({ name: 'letter' })
 export class Letter {
-  @Field(() => ID)
+  @Field()
   @PrimaryGeneratedColumn({ name: 'id' })
   id: number;
 
@@ -43,7 +44,7 @@ export class Letter {
 
   @OneToOne(() => Model, { nullable: true })
   @Field(() => Folder, { nullable: true })
-  @JoinColumn({ name: 'model' })
+  @JoinColumn({ name: 'model_id' })
   model: Model;
   @RelationId((letter: Letter) => letter.model)
   modelId?: number;

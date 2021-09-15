@@ -1,15 +1,16 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { Field, ObjectType, ID } from '@nestjs/graphql';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+
+import { Field, ID, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
 @Entity({ name: 'model' })
 export class Model {
-  @Field(() => ID)
-  @PrimaryGeneratedColumn({ name: 'model_id' })
-  modelId: number;
+  @Field()
+  @PrimaryGeneratedColumn({ name: 'id' })
+  id: number;
 
   @Field()
-  @Column({name: 'name', default: '', length: 25})
+  @Column({ name: 'name', default: '', length: 25 })
   name: string;
 
   @Field()

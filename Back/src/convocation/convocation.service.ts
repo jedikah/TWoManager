@@ -1,6 +1,8 @@
+import { Repository } from 'typeorm';
+
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+
 import { Pv } from '../pv/pv.entity';
 import { Convocation } from './convocation.entity';
 
@@ -19,13 +21,13 @@ export class ConvocationServices {
     return this.convocationRepository.save(convocation);
   }
 
-  async getConvocationById(convocationId: number): Promise<Convocation> {
-    return this.convocationRepository.findOne({convocationId})
+  async getConvocationById(id: number): Promise<Convocation> {
+    return this.convocationRepository.findOne({ id });
   }
 
   async getConvocationsByPv(pv: Pv): Promise<Convocation[]> {
     return this.convocationRepository.find({
-      where: { pv }
-    })
+      where: { pv },
+    });
   }
 }

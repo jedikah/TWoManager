@@ -1,9 +1,10 @@
-import { Field, InputType, PartialType, OmitType } from '@nestjs/graphql';
+import { Field, InputType, OmitType, PartialType } from '@nestjs/graphql';
+
 import { Convocation } from './convocation.entity';
 
 @InputType()
 export class ConvocationAddInput extends PartialType(
-  OmitType(Convocation, ['pv', 'model', 'convocationId'], InputType)
+  OmitType(Convocation, ['pv', 'model', 'id'], InputType),
 ) {
   @Field()
   numRegister: number;
@@ -14,25 +15,25 @@ export class ConvocationAddInput extends PartialType(
   @Field()
   convokeOn: Date;
 
-  @Field({defaultValue: ''})
+  @Field({ defaultValue: '' })
   atTown: string;
 
-  @Field({defaultValue: ''})
+  @Field({ defaultValue: '' })
   numRequisition: string;
 
   @Field()
-  pvId: number
+  pvId: number;
 
-  @Field({nullable: true})
-  modelId?: number
+  @Field({ nullable: true })
+  modelId?: number;
 }
 
 @InputType()
 export class ConvocationUpdateInput extends PartialType(
-  OmitType(Convocation, ['pv', 'model'], InputType)
+  OmitType(Convocation, ['pv', 'model'], InputType),
 ) {
   @Field()
-  convocationId: number;
+  id: number;
 
   @Field()
   numRegister: number;
@@ -43,21 +44,21 @@ export class ConvocationUpdateInput extends PartialType(
   @Field()
   convokeOn: Date;
 
-  @Field({defaultValue: ''})
+  @Field({ defaultValue: '' })
   atTown: string;
 
-  @Field({defaultValue: ''})
+  @Field({ defaultValue: '' })
   numRequisition: string;
 
   @Field()
-  pvId: number
+  pvId: number;
 
-  @Field({nullable: true})
-  modelId?: number
+  @Field({ nullable: true })
+  modelId?: number;
 }
 
 @InputType()
 export class ConvocationFilterInput {
   @Field()
-  pvId: number;  
+  pvId: number;
 }
